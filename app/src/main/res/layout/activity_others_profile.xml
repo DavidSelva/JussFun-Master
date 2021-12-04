@@ -18,15 +18,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/bannerImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:background="@color/colorPrimary"
-                />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,24 +25,30 @@
 
                 <include layout="@layout/activity_toolbar_transparent" />
 
-                <RelativeLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorDivider" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/topLay"
                     android:layout_width="match_parent"
-                    android:layout_height="135dp"
-                    android:layout_below="@+id/toolbar"
-                    android:layout_marginTop="10dp">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="70dp"
-                        android:background="@color/colorWhite" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="24dp"
+                    android:paddingBottom="10dp">
 
                     <RelativeLayout
                         android:id="@+id/imageLay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true">
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/profileImage"
@@ -66,17 +63,64 @@
 
                     </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/premiumImage"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_alignBottom="@+id/imageLay"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/crown"
-                        android:translationY="3dp"
-                        android:visibility="gone" />
+                    <LinearLayout
+                        android:id="@+id/nameLay"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageLay"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="0dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtName"
+                                style="@style/TextPrimaryLight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/name"
+                                android:textSize="@dimen/text_medium" />
+
+                            <ImageView
+                                android:id="@+id/genderImage"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center_vertical"
+                                android:padding="5dp"
+                                android:src="@drawable/men" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtLocation"
+                            style="@style/TextPrimaryLight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/location"
+                            android:textSize="@dimen/text_normal" />
+
+                        <ImageView
+                            android:id="@+id/premiumImage"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="0dp"
+                            android:src="@drawable/crown"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -91,179 +135,74 @@
                         android:layout_marginEnd="25dp"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="horizontal">
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/txtName"
+                        <RelativeLayout
+                            android:id="@+id/followersLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="horizontal"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <TextView
+                                android:id="@+id/txtFollowers"
+                                style="@style/TextSecondaryRegular"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@+id/txtFollowersCount"
+                                android:hint="@string/followers"
+                                android:textSize="@dimen/text_normal" />
+
+                            <TextView
+                                android:id="@+id/txtFollowersCount"
                                 style="@style/TextPrimaryRegular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/name"
-                                android:textSize="@dimen/text_medium" />
-
-                            <ImageView
-                                android:id="@+id/genderImage"
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_gravity="center_vertical"
-                                android:padding="5dp"
-                                android:src="@drawable/men" />
-
-                        </LinearLayout>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txtLocation"
-                            style="@style/TextPrimaryRegular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:hint="-"
-                            android:textSize="@dimen/text_normal" />
-
-
-                        <RelativeLayout
-                            android:id="@+id/followLay"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:padding="10dp"
-                            android:visibility="gone">
-
-                            <LinearLayout
-                                android:id="@+id/followersLay"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_toStartOf="@+id/divider"
-                                android:clickable="true"
-                                android:orientation="vertical">
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtFollowersCount"
-                                    style="@style/TextPrimaryRegular"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:hint="-"
-                                    android:text=""
-                                    android:textSize="@dimen/text_normal" />
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtFollowers"
-                                    style="@style/TextPrimaryRegular"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:hint="@string/followers"
-                                    android:textSize="@dimen/text_normal" />
-
-                            </LinearLayout>
-
-                            <View
-                                android:id="@+id/divider"
-                                android:layout_width="1dp"
-                                android:layout_height="wrap_content"
-                                android:layout_alignTop="@+id/followersLay"
-                                android:layout_alignBottom="@+id/followersLay"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:background="@color/colorDivider" />
-
-                            <LinearLayout
-                                android:id="@+id/followingsLay"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/divider"
-                                android:clickable="true"
-                                android:orientation="vertical">
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtFollowingsCount"
-                                    style="@style/TextPrimaryRegular"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:hint="-"
-                                    android:text=""
-                                    android:textSize="@dimen/text_normal" />
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtFollowings"
-                                    style="@style/TextPrimaryRegular"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:hint="@string/followings"
-                                    android:textSize="@dimen/text_normal" />
-
-                            </LinearLayout>
+                                android:layout_alignParentEnd="true"
+                                android:gravity="center"
+                                android:hint="-"
+                                android:textSize="@dimen/text_normal" />
 
                         </RelativeLayout>
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/videoCountLay"
+                        <RelativeLayout
+                            android:id="@+id/followingsLay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="?attr/selectableItemBackground"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
                             android:clickable="true"
-                            android:elevation="5dp"
                             android:focusable="true"
-                            android:visibility="gone"
-                            app:cardCornerRadius="5dp">
+                            android:orientation="horizontal"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
 
-                            <RelativeLayout
+                            <TextView
+                                android:id="@+id/txtFollowings"
+                                style="@style/TextSecondaryRegular"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@+id/txtFollowingsCount"
+                                android:hint="@string/followings"
+                                android:textSize="@dimen/text_normal" />
 
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtMyVideo"
-                                    style="@style/TextSecondaryRegular"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_toEndOf="@+id/iconVideo"
-                                    android:hint="@string/videos"
-                                    android:paddingTop="15dp"
-                                    android:paddingBottom="15dp"
-                                    android:textSize="@dimen/text_medium" />
+                            <TextView
+                                android:id="@+id/txtFollowingsCount"
+                                style="@style/TextPrimaryRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:gravity="center"
+                                android:hint="-"
+                                android:textSize="@dimen/text_normal" />
 
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtVideoCount"
-                                    style="@style/TextPrimaryRegular"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="start|center_vertical"
-                                    android:layout_marginEnd="15dp"
-                                    android:paddingTop="15dp"
-                                    android:paddingBottom="15dp"
-                                    android:text="-"
-                                    android:textSize="@dimen/text_medium" />
-
-                                <ImageView
-                                    android:id="@+id/iconVideo"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginStart="15dp"
-                                    android:layout_marginEnd="15dp"
-                                    />
-
-                            </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/contactLay"
@@ -285,13 +224,12 @@
                                     android:id="@+id/chatLay"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:padding="20dp">
+                                    android:clickable="true">
 
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/chat_act" />
+                                        android:layout_width="80dp"
+                                        android:layout_height="80dp"
+                                        android:src="@drawable/main_chat_p" />
 
                                 </RelativeLayout>
 
@@ -309,13 +247,12 @@
                                     android:id="@+id/videoLay"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:padding="20dp">
+                                    android:clickable="true">
 
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/video_call" />
+                                        android:layout_width="80dp"
+                                        android:layout_height="80dp"
+                                        android:src="@drawable/ic_videocam_red" />
 
                                 </RelativeLayout>
 
@@ -341,7 +278,7 @@
                                 <ImageView
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:src="@drawable/not_interested" />
+                                    android:src="@drawable/icon_dislike" />
 
                             </RelativeLayout>
 
@@ -355,7 +292,7 @@
                                 <ImageView
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:src="@drawable/interested" />
+                                    android:src="@drawable/icon_like" />
 
                             </RelativeLayout>
 
@@ -373,6 +310,7 @@
                             android:layout_marginBottom="10dp"
                             android:text="@string/follow"
                             android:textSize="@dimen/text_medium"
+                            android:background="@drawable/rounded_corner_primary"
                             android:visibility="gone" />
 
                         <Button
@@ -385,11 +323,11 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginBottom="10dp"
+                            android:background="@drawable/rounded_solid_white"
                             android:text="@string/block"
+                            android:textColor="@color/colorPrimaryText"
                             android:textSize="@dimen/text_medium"
-                            android:visibility="gone"
-                            android:background="@drawable/btn_bg_white_dark"
-                            android:textColor="@color/colorPrimaryText"/>
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/btnShare"
@@ -403,7 +341,8 @@
                             android:layout_marginBottom="10dp"
                             android:text="@string/share_profile"
                             android:textSize="@dimen/text_medium"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            android:background="@drawable/rounded_corner_primary" />
 
                     </LinearLayout>
 

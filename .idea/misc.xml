@@ -6,21 +6,30 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable-anydpi/ic_videocam_red.xml" value="0.20052083333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/background_gradient.xml" value="0.20208333333333334" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/bg_local_video_view.xml" value="0.3458333333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/bottom_sheet_white_bg.xml" value="0.21354166666666666" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/btn_audio_call.xml" value="0.20208333333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/btn_bg_white.xml" value="0.35520833333333335" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/circle_transparent_bg.xml" value="0.3458333333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/curved_accenttrans.xml" value="0.20208333333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/gender_btn.xml" value="0.20208333333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/his_msg_bg.xml" value="0.2833333333333333" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/his_msg_videocall_bg.xml" value="0.20052083333333334" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/his_msg_voicecall_bg.xml" value="0.20052083333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/ic_check_box_bg.xml" value="0.20208333333333334" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/men_selector.xml" value="0.2833333333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/my_msg_bg.xml" value="0.16354166666666667" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/rounded_corner_primary.xml" value="0.35520833333333335" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/rounded_solid_white.xml" value="0.35520833333333335" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/rounded_transparent_bg.xml" value="0.20208333333333334" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/selector_transparent_circle.xml" value="0.3458333333333333" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/selector_voice_user_loudspeaker.xml" value="0.3458333333333333" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/selector_voice_user_microphone.xml" value="0.3458333333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/side_nav_bar.xml" value="0.37083333333333335" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/women_selector.xml" value="0.2833333333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_blocked_users.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_chat.xml" value="0.33" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_convert_gift.xml" value="0.1859375" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_convert_gift.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_decoder.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_earn_gems.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_edit_profile.xml" value="0.19739583333333333" />
@@ -36,7 +45,7 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_main.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_my_profile.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_near_by.xml" value="0.24818840579710144" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_others_profile.xml" value="0.1859375" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_others_profile.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_prime.xml" value="0.26268115942028986" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_random_chat.xml" value="0.26268115942028986" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_recent_history.xml" value="0.26268115942028986" />
@@ -53,23 +62,38 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/bottom_sheet_filter.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/bottom_sheet_image_pick_options.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_call_layout.xml" value="0.26268115942028986" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_image_bubble_receive.xml" value="0.23324275362318841" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_image_bubble_sent.xml" value="0.23324275362318841" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_text_bubble_receive.xml" value="0.14739583333333334" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_text_bubble_sent.xml" value="0.23324275362318841" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_voice_receive.xml" value="0.23324275362318841" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/chat_voice_sent.xml" value="0.26268115942028986" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/content_decoder.xml" value="0.23324275362318841" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_app_lock.xml" value="0.23324275362318841" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_bottom_gifts.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_filter_random.xml" value="0.25" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_match.xml" value="0.140625" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_free_gems.xml" value="0.19739583333333333" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_match.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_overlay_permission.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_overlay_permission_autostart.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_overlay_permission_call.xml" value="0.1859375" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_profile.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_profile_image.xml" value="0.22" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_rating.xml" value="0.23324275362318841" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_call_controls.xml" value="0.26268115942028986" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_chat.xml" value="0.26268115942028986" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_near_by_users.xml" value="0.2" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_random_call.xml" value="0.26268115942028986" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_random_call.xml" value="0.1" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_random_home.xml" value="0.25" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_user_bottom.xml" value="0.2554347826086957" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_user_bottom.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_chat.xml" value="0.23324275362318841" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_gifts_received.xml" value="0.33" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_language.xml" value="0.1859375" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_live_gift.xml" value="0.23324275362318841" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/layout_prime_banner.xml" value="0.2554347826086957" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/layout_renewal_banner.xml" value="0.2554347826086957" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/layout_search.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/null_lay.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/random_home_menu.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_decoder.xml" value="0.1" />

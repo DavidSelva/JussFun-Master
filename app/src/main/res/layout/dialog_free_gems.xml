@@ -15,18 +15,8 @@
         <FrameLayout
             android:id="@+id/contentLay"
             android:layout_width="match_parent"
+            android:background="@drawable/side_nav_bar"
             android:layout_height="wrap_content">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottieImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="center"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="profile_dialog.json"
-                app:lottie_imageAssetsFolder="images/lottie/profile_dialog"
-                app:lottie_loop="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,7 +67,7 @@
                     android:elevation="0dp"
                     android:text="@string/okay"
                     android:textColor="@color/colorSecondaryTexts"
-                    android:background="@drawable/btn_bg_white"
+                    android:background="@drawable/rounded_solid_white"
                     android:backgroundTint="@color/colorWhiteText"/>
 
             </LinearLayout>

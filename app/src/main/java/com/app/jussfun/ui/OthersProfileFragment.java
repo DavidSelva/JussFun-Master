@@ -81,8 +81,6 @@ public class OthersProfileFragment extends Fragment {
     private static String TAG = OthersProfileFragment.class.getSimpleName();
     @BindView(R.id.btnFollow)
     Button btnFollow;
-    @BindView(R.id.bannerImage)
-    ImageView bannerImage;
     @BindView(R.id.premiumImage)
     ImageView premiumImage;
     @BindView(R.id.txtSubTitle)
@@ -91,12 +89,6 @@ public class OthersProfileFragment extends Fragment {
     AdView adView;
     @BindView(R.id.contactLay)
     LinearLayout contactLay;
-    @BindView(R.id.txtMyVideo)
-    TextView txtMyVideo;
-    @BindView(R.id.txtVideoCount)
-    TextView txtVideoCount;
-    @BindView(R.id.videoCountLay)
-    CardView videoCountLay;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.parentLay)
@@ -105,7 +97,7 @@ public class OthersProfileFragment extends Fragment {
     @BindView(R.id.txtFollowers)
     AppCompatTextView txtFollowers;
     @BindView(R.id.followersLay)
-    LinearLayout followersLay;
+    RelativeLayout followersLay;
     @BindView(R.id.txtFollowings)
     AppCompatTextView txtFollowings;
     @BindView(R.id.iconVideo)
@@ -142,9 +134,7 @@ public class OthersProfileFragment extends Fragment {
     @BindView(R.id.btnSettings)
     ImageView btnSettings;
     @BindView(R.id.followingsLay)
-    LinearLayout followingsLay;
-    @BindView(R.id.followLay)
-    RelativeLayout followLay;
+    RelativeLayout followingsLay;
     @BindView(R.id.btnBlock)
     Button btnBlock;
     @BindView(R.id.btnShare)
@@ -175,8 +165,6 @@ public class OthersProfileFragment extends Fragment {
         storageUtils = new StorageUtils(getActivity());
         dbHelper = DBHelper.getInstance(getActivity());
 
-        bannerImage.setImageDrawable(appUtils.getBanner());
-        followLay.setVisibility(View.GONE);
         btnFollow.setVisibility(View.GONE);
         interestLay.setVisibility(View.GONE);
         contactLay.setVisibility(View.GONE);

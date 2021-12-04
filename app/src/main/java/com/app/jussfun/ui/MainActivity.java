@@ -244,9 +244,6 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         if (GetSet.getName() == null) {
             showProfileDialog();
         } else {
-            /*if (AppWebSocket.mInstance == null) {
-                AppWebSocket.getInstance(MainActivity.this);
-            }*/
             getUserProfile(GetSet.getUserId());
         }
         sendPing();
@@ -1388,11 +1385,11 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     }
 
     private void openPermissionDialog() {
-        if (SharedPref.getBoolean(SharedPref.POP_UP_WINDOW_PERMISSION, true)) {
+//        if (SharedPref.getBoolean(SharedPref.POP_UP_WINDOW_PERMISSION, true)) {
             if (dialogOverLayPermission != null && !dialogOverLayPermission.isAdded()) {
                 dialogOverLayPermission.show(getSupportFragmentManager(), "PermissionDialog");
             }
-        }
+//        }
     }
 
     private boolean checkOverLayPermission() {

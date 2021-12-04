@@ -57,7 +57,7 @@
     <color name="colorHeader">#000000</color>
     <color name="colorTransparentWhite">#59FFFFFF</color>
     <color name="colorDivider">#D5D5D5</color>
-    <color name="colorTransparent">#99000000</color>
+    <color name="colorTransparent">#33000000</color>
     <color name="colorVideoOpacity">#CC000000</color>
     <color name="colorBottomNavigation">#33000000</color>
     <color name="colorYellow">#FFEB3B</color>
@@ -84,5 +84,7 @@
     <color name="grey_decor">#a1a1a1</color>
     <color name="white">#ffffff</color>
     <color name="viewColor">#31ffffff</color>
+    <color name="blue_ocean">#5B86E5</color>
+    <color name="blue_marin">#36D1DC</color>
 
 </resources>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.app.jussfun.R;
@@ -92,6 +93,7 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         ButterKnife.bind(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         appUtils = new AppUtils(this);
+        btnBack.setColorFilter(ContextCompat.getColor(this, R.color.white));
         if (LocaleManager.isRTL()) {
             btnBack.setRotation(180);
         } else {
@@ -114,7 +116,7 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.topMargin = AppUtils.getStatusBarHeight(getApplicationContext());
         toolbar.setLayoutParams(params);
-        optionLay.setVisibility((("" + AdminData.showMoneyConversion).equals("1")) ? View.VISIBLE : View.GONE);
+//        optionLay.setVisibility((("" + AdminData.showMoneyConversion).equals("1")) ? View.VISIBLE : View.GONE);
         loadAd();
         getGems();
     }

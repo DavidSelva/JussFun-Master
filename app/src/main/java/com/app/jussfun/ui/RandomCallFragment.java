@@ -702,6 +702,8 @@ public class RandomCallFragment extends Fragment implements AppRTCClient.Signali
         userBundle.putBoolean(Constants.TAG_INTERESTED_BY_ME, bundle.getBoolean(Constants.TAG_INTERESTED_BY_ME, false));
         userBundle.putBoolean(Constants.TAG_FRIEND, bundle.getBoolean(Constants.TAG_FRIEND, false));
         userBundle.putBoolean(Constants.TAG_DECLINED, bundle.getBoolean(Constants.TAG_DECLINED, false));
+        userBundle.putString(Constants.TAG_CALL_TYPE, isVideoCall ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
+        userBundle.putString(Constants.TAG_FROM, isVideoCall ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
         userFragment.setArguments(userBundle);
         userFragment.setProfileUpdatedListner(RandomCallFragment.this);
 

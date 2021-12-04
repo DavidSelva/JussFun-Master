@@ -103,9 +103,9 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     @BindView(R.id.btnSettings)
     ImageView btnSettings;
     @BindView(R.id.followersLay)
-    LinearLayout followersLay;
+    RelativeLayout followersLay;
     @BindView(R.id.followingsLay)
-    LinearLayout followingsLay;
+    RelativeLayout followingsLay;
     @BindView(R.id.premiumImage)
     ImageView premiumImage;
     @BindView(R.id.btnFollow)
@@ -124,25 +124,15 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     AdView adView;
     @BindView(R.id.contactLay)
     LinearLayout contactLay;
-    @BindView(R.id.txtVideoCount)
-    TextView txtVideoCount;
-    @BindView(R.id.videoCountLay)
-    CardView videoCountLay;
     @BindView(R.id.progressLay)
     LinearLayout progressLay;
     ApiInterface apiInterface;
     @BindView(R.id.imageLay)
     RelativeLayout imageLay;
-    @BindView(R.id.divider)
-    View divider;
-    @BindView(R.id.bannerImage)
-    ImageView bannerImage;
     @BindView(R.id.txtFollowers)
     AppCompatTextView txtFollowers;
     @BindView(R.id.txtFollowings)
     AppCompatTextView txtFollowings;
-    @BindView(R.id.followLay)
-    RelativeLayout followLay;
     @BindView(R.id.btnInterest)
     RelativeLayout btnInterest;
     @BindView(R.id.btnUnInterest)
@@ -188,7 +178,6 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
-        bannerImage.setImageDrawable(appUtils.getBanner());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.topMargin = AppUtils.getStatusBarHeight(getApplicationContext());
         toolbar.setLayoutParams(params);
@@ -198,8 +187,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
             btnBack.setRotation(0);
         }
         btnBack.setVisibility(View.VISIBLE);
-        btnBack.setImageDrawable(getDrawable(R.drawable.arrow_w_l));
-        followLay.setVisibility(View.GONE);
+        btnBack.setImageDrawable(getDrawable(R.drawable.icon_left_back_arrow));
+        txtTitle.setText(getString(R.string.profile));
         btnFollow.setVisibility(View.GONE);
         interestLay.setVisibility(View.GONE);
         contactLay.setVisibility(View.GONE);
@@ -432,7 +421,7 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.profileImage, R.id.btnSettings, R.id.followersLay, R.id.followingsLay,
-            R.id.btnFollow, R.id.btnBack, R.id.chatLay, R.id.videoLay, R.id.videoCountLay,
+            R.id.btnFollow, R.id.btnBack, R.id.chatLay,R.id.videoLay,
             R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -498,15 +487,6 @@ public class OthersProfileActivity extends BaseFragmentActivity {
                     App.makeToast(getString(R.string.unblock_description));
                 }
                 break;
-           /* case R.id.videoCountLay: {
-                Intent profile = new Intent(getApplicationContext(), UserVideoActivity.class);
-                profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                profile.putExtra(Constants.TAG_PARTNER_ID, partnerId);
-                profile.putExtra(Constants.TAG_PARTNER_NAME, othersProfile.getName());
-                profile.putExtra(Constants.TAG_PARTNER_IMAGE, othersProfile.getUserImage());
-                startActivity(profile);
-            }
-            break;*/
             case R.id.btnInterest: {
                 App.preventMultipleClick(btnInterest);
                 appUtils.onInterestClicked(btnInterest);

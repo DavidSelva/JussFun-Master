@@ -221,28 +221,8 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
     RelativeLayout edtMsgLay;
     @BindView(R.id.bottomLay)
     RelativeLayout bottomLay;
-    // addon for chat translation
-   /* @BindView(R.id.btnLanguage)
-    ImageView btnLanguage;*/
 
-    // addon for emojis and gifs
-   /* @BindView(R.id.btnGif)
-    ImageView btnGif;*/
-
-    // addon for voice messages
-   /* @BindView(R.id.btnRecord)
-    RecordButton btnRecord;
-    @BindView(R.id.recordView)
-    RecordView recordView;*/
-
-    // addon for audio call
-   /* @BindView(R.id.btnAudioCall)
-    ImageView btnAudioCall;*/
     int currentPage = 0, limit = 20;
-
-    // addon for smart reply
-    /*@BindView(R.id.smartRepliesRecycler)
-    RecyclerView mSmartRepliesRecyler;*/
     LinearLayoutManager mLayoutManager;
     StorageUtils storageUtils;
     Handler handler = new Handler();
@@ -281,47 +261,10 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
     private String blockStatus = Constants.TAG_FALSE;
     private PopupMenu popupMenu;
     private boolean isAdminChat = false;
-   /* private String currentMessageId = null;
-    private Context mContext;
-    private Parcelable state;
-    boolean chatVoicePressed = false;
-
-    boolean visible = false;
-    MediaRecorder mediaRecorder;
-    int playingPosition = -1;
-    private SeekBar seekBar;
-    String recordVoicePath = null;
-    private MediaPlayer player = new MediaPlayer();
-    private SlidrInterface sliderInterface;*/
-
-//    private InterstitialAd mInterstitialAd;
-
-    // addon for emoji and gifs
-   /* GiphyDialogFragment giphyDialogFragment;
-    GPHSettings settings = new GPHSettings();*/
-
-    // addon for smart reply
-    /*private SmartReplyGenerator smartReply = SmartReply.getClient();
-    ReplyChipAdapter mChipAdapter;*/
     private List<ChatResponse> chatList = new ArrayList<>();
     // addon for voice messages
     private Context mContext;
 
-    /*private Handler seekHandler = new Handler();
-    private Runnable moveSeekBarThread = new Runnable() {
-        public void run() {
-            if (player.isPlaying()) {
-                long currentDuration = player.getCurrentPosition();
-                if (txtAudioTime != null)
-                    txtAudioTime.setText(milliSecondsToTimer(currentDuration));
-                int mediaPos_new = player.getCurrentPosition();
-                int mediaMax_new = player.getDuration();
-                seekBar.setMax(mediaMax_new);
-                seekBar.setProgress(mediaPos_new);
-                seekHandler.postDelayed(this, 100);
-            }
-        }
-    };*/
     private SlidrInterface sliderInterface;
     private AppUtils appUtils;
     private ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {
@@ -349,73 +292,6 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
             adapter.notifyItemRangeChanged(position, count);
         }
     };
-
-/*
-    private void loadAd() {
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(Constants.InterstitialAd_ID);
-        mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("2B125C77FEDAAAACF9E05411F4E1BDFE").build());
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Log.d(TAG, "onAdLoaded: ");
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.e("TAG", "FailedToLoad: " + errorCode);
-
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-
-                // Code to be executed when the interstitial ad is closed.
-
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                if (blockStatus != null && blockStatus.equals(Constants.TAG_TRUE)) {
-                    App.makeToast(getString(R.string.unblock_description));
-                } else {
-                    if (GetSet.getGems() >= AdminData.videoCallsGems) {
-                        if (NetworkReceiver.isConnected()) {
-                            AppRTCUtils appRTCUtils = new AppRTCUtils(getApplicationContext());
-                            Intent callIntent = appRTCUtils.connectToRoom(partnerId, Constants.TAG_SEND, Constants.TAG_VIDEO);
-                            callIntent.putExtra(Constants.TAG_USER_NAME, partnerName);
-                            callIntent.putExtra(Constants.TAG_USER_IMAGE, partnerImage);
-                            callIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(callIntent);
-                        } else {
-                            App.makeToast(getString(R.string.no_internet_connection));
-                        }
-                    } else {
-                        App.makeToast(getString(R.string.not_enough_gems));
-                    }
-                }
-
-            }
-        });
-
-
-
-    }
-*/
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();

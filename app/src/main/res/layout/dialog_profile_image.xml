@@ -15,28 +15,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/colorPopup">
+            android:background="@color/colorPopup"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/headerLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
+                android:background="@drawable/side_nav_bar"
                 android:orientation="vertical">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottieImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignTop="@+id/descLay"
-                    android:layout_alignBottom="@+id/descLay"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    app:lottie_autoPlay="true"
-                    app:lottie_fileName="profile_dialog.json"
-                    app:lottie_imageAssetsFolder="images/lottie/profile_dialog"
-                    app:lottie_loop="true" />
 
                 <LinearLayout
                     android:id="@+id/descLay"
@@ -53,25 +40,14 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
+                        android:drawableStart="@drawable/icon_tips_28"
                         android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="0dp"
                         android:gravity="center"
                         android:lineSpacingExtra="-10dp"
-                        android:text="Millions of people waiting for you"
+                        android:paddingBottom="50dp"
+                        android:text="Upload a clear picture, more people will talk to you"
                         android:textSize="@dimen/text_header" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/txtDescription"
-                        style="@style/TextWhiteLight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="40dp"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="#Worldwide"
-                        android:textSize="@dimen/text_small" />
 
                 </LinearLayout>
 
@@ -82,34 +58,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:translationY="-30dp">
+                android:translationY="-40dp">
 
                 <RelativeLayout
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/rounded_solid_white"
+                    android:background="@drawable/bg_me_avatar"
                     android:backgroundTint="@color/colorProfileUpload"
                     android:elevation="2dp">
 
-                    <ImageView
-                        android:id="@+id/uploadImage"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_centerInParent="true"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/upload_profile" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/profileImage"
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/avatar"
-                        android:visibility="gone"
+                        android:src="@drawable/register_avatar_default"
+                        android:visibility="visible"
                         app:riv_corner_radius="60dp"
                         app:riv_mutate_background="true" />
 

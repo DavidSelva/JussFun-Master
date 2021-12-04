@@ -34,8 +34,6 @@ public class DialogOverLayPermission extends DialogFragment {
 
     @BindView(R.id.txtTitle)
     AppCompatTextView txtTitle;
-    @BindView(R.id.dimenImage)
-    ImageView dimenImage;
     @BindView(R.id.txtDescription)
     AppCompatTextView txtDescription;
     @BindView(R.id.btnAllow)

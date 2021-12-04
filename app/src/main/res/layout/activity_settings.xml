@@ -43,12 +43,6 @@
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/setting" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
@@ -82,13 +76,6 @@
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/privacy" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
                     android:layout_width="match_parent"
@@ -118,15 +105,6 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/invite"
-                    android:translationY="2dp" />
-
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
@@ -161,14 +139,6 @@
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/help"
-                    android:translationY="2dp" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
                     android:layout_width="match_parent"
@@ -201,13 +171,6 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/qr_code_colored" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
@@ -243,13 +206,6 @@
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_blocked" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
                     android:layout_width="match_parent"
@@ -282,14 +238,6 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_language"
-                    android:translationY="4dp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
@@ -324,13 +272,6 @@
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_rating" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"
                     android:layout_width="match_parent"
@@ -351,39 +292,6 @@
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
-            <LinearLayout
-                android:id="@+id/themeLay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="5dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="5dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/theme" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextPrimaryLight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:padding="5dp"
-                    android:text="@string/theme"
-                    android:textAlignment="viewStart"
-                    android:textSize="@dimen/text_medium" />
-
-            </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -403,13 +311,6 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/logout" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextPrimaryLight"

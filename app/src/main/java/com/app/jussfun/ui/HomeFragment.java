@@ -103,8 +103,8 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     LinearLayout recentLay;
     @BindView(R.id.filterImageLay)
     RelativeLayout filterImageLay;
-    @BindView(R.id.imageFilterApplied)
-    RoundedImageView imageFilterApplied;
+    @BindView(R.id.ivFilter)
+    ImageView ivFilter;
     @BindView(R.id.radioBtnVideo)
     RadioButton radioBtnVideo;
     @BindView(R.id.btnVideoCall)
@@ -540,7 +540,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                         }
                     } else {
                         if (("" + AdminData.filterOptions.getGender().getNonPrime()).equals("1")) {
-                            if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getUnSubFilterPrice())) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
                                 applyGenderMale();
                             } else {
                                 showGemsErrorDialog();
@@ -560,14 +560,14 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             public void onClick(View view) {
                 if (NetworkReceiver.isConnected()) {
                     if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
-                        if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getSubFilterPrice())) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
                             applyGenderFemale();
                         } else {
                             showGemsErrorDialog();
                         }
                     } else {
                         if (("" + AdminData.filterOptions.getGender().getNonPrime()).equals("1")) {
-                            if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getUnSubFilterPrice())) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
                                 applyGenderFemale();
                             } else {
                                 showGemsErrorDialog();
@@ -587,14 +587,14 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             public void onClick(View view) {
                 if (NetworkReceiver.isConnected()) {
                     if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
-                        if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getSubFilterPrice())) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
                             applyGenderBoth();
                         } else {
                             showGemsErrorDialog();
                         }
                     } else {
                         if (("" + AdminData.filterOptions.getGender().getNonPrime()).equals("1")) {
-                            if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getUnSubFilterPrice())) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
                                 applyGenderBoth();
                             } else {
                                 showGemsErrorDialog();
@@ -615,8 +615,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                 if (NetworkReceiver.isConnected()) {
                     App.preventMultipleClick(btnLocation);
                     if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
-                        Log.i(TAG, "btnLocationonClic: " + GetSet.getPremiumMember());
-                        if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getSubFilterPrice())) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
                             Intent locationIntent = new Intent(getActivity(), LocationFilterActivity.class);
                             locationIntent.putExtra(Constants.TAG_FROM, "random");
                             locationIntent.putExtra(Constants.TAG_LOCATION_SELECTED, isAllLocationSelected);
@@ -625,17 +624,13 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                             } else {
                                 locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, tempLocations);
                             }
-                         /*   locationIntent.putExtra(Constants.TAG_FROM, "livza");
-                            locationIntent.putExtra(Constants.TAG_LOCATION_SELECTED, "false");
-                            locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, (ArrayList<String>) AdminData.locationList);*/
                             startActivityForResult(locationIntent, 100);
                         } else {
                             showGemsErrorDialog();
                         }
                     } else {
-                        Log.i(TAG, "btnLocationonClick " + GetSet.getPremiumMember());
                         if (("" + AdminData.filterOptions.getLocation().getNonPrime()).equals("1")) {
-                            if (GetSet.getGems() >= Long.parseLong(AdminData.filterGems.getUnSubFilterPrice())) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
                                 Intent locationIntent = new Intent(getActivity(), LocationFilterActivity.class);
                                 locationIntent.putExtra(Constants.TAG_FROM, "random");
                                 locationIntent.putExtra(Constants.TAG_LOCATION_SELECTED, isAllLocationSelected);
@@ -644,9 +639,6 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                                 } else {
                                     locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, tempLocations);
                                 }
-                               /* locationIntent.putExtra(Constants.TAG_FROM, "livza");
-                                locationIntent.putExtra(Constants.TAG_LOCATION_SELECTED, "false");
-                                locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, (ArrayList<String>) AdminData.locationList);*/
                                 startActivityForResult(locationIntent, 100);
                             } else {
                                 showGemsErrorDialog();
@@ -667,7 +659,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                 if (NetworkReceiver.isConnected()) {
 
                     if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
-                        if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getSubFilterPrice())) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
                             applyAge(minValue, maxValue);
                         } else {
                             showGemsErrorDialog();
@@ -675,7 +667,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                         }
                     } else {
                         if (("" + AdminData.filterOptions.getAge().getNonPrime()).equals("1")) {
-                            if (GetSet.getGems() >= Long.parseLong("" + AdminData.filterGems.getUnSubFilterPrice())) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
                                 applyAge(minValue, maxValue);
                             } else {
                                 showGemsErrorDialog();
@@ -902,9 +894,9 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 
     public void updateFilterView() {
         if (GetSet.isFilterApplied()) {
-            imageFilterApplied.setVisibility(View.VISIBLE);
+            ivFilter.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
         } else {
-            imageFilterApplied.setVisibility(View.INVISIBLE);
+            ivFilter.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
         }
     }
 

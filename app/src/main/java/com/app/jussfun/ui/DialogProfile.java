@@ -80,8 +80,6 @@ public class DialogProfile extends DialogFragment {
     LinearLayout profileLayout;
     @BindView(R.id.btnNext)
     Button btnNext;
-    @BindView(R.id.lottieImage)
-    LottieAnimationView lottieImage;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.edtLocation)
@@ -126,8 +124,6 @@ public class DialogProfile extends DialogFragment {
         ButterKnife.bind(this, itemView);
         displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        lottieImage.setVisibility(View.VISIBLE);
-        headerLay.setBackground(null);
 
         edtName.setFilters(new InputFilter[]{AppUtils.SPECIAL_CHARACTERS_FILTER, new InputFilter.LengthFilter(Constants.MAX_LENGTH)});
         edtUserName.setFilters(new InputFilter[]{AppUtils.SPECIAL_CHARACTERS_FILTER, AppUtils.EMOJI_FILTER, new InputFilter.LengthFilter(Constants.MAX_LENGTH)});
@@ -218,16 +214,16 @@ public class DialogProfile extends DialogFragment {
                 break;
             case R.id.btnMale:
                 if (isKeyboardOpen) {
-                    App.makeCustomToast(getString(R.string.male));
+//                    App.makeCustomToast(getString(R.string.male));
                 } else {
-                    App.makeToast(getString(R.string.male));
+//                    App.makeToast(getString(R.string.male));
                 }
                 break;
             case R.id.btnFemale:
                 if (isKeyboardOpen) {
-                    App.makeCustomToast(getString(R.string.female));
+//                    App.makeCustomToast(getString(R.string.female));
                 } else {
-                    App.makeToast(getString(R.string.female));
+//                    App.makeToast(getString(R.string.female));
                 }
                 break;
             case R.id.btnLocation:

@@ -2,11 +2,9 @@ package com.app.jussfun.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -19,16 +17,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.app.jussfun.R;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.ThemeHelper;
 import com.app.jussfun.helper.rating.AppRate;
 import com.app.jussfun.helper.rating.OnClickButtonListener;
 import com.app.jussfun.helper.rating.StoreType;
@@ -38,6 +31,10 @@ import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.SharedPref;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
@@ -80,10 +77,6 @@ public class SettingsActivity extends BaseFragmentActivity {
     LinearLayout languageLay;
     @BindView(R.id.logoutLay)
     LinearLayout logoutLay;
-
-    @BindView(R.id.themeLay)
-    LinearLayout themeLay;
-
     @BindView(R.id.adView)
     AdView adView;
     @BindView(R.id.ratingLay)
@@ -185,7 +178,7 @@ public class SettingsActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.btnBack, R.id.settingsLay, R.id.privacyLay, R.id.inviteLay, R.id.helpLay,
-            R.id.logoutLay, R.id.languageLay, R.id.qrGenLay, R.id.blockLay, R.id.ratingLay,R.id.themeLay})
+            R.id.logoutLay, R.id.languageLay, R.id.qrGenLay, R.id.blockLay, R.id.ratingLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
@@ -256,21 +249,11 @@ public class SettingsActivity extends BaseFragmentActivity {
 
                 AppRate.showRateDialogIfMeetsConditions(this);
                 break;
-            case R.id.themeLay:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                    Log.i(TAG, "themeonViewClicked: "+Build.VERSION.SDK_INT);
-                    showThemeDialog();
-                }else {
-                    Log.i(TAG, "themeonViewClickedd: "+Build.VERSION.SDK_INT);
-                    showThemeDialogs();
-                }
-
-                break;
         }
     }
 
     private void openLogoutDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this,R.style.ThemeAlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this, R.style.ThemeAlertDialog);
         builder.setMessage(getString(R.string.really_want_logout));
         builder.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
             @Override
@@ -326,84 +309,5 @@ public class SettingsActivity extends BaseFragmentActivity {
 
             }
         });
-    }
-
-    private void showThemeDialog(){
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this,R.style.ThemeAlertDialog);
-        alertDialog.setTitle("Choose Theme");
-        String[] items = {"Light","Dark","System default"};
-        SharedPreferences themePref = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = themePref.getString("themePref", ThemeHelper.DEFAULT_MODE);
-        int checkedItem = 0;
-        if (theme.equals(ThemeHelper.LIGHT_MODE)){
-            checkedItem = 0;
-        } else if (theme.equals(ThemeHelper.DARK_MODE)){
-            checkedItem = 1;
-        } else {
-            checkedItem = 2;
-        }
-        SharedPreferences.Editor prefEditor = themePref.edit();
-        alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case 0:
-                        prefEditor.putString("themePref", ThemeHelper.LIGHT_MODE);
-                        prefEditor.commit();
-                        ThemeHelper.applyTheme(ThemeHelper.LIGHT_MODE);
-                        break;
-                    case 1:
-                        prefEditor.putString("themePref", ThemeHelper.DARK_MODE);
-                        prefEditor.commit();
-                        ThemeHelper.applyTheme(ThemeHelper.DARK_MODE);
-                        break;
-                    case 2:
-                        prefEditor.putString("themePref", ThemeHelper.DEFAULT_MODE);
-                        prefEditor.commit();
-                        ThemeHelper.applyTheme(ThemeHelper.DEFAULT_MODE);
-                        break;
-                }
-            }
-        });
-        AlertDialog alert = alertDialog.create();
-        alert.setCanceledOnTouchOutside(false);
-        alert.show();
-    }
-
-    private void showThemeDialogs(){
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this,R.style.ThemeAlertDialog);
-        alertDialog.setTitle("Choose Theme");
-        String[] items = {"Light","Dark"};
-        SharedPreferences themePref = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = themePref.getString("themePref", ThemeHelper.DEFAULT_MODE);
-        int checkedItem = 0;
-        if (theme.equals(ThemeHelper.LIGHT_MODE)){
-            checkedItem = 0;
-        } else if (theme.equals(ThemeHelper.DARK_MODE)){
-            checkedItem = 1;
-        }
-        SharedPreferences.Editor prefEditor = themePref.edit();
-        alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case 0:
-                        prefEditor.putString("themePref", ThemeHelper.LIGHT_MODE);
-                        prefEditor.commit();
-                        ThemeHelper.applyTheme(ThemeHelper.LIGHT_MODE);
-                        break;
-                    case 1:
-                        prefEditor.putString("themePref", ThemeHelper.DARK_MODE);
-                        prefEditor.commit();
-                        ThemeHelper.applyTheme(ThemeHelper.DARK_MODE);
-                        break;
-                }
-            }
-        });
-        AlertDialog alert = alertDialog.create();
-        alert.setCanceledOnTouchOutside(false);
-        alert.show();
     }
 }

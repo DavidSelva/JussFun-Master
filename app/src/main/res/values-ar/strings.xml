@@ -364,5 +364,6 @@
 
     <string name="file_provider_authority" translatable="false">com.app.randou.provider</string>
     <string name="upload_picture_from">تحميل الصورة من</string>
+    <string name="looking_for_a_friend">Looking for a friend to talk to</string>
 
 </resources>

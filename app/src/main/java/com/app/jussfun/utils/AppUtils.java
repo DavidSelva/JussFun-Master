@@ -658,7 +658,7 @@ public class AppUtils {
     }
 
     public Drawable getBanner() {
-        return context.getDrawable(R.drawable.profile_bg);
+        return context.getDrawable(R.drawable.side_nav_bar);
     }
 
     public Drawable getChatBG() {

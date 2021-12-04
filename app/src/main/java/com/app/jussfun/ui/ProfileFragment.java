@@ -276,7 +276,6 @@ public class ProfileFragment extends Fragment {
         btnBack.setVisibility(View.INVISIBLE);
         btnSettings.setVisibility(View.VISIBLE);
         btnSettings.setImageDrawable(context.getDrawable(R.drawable.icon_setting_strok));
-        btnSettings.setColorFilter(ContextCompat.getColor(context, R.color.white));
 
         if (GetSet.getUserId() != null) {
             profileResponse = new ProfileResponse();

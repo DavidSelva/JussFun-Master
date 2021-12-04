@@ -52,18 +52,12 @@ public class DialogProfileImage extends DialogFragment {
 
     @BindView(R.id.txtTitle)
     TextView txtTitle;
-    @BindView(R.id.txtDescription)
-    TextView txtDescription;
     @BindView(R.id.profileImage)
     ImageView profileImage;
-    @BindView(R.id.uploadImage)
-    ImageView uploadImage;
     @BindView(R.id.btnFinish)
     Button btnFinish;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.lottieImage)
-    LottieAnimationView lottieImage;
     @BindView(R.id.headerLay)
     RelativeLayout headerLay;
     private OnOkClickListener callBack;
@@ -101,8 +95,6 @@ public class DialogProfileImage extends DialogFragment {
             container, @Nullable Bundle savedInstanceState) {
         View itemView = inflater.inflate(R.layout.dialog_profile_image, container, false);
         ButterKnife.bind(this, itemView);
-        lottieImage.setVisibility(View.VISIBLE);
-        headerLay.setBackground(null);
         progressBar.setIndeterminate(true);
 
         if (SharedPref.getString(SharedPref.FACEBOOK_IMAGE, null) != null) {
@@ -151,7 +143,6 @@ public class DialogProfileImage extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == -1 && requestCode == 234) {
             try {
-                uploadImage.setVisibility(View.GONE);
                 profileImage.setVisibility(View.VISIBLE);
                 imageStream = ImagePicker.getInputStreamFromResult(context, requestCode, resultCode, data);
                 String filePath = ImagePicker.getImagePathFromResult(context, requestCode, resultCode, data);

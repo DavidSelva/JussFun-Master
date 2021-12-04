@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/smartRepliesRecycler"
         android:layout_below="@+id/toolbar"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/side_nav_bar"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:paddingTop="10dp"
@@ -135,7 +135,7 @@
                     android:layout_marginEnd="5dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="5dp"
-                    android:src="@drawable/plus" />
+                    android:src="@drawable/icon_add_photo" />
 
             </LinearLayout>
 

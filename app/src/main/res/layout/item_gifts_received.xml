@@ -19,7 +19,7 @@
             android:layout_height="50dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/avatar"
+            android:src="@drawable/icon_register_select_header"
             app:riv_corner_radius="65dp"
             app:riv_mutate_background="true" />
 

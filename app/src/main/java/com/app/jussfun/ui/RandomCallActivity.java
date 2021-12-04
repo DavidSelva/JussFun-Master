@@ -64,6 +64,7 @@ import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
+import com.skyfishjy.library.RippleBackground;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,19 +90,15 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
     ViewPager viewPager;
     @BindView(R.id.searchLay)
     RelativeLayout searchLay;
-    @BindView(R.id.txtRoomId)
-    TextView txtRoomId;
     @BindView(R.id.parentLay)
     FrameLayout parentLay;
-    @BindView(R.id.lottieImage)
-    LottieAnimationView lottieImage;
     public static String partnerId = "", partnerName = "";
     @BindView(R.id.txtUserAway)
     TextView txtUserAway;
     @BindView(R.id.txtSearching)
     TextView txtSearching;
-    @BindView(R.id.btnExit)
-    ImageButton btnExit;
+    @BindView(R.id.rippleBackground)
+    RippleBackground rippleBackground;
     private SharedPreferences sharedPref;
     private String keyprefResolution;
     private String keyprefFps;
@@ -186,27 +183,6 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
         }
         initPowerOptions();
         getAppDefaults();
-        /*lottieImage.addAnimatorListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                lottieImage.playAnimation();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });*/
     }
 
     private boolean checkPermissions() {
@@ -743,7 +719,7 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
     }
 
     public void setRoomId(String roomId) {
-        txtRoomId.setText("" + roomId);
+
     }
 
     @Override
@@ -1180,31 +1156,8 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
 
     public void showLoading() {
         isLoading = true;
+        rippleBackground.startRippleAnimation();
         if (searchLay.getVisibility() != View.VISIBLE) {
-            lottieImage.playAnimation();
-            /*lottieImage.addAnimatorListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    lottieImage.playAnimation();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
-            });*/
-//            lottieImage.setRepeatMode(LottieDrawable.RESTART);
-            lottieImage.setRepeatCount(LottieDrawable.INFINITE);
             searchLay.setVisibility(View.VISIBLE);
             String[] searchArray = getResources().getStringArray(R.array.search_list);
             Random random = new Random();
@@ -1215,7 +1168,7 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
     }
 
     public void hideLoading() {
-        lottieImage.pauseAnimation();
+        rippleBackground.stopRippleAnimation();
         isLoading = false;
         searchLay.setVisibility(View.GONE);
     }
@@ -1266,7 +1219,6 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
     }
 
     private void showAlertDialog(String message) {
-        lottieImage.cancelAnimation();
         if (callFragment != null) {
             callFragment.disconnect();
             callFragment.resetRoom();

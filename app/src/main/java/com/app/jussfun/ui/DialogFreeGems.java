@@ -40,8 +40,6 @@ public class DialogFreeGems extends DialogFragment {
     Button btnOkay;
     @BindView(R.id.contentLay)
     FrameLayout contentLay;
-    @BindView(R.id.lottieImage)
-    LottieAnimationView lottieImage;
     private Context context;
     private OnOkClickListener callBack;
 
@@ -76,8 +74,6 @@ public class DialogFreeGems extends DialogFragment {
             container, @Nullable Bundle savedInstanceState) {
         View itemView = inflater.inflate(R.layout.dialog_free_gems, container, false);
         ButterKnife.bind(this, itemView);
-        lottieImage.setVisibility(View.VISIBLE);
-        contentLay.setBackground(null);
         String firstString = context.getString(R.string.congratulations_you_got) + " ";
         String noOfGems = "" + AdminData.freeGems;
         String lastString = " " + context.getString(R.string.gems_free_coins);

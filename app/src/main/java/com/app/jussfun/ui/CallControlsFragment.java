@@ -79,17 +79,15 @@ public class CallControlsFragment extends Fragment {
     @BindView(R.id.muteImage)
     ImageView muteImage;
     @BindView(R.id.blurLay)
-    FrameLayout blurLay;
+    ImageView blurLay;
     @BindView(R.id.cameraLay)
-    FrameLayout cameraLay;
-    @BindView(R.id.muteLay)
-    FrameLayout muteLay;
+    ImageView cameraLay;
     @BindView(R.id.giftLay)
-    FrameLayout giftLay;
+    ImageView giftLay;
     @BindView(R.id.reportLay)
-    FrameLayout reportLay;
+    ImageView reportLay;
     @BindView(R.id.exitLay)
-    FrameLayout exitLay;
+    ImageView exitLay;
     private Context context;
     public OnCallEvents callEvents;
     private BottomSheetDialog giftDialog;
@@ -221,19 +219,19 @@ public class CallControlsFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.cameraLay, R.id.muteLay, R.id.giftLay, R.id.reportLay, R.id.exitLay, R.id.blurLay})
+    @OnClick({R.id.cameraLay, R.id.muteImage, R.id.giftLay, R.id.reportLay, R.id.exitLay, R.id.blurLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cameraLay:
                 callEvents.onCameraSwitch();
                 break;
-            case R.id.muteLay:
+            case R.id.muteImage:
                 if (!isMicEnabled) {
                     isMicEnabled = true;
-                    muteImage.setImageDrawable(getResources().getDrawable(R.drawable.unmute));
+                    muteImage.setImageDrawable(getResources().getDrawable(R.drawable.microphone_white));
                 } else {
                     isMicEnabled = false;
-                    muteImage.setImageDrawable(getResources().getDrawable(R.drawable.mute));
+                    muteImage.setImageDrawable(getResources().getDrawable(R.drawable.microphone_with_shape));
                 }
                 callEvents.onToggleMic(isMicEnabled);
                 break;

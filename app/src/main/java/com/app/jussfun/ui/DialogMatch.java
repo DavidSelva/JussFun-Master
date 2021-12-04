@@ -32,8 +32,6 @@ import butterknife.OnClick;
 
 public class DialogMatch extends DialogFragment {
     private static final String TAG = DialogMatch.class.getSimpleName();
-    @BindView(R.id.bgImage)
-    ImageView bgImage;
     @BindView(R.id.btnBack)
     ImageView btnBack;
     @BindView(R.id.btnChat)

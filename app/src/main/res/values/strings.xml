@@ -653,5 +653,6 @@
     <string name="pop_up_permission_autostart_tecno_step1" translatable="false">Step1:    Click the toolbox.</string>
     <string name="pop_up_permission_autostart_tecno_step2" translatable="false">Step2:    Click the Autostart Manager.</string>
     <string name="pop_up_permission_autostart_tecno_step3" translatable="false">Step3:    Enable Hiddy</string>
+    <string name="looking_for_a_friend">Looking for a friend to talk to</string>
 
 </resources>

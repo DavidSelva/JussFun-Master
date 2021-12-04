@@ -3,12 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/bgImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_splash" />
+    <include layout="@layout/activity_splash" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
