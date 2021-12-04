@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/controlsLay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_gravity="bottom|end"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <FrameLayout
+        android:id="@+id/blurLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/selector_transparent_circle"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="@dimen/transparent_circle_medium"
+            android:layout_height="@dimen/transparent_circle_medium"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/transparent_circle_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/blur" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/cameraLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/selector_transparent_circle"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="@dimen/transparent_circle_medium"
+            android:layout_height="@dimen/transparent_circle_medium"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/transparent_circle_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/camera_white" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/muteLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="5dp"
+        android:background="@drawable/selector_transparent_circle"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/muteImage"
+            android:layout_width="@dimen/transparent_circle_medium"
+            android:layout_height="@dimen/transparent_circle_medium"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/transparent_circle_padding"
+            android:src="@drawable/unmute" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/giftLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/selector_transparent_circle"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="@dimen/transparent_circle_medium"
+            android:layout_height="@dimen/transparent_circle_medium"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/transparent_circle_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/magic" />
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/reportLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/selector_transparent_circle"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="@dimen/transparent_circle_medium"
+            android:layout_height="@dimen/transparent_circle_medium"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/report" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/exitLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/selector_transparent_circle"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="@dimen/transparent_circle_medium"
+            android:layout_height="@dimen/transparent_circle_medium"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:scaleX="-1"
+            android:src="@drawable/icon_common_nav_exit" />
+
+    </FrameLayout>
+
+</LinearLayout>

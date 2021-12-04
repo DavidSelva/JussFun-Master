@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBgBlack"
+    tools:context="com.app.jussfun.ui.ConvertGiftActivity">
+
+    <include layout="@layout/activity_toolbar_transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:padding="10dp"
+            android:src="@drawable/gift" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtGiftsCount"
+            style="@style/TextWhiteRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/text_medium_large" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg_white"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <RadioGroup
+                android:id="@+id/optionLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/btnGems"
+                    style="@style/TextWhiteLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/colorWhiteText"
+                    android:checked="true"
+                    android:text="@string/gems"
+                    android:textSize="@dimen/text_medium" />
+
+                <RadioButton
+                    android:id="@+id/btnCash"
+                    style="@style/TextWhiteLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/colorWhiteText"
+                    android:checked="false"
+                    android:text="@string/money"
+                    android:textSize="@dimen/text_medium" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnWithdraw"
+                style="@style/ButtonWhiteBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/convert_gems"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_medium_large" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_id" />
+
+</RelativeLayout>

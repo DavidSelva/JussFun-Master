@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="5dp"
+    android:minHeight="150dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:id="@+id/gemLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBg"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/giftImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:minWidth="70dp"
+            android:minHeight="70dp"
+            android:src="@drawable/diamond" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtGemsCount"
+            style="@style/TextPrimaryRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:fontFamily="@font/font_regular" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPrice"
+            app:fontFamily="@font/font_regular"
+            style="@style/TextPrimaryRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/colorPrimary" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

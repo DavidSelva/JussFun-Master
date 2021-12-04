@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPopup"
+        android:paddingBottom="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/bottomFilterLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/headerLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/filterLay"
+                    android:layout_alignEnd="@+id/filterLay"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="2dp"
+                        android:layout_toStartOf="@+id/iconDiamond"
+                        android:gravity="start|center_vertical"
+                        android:paddingStart="3dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/filter"
+                        android:textSize="@dimen/text_large_medium" />
+
+                    <ImageView
+                        android:id="@+id/iconDiamond"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/txtFilterGems"
+                        android:src="@drawable/diamond" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtFilterGems"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="3dp"
+                        android:paddingBottom="8dp"
+                        android:text="5"
+                        android:textSize="@dimen/text_medium_large" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/filterLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/headerLay"
+                    android:layout_centerInParent="true"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/btnMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/circle_transparent_bg"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/imageMale"
+                            android:layout_width="@dimen/transparent_circle_medium"
+                            android:layout_height="@dimen/transparent_circle_medium"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:padding="@dimen/transparent_circle_padding"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/men_w" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/circle_transparent_bg"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/imageFemale"
+                            android:layout_width="@dimen/transparent_circle_medium"
+                            android:layout_height="@dimen/transparent_circle_medium"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:padding="@dimen/transparent_circle_padding"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/women_w" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnBoth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/circle_transparent_bg"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/imageBoth"
+                            android:layout_width="@dimen/transparent_circle_medium"
+                            android:layout_height="@dimen/transparent_circle_medium"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:padding="5dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/men_women" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/selector_transparent_circle"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/imageLocation"
+                            android:layout_width="@dimen/transparent_circle_medium"
+                            android:layout_height="@dimen/transparent_circle_medium"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:padding="@dimen/transparent_circle_padding"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/location" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/filterLay"
+                    android:layout_alignStart="@+id/filterLay"
+                    android:layout_alignEnd="@+id/filterLay"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/TextPrimaryLight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:text="@string/age"
+                            android:textSize="@dimen/text_small" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtAge"
+                            style="@style/TextPrimaryLight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:hint="@string/age"
+                            android:textSize="@dimen/text_small" />
+
+                    </RelativeLayout>
+
+                    <com.app.jussfun.external.CrystalRangeSeekbar
+                        android:id="@+id/seekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        app:bar_color="@color/colorDivider"
+                        app:bar_color_mode="solid"
+                        app:bar_highlight_color="@color/colorPrimary"
+                        app:bar_highlight_color_mode="solid"
+                        app:gap="1"
+                        app:left_thumb_color="@color/colorPrimary"
+                        app:left_thumb_color_pressed="@color/colorPrimary"
+                        app:right_thumb_color="@color/colorPrimary"
+                        app:right_thumb_color_pressed="@color/colorPrimary"
+                        app:thumb_diameter="20dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

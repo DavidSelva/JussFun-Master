@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/bgImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/chat_bg" />
+
+    <include layout="@layout/activity_toolbar_transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/TextWhiteRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/its_a_match"
+            android:textSize="50dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <com.app.jussfun.external.imageview.DiamondImageView
+                android:id="@+id/userImage"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_toStartOf="@+id/iconLike"
+                android:scaleType="centerCrop"
+                android:translationX="25dp"
+                ads:siBorderColor="@color/colorWhite"
+                ads:siBorderWidth="5dp"
+                ads:siSquare="true" />
+
+            <com.app.jussfun.external.imageview.DiamondImageView
+                android:id="@+id/partnerImage"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_toEndOf="@+id/iconLike"
+                android:scaleType="centerCrop"
+                android:translationX="-25dp"
+                ads:siBorderColor="@color/colorWhite"
+                ads:siBorderWidth="5dp"
+                ads:siSquare="true" />
+
+            <!--<com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/userImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_toStartOf="@+id/iconLike"
+                android:scaleType="centerCrop"
+                android:background="@android:color/transparent"
+                ads:riv_border_color="@color/colorWhite"
+                ads:riv_border_width="5dp"
+                ads:riv_mutate_background="true" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/partnerImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_toEndOf="@+id/iconLike"
+                android:background="@android:color/transparent"
+                ads:riv_border_color="@color/colorWhite"
+                ads:riv_border_width="5dp"
+                android:scaleType="centerCrop"
+                ads:riv_mutate_background="true" />-->
+
+            <ImageView
+                android:id="@+id/iconLike"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_like" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtLikeDes"
+            style="@style/TextWhiteLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="@string/like_each_other"
+            android:textSize="@dimen/text_medium_large" />
+
+        <Button
+            android:id="@+id/btnChat"
+            style="@style/ButtonWhiteBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:text="@string/chat_now"
+            android:textColor="@color/colorPrimaryTexts"
+            android:textSize="@dimen/text_medium_large" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

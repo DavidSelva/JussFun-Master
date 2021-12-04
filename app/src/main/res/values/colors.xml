@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#ffff3a43</color>
+    <color name="colorPrimaryDark">#ffff3a43</color>
+    <color name="colorAccent">#ffff3a43</color>
+    <color name="btn_subscribe_text">#DC7852</color>
+    <color name="btn_rounded_tick">#3F1AFA</color>
+
+    <color name="smartReplyBg">#f6f6f6</color>
+    <color name="colorMain">#000000</color>
+    <color name="colorMainView">#FFFFFF</color>
+    <color name="colorBg">#FFFFFF</color>
+    <color name="colorWhiteText">#FFFFFF</color>
+    <color name="colorBgBlack">#000000</color>
+    <color name="colorPrimaryTexts">#252525</color>
+    <color name="colorPrimarySrc">#252525</color>
+    <color name="colorTabcolor">#000000</color>
+    <color name="colorSecondaryTexts">#6E6E6E</color>
+    <color name="colorPopup">#FFFFFF</color>
+    <color name="colorCardBg">#FFFFFF</color>
+    <color name="colorFilter">@color/colorPrimary</color>
+    <color name="colorPlaceHolders">#E6E6E6</color>
+
+    <color name="colorPopupProfile">#FFFFFF</color>
+
+    <color name="colorRateText">#6E6E6E</color>
+    <color name="colorButton">#FFFFFF</color>
+    <color name="colorButtonText">#3F1AFA</color>
+    <color name="colorPlaceHoldersBg">#FFFFFF</color>
+    <color name="colorCardColorBg">#E6FFFFFF</color>
+    <color name="colorAdminChat">#CCFFFFFF</color>
+    <color name="colorChatBottomBg">#FFFFFF</color>
+    <color name="colorRate">#502FFA</color>
+
+
+    <color name="colorPopupColor">#FFFFFF</color>
+    <color name="colorCallTransparent">#99000000</color>
+    <color name="colorCardWhiteTransparent">#E6FFFFFF</color>
+    <color name="colorProfileUpload">#FFFFFF</color>
+
+    <color name="streamColorTransparentGrey">#50ffffff</color>
+    <color name="streamColorTransparentBlack">#c9000000</color>
+    <color name="colorViewColor">#31ffffff</color>
+    <color name="colorTransparentGrey">#50ffffff</color>
+
+    <!--pop color - #222222-->
+    <!--tabbar color - #333333  1f1f1f-->
+
+    <color name="colorGrey">#6E6E6E</color>
+    <color name="colorLightGrey">#efecec</color>
+    <color name="colorPrimaryText">#252525</color>
+    <color name="colorSecondaryText">#6E6E6E</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackSub">#000000</color>
+    <color name="colorHeader">#000000</color>
+    <color name="colorTransparentWhite">#59FFFFFF</color>
+    <color name="colorDivider">#D5D5D5</color>
+    <color name="colorTransparent">#99000000</color>
+    <color name="colorVideoOpacity">#CC000000</color>
+    <color name="colorBottomNavigation">#33000000</color>
+    <color name="colorYellow">#FFEB3B</color>
+    <color name="shimmerBackgroundColor">#b1b1b1</color>
+    <color name="colorTransparentOutline">#2A2A2A</color>
+    <color name="colorWhiteTransparent">#E6FFFFFF</color>
+    <color name="colorCommentsBg">#57000000</color>
+    <color name="colorPlaceHolder">#E6E6E6</color>
+    <color name="colorChatSent">#CCFFFFFF</color>
+    <color name="colorChatReceive">#FFFFFF</color>
+    <color name="colorSecondary">#ffffff</color>
+    <color name="colorRed">#ffcc0000</color>
+    <color name="textPrimary">#1E1E1E</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="viewfinder_border">#ffafed44</color>
+    <color name="qr_code_white">#FFFFFFFF</color>
+    <color name="qr_code_flashlight_bg">#66000000</color>
+    <color name="qr_code_finder_mask">#80000000</color>
+    <color name="qr_code_flash_light_text_color">#66FFFFFF</color>
+    <color name="qr_code_finder_frame">#FFFFFFFF</color>
+    <color name="qr_code_finder_laser">#25f705</color>
+
+    <color name="grey_decor">#a1a1a1</color>
+    <color name="white">#ffffff</color>
+    <color name="viewColor">#31ffffff</color>
+
+</resources>

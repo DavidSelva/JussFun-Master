@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtRoomId"
+        style="@style/TextWhiteLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:textSize="@dimen/text_normal"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btnExit"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/out" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+        app:lottie_fileName="search_user.json"
+        app:lottie_imageAssetsFolder="images/lottie/search_user" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSearching"
+        style="@style/TextWhiteLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lottieImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/colorWhiteText"/>
+
+</RelativeLayout>

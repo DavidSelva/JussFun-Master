@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical"
+    tools:context="com.app.jussfun.ui.EditProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/adView"
+        android:fitsSystemWindows="true"
+        android:overScrollMode="never">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerCrop" />
+
+            <include layout="@layout/activity_toolbar_transparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profileImage"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                android:translationY="-20dp">
+
+                <include layout="@layout/layout_prime_banner" />
+
+                <include layout="@layout/layout_renewal_banner" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/colorCardBg">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="10dp"
+                        android:text="@string/name"
+                        android:textSize="@dimen/text_normal"
+                       />
+
+                    <EditText
+                        android:id="@+id/edtName"
+                        style="@style/EditTextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:background="@null"
+                        android:gravity="end"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/text_normal"
+                        tools:ignore="RtlCompat"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/colorCardBg">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="10dp"
+                        android:text="@string/username"
+                        android:textSize="@dimen/text_normal" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtUserName"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="end"
+                        android:padding="10dp"
+                        android:textSize="@dimen/text_normal"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/colorCardBg">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="10dp"
+                        android:text="@string/gender"
+                        android:textSize="@dimen/text_normal"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtGender"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="end"
+                        android:padding="10dp"
+                        android:textSize="@dimen/text_normal"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/colorCardBg">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="10dp"
+                        android:text="@string/date_of_birth"
+                        android:textSize="@dimen/text_normal"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtDob"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="end"
+                        android:padding="10dp"
+                        android:textSize="@dimen/text_normal"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:id="@+id/locationLay"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/colorCardBg">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="10dp"
+                        android:text="@string/location"
+                        android:textSize="@dimen/text_normal"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtLocation"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="end"
+                        android:padding="10dp"
+                        android:textSize="@dimen/text_normal"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/paymentLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:elevation="5dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/colorCardBg">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtGiftsCount"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="12dp"
+                        android:text="@string/payment_id"
+                        android:textSize="@dimen/text_normal"/>
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edtPayPal"
+                        style="@style/EditTextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:background="@null"
+                        android:gravity="end"
+                        android:hint="@string/payment_id"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textSize="@dimen/text_normal"
+                        android:visibility="gone"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <Button
+                    android:id="@+id/btnSave"
+                    style="@style/TextWhiteLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_square_primary"
+                    android:paddingStart="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/save"
+                    android:textAllCaps="false"
+                    android:theme="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:textColor="@color/colorWhiteText"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:theme="@style/CircularProgress"
+        android:visibility="gone" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_id" />
+
+</RelativeLayout>

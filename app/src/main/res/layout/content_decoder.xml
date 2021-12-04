@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.QRCodeScannerActivity"
+    >
+
+  <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+      android:id="@+id/qrdecoderview"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentTop="true"
+      />
+
+  <com.app.jussfun.helper.PointsOverlayView
+      android:id="@+id/points_overlay_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true">
+
+    <include
+      android:id="@+id/appBar"
+      layout="@layout/activity_toolbar_black"
+       />
+  </LinearLayout>
+
+  <TextView
+      android:id="@+id/result_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:background="#55000000"
+      android:gravity="center"
+      android:padding="16dp"
+      android:textColor="#ffffff"
+      android:textSize="14sp" />
+
+  <CheckBox
+      android:id="@+id/flashlight_checkbox"
+      android:layout_width="45dp"
+      android:layout_height="45dp"
+      android:layout_alignParentEnd="true"
+      android:layout_above="@id/bottomLay"
+      android:layout_gravity="center"
+      android:layout_marginEnd="@dimen/activity_horizontal_margin"
+      android:layout_marginBottom="@dimen/activity_horizontal_margin"
+      android:background="@drawable/btn_flash_selector"
+      android:button="@null"
+      android:checked="false" />
+
+  <CheckBox
+      android:id="@+id/enable_decoding_checkbox"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:layout_below="@+id/flashlight_checkbox"
+      android:background="#99000000"
+      android:checked="true"
+      android:padding="16dp"
+      android:text="On/Off QR decoding"
+      android:textColor="#ffffff"
+      android:textSize="14sp" />
+
+  <FrameLayout
+      android:id="@+id/bottomLay"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="@dimen/activity_horizontal_margin"
+      android:paddingTop="10dp"
+      android:paddingEnd="@dimen/activity_horizontal_margin"
+      android:paddingBottom="10dp"
+      android:background="#000000"
+      android:layout_alignParentBottom="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:orientation="vertical">
+
+      <ImageView
+          android:id="@+id/btnMyQRCode"
+          android:layout_width="40dp"
+          android:layout_height="30dp"
+          android:layout_gravity="center"
+          android:background="?attr/selectableItemBackgroundBorderless"
+          android:clickable="true"
+          android:focusable="true"
+          android:padding="5dp"
+          android:src="@drawable/qr_code" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+          style="@style/TextWhiteRegular"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:text="@string/my_code"
+          android:textSize="@dimen/text_normal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:orientation="vertical">
+
+      <ImageView
+          android:id="@+id/btnGallery"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:layout_gravity="center"
+          android:background="?attr/selectableItemBackgroundBorderless"
+          android:clickable="true"
+          android:focusable="true"
+          android:padding="5dp"
+          android:src="@drawable/gallery_white" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+          style="@style/TextWhiteRegular"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:text="@string/gallery"
+          android:textSize="@dimen/text_normal" />
+
+    </LinearLayout>
+
+  </FrameLayout>
+
+</RelativeLayout>

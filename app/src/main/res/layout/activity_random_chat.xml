@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:keepScreenOn="true"
+    android:layout_height="match_parent"
+    android:background="@color/colorBgBlack"
+    tools:mContext=".MainActivity">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextWhiteLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingStart="5dp"
+        android:id="@+id/txtUserAway"
+        android:visibility="gone"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/away_from_chat"
+        android:textSize="@dimen/text_medium_large" />
+
+    <include
+        layout="@layout/layout_search"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/bannerImage"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+               android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:id="@+id/contentLay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/activity_toolbar_transparent" />
+
+                <RelativeLayout
+                    android:id="@+id/topLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:layout_marginTop="10dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:background="@color/colorWhite" />
+
+                    <RelativeLayout
+                        android:id="@+id/imageLay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/profileImage"
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:adjustViewBounds="true"
+                            android:padding="7dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avatar"
+                            app:riv_corner_radius="65dp"
+                            app:riv_mutate_background="true" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/btnEdit"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignEnd="@+id/imageLay"
+                        android:layout_alignBottom="@+id/imageLay"
+                        android:src="@drawable/icon_common_edit"
+                        android:translationX="-5dp"
+                        android:translationY="-5dp" />
+
+                    <ImageView
+                        android:id="@+id/premiumImage"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignBottom="@+id/imageLay"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/crown"
+                        android:translationY="4dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtName"
+                                style="@style/TextPrimaryRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/name"
+                                android:textSize="@dimen/text_medium" />
+
+                            <ImageView
+                                android:id="@+id/genderImage"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center_vertical"
+                                android:padding="5dp"
+                                android:src="@drawable/men" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtLocation"
+                            style="@style/TextPrimaryRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/location"
+                            android:textSize="@dimen/text_normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:padding="10dp">
+
+                                <LinearLayout
+                                    android:id="@+id/followersLay"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toStartOf="@+id/divider"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:orientation="vertical">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtFollowersCount"
+                                        style="@style/TextPrimaryRegular"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:hint="-"
+                                        android:textSize="@dimen/text_normal" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        style="@style/TextPrimaryRegular"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:hint="@string/followers"
+                                        android:textSize="@dimen/text_normal" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:id="@+id/divider"
+                                    android:layout_width="1dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/followersLay"
+                                    android:layout_alignBottom="@+id/followersLay"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:background="@color/colorDivider" />
+
+                                <LinearLayout
+                                    android:id="@+id/followingsLay"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@+id/divider"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:orientation="vertical">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtFollowingsCount"
+                                        style="@style/TextPrimaryRegular"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:hint="-"
+                                        android:textSize="@dimen/text_normal" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        style="@style/TextSecondaryRegular"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:hint="@string/followings"
+                                        android:textSize="@dimen/text_normal" />
+
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/videoCountLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:elevation="5dp"
+                                android:focusable="true"
+                                app:cardCornerRadius="5dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtMyVideo"
+                                        style="@style/TextSecondaryRegular"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_toEndOf="@+id/iconVideo"
+                                        android:hint="@string/my_video"
+                                        android:paddingTop="15dp"
+                                        android:paddingBottom="15dp"
+                                        android:textSize="@dimen/text_medium" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtVideoCount"
+                                        style="@style/TextPrimaryRegular"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_gravity="start|center_vertical"
+                                        android:layout_marginEnd="15dp"
+                                        android:paddingTop="15dp"
+                                        android:paddingBottom="15dp"
+                                        android:text="-"
+                                        android:textSize="@dimen/text_medium" />
+
+                                    <ImageView
+                                        android:id="@+id/iconVideo"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="15dp"
+                                        android:layout_marginEnd="15dp"
+                                        />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/gemsLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:elevation="5dp"
+                                android:focusable="true"
+                                app:cardCornerRadius="5dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtGems"
+                                        style="@style/TextSecondaryRegular"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_toEndOf="@+id/iconDiamond"
+                                        android:hint="@string/gems"
+                                        android:paddingTop="15dp"
+                                        android:paddingBottom="15dp"
+                                        android:textSize="@dimen/text_medium" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtGemsCount"
+                                        android:textAppearance="@style/TextPrimaryRegular"
+                                        android:fontFamily="@font/font_regular"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_gravity="start|center_vertical"
+                                        android:layout_marginEnd="15dp"
+                                        android:paddingTop="15dp"
+                                        android:paddingBottom="15dp"
+                                        android:text="-"
+                                        android:textSize="@dimen/text_medium" />
+
+                                    <ImageView
+                                        android:id="@+id/iconDiamond"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="15dp"
+                                        android:layout_marginEnd="15dp"
+                                        android:src="@drawable/diamond" />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/giftsLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:elevation="5dp"
+                                android:focusable="true"
+                                app:cardCornerRadius="5dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        style="@style/TextSecondaryRegular"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="15dp"
+                                        android:layout_toEndOf="@+id/iconGift"
+                                        android:hint="@string/gifts"
+                                        android:paddingTop="15dp"
+                                        android:paddingBottom="15dp"
+                                        android:textSize="@dimen/text_medium" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtGiftsCount"
+                                        style="@style/TextPrimaryRegular"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_gravity="start|center_vertical"
+                                        android:layout_marginEnd="15dp"
+                                        android:paddingTop="15dp"
+                                        android:paddingBottom="15dp"
+                                        android:text="-"
+                                        android:textSize="@dimen/text_medium" />
+
+                                    <ImageView
+                                        android:id="@+id/iconGift"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="15dp"
+                                        android:src="@drawable/gift" />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <include
+                                layout="@layout/layout_prime_banner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="20dp" />
+
+                            <include
+                                layout="@layout/layout_renewal_banner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:visibility="gone"
+                    ads:adSize="SMART_BANNER"
+                    ads:adUnitId="@string/banner_id" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</FrameLayout>

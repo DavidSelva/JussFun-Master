@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomUserLay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_gravity="bottom|center_horizontal"
+    android:layout_marginStart="70dp"
+    android:layout_marginEnd="70dp"
+    android:layout_marginBottom="10dp"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:id="@+id/bottomLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieImage"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="swipe_arrow.json"
+            app:lottie_imageAssetsFolder="images/lottie/swipe_arrow"
+            app:lottie_loop="true" />
+
+        <com.app.jussfun.external.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextWhiteLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/swipe_to_skip" />
+
+        </com.app.jussfun.external.shimmer.ShimmerFrameLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/userLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_square_semi_transparent"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <RelativeLayout
+            android:id="@+id/imageLay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/bottomUserImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar"
+                app:riv_corner_radius="65dp"
+                app:riv_mutate_background="true" />
+
+            <ImageView
+                android:id="@+id/premiumImage"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignBottom="@+id/bottomUserImage"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/crown"
+                android:translationY="5dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/followLay"
+            android:layout_toEndOf="@+id/imageLay"
+            android:orientation="vertical"
+            android:paddingEnd="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/bottomTxtName"
+                style="@style/TextWhiteLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/text_normal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/bottomTxtAge"
+                style="@style/TextWhiteLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/followLay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/followImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/rounded_square_primary"
+                android:padding="7dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/follow"
+                app:riv_corner_radius="65dp"
+                app:riv_mutate_background="true" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

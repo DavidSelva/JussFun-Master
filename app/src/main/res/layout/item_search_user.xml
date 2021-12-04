@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <RelativeLayout
+        android:id="@+id/imageLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profileImage"
+            android:layout_width="45dp"
+            android:layout_height="44dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar"
+            app:riv_corner_radius="65dp"
+            app:riv_mutate_background="true" />
+
+        <ImageView
+            android:id="@+id/premiumImage"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignBottom="@+id/profileImage"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/crown"
+            android:translationY="5dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:layout_toEndOf="@+id/imageLay">
+
+        <LinearLayout
+            android:id="@+id/nameLay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtName"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:maxLines="1"
+                android:text="text"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/text_medium" />
+
+            <ImageView
+                android:id="@+id/genderImage"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/men" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtLocation"
+            style="@style/TextSecondaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameLay"
+            android:layout_marginEnd="5dp"
+            android:maxLines="1"
+            android:text="text"
+            android:textAlignment="viewStart"
+            android:textSize="@dimen/text_medium" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

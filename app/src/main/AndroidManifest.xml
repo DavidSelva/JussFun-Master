@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.app.jussfun">
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+
+            <data android:mimeType="image/jpeg" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+
+            <data android:mimeType="image/jpeg" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.CHOOSER" />
+        </intent>
+    </queries>
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> <!-- this permission for oppo device -->
+    <permission
+        android:name="com.app.jussfun.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.app.randou.permission.C2D_MESSAGE" />
+    <uses-permission
+        android:name="android.permission.CAPTURE_VIDEO_OUTPUT"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name=".ui.App"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:supportsRtl,android:allowBackup"
+        tools:targetApi="q">
+        <activity
+            android:name=".ui.NearByActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
+            android:theme="@style/SliderThemeWhite"/>
+        <activity
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="appr.tc"
+                    android:scheme="https" />
+                <data
+                    android:host="appr.tc"
+                    android:scheme="http" />
+                <data
+                    android:host="@string/dynamic_link_filter"
+                    android:pathPattern=".*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.BaseFragmentActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".ui.GeneralSettingsActivity"
+            android:theme="@style/SliderThemeWhite" />
+        <activity
+            android:name=".ui.ChatActivity"
+            android:theme="@style/SliderThemeWhite"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.EarnGemsActivity"
+            android:theme="@style/SliderThemeWhite"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.HelpActivity"
+            android:theme="@style/SliderThemeWhite" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:theme="@style/SliderThemeWhite" />
+        <activity
+            android:name=".ui.ConvertGiftActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.LocationFilterActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.GemsStoreActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.PrimeActivity"
+            android:theme="@style/SliderThemeWhite" />
+        <activity
+            android:name=".ui.RecentHistoryActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.TermsActivity"
+            android:theme="@style/SliderThemeWhite" />
+        <activity
+            android:name=".ui.RandomCallActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".ui.EditProfileActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/SliderThemeBlack"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.OthersProfileActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.FollowersActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.ImageViewActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.VideoCallActivity"
+            android:keepScreenOn="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme" />
+        <!--
+<meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/ad_mob_id" />
+        -->
+        <activity
+            android:name=".ui.MyProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.BlockedUsersActivity"
+            android:theme="@style/SliderThemeBlack"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.FindPeoplesActivity"
+            android:theme="@style/SliderThemeWhite"
+            android:windowSoftInputMode="stateVisible|adjustNothing" />
+        <activity
+            android:name=".ui.QRCodeScannerActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.QRCodeGenerateActivity"
+            android:theme="@style/SliderThemeBlack" />
+        <activity
+            android:name=".ui.LanguageActivity"
+            android:theme="@style/SliderThemeWhite"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ui.LockScreenActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:name=".helper.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+    </application>
+
+</manifest>

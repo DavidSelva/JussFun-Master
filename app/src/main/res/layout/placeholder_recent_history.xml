@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/colorBgBlack"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:minHeight="250dp"
+            android:orientation="vertical">
+
+            <com.app.jussfun.external.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1500"
+                app:shimmer_repeat_count="1000"
+                app:shimmer_repeat_delay="500">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextSecondaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/rounded_solid_white"
+                    android:backgroundTint="@color/colorPlaceHolder"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:text="Today 10:20 AM"
+                    android:textSize="@dimen/text_small"
+                    android:visibility="invisible" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:background="@drawable/rounded_square_transparent"
+                        android:orientation="vertical"
+                        android:paddingBottom="20dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="50dp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/TextWhiteRegular"
+                                android:layout_width="100dp"
+                                android:layout_height="10dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/rounded_solid_white"
+                                android:backgroundTint="@color/colorPlaceHolder"
+                                android:textSize="@dimen/text_medium" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/TextSecondaryLight"
+                            android:layout_width="100dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/rounded_solid_white"
+                            android:backgroundTint="@color/colorPlaceHolder"
+                            android:textSize="@dimen/text_normal" />
+
+                        <Button
+                            style="@style/ButtonPrimaryLight"
+                            android:layout_width="150dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/rounded_solid_white"
+                            android:backgroundTint="@color/colorPlaceHolder"
+                            android:elevation="3dp"
+                            android:gravity="center"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="@dimen/text_normal" />
+
+                    </LinearLayout>
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@color/colorWhite"
+                        app:riv_corner_radius="65dp"
+                        app:riv_mutate_background="true" />
+
+                </RelativeLayout>
+
+            </com.app.jussfun.external.shimmer.ShimmerFrameLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    tools:context="com.app.jussfun.ui.ChatActivity">
+
+    <include layout="@layout/activity_toolbar_chat" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/smartRepliesRecycler"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/colorPrimary"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:reverseLayout="true"
+        app:stackFromEnd="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/smartRepliesRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomLay"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/smart_reply_chip" />
+
+
+    <RelativeLayout
+        android:id="@+id/bottomLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorChatBottomBg"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnContactUs"
+            style="@style/TextPrimaryRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorChatBottomBg"
+            android:elevation="5dp"
+            android:shadowRadius="5"
+            android:text="@string/contact_us"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/edtLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/addLay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/attachLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/btnGallery"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="5dp"
+                        android:src="@drawable/gallery"
+                        android:translationY="4dp" />
+
+                    <ImageView
+                        android:id="@+id/btnGif"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_gif"
+                        android:translationY="4dp"
+                        android:visibility="gone"
+                        app:tint="@color/colorSecondaryText" />
+
+                    <ImageView
+                        android:id="@+id/btnCamera"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="5dp"
+                        android:src="@drawable/camera"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btnAdd"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="5dp"
+                    android:src="@drawable/plus" />
+
+            </LinearLayout>
+
+            <!--
+                        <com.devlomi.record_view.RecordView
+                            android:id="@+id/recordView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toStartOf="@id/btnRecord"
+                            android:layout_toEndOf="@+id/addLay"
+                            android:visibility="gone"
+                            app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+                            app:slide_to_cancel_arrow_color="#a3a3a3"
+                            app:slide_to_cancel_text="@string/slide_to_cancel" />
+            -->
+
+
+            <RelativeLayout
+                android:id="@+id/edtMsgLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@+id/addLay"
+                android:background="@drawable/chat_edit_bg"
+                android:backgroundTint="@color/colorDivider"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtMessage"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toStartOf="@+id/btnSend"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/type_your_message"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:isScrollContainer="true"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textColorHint="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium" />
+
+                <ImageView
+                    android:id="@+id/btnSend"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="5dp"
+                    android:src="@drawable/send_able"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

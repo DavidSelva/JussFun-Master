@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/subscribeLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/side_nav_bar">
+
+    <RelativeLayout
+        android:id="@+id/primeBgLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtPrimeTitle"
+                style="@style/TextWhiteRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="@string/get_prime_benefits"
+                android:text="@string/get_prime_benefits"
+                android:textSize="@dimen/text_normal" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtPrice"
+                style="@style/TextWhiteRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""
+                android:textSize="@dimen/text_medium" />
+
+            <Button
+                android:id="@+id/btnSubscribe"
+                style="@style/TextWhiteRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/btn_subscribe_bg"
+                android:elevation="0dp"
+                android:gravity="center_vertical"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="25dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="10dp"
+                android:text="@string/subscribe"
+                android:textAllCaps="false"
+                android:textColor="@color/btn_subscribe_text"
+                android:textSize="@dimen/text_normal"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

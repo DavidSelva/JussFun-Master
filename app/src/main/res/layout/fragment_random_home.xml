@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTransparent"
+    tools:context="com.app.jussfun.ui.HomeFragment">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layoutDirection="ltr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/audioLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/bgImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/side_nav_bar"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iconAudioCall"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_accent_bg"
+                android:padding="20dp"
+                android:src="@drawable/call_white" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp">
+
+                <com.skyfishjy.library.RippleBackground
+                    android:id="@+id/audioRippleBackground"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:rb_color="@color/shimmerBackgroundColor"
+                    app:rb_duration="2000"
+                    app:rb_radius="25dp"
+                    app:rb_rippleAmount="3"
+                    app:rb_type="fillRipple"
+                    app:rb_scale="3"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextWhiteLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/txtAudioStart"
+                    android:text="@string/touch_to_start"
+                    android:textColor="@color/colorWhiteText"
+                    android:textSize="@dimen/text_large_medium" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/rounded_transparent_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/btnVideoCall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <RadioButton
+                    android:id="@+id/radioBtnVideo"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_audio_call"
+                    android:button="@null"
+                    android:checked="true" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_videocam_red"
+                    app:tint="@color/colorWhiteText" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btnAudioCall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <RadioButton
+                    android:id="@+id/radioBtnAudio"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_audio_call"
+                    android:button="@null"
+                    android:checked="false" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_voice" />
+
+            </FrameLayout>
+
+        </RadioGroup>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="2000"
+        app:shimmer_repeat_count="999">
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/rippleBackground"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rb_color="@color/shimmerBackgroundColor"
+            app:rb_duration="2000"
+            app:rb_radius="25dp"
+            app:rb_rippleAmount="3"
+            app:rb_scale="3"
+            app:rb_type="fillRipple" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTouchToStart"
+            style="@style/TextWhiteLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/touch_to_start"
+            android:textSize="@dimen/text_large_medium" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/gemsLay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/gemsImageLay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/selector_transparent_circle"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/transparent_circle_medium"
+                    android:layout_height="@dimen/transparent_circle_medium"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/transparent_circle_padding"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/gems" />
+
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/recentLay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector_transparent_circle"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="@dimen/transparent_circle_medium"
+                android:layout_height="@dimen/transparent_circle_medium"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/transparent_circle_padding"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_recent_history_48dp"
+                app:riv_mutate_background="true" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/filterLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/filterImageLay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/selector_transparent_circle"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/transparent_circle_medium"
+                    android:layout_height="@dimen/transparent_circle_medium"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/transparent_circle_padding"
+                    android:src="@drawable/icon_online_filter_white_24dp" />
+
+            </RelativeLayout>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imageFilterApplied"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_below="@+id/filterImageLay"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/colorPrimary"
+                android:padding="3dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/tick_white"
+                android:translationY="-10dp"
+                android:visibility="invisible"
+                app:riv_corner_radius="60dp"
+                app:riv_mutate_background="true" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

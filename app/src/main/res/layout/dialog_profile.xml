@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/colorWhite"
+        app:cardCornerRadius="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/headerLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
+                    android:orientation="vertical">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottieImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@+id/descLay"
+                        android:layout_alignBottom="@+id/descLay"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:lottie_autoPlay="true"
+                        app:lottie_fileName="profile_dialog.json"
+                        app:lottie_imageAssetsFolder="images/lottie/profile_dialog"
+                        app:lottie_loop="true" />
+
+                    <LinearLayout
+                        android:id="@+id/descLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtTitle"
+                            style="@style/TextWhiteRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginEnd="20dp"
+                            android:gravity="center"
+                            android:lineSpacingExtra="-10dp"
+                            android:text="Millions of people waiting for you"
+                            android:textSize="@dimen/text_header" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtDescription"
+                            style="@style/TextWhiteLight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="30dp"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="#Worldwide"
+                            android:textSize="@dimen/text_small" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/profileLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:translationY="-10dp"
+                    android:background="@color/colorPopup">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:elevation="5dp"
+                        app:cardCornerRadius="5dp"
+                        android:background="@color/colorPopup">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@color/colorPopupColor">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtName"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:padding="10dp"
+                                    android:text="@string/name"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="@dimen/text_medium" />
+
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtName"
+                                    style="@style/EditPrimaryLight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toEndOf="@+id/txtName"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:hint="@string/your_name"
+                                    android:inputType="textPersonName"
+                                    android:maxLength="20"
+                                    android:maxLines="1"
+                                    android:padding="10dp"
+                                    android:textAlignment="viewEnd"
+                                    android:textCursorDrawable="@drawable/cursor_primary"
+                                    android:textSize="@dimen/text_medium" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dip"
+                                android:background="@color/colorDivider" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtUserName"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:padding="10dp"
+                                    android:text="@string/username"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="@dimen/text_medium" />
+
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtUserName"
+                                    style="@style/EditPrimaryLight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toEndOf="@+id/txtUserName"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:hint="@string/your_username"
+                                    android:inputType="textPersonName"
+                                    android:maxLength="20"
+                                    android:maxLines="1"
+                                    android:padding="10dp"
+                                    android:textAlignment="viewEnd"
+                                    android:textCursorDrawable="@drawable/cursor_primary"
+                                    android:textSize="@dimen/text_medium" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dip"
+                                android:background="@color/colorDivider" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtGender"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:padding="10dp"
+                                    android:text="@string/gender"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="@dimen/text_medium" />
+
+                                <RadioGroup
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="7dp"
+                                    android:orientation="horizontal">
+
+                                    <RadioButton
+                                        android:id="@+id/btnMale"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginEnd="10dp"
+                                        android:background="@drawable/men_selector"
+                                        android:button="@null"
+                                        android:checked="true"
+                                        android:gravity="center_vertical" />
+
+                                    <RadioButton
+                                        android:id="@+id/btnFemale"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="5dp"
+                                        android:background="@drawable/women_selector"
+                                        android:button="@null"
+                                        android:checked="false"
+                                        android:gravity="center_vertical" />
+
+                                </RadioGroup>
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dip"
+                                android:background="@color/colorDivider" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="5dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtDob"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:padding="10dp"
+                                    android:text="@string/date_of_birth"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="@dimen/text_medium" />
+
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtDob"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toEndOf="@+id/txtDob"
+                                    android:background="@android:color/transparent"
+                                    android:clickable="true"
+                                    android:focusable="false"
+                                    android:gravity="end"
+                                    android:hint="@string/date_of_birth"
+                                    android:inputType="date"
+                                    android:maxLength="15"
+                                    android:maxLines="1"
+                                    android:padding="10dp"
+                                    android:textAlignment="viewEnd"
+                                    android:textSize="@dimen/text_medium" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dip"
+                                android:background="@color/colorDivider" />
+
+                            <RelativeLayout
+                                android:id="@+id/locationLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="5dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtLocation"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:padding="10dp"
+                                    android:text="@string/location"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="@dimen/text_medium" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/edtLocation"
+                                    style="@style/TextPrimaryLight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toStartOf="@+id/btnLocation"
+                                    android:layout_toEndOf="@+id/txtLocation"
+                                    android:gravity="center_vertical|end"
+                                    android:hint="@string/your_location"
+                                    android:paddingTop="10dp"
+                                    android:paddingEnd="5dp"
+                                    android:paddingBottom="10dp"
+                                    android:textAlignment="viewEnd"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="@dimen/text_medium" />
+
+                                <ImageView
+                                    android:id="@+id/btnLocation"
+                                    android:layout_width="30dp"
+                                    android:layout_height="40dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:background="@android:color/transparent"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:gravity="end"
+                                    android:paddingStart="5dp"
+                                    android:paddingTop="10dp"
+                                    android:paddingEnd="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:src="@drawable/ic_forward_grey" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnNext"
+                        style="@style/TextWhiteLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/rounded_square_primary"
+                        android:text="@string/next"
+                        android:textAllCaps="false"
+                        android:theme="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/CircularProgress"
+            android:visibility="gone" />
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

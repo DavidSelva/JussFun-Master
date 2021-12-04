@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "899650669152",
+    "firebase_url": "https://jussfun-569d6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "jussfun-569d6",
+    "storage_bucket": "jussfun-569d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899650669152:android:55c6cfa32548a70bd65105",
+        "android_client_info": {
+          "package_name": "com.app.jussfun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899650669152-a5lqnn804a15q8dldvpdf5dhehitbpl8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.jussfun",
+            "certificate_hash": "162c05b2c13567a3a6dc2a418defcee83bb612f4"
+          }
+        },
+        {
+          "client_id": "899650669152-a0h0iopn20oatp0srl6k7k7g9eg73qj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrDvccr8GRj3AtV5Za9ZMfpWM7ikIp3f8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899650669152-a0h0iopn20oatp0srl6k7k7g9eg73qj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

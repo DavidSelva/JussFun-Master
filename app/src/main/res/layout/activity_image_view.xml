@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBgBlack"
+    android:fitsSystemWindows="true"
+    tools:context="com.app.livza.ui.ImageViewActivity">
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/close_white"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/bottomLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieImage"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="swipe_arrow.json"
+            app:lottie_imageAssetsFolder="images/lottie/swipe_arrow"
+            app:lottie_loop="true" />
+
+        <com.app.jussfun.external.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerLayout"
+            android:layout_width="wrap_content"
+            app:shimmer_repeat_delay="2000"
+            app:shimmer_repeat_count="100"
+            android:layout_height="wrap_content"
+            app:shimmer_auto_start="true">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextWhiteLight"
+                android:id="@+id/txtChangePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/swipe_change_photo"
+                android:textColor="@color/shimmerBackgroundColor" />
+
+        </com.app.jussfun.external.shimmer.ShimmerFrameLayout>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

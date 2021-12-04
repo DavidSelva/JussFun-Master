@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    tools:context="com.app.jussfun.ui.EarnGemsActivity">
+
+    <include layout="@layout/activity_toolbar_white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/colorDivider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/adView"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtGemsDesc"
+                style="@style/TextBlackLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/free_gems_content" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="25dp"
+                android:adjustViewBounds="true"
+                android:visibility="visible"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="friends.json"
+                app:lottie_imageAssetsFolder="images/lottie/friends"
+                app:lottie_loop="false"
+                app:lottie_repeatCount="0" />
+
+            <Button
+                android:id="@+id/btnRefer"
+                style="@style/ButtonWhiteLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/refer_your_friends"
+                android:background="@drawable/btn_bg_white_dark"
+                android:textColor="@color/colorSecondaryText"/>
+
+            <Button
+                android:id="@+id/btnWatchVideo"
+                style="@style/ButtonPrimaryLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/watch_video" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtVideoTime"
+                style="@style/TextPrimaryLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/text_normal"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/layout_adview" />
+
+</RelativeLayout>

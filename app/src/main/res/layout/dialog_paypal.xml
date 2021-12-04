@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorBg"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTitle"
+                style="@style/TextBlackRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxLines="1"
+                android:layout_marginBottom="10dp"
+                android:text="Enter your Paypal id"
+                android:textColor="@color/colorBlack"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPayPal"
+                style="@style/EditTextPrimaryLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/chat_edit_bg"
+                android:layout_marginTop="5dp"
+                android:hint="Paypal Id"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:padding="10dp"
+                android:text=""
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <Button
+                android:id="@+id/btnConvert"
+                style="@style/ButtonPrimaryLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="0dp"
+                android:text="Convert" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:elevation="0dp"
+                android:fontFamily="@font/font_light"
+                android:minHeight="0dp"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/colorSecondaryText" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/CircularProgress"
+            android:visibility="gone" />
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

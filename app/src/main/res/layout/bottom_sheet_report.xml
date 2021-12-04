@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_gravity="top"
+    android:elevation="5dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="5dp"
+    android:background="@color/colorPopup">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtReport"
+            style="@style/TextPrimaryRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/report_user"
+            android:textSize="@dimen/text_large_medium" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reportView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/txtReport"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="never" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,372 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
+    <style name="SeekBarColor" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="colorAccent">@color/colorWhite</item>
+    </style>
+    <style name="HashtagView">
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+    <!-- Splash Theme. -->
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="scaleType">fillCenter</item>
+    </style>
+
+    <style name="LoginTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+    </style>
+
+    <style name="HomeTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBgBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+
+    <!-- Slider Theme Black -->
+    <style name="SliderThemeBlack" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBgBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <!-- Slider Theme White -->
+    <style name="SliderThemeWhite" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--Below 23 it should be black then only icons should be visible -->
+        <item name="colorPrimaryDark">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="PlayerTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:statusBarColor">@color/colorBlack</item>
+    </style>
+
+    <style name="CircularProgress" parent="Base.Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:indeterminateTint">@color/colorPrimary</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <style name="HorizontalProgress" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorPrimary</item>
+        <item name="android:secondaryProgressTint">@color/colorPrimaryDark</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <style name="Bottom.FilterDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@color/colorWhite</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="Bottom.ReportDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@color/colorBottomNavigation</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="Bottom.StickerDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@color/colorBottomNavigation</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="TextPrimaryLight" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="TextBlackLight" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="TextWhiteLight" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textColor">@color/colorWhiteText</item>
+`    </style>
+
+    <style name="TextSecondaryLight" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+
+    <style name="TextBlackRegular" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+ <style name="TextBlackRegularSubscription" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textColor">@color/colorBlackSub</item>
+    </style>
+
+    <style name="TextWhiteRegular" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textColor">@color/colorWhiteText</item>
+    </style>
+
+    <style name="TextPrimaryRegular" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textColor">@color/colorPrimaryTexts</item>
+    </style>
+
+    <style name="TextSecondaryRegular" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+
+    <style name="EditTextPrimaryLight" parent="Base.Widget.MaterialComponents.TextInputEditText">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="EditPrimaryLight" parent="Base.Widget.MaterialComponents.TextInputEditText">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="ButtonPrimaryLight" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_bg_primary</item>
+        <item name="android:textColor">@color/colorWhiteText</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="ButtonPrimaryBold" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_bg_primary</item>
+        <item name="android:textColor">@color/colorWhiteText</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="ButtonWhiteLight" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_bg_white</item>
+    </style>
+
+    <style name="ButtonWhiteBold" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="cornerRadius">50dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_bg_white</item>
+    </style>
+
+    <!-- Theme.AppCompat.Light is not a dialog theme -->
+    <style name="DatePickerTheme" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+
+    </style>
+
+    <style name="SwitchButtonStyle">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:colorControlNormal">@color/colorWhite</item>
+    </style>
+
+    <style name="ScrollingPagerIndicator">
+        <item name="spi_dotColor">@android:color/darker_gray</item>
+        <item name="spi_dotSelectedColor">@android:color/darker_gray</item>
+        <item name="spi_dotSize">6dp</item>
+        <item name="spi_dotSelectedSize">10dp</item>
+        <item name="spi_dotSpacing">8dp</item>
+        <item name="spi_visibleDotCount">5</item>
+        <item name="spi_visibleDotThreshold">2</item>
+        <item name="spi_looped">false</item>
+    </style>
+
+    <style name="AVLoadingIndicatorView">
+        <item name="minWidth">48dip</item>
+        <item name="maxWidth">48dip</item>
+        <item name="minHeight">48dip</item>
+        <item name="maxHeight">48dip</item>
+        <item name="indicatorName">BallPulseIndicator</item>
+    </style>
+
+    <style name="PopupMenuBackground" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/rounded_square_white</item>
+        <item name="android:dropDownHorizontalOffset">-4dp</item>
+        <item name="android:dropDownVerticalOffset">4dp</item>
+    </style>
+
+    <style name="DataTableHeaderAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DataTableSubHeaderAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="DataTableLabelAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="DataTableValueAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#fff</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="myDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Widget.Button.Toggle" parent="android:Widget">
+        <item name="android:background">@drawable/rounded_square_primary</item>
+        <item name="android:disabledAlpha">?android:attr/disabledAlpha</item>
+    </style>
+
+    <style name="toggleButton">
+        <item name="android:buttonStyleToggle">@style/Widget.Button.Toggle</item>
+        <item name="android:textOn"></item>
+        <item name="android:textOff"></item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorRate</item>
+        <item name="colorControlActivated">@color/colorYellow</item>
+    </style>
+
+    <style name="LoginAppTheme" parent="Theme.AppCompat.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
+    <style name="RatingButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/rating_bg</item>
+    </style>
+
+    <style name="ThemeAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:background">@color/colorPopup</item>
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="SimpleBottomDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorTransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@color/colorBottomNavigation</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="statusBarScrim">@color/white</item>
+        <item name="bottomSheetStyle">@style/BottomSheetWhite</item>
+    </style>
+
+    <style name="BottomSheetWhite" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:background">@drawable/bottom_sheet_white_bg</item>
+    </style>
+
+    <style name="CustomDialogAnimation">
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:windowEnterAnimation">@anim/anim_toolbar_slide_down</item>
+        <item name="android:windowExitAnimation">@anim/anim_toolbar_slide_up</item>
+    </style>
+
+</resources>

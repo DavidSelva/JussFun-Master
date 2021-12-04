@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@color/colorPlaceHoldersBg"
+    android:elevation="5dp"
+    android:minHeight="150dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="5dp">
+
+    <com.app.jussfun.external.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1500"
+        app:shimmer_repeat_count="1000"
+        app:shimmer_repeat_delay="500">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPlaceHoldersBg"
+            android:orientation="vertical">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/profileImage"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/colorPlaceHolders"
+                android:padding="7dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="65dp"
+                app:riv_mutate_background="true" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_solid_white"
+                android:backgroundTint="@color/colorPlaceHolders"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:minWidth="50dp"
+                android:textSize="@dimen/text_tiny" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_solid_white"
+                android:backgroundTint="@color/colorPlaceHolders"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:textSize="@dimen/text_tiny" />
+
+        </LinearLayout>
+
+    </com.app.jussfun.external.shimmer.ShimmerFrameLayout>
+
+</androidx.cardview.widget.CardView>

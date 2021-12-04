@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        app:liftOnScroll="true">
+
+        <include
+            android:id="@+id/toolBar"
+            layout="@layout/activity_tool_bar_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/appBar"
+        android:background="@color/colorDivider" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="card_ripple.json"
+        app:lottie_loop="true" />
+
+    <com.app.jussfun.external.cardstackview.CardStackView
+        android:id="@+id/card_stack_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomLay"
+        android:layout_below="@+id/divider"
+        android:background="@null"
+        android:clipToPadding="false" />
+
+    <RelativeLayout
+        android:id="@+id/bottomLay"
+        android:paddingBottom="?attr/actionBarSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/btnUnInterest"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/icon_dislike"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/btnInterest"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="start|center"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@+id/btnUnInterest"
+            android:src="@drawable/icon_like"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/noUserLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_search_24dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextSecondaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nullImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/no_user_found_retry"
+            android:textSize="@dimen/text_medium" />
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/ButtonPrimaryBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/search_again" />
+
+    </LinearLayout>
+
+</RelativeLayout>

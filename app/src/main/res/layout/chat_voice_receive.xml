@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLay"
+    android:layout_width="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_gravity="start"
+    android:gravity="start"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/userImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top"
+        android:layout_marginStart="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar"
+        app:riv_corner_radius="65dp"
+        app:riv_mutate_background="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toEndOf="@+id/userImage"
+        android:background="@drawable/chat_receive_bg"
+        android:gravity="center_vertical"
+        android:minWidth="100dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/contentLay"
+            android:layout_width="220dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/chat_receive_bg">
+
+            <SeekBar
+                android:id="@+id/song_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/downloadLay"
+                android:paddingStart="10dp"
+                android:paddingEnd="15dp"
+                android:progressBackgroundTint="@color/colorBgBlack"/>
+
+            <TextView
+                android:id="@+id/txtFileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/downloadLay"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text=""
+                style="@style/TextPrimaryLight"
+                android:textSize="@dimen/text_small"
+                android:theme="@style/SeekBarColor" />
+
+            <FrameLayout
+                android:id="@+id/downloadLay"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#80000000">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/btnDownload"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/download"
+                    app:riv_mutate_background="true"
+                    app:riv_corner_radius="30dp"
+                    android:background="@color/colorChatSent"
+                    android:visibility="visible" />
+
+                <com.app.jussfun.external.ProgressWheel
+                    xmlns:ProgressWheel="http://schemas.android.com/tools"
+                    android:id="@+id/downloadProgress"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    ProgressWheel:matProg_barColor="@color/white"
+                    ProgressWheel:matProg_barWidth="2dp"
+                    ProgressWheel:matProg_rimColor="#40FFFFFF"
+                    ProgressWheel:matProg_rimWidth="2dp" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:id="@+id/btnPlay"
+                    android:visibility="visible"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorGrey"
+                    android:src="@drawable/pause_icon_white" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginStart="27dp"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtChatTime"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text=""
+                android:textColor="@color/colorPrimaryTexts"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/txtDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="end"
+                android:layout_alignParentEnd="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="15dp"
+                android:text=""
+                style="@style/TextSecondaryLight"
+                android:textColor="@color/colorPrimaryTexts"
+                android:textSize="@dimen/text_small"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

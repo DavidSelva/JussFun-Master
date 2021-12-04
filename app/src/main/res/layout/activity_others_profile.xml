@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:clickable="true"
+    android:focusable="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBg">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/bannerImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:background="@color/colorPrimary"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/activity_toolbar_transparent" />
+
+                <RelativeLayout
+                    android:id="@+id/topLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:layout_below="@+id/toolbar"
+                    android:layout_marginTop="10dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:background="@color/colorWhite" />
+
+                    <RelativeLayout
+                        android:id="@+id/imageLay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/profileImage"
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:adjustViewBounds="true"
+                            android:padding="7dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avatar"
+                            app:riv_corner_radius="65dp"
+                            app:riv_mutate_background="true" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/premiumImage"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignBottom="@+id/imageLay"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/crown"
+                        android:translationY="3dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtName"
+                                style="@style/TextPrimaryRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/name"
+                                android:textSize="@dimen/text_medium" />
+
+                            <ImageView
+                                android:id="@+id/genderImage"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center_vertical"
+                                android:padding="5dp"
+                                android:src="@drawable/men" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtLocation"
+                            style="@style/TextPrimaryRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="-"
+                            android:textSize="@dimen/text_normal" />
+
+
+                        <RelativeLayout
+                            android:id="@+id/followLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:id="@+id/followersLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toStartOf="@+id/divider"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtFollowersCount"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:hint="-"
+                                    android:text=""
+                                    android:textSize="@dimen/text_normal" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtFollowers"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:hint="@string/followers"
+                                    android:textSize="@dimen/text_normal" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/divider"
+                                android:layout_width="1dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/followersLay"
+                                android:layout_alignBottom="@+id/followersLay"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@color/colorDivider" />
+
+                            <LinearLayout
+                                android:id="@+id/followingsLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/divider"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtFollowingsCount"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:hint="-"
+                                    android:text=""
+                                    android:textSize="@dimen/text_normal" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtFollowings"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:hint="@string/followings"
+                                    android:textSize="@dimen/text_normal" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/videoCountLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:elevation="5dp"
+                            android:focusable="true"
+                            android:visibility="gone"
+                            app:cardCornerRadius="5dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtMyVideo"
+                                    style="@style/TextSecondaryRegular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toEndOf="@+id/iconVideo"
+                                    android:hint="@string/videos"
+                                    android:paddingTop="15dp"
+                                    android:paddingBottom="15dp"
+                                    android:textSize="@dimen/text_medium" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtVideoCount"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_gravity="start|center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:paddingTop="15dp"
+                                    android:paddingBottom="15dp"
+                                    android:text="-"
+                                    android:textSize="@dimen/text_medium" />
+
+                                <ImageView
+                                    android:id="@+id/iconVideo"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="15dp"
+                                    android:layout_marginEnd="15dp"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:id="@+id/contactLay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:background="@color/colorWhite"
+                                android:elevation="5dp"
+                                app:cardCornerRadius="20dp">
+
+                                <RelativeLayout
+                                    android:id="@+id/chatLay"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:padding="20dp">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/chat_act" />
+
+                                </RelativeLayout>
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:background="@color/colorWhite"
+                                android:elevation="5dp"
+                                app:cardCornerRadius="20dp">
+
+                                <RelativeLayout
+                                    android:id="@+id/videoLay"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:padding="20dp">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/video_call" />
+
+                                </RelativeLayout>
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/interestLay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:id="@+id/btnUnInterest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:padding="10dp">
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/not_interested" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/btnInterest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:padding="10dp">
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/interested" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnFollow"
+                            style="@style/ButtonPrimaryLight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/follow"
+                            android:textSize="@dimen/text_medium"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/btnBlock"
+                            style="@style/ButtonWhiteLight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/block"
+                            android:textSize="@dimen/text_medium"
+                            android:visibility="gone"
+                            android:background="@drawable/btn_bg_white_dark"
+                            android:textColor="@color/colorPrimaryText"/>
+
+                        <Button
+                            android:id="@+id/btnShare"
+                            style="@style/ButtonPrimaryLight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/share_profile"
+                            android:textSize="@dimen/text_medium"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/banner_id" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/progressLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/CircularProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</RelativeLayout>
