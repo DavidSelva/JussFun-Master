@@ -33,7 +33,7 @@
             android:layout_height="20dp"
             android:layout_alignBottom="@+id/userImage"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/crown"
+            android:src="@drawable/ic_prime_user"
             android:translationY="5dp"
             android:visibility="gone" />
 

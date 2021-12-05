@@ -486,7 +486,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                 txtSliderDescription.setMovementMethod(new ScrollingMovementMethod());
                 Glide.with(context)
                         .load(Constants.PRIME_IMAGE_URL + prime.getImage())
-                        .apply(new RequestOptions().error(R.drawable.gift).diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .apply(new RequestOptions().error(R.drawable.ic_gift_primary).diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(sliderImage);
             }
 

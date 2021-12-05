@@ -115,7 +115,7 @@
                             android:layout_height="35dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="0dp"
-                            android:src="@drawable/crown"
+                            android:src="@drawable/ic_prime_user"
                             android:visibility="gone" />
 
                     </LinearLayout>

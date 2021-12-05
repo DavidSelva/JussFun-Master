@@ -108,7 +108,7 @@ public class DialogCreditGems extends DialogFragment {
             txtDescription.setVisibility(View.GONE);
             txtTitle.setVisibility(View.VISIBLE);
             txtTitle.setText(message);
-            dimenImage.setImageDrawable(context.getDrawable(R.drawable.gift));
+            dimenImage.setImageDrawable(context.getDrawable(R.drawable.ic_gift_primary));
             dimenImage.setVisibility(View.VISIBLE);
         } else if (message.equals(getString(R.string.gems_purchase_response))) {
             txtDescription.setVisibility(View.GONE);

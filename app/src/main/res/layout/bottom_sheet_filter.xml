@@ -53,11 +53,11 @@
 
                     <ImageView
                         android:id="@+id/iconDiamond"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/txtFilterGems"
-                        android:src="@drawable/diamond" />
+                        android:src="@drawable/ic_diamond" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtFilterGems"

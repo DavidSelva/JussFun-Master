@@ -23,7 +23,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:padding="10dp"
-            android:src="@drawable/gift" />
+            android:src="@drawable/ic_gift_primary" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtGiftsCount"

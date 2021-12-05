@@ -391,7 +391,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.profileImage, R.id.btnEdit, R.id.btnRenewal, R.id.renewalLay, R.id.btnSettings, R.id.followersLay,
-            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay, R.id.videoCountLay,
+            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay,
             R.id.btnBack})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -471,14 +471,6 @@ public class MyProfileActivity extends BaseFragmentActivity {
                 gemsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(gemsIntent);
                 break;
-           /* case R.id.videoCountLay:
-                Intent profile = new Intent(context, UserVideoActivity.class);
-                profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                profile.putExtra(Constants.TAG_PARTNER_ID, profileResponse.getUserId());
-                profile.putExtra(Constants.TAG_PARTNER_NAME, profileResponse.getName());
-                profile.putExtra(Constants.TAG_PARTNER_IMAGE, profileResponse.getUserImage());
-                startActivity(profile);
-                break;*/
             case R.id.btnBack:
                 finish();
                 break;

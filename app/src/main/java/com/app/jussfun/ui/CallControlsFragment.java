@@ -680,7 +680,7 @@ public class CallControlsFragment extends Fragment {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                 ((MyViewHolder) holder).progressBar.setVisibility(View.GONE);
-                                ((MyViewHolder) holder).giftImage.setImageDrawable(context.getDrawable(R.drawable.gift));
+                                ((MyViewHolder) holder).giftImage.setImageDrawable(context.getDrawable(R.drawable.ic_gift_primary));
                                 ((MyViewHolder) holder).giftImage.setVisibility(View.VISIBLE);
                                 return false;
                             }
@@ -692,7 +692,7 @@ public class CallControlsFragment extends Fragment {
                                 ((MyViewHolder) holder).giftImage.setVisibility(View.VISIBLE);
                                 return false;
                             }
-                        }).apply(new RequestOptions().error(R.drawable.gift))
+                        }).apply(new RequestOptions().error(R.drawable.ic_gift_primary))
                         .into(((MyViewHolder) holder).giftImage);
                 ((MyViewHolder) holder).txtGiftPrice.setText((GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) ? "" + gift.getGiftGemsPrime() : "" + gift.getGiftGems());
             } else if (holder instanceof FooterViewHolder) {

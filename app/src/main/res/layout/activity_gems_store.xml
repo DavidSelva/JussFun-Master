@@ -90,11 +90,11 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/iconDiamond"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/gems" />
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:src="@drawable/ic_diamond_yellow" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtAvailableGems"

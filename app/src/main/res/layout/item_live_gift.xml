@@ -36,7 +36,7 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/txtGiftName"
         android:padding="4dp"
-        android:src="@drawable/gift"
+        android:src="@drawable/ic_gift_primary"
         android:translationX="-20dp" />
 
 </RelativeLayout>

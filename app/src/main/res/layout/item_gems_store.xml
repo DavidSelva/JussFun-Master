@@ -27,7 +27,7 @@
             android:adjustViewBounds="true"
             android:minWidth="70dp"
             android:minHeight="70dp"
-            android:src="@drawable/diamond" />
+            android:src="@drawable/ic_diamond" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtGemsCount"

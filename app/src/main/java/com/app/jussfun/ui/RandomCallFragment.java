@@ -1120,7 +1120,7 @@ public class RandomCallFragment extends Fragment implements AppRTCClient.Signali
             Animation slideOut = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_left_out);
             Glide.with(activity)
                     .load(Constants.GIFT_IMAGE_URL + gift.getGiftIcon())
-                    .apply(new RequestOptions().error(R.drawable.gift).placeholder(R.drawable.gift))
+                    .apply(new RequestOptions().error(R.drawable.ic_gift_primary).placeholder(R.drawable.ic_gift_primary))
                     .into(giftImageBig);
             giftDisplayLay.setVisibility(View.VISIBLE);
             slideIn.setAnimationListener(new Animation.AnimationListener() {
@@ -1166,7 +1166,7 @@ public class RandomCallFragment extends Fragment implements AppRTCClient.Signali
             giftImageBig.setTranslationX(AppUtils.dpToPx(activity, 20));
             Glide.with(activity)
                     .load(Constants.GIFT_IMAGE_URL + gift.getGiftIcon())
-                    .apply(new RequestOptions().error(R.drawable.gift).placeholder(R.drawable.gift))
+                    .apply(new RequestOptions().error(R.drawable.ic_gift_primary).placeholder(R.drawable.ic_gift_primary))
                     .into(giftImageBig);
             giftDisplayLay.setVisibility(View.VISIBLE);
 
@@ -1222,7 +1222,7 @@ public class RandomCallFragment extends Fragment implements AppRTCClient.Signali
             Animation slideOut = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_left_out);
             Glide.with(activity)
                     .load(Constants.GIFT_IMAGE_URL + gift.getGiftIcon())
-                    .apply(new RequestOptions().error(R.drawable.gift).placeholder(R.drawable.gift))
+                    .apply(new RequestOptions().error(R.drawable.ic_gift_primary).placeholder(R.drawable.ic_gift_primary))
                     .into(giftReceiveImage);
             giftReceiveLay.setVisibility(View.VISIBLE);
             slideIn.setAnimationListener(new Animation.AnimationListener() {
@@ -1267,7 +1267,7 @@ public class RandomCallFragment extends Fragment implements AppRTCClient.Signali
             giftReceiveImage.setTranslationX(AppUtils.dpToPx(activity, 20));
             Glide.with(activity)
                     .load(Constants.GIFT_IMAGE_URL + gift.getGiftIcon())
-                    .apply(new RequestOptions().error(R.drawable.gift).placeholder(R.drawable.gift))
+                    .apply(new RequestOptions().error(R.drawable.ic_gift_primary).placeholder(R.drawable.ic_gift_primary))
                     .into(giftReceiveImage);
             giftReceiveLay.setVisibility(View.VISIBLE);
             txtGiftReceive.setBackground(activity.getDrawable(R.drawable.gift_send_rtl_bg));

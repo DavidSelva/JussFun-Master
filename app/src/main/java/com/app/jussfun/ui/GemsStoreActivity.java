@@ -114,8 +114,6 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
     AppBarLayout appBar;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
-    @BindView(R.id.iconDiamond)
-    RoundedImageView iconDiamond;
     @BindView(R.id.txtGems)
     TextView txtGems;
     @BindView(R.id.bannerImage)

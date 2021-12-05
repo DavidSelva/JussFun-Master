@@ -22,7 +22,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/gift"
+            android:src="@drawable/ic_gift_primary"
             android:visibility="invisible" />
 
         <LinearLayout
@@ -33,10 +33,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/diamond"
+                android:src="@drawable/ic_diamond"
                 android:translationY="2dp" />
 
             <androidx.appcompat.widget.AppCompatTextView

@@ -83,7 +83,7 @@
                 android:layout_height="15dp"
                 android:layout_alignBottom="@+id/bottomUserImage"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/crown"
+                android:src="@drawable/ic_prime_user"
                 android:translationY="5dp" />
 
         </RelativeLayout>

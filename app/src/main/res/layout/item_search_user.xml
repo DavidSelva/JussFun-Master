@@ -26,21 +26,22 @@
 
         <ImageView
             android:id="@+id/premiumImage"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignBottom="@+id/profileImage"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/crown"
-            android:translationY="5dp"
-            android:visibility="gone" />
+            android:src="@drawable/ic_prime_user"
+            android:translationY="10dp"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginEnd="15dp"
+        android:orientation="vertical"
         android:layout_toEndOf="@+id/imageLay">
 
         <LinearLayout
@@ -83,6 +84,6 @@
             android:textAlignment="viewStart"
             android:textSize="@dimen/text_medium" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

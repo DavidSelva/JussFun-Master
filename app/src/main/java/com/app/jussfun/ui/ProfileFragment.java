@@ -427,7 +427,7 @@ public class ProfileFragment extends Fragment {
             subscribeLay.setVisibility(View.GONE);
             premiumImage.setVisibility(View.VISIBLE);
         } else {
-            premiumImage.setVisibility(View.VISIBLE);
+            premiumImage.setVisibility(View.GONE);
             subscribeLay.setVisibility(View.VISIBLE);
             btnSubscribe.setVisibility(View.VISIBLE);
             txtPrimeTitle.setText(AppUtils.getPrimeTitle(context));

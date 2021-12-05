@@ -137,7 +137,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/txtGiftName"
                         android:padding="7dp"
-                        android:src="@drawable/gift"
+                        android:src="@drawable/ic_gift_primary"
                         android:translationX="-20dp" />
 
                 </RelativeLayout>
@@ -176,7 +176,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/txtGiftReceive"
                         android:padding="7dp"
-                        android:src="@drawable/gift"
+                        android:src="@drawable/ic_gift_primary"
                         android:translationX="-20dp" />
 
                 </RelativeLayout>
