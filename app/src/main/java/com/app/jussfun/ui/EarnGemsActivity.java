@@ -76,7 +76,7 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
     @BindView(R.id.adView)
     AdView adView;
     @BindView(R.id.lottieImage)
-    LottieAnimationView lottieImage;
+    ImageView lottieImage;
     @BindView(R.id.btnRefer)
     Button btnRefer;
     @BindView(R.id.txtVideoTime)
@@ -109,7 +109,9 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
 
         Slidr.attach(this, config);
         btnCopy.setVisibility(View.VISIBLE);
-        btnCopy.setImageDrawable(getResources().getDrawable(R.drawable.copy));
+        btnCopy.setImageDrawable(getResources().getDrawable(R.drawable.ic_copy));
+        int padding = AppUtils.dpToPx(this, 12);
+        btnCopy.setPadding(padding, padding, padding, padding);
         txtGemsDesc.setText(String.format(getString(R.string.free_gems_content), getString(R.string.app_name)));
 
         linearParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

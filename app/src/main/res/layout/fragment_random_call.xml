@@ -69,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
-                        android:src="@color/colorBlack" />
+                        android:src="@drawable/his_msg_voicecall_bg" />
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/lottieImage"

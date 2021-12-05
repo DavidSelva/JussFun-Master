@@ -55,6 +55,7 @@
             style="@style/ButtonPrimaryBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_primary"
             android:layout_below="@+id/qrLayout"
             android:layout_alignStart="@+id/qrLayout"
             android:layout_alignEnd="@+id/qrLayout"

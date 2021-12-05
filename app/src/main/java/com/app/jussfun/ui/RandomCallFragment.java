@@ -1385,9 +1385,9 @@ public class RandomCallFragment extends Fragment implements AppRTCClient.Signali
         FragmentTransaction userTransaction = getChildFragmentManager().beginTransaction();
 
         if (LocaleManager.isRTL()) {
-            callTransaction.setCustomAnimations(R.anim.anim_slide_right_in, R.anim.anim_slide_left_out);
-        } else {
             callTransaction.setCustomAnimations(R.anim.anim_slide_left_in, R.anim.anim_slide_right_out);
+        } else {
+            callTransaction.setCustomAnimations(R.anim.anim_slide_right_in, R.anim.anim_slide_left_out);
         }
         userTransaction.setCustomAnimations(R.anim.anim_slide_up, R.anim.anim_slide_down);
         if (callControlFragmentVisible) {

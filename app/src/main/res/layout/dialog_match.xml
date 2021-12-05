@@ -46,7 +46,7 @@
                 android:layout_height="150dp"
                 android:layout_toStartOf="@+id/iconLike"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_register_select_header"
+                android:src="@drawable/avatar"
                 android:translationX="25dp"
                 ads:riv_mutate_background="true"
                 ads:riv_oval="true" />
@@ -58,7 +58,7 @@
                 android:layout_toEndOf="@+id/iconLike"
                 android:scaleType="centerCrop"
                 android:translationX="-25dp"
-                android:src="@drawable/icon_register_select_header"
+                android:src="@drawable/avatar"
                 ads:riv_mutate_background="true"
                 ads:riv_oval="true" />
 

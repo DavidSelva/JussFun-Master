@@ -376,7 +376,7 @@ public class VideoCallActivity extends BaseFragmentActivity implements AppWebSoc
                     .into(incomingImage);
 
             if (chatType.equals(Constants.TAG_AUDIO)) {
-                btnDeclineCall.setBackground(getResources().getDrawable(R.drawable.audio_call_decline));
+                btnDeclineCall.setBackground(getResources().getDrawable(R.drawable.icon_call_cancel));
                 btnAcceptCall.setBackground(getResources().getDrawable(R.drawable.audio_call_accept));
             }
 

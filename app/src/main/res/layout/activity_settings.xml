@@ -61,7 +61,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="5dp" />
 
@@ -92,7 +92,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider" />
 
             <LinearLayout
@@ -122,7 +122,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
@@ -155,7 +155,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
@@ -188,7 +188,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
@@ -203,6 +203,7 @@
                 android:orientation="horizontal"
                 android:paddingStart="5dp"
                 android:paddingTop="10dp"
+                android:visibility="gone"
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp">
 
@@ -222,7 +223,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
@@ -255,7 +256,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
@@ -288,14 +289,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorDivider"
                 android:paddingTop="10dp" />
 

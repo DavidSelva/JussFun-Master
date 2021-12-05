@@ -121,6 +121,8 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
         }
         btnShare.setVisibility(View.VISIBLE);
         btnShare.setImageDrawable(getDrawable(R.drawable.share));
+        int padding = AppUtils.dpToPx(this, 12);
+        btnShare.setPadding(padding, padding, padding, padding);
         txtTitle.setText(getString(R.string.my_qr_code));
         SlidrConfig config = new SlidrConfig.Builder()
                 .position(SlidrPosition.LEFT)
@@ -290,7 +292,6 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
                 jsonObject.put(Constants.TAG_PRIVACY_AGE, Boolean.parseBoolean(GetSet.getPrivacyAge()));
 
                 jsonObject.put(Constants.TAG_APP_NAME,getString(R.string.app_name));
-                Log.i(TAG, "QRCodeonPreExecute: "+jsonObject);
 
                 profileData = "" + jsonObject;
             } catch (JSONException e) {
@@ -298,7 +299,6 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
             }
 //            profileData = new Gson().toJson(MainActivity.profileResponse);
 //            profileData = AppUtils.encryptMessage(profileData);
-            Log.i(TAG, "onPreExecute: " + profileData);
         }
 
         @Override
@@ -328,7 +328,7 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
                     out.flush();
                     out.close();
                     //getting the logo
-                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.qr_code_logo);
+                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo_white);
                     overlay = Bitmap.createScaledBitmap(overlay, AppUtils.dpToPx(QRCodeGenerateActivity.this, 60),
                             AppUtils.dpToPx(QRCodeGenerateActivity.this, 60), false);
                     qrBitMap = mergeQRWithLogo(overlay, bitmap);

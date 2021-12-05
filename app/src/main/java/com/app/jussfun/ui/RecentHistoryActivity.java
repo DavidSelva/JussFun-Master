@@ -140,6 +140,9 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
             btnBack.setRotation(0);
         }
         btnSettings.setImageDrawable(getDrawable(R.drawable.delete));
+        int padding = AppUtils.dpToPx(this, 12);
+        btnSettings
+                .setPadding(padding, padding, padding, padding);
 
         recentList.add(null);
         mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -336,7 +339,7 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
                 App.preventMultipleClick(subscribeLay);
                 if (!GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
                     Intent subscribe = new Intent(getApplicationContext(), PrimeActivity.class);
-                    subscribe.putExtra("OnCLick","ClickHere");
+                    subscribe.putExtra("OnCLick", "ClickHere");
                     startActivity(subscribe);
                 }
                 break;
@@ -348,7 +351,7 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
 
 
     private void openClearHistoryDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RecentHistoryActivity.this,R.style.ThemeAlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RecentHistoryActivity.this, R.style.ThemeAlertDialog);
         builder.setMessage(getString(R.string.really_want_clear_history));
         builder.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
             @Override
@@ -523,11 +526,11 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
             public MyViewHolder(View view) {
                 super(view);
                 ButterKnife.bind(this, view);
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) itemLay.getLayoutParams();
+                /*RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) itemLay.getLayoutParams();
                 params.width = (int) (displayWidth * 0.70);
                 txtName.setMaxWidth((int) (displayWidth * 0.30));
 //                params.height = displayHeight / 2;
-                itemLay.setLayoutParams(params);
+                itemLay.setLayoutParams(params);*/
             }
 
             @OnClick({R.id.itemLay, R.id.btnFollow})
@@ -569,13 +572,12 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
             public PlaceHolder(View view) {
                 super(view);
                 ButterKnife.bind(this, view);
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) itemLay.getLayoutParams();
+                /*RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) itemLay.getLayoutParams();
                 params.width = (int) (displayWidth * 0.70);
 //                params.height = displayHeight / 2;
-                itemLay.setLayoutParams(params);
+                itemLay.setLayoutParams(params);*/
             }
         }
-
 
         public class FooterViewHolder extends RecyclerView.ViewHolder {
 

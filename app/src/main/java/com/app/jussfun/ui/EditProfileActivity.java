@@ -75,8 +75,6 @@ public class EditProfileActivity extends BaseFragmentActivity {
     AppCompatTextView txtPrimeTitle;
     @BindView(R.id.txtPrice)
     AppCompatTextView txtPrice;
-    @BindView(R.id.premiumImage)
-    ImageView premiumImage;
     @BindView(R.id.btnSubscribe)
     Button btnSubscribe;
     @BindView(R.id.primeBgLay)

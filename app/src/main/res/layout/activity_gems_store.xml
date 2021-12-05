@@ -35,7 +35,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:id="@+id/bannerImage"
-                android:src="@drawable/profile_bg"
+                android:src="@drawable/side_nav_bar"
                 app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
@@ -131,8 +131,6 @@
                     android:paddingBottom="5dp"
                     android:text="@string/free_gems"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorButtonText"
-                    android:backgroundTint="@color/colorButton"
                     android:textSize="@dimen/text_normal" />
 
             </LinearLayout>

@@ -100,8 +100,6 @@ public class OthersProfileFragment extends Fragment {
     RelativeLayout followersLay;
     @BindView(R.id.txtFollowings)
     AppCompatTextView txtFollowings;
-    @BindView(R.id.iconVideo)
-    ImageView iconVideo;
     @BindView(R.id.chatLay)
     RelativeLayout chatLay;
     @BindView(R.id.videoLay)

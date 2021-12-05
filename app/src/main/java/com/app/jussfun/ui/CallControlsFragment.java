@@ -82,8 +82,8 @@ public class CallControlsFragment extends Fragment {
     ImageView blurLay;
     @BindView(R.id.cameraLay)
     ImageView cameraLay;
-    @BindView(R.id.giftLay)
-    ImageView giftLay;
+    @BindView(R.id.giftsLay)
+    ImageView giftsLay;
     @BindView(R.id.reportLay)
     ImageView reportLay;
     @BindView(R.id.exitLay)
@@ -145,7 +145,7 @@ public class CallControlsFragment extends Fragment {
                     }
                     exitLay.setVisibility(View.INVISIBLE);
                     reportLay.setVisibility(View.GONE);
-                    giftLay.setVisibility(View.GONE);
+                    giftsLay.setVisibility(View.GONE);
                 }
             }
             if (randomCallFragment == null) {
@@ -182,14 +182,14 @@ public class CallControlsFragment extends Fragment {
         controlsLay.setVisibility(View.VISIBLE);
         reportLay.setVisibility(View.GONE);
         exitLay.setVisibility(View.INVISIBLE);
-        giftLay.setVisibility(View.GONE);
+        giftsLay.setVisibility(View.GONE);
     }
 
     public void setAudioCallUI() {
         controlsLay.setVisibility(View.VISIBLE);
         reportLay.setVisibility(View.VISIBLE);
         exitLay.setVisibility(View.VISIBLE);
-        giftLay.setVisibility(View.VISIBLE);
+        giftsLay.setVisibility(View.VISIBLE);
         cameraLay.setVisibility(View.INVISIBLE);
         blurLay.setVisibility(View.INVISIBLE);
     }
@@ -219,7 +219,7 @@ public class CallControlsFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.cameraLay, R.id.muteImage, R.id.giftLay, R.id.reportLay, R.id.exitLay, R.id.blurLay})
+    @OnClick({R.id.cameraLay, R.id.muteImage, R.id.giftsLay, R.id.reportLay, R.id.exitLay, R.id.blurLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cameraLay:
@@ -235,8 +235,8 @@ public class CallControlsFragment extends Fragment {
                 }
                 callEvents.onToggleMic(isMicEnabled);
                 break;
-            case R.id.giftLay:
-                App.preventMultipleClick(giftLay);
+            case R.id.giftsLay:
+                App.preventMultipleClick(giftsLay);
                 openGiftDialog();
                 break;
             case R.id.reportLay:

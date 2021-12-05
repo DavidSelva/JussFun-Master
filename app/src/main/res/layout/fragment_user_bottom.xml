@@ -73,7 +73,7 @@
                 android:layout_marginBottom="10dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_register_select_header"
+                android:src="@drawable/avatar"
                 app:riv_corner_radius="65dp"
                 app:riv_mutate_background="true" />
 

@@ -381,6 +381,7 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
         mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
+        attachLay.setVisibility(View.VISIBLE);
 
         if (isAdminChat) {
             btnContactUs.setVisibility(View.VISIBLE);
@@ -426,7 +427,7 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
             @Override
             public void onClick(View view) {
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edtMessage, InputMethodManager.SHOW_FORCED);
-                hideAttachment();
+//                hideAttachment();
             }
         });
 

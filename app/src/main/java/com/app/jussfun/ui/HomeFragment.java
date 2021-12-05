@@ -135,6 +135,8 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     RippleBackground rippleBackground;
     @BindView(R.id.audioRippleBackground)
     RippleBackground audioRippleBackground;
+    @BindView(R.id.optionLay)
+    LinearLayout optionLay;
     Animation zoomIn;
     Animation zoomOut;
     private int bottomNavHeight;
@@ -178,10 +180,16 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         zoomOut = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out);
         executor = Executors.newSingleThreadExecutor();
         cameraProviderFuture = ProcessCameraProvider.getInstance(context);
-        bgImage.setImageDrawable(appUtils.getChatBG());
+        bgImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.his_msg_voicecall_bg));
         rippleBackground.startRippleAnimation();
         Animation a = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
         txtTouchToStart.startAnimation(a);
+        ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) optionLay.getLayoutParams();
+        newLayoutParams.topMargin = 0;
+        newLayoutParams.leftMargin = 0;
+        newLayoutParams.rightMargin = 0;
+        newLayoutParams.bottomMargin = AppUtils.dpToPx(context, 66);
+        optionLay.setLayoutParams(newLayoutParams);
 //        updateCallType();
 
         tempLocations = (ArrayList<String>) AdminData.locationList;
@@ -489,23 +497,25 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 
             switch (genderSelected) {
                 case Constants.TAG_MALE:
-                    btnMale.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
-                    btnFemale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-                    btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
+                    imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+                    imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+                    imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
                     break;
                 case Constants.TAG_FEMALE:
-                    btnMale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-                    btnFemale.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
-                    btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
+                    imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+                    imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+                    imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
                     break;
                 case Constants.TAG_BOTH:
-                    btnMale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-                    btnFemale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-                    btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
+                    imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+                    imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+                    imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
                     break;
             }
         } else {
-            btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
+            imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
         }
 
         if (getActivity() != null)
@@ -701,42 +711,42 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     }
 
     void applyGenderBoth() {
-        App.makeToast(getString(R.string.both));
+//        App.makeToast(getString(R.string.both));
         filterApplied = true;
         imageBoth.startAnimation(zoomIn);
         imageBoth.startAnimation(zoomOut);
         imageMale.setAnimation(null);
         imageFemale.setAnimation(null);
         genderSelected = Constants.TAG_BOTH;
-        btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
-        btnMale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-        btnFemale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
+        imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
     }
 
     void applyGenderMale() {
-        App.makeToast(getString(R.string.male));
+//        App.makeToast(getString(R.string.male));
         filterApplied = true;
         imageMale.startAnimation(zoomIn);
         imageMale.startAnimation(zoomOut);
         imageFemale.setAnimation(null);
         imageBoth.setAnimation(null);
         genderSelected = Constants.TAG_MALE;
-        btnMale.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
-        btnFemale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-        btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
+        imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
     }
 
     void applyGenderFemale() {
-        App.makeToast(getString(R.string.female));
+//        App.makeToast(getString(R.string.female));
         filterApplied = true;
         imageFemale.startAnimation(zoomIn);
         imageFemale.startAnimation(zoomOut);
         imageMale.setAnimation(null);
         imageBoth.setAnimation(null);
         genderSelected = Constants.TAG_FEMALE;
-        btnFemale.setBackground(getResources().getDrawable(R.drawable.circle_primary_bg));
-        btnMale.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
-        btnBoth.setBackground(getResources().getDrawable(R.drawable.circle_transparent_bg));
+        imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
     }
 
     void applyAge(Number minValue, Number maxValue) {
