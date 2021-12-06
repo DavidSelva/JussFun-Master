@@ -2,21 +2,29 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\Android\\Projects\\Workspace\\JussFun-master\\app\\jussfun.jks')
+            storePassword 'jussfun'
+            keyAlias 'jussfun'
+            keyPassword 'jussfun'
+        }
+    }
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.app.jussfun"
         minSdkVersion 21
         targetSdkVersion 30
         buildToolsVersion = '30.0.2'
-        versionCode 23
-        versionName "2.0.2"
+        versionCode 1
+        versionName "1.0"
         ndk { abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64", "armeabi", "mips" }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
             renderscriptTargetApi 30 //must match target sdk and build tools
             renderscriptSupportModeEnabled true
         }
-        setProperty("archivesBaseName", "Randou")
+        setProperty("archivesBaseName", "JussFun")
     }
     aaptOptions {
         noCompress "tflite"
@@ -28,6 +36,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
