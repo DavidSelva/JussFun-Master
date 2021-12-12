@@ -116,8 +116,6 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
     NestedScrollView nestedScrollView;
     @BindView(R.id.txtGems)
     TextView txtGems;
-    @BindView(R.id.bannerImage)
-    ImageView bannerImage;
     @BindView(R.id.parentLay)
     CoordinatorLayout parentLay;
     ApiInterface apiInterface;
@@ -153,18 +151,11 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
         purchasesUpdatedListener = new PurchasesUpdatedListener() {
             @Override
             public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
-                Log.d(TAG, "onPurchasesUpdated: " + "Here");
-                Log.d(TAG, "onPurchasesUpdated: " + purchaseSku);
                 //  if(getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")){
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
                         && purchases != null) {
-                    Log.d(TAG, "onPurchasesUpdatedPurchase: " + purchases.toString());
                     for (int i = 0; i < purchases.size(); i++) {
-                        Log.d(TAG, "onPurchasesUpdatedPurchase: " + purchaseSku);
                         if (purchaseSku.equals(purchases.get(i).getSkus().get(i))) {
-                            Log.d(TAG, "onPurchasesUpdatedPurchase: " + purchaseSku);
-                            Log.d(TAG, "onPurchasesUpdatedPurchase: " + purchases.get(i).getSkus().get(i));
-
                             payInApp(purchases.get(i));
                             //Consume Item to purchase again.
                             if (purchases.get(i).getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
@@ -199,8 +190,6 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                                         billingClient.consumeAsync(params, new ConsumeResponseListener() {
                                             @Override
                                             public void onConsumeResponse(BillingResult billingResult, String s) {
-                                                Log.i(TAG, "onConsumeResponse: " + billingResult.getResponseCode());
-                                                Log.i(TAG, "onConsumeResponse: " + s);
                                                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                                                     initBilling(true);
                                                 }
@@ -698,10 +687,8 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Log.d(TAG, "onBindViewHolder: " + holder);
             if (holder instanceof MyViewHolder) {
                 final GemsStoreResponse.GemsList gems = gemsList.get(position);
-                Log.d(TAG, "onBindViewHolder: " + gems.getGemPrice());
                 ((MyViewHolder) holder).txtGemsCount.setText("" + Math.round(gems.getGemCount()));
 
                 ((MyViewHolder) holder).txtGemsCount.setTextColor(getResources().getColor(R.color.colorBlack));
@@ -713,7 +700,7 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
 
                 Glide.with(context)
                         .load(Constants.GEMS_IMAGE_URL + gems.getGemIcon())
-                        .apply(new RequestOptions().placeholder(R.drawable.diamond).error(R.drawable.diamond).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_diamond_yellow).error(R.drawable.ic_diamond_yellow).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(((MyViewHolder) holder).giftImage);
             } else if (holder instanceof PlaceHolder) {
 //                ((PlaceHolder) holder).shimmerLayout.setBackgroundColor(getResources().getColor(R.color.colorCardBg));
@@ -851,7 +838,6 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                 switch (view.getId()) {
                     case R.id.btnSubscribe:
                     case R.id.subscribeLay:
-                        Log.d(TAG, "onViewClicked: " + GetSet.getPremiumMember());
                         if (!GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
                             App.preventMultipleClick(btnSubscribe);
                             App.preventMultipleClick(subscribeLay);

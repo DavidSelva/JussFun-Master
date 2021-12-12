@@ -25,7 +25,7 @@ public class ApiClient {
 
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.level(HttpLoggingInterceptor.Level.BODY);
+            logging.level(HttpLoggingInterceptor.Level.NONE);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
