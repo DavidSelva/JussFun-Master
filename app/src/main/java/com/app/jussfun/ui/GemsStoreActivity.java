@@ -128,7 +128,6 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
     private AppUtils appUtils;
-
     private PurchasesUpdatedListener purchasesUpdatedListener;
 
     public static void startAlphaAnimation(View v, long duration, int visibility) {
