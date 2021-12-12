@@ -418,18 +418,18 @@ public class ProfileFragment extends Fragment {
         if (profile.getPremiumMember().equals(Constants.TAG_TRUE)) {
             premiumImage.setVisibility(View.VISIBLE);
             renewalLay.setVisibility(View.GONE);
-            subscribeLay.setVisibility(View.VISIBLE);
+            subscribeLay.setVisibility(View.GONE);
             btnSubscribe.setVisibility(View.GONE);
             txtPrimeTitle.setText(AppUtils.getPrimeTitle(context));
             txtPrice.setText(AppUtils.getPrimeContent(context));
         } else if (GetSet.isOncePurchased()) {
-            renewalLay.setVisibility(View.VISIBLE);
+            renewalLay.setVisibility(View.GONE);
             subscribeLay.setVisibility(View.GONE);
             premiumImage.setVisibility(View.VISIBLE);
         } else {
             premiumImage.setVisibility(View.GONE);
-            subscribeLay.setVisibility(View.VISIBLE);
-            btnSubscribe.setVisibility(View.VISIBLE);
+            subscribeLay.setVisibility(View.GONE);
+            btnSubscribe.setVisibility(View.GONE);
             txtPrimeTitle.setText(AppUtils.getPrimeTitle(context));
             txtPrice.setText(AppUtils.getPrimeContent(context));
         }

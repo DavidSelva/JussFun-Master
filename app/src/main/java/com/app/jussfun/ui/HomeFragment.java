@@ -393,10 +393,10 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.gemsLay:
-                Intent gemsIntent = new Intent(context, GemsStoreActivity.class);
+                /*Intent gemsIntent = new Intent(context, GemsStoreActivity.class);
                 gemsIntent.putExtra("OnClick", "ClickHere");
                 gemsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(gemsIntent);
+                startActivity(gemsIntent);*/
 
                 break;
             case R.id.filterLay:

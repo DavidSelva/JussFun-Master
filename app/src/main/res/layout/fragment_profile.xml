@@ -283,6 +283,7 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:id="@+id/gemsLay"
+                                    android:visibility="gone"
                                     android:layout_height="wrap_content">
 
                                     <TextView
@@ -395,6 +396,7 @@
                 <include
                     layout="@layout/layout_prime_banner"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="match_parent"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="10dp"
