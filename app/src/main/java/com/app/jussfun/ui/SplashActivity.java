@@ -128,7 +128,7 @@ public class SplashActivity extends BaseFragmentActivity {
         new GetAppDefaultTask().execute();
         // start service for observing intents
 //        startService(new Intent(this, LockscreenService.class));
-//        printHashKey();
+        printHashKey();
 //        checkFingerPrintEnabled();
         checkUser();
         checkIsFromLink();
