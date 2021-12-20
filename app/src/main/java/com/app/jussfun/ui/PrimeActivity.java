@@ -247,7 +247,13 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
 
         primeAdapter = new PrimeAdapter(getApplicationContext(), primeList);
         viewPager.setAdapter(primeAdapter);
-        primeAdapter.notifyDataSetChanged();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                primeAdapter.notifyDataSetChanged();
+            }
+        });
         pagerIndicator.setViewPager(viewPager);
     }
 
@@ -270,10 +276,8 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                 onBackPressed();
                 break;
             case R.id.btnSubscribe:
-                Log.d(TAG, "onViewClicked: "+packageAdapter.getItemCount());
                 if (packageAdapter.getItemCount() > 0) {
                     purchaseSku = packageAdapter.getPackageList().get(selectedPosition).getSku();
-                    Log.d(TAG, "onViewClicked: "+purchaseSku);
                 }
                 initBilling(true);
                 break;
@@ -291,7 +295,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
         billingClient.startConnection(new BillingClientStateListener() {
 
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
+            public void onBillingSetupFinished(final BillingResult billingResult) {
 
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The billing client is ready. You can query purchases here.
@@ -302,6 +306,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                             new SkuDetailsResponseListener() {
                                 @Override
                                 public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                                    Log.d(TAG, "onSkuDetailsResponse: " + skuDetailsList);
 
                                     // Process the result.
                                     // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
@@ -310,8 +315,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                                             String sku = skuDetails.getSku();
                                             String price = skuDetails.getPrice();
                                             String currency = skuDetails.getPriceCurrencyCode();
-                                            Log.d(TAG, "onSkuDetailsResponse: "+sku);
-                                            Log.d(TAG, "onSkuDetailsResponse: "+skuDetailsList);
+                                            Log.d(TAG, "onSkuDetailsResponse: " + sku);
                                             if (purchaseSku.equals(sku)) {
                                                 purchasePrice = price;
                                                 purchaseCurrency = currency;
@@ -323,7 +327,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                                             }
                                         }
                                     } else {
-                                        Log.d(TAG, "onSkuDetailsResponse Else: "+skuDetailsList.toString());
+                                        Log.d(TAG, "onSkuDetailsResponse Else: " + skuDetailsList.toString());
                                         initPackageAdapter(skuDetailsList);
                                     }
 
@@ -345,7 +349,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
     }
 
     private void initPackageAdapter(List<SkuDetails> skuDetailsList) {
-       runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 packageAdapter = new PackageAdapter(getApplicationContext(), skuDetailsList);
@@ -380,7 +384,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
                 && purchases != null) {
-            if(getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")) {
+            if (getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")) {
                 for (Purchase purchase : purchases) {
                     if (purchaseSku.equals(purchase.getSkus().get(0))) {
                         payInApp(purchase);
@@ -403,13 +407,12 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
             request.setMembershipId(purchaseSku);
             request.setPaidAmount(purchaseCurrency + " " + purchasePrice);
             request.setTransactionId(purchase.getOrderId());
-            Log.d(TAG, "payInApp: "+request);
+            Log.d(TAG, "payInApp: " + request);
             Call<SubscriptionResponse> call = apiInterface.paySubscription(request);
             call.enqueue(new Callback<SubscriptionResponse>() {
                 @Override
                 public void onResponse(Call<SubscriptionResponse> call, Response<SubscriptionResponse> response) {
                     SubscriptionResponse subscription = response.body();
-                    Log.d(TAG, "payInAppResponse: "+response.body().toString());
                     if (response.body().getStatus().equals(Constants.TAG_TRUE)) {
                         GetSet.setPremiumMember(subscription.getPremiumMember());
                         GetSet.setPremiumExpiry(subscription.getPremiumExpiryDate());
@@ -535,9 +538,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            Log.d(TAG, "onBindViewHolder: "+"Here");
             SkuDetails pack = packageList.get(position);
-            Log.d(TAG, "onBindViewHolder: "+pack.toString());
             if (position == selectedPosition) {
                 holder.contentLay.setBackground(getDrawable(R.drawable.square_transparent_primary));
             } else {
@@ -549,7 +550,6 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
 
         @Override
         public int getItemCount() {
-            Log.d(TAG, "getItemCount: "+packageList.size());
             return packageList.size();
         }
 
