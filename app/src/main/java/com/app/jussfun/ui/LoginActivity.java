@@ -2,21 +2,17 @@ package com.app.jussfun.ui;
 
 
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.SurfaceTexture;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -55,7 +51,6 @@ import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +78,10 @@ public class LoginActivity extends BaseFragmentActivity {
     ProgressBar progressBar;
     @BindView(R.id.iconAppLogo)
     ImageView iconAppLogo;
+    @BindView(R.id.btnTerms)
+    CheckBox btnTerms;
+    @BindView(R.id.bottomLay)
+    LinearLayout bottomLay;
     private CallbackManager callbackManager;
     private ApiInterface apiInterface;
     String fbImage, fbName, fbEmail;
@@ -100,8 +99,8 @@ public class LoginActivity extends BaseFragmentActivity {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(50, 0, 50, AppUtils.getNavigationBarHeight(this) + 30);
             params.gravity = Gravity.BOTTOM | Gravity.CENTER;
-            txtTerms.setPadding(0, 0, 0, 10);
-            txtTerms.setLayoutParams(params);
+            bottomLay.setPadding(0, 0, 0, 10);
+            bottomLay.setLayoutParams(params);
         }
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -113,17 +112,27 @@ public class LoginActivity extends BaseFragmentActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnMobile:
-                App.preventMultipleClick(btnMobile);
-                verifyMobileNumber();
+                if (btnTerms.isChecked()) {
+                    App.preventMultipleClick(btnMobile);
+                    verifyMobileNumber();
+                } else {
+                    App.makeToast(getString(R.string.accept_our_policy));
+                }
                 break;
             case R.id.btnFacebook:
-                App.preventMultipleClick(btnFacebook);
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
-                loginWithFacebook();
+                if (btnTerms.isChecked()) {
+                    App.preventMultipleClick(btnFacebook);
+                    LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
+                    loginWithFacebook();
+                } else {
+                    App.makeToast(getString(R.string.accept_our_policy));
+                }
                 break;
             case R.id.txtTerms:
                 App.preventMultipleClick(txtTerms);
                 Intent intent = new Intent(getApplicationContext(), TermsActivity.class);
+                intent.putExtra(Constants.TAG_FROM, "privacy");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 break;
         }

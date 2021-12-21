@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -32,6 +35,11 @@ import com.app.jussfun.utils.Constants;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,19 +79,22 @@ public class TermsActivity extends BaseFragmentActivity {
         progressBar.setVisibility(View.VISIBLE);
 
 
-        if(LocaleManager.isRTL()){
+        if (LocaleManager.isRTL()) {
             btnBack.setRotation(180);
-        }else{
+        } else {
             btnBack.setRotation(0);
         }
 
 
         initWebView();
-        if (getIntent().hasExtra(Constants.TAG_TITLE)) {
-            setTitle(getIntent().getStringExtra(Constants.TAG_TITLE));
-            loadLink(getIntent().getStringExtra(Constants.TAG_DESCRIPTION));
+        if (getIntent().getStringExtra(Constants.TAG_FROM).equals("terms")) {
+            setTitle(getString(R.string.terms_and_conditions));
+//            String description = getDescription("terms");
+            loadLink("https://jussfun.com/terms");
         } else {
-            getTerms();
+            setTitle(getString(R.string.privacy));
+//            String description = getDescription("privacy_policy");
+            loadLink("https://jussfun.com/privacy");
         }
 
         SlidrConfig config = new SlidrConfig.Builder()
@@ -93,6 +104,47 @@ public class TermsActivity extends BaseFragmentActivity {
                 .distanceThreshold(0.25f)
                 .build();
         Slidr.attach(this, config);
+    }
+
+    private String getDescription(String from) {
+        StringBuilder text = new StringBuilder("<html><body>");
+        InputStream input = null;
+
+        if (from.equals("terms")) {
+            try {
+                input = getAssets().open("term_of_service");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                input = getAssets().open("privacy_policy");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+
+            InputStreamReader isr = new InputStreamReader(input);
+
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        text.append("</body></html>");
+        Spanned htmlString;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            htmlString = Html.fromHtml(text.toString(), Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            htmlString = Html.fromHtml(text.toString());
+        }
+        return htmlString.toString();
     }
 
     @Override
@@ -182,7 +234,7 @@ public class TermsActivity extends BaseFragmentActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        webView.loadData(helpDescrip, "text/html", "UTF-8");
+        webView.loadUrl(helpDescrip);
     }
 
     public class WebViewClient extends android.webkit.WebViewClient {

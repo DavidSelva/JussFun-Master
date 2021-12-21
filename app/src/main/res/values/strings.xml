@@ -654,5 +654,7 @@
     <string name="pop_up_permission_autostart_tecno_step2" translatable="false">Step2:    Click the Autostart Manager.</string>
     <string name="pop_up_permission_autostart_tecno_step3" translatable="false">Step3:    Enable Hiddy</string>
     <string name="looking_for_a_friend">Looking for a friend to talk to</string>
+    <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="accept_our_policy">Accept our Privacy policy</string>
 
 </resources>

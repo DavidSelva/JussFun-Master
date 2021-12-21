@@ -95,8 +95,15 @@ public class HelpActivity extends BaseFragmentActivity {
             btnBack.setRotation(0);
         }
 
-
-        getHelpList();
+        helpList.clear();
+        HelpResponse.HelpList help = new HelpResponse().new HelpList();
+        help.setHelpTitle(getString(R.string.privacy));
+        helpList.add(help);
+        help = new HelpResponse().new HelpList();
+        help.setHelpTitle(getString(R.string.terms_and_conditions));
+        helpList.add(help);
+        adapter.notifyDataSetChanged();
+//        getHelpList();
     }
 
     private void loadAd() {
@@ -225,8 +232,12 @@ public class HelpActivity extends BaseFragmentActivity {
             public void onViewClicked() {
                 Intent intent = new Intent(context, TermsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                intent.putExtra(Constants.TAG_TITLE, helpList.get(getAdapterPosition()).getHelpTitle());
-                intent.putExtra(Constants.TAG_DESCRIPTION, helpList.get(getAdapterPosition()).getHelpDescrip());
+                if (helpList.get(getAdapterPosition()).getHelpTitle().equals(context.getString(R.string.terms_and_conditions))) {
+                    intent.putExtra(Constants.TAG_FROM, "terms");
+                } else {
+                    intent.putExtra(Constants.TAG_FROM, "privacy");
+
+                }
                 startActivity(intent);
             }
         }

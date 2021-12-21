@@ -30,6 +30,7 @@ import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
+import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -191,6 +192,7 @@ public class SettingsActivity extends BaseFragmentActivity {
                 break;
             case R.id.privacyLay:
                 Intent privacy = new Intent(getApplicationContext(), TermsActivity.class);
+                privacy.putExtra(Constants.TAG_FROM, "terms");
                 privacy.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(privacy);
                 break;

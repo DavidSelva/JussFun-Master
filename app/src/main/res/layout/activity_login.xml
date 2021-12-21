@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parentLay"
-    android:forceHasOverlappingRendering="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:forceHasOverlappingRendering="true"
     tools:context="com.app.jussfun.ui.LoginActivity">
 
     <LinearLayout
@@ -51,18 +51,33 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtTerms"
-        style="@style/TextWhiteLight"
+    <LinearLayout
         android:layout_width="wrap_content"
+        android:id="@+id/bottomLay"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/terms_and_conditions_des"
-        android:textSize="@dimen/text_normal" />
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/btnTerms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false" />
+
+        <TextView
+            android:id="@+id/txtTerms"
+            style="@style/TextPrimaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/terms_and_conditions_des"
+            android:textSize="@dimen/text_normal" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
