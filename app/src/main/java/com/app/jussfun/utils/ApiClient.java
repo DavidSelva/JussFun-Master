@@ -25,7 +25,7 @@ public class ApiClient {
 
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.level(HttpLoggingInterceptor.Level.BODY);
+            logging.level(HttpLoggingInterceptor.Level.NONE);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
@@ -52,37 +52,5 @@ public class ApiClient {
                     .build();
         }
         return retrofit;
-    }
-
-    public static Retrofit getLivzaClient() {
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.level(HttpLoggingInterceptor.Level.BODY);
-
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(logging)
-                    .callTimeout(30, TimeUnit.SECONDS)
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .addNetworkInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request request = null;
-                            Request original = chain.request();
-                            // Request customization: add request headers
-                            Request.Builder requestBuilder = original.newBuilder()
-                                    .addHeader(Constants.TAG_AUTHORIZATION,
-                                            GetSet.getAuthToken() != null ? GetSet.getAuthToken() : "");
-
-                            request = requestBuilder.build();
-                            return chain.proceed(request);
-                        }
-                    })
-                    .build();
-
-        return new Retrofit.Builder()
-                .baseUrl(Constants.API_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
     }
 }

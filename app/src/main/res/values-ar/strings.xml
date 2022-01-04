@@ -367,5 +367,8 @@
     <string name="looking_for_a_friend">Looking for a friend to talk to</string>
     <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="accept_our_policy">Accept our Privacy policy</string>
+    <string name="gifts_description">Keep earning more Gems by chatting with people and getting Gifts.</string>
+    <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
+    <string name="cash">Cash</string>
 
 </resources>
