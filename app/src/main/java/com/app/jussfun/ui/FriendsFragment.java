@@ -258,7 +258,7 @@ public class FriendsFragment extends Fragment {
                 if (follower.getGender().equals(Constants.TAG_MALE)) {
                     ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
                 } else {
-                    ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
+                    ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.women));
                 }
             } else if (holder instanceof FooterViewHolder) {
                 FooterViewHolder footerHolder = (FooterViewHolder) holder;

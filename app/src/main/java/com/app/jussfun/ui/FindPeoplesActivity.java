@@ -27,6 +27,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.jussfun.helper.AdUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -230,44 +231,7 @@ public class FindPeoplesActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            MobileAds.initialize(this,
-                    AdminData.googleAdsId);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                }
-
-                @Override
-                public void onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                }
-
-                @Override
-                public void onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                }
-            });
-        }
+            AdUtils.getInstance(this).loadAd(TAG, adView);}
     }
 
     private void startAnim(View view) {
@@ -377,7 +341,7 @@ public class FindPeoplesActivity extends BaseFragmentActivity {
                     .into(holder.profileImage);
 
             Glide.with(context)
-                    .load(profile.getGender().equals(Constants.TAG_MALE) ? R.drawable.men : R.drawable.men)
+                    .load(profile.getGender().equals(Constants.TAG_MALE) ? R.drawable.men : R.drawable.women)
                     .into(holder.genderImage);
 
             holder.txtLocation.setText(AppUtils.formatWord(profile.getLocation()));

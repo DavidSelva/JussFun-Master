@@ -254,7 +254,7 @@ public class WhosInterestFragment extends Fragment {
                 if (follower.getGender().equals(Constants.TAG_MALE)) {
                     ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
                 } else {
-                    ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
+                    ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.women));
                 }
 
                 boolean isPrimeUser = GetSet.getPremiumMember().equals(Constants.TAG_TRUE);

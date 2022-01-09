@@ -50,6 +50,7 @@
                 android:layout_marginBottom="0dp"
                 android:background="@drawable/btn_subscribe_bg"
                 android:elevation="0dp"
+                android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:minWidth="0dp"
                 android:minHeight="0dp"

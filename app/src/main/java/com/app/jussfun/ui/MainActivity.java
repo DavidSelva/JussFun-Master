@@ -238,7 +238,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         getGooglePlayCurrency();
 
 //        showProfileDialog();
-        showGemsDialog();
+//        showGemsDialog();
 //        showProfileImageDialog();
 
         if (GetSet.getName() == null) {

@@ -46,15 +46,15 @@ import retrofit2.http.Path;
 
 public interface ApiInterface {
 
-    @POST("giftconversions/gifttomoneyconversion")
-    Call<ConvertGiftResponse> convertToMoney(@Body ConvertGiftRequest request);
+    @GET("activities/appdefaults/{platform}")
+    Call<AppDefaultResponse> getAppDefaultData(@Path("platform") String platform);
 
     @Multipart
     @POST("accounts/upmychat")
     Call<Map<String, String>> uploadAudio(@Part MultipartBody.Part image, @Part("user_id") RequestBody user_id);
 
-    @GET("activities/appdefaults/{platform}")
-    Call<AppDefaultResponse> getAppDefaultData(@Path("platform") String platform);
+    @POST("giftconversions/gifttomoneyconversion")
+    Call<ConvertGiftResponse> convertToMoney(@Body ConvertGiftRequest request);
 
     @POST("accounts/signin")
     Call<SignInResponse> callSignIn(@Body SignInRequest request);

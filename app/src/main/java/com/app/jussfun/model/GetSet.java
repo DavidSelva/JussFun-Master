@@ -47,12 +47,12 @@ public class GetSet {
     private static String giftCoversionEarnings = null;
     private static String giftConversionValue = null;
 
-    public static String getGiftConversionValue() {
-        return giftConversionValue;
-    }
-
     public static void setGiftConversionValue(String giftConversionValue) {
         GetSet.giftConversionValue = giftConversionValue;
+    }
+
+    public static String getGiftConversionValue() {
+        return giftConversionValue;
     }
 
     public static String getGiftCoversionEarnings() {

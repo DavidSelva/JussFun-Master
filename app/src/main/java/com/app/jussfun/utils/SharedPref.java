@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 
 public class SharedPref {
-    private static final String SHARED_PREF_NAME = "RandooPref";
+    private static final String SHARED_PREF_NAME = "JussFunPref";
     private static SharedPref mInstance;
     public static SharedPreferences mPref;
     public static SharedPreferences.Editor mEditor;

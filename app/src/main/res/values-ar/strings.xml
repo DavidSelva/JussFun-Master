@@ -7,7 +7,7 @@
         <item>السلوك غير المناسب هو "بشكل صارم" غير مسموح</item>
         <item>الرجوع وجعل أصدقاءك الانضمام إلى هنا ل "كسب الأحجار الكريمة"</item>
         <item>عبر عن نفسك وقم بإجراء محادثات ممتعة من خلال الإرسال "قصص مصورة يابانية" ملصقات</item>
-        <item>اشترك وتصبح رئيس الوزراء للاستمتاع "المزيد من العروض وخيارات التحكم"</item>
+        <item>اشترك وكن عضوًا في VIP للاستمتاع بـ  "المزيد من العروض وخيارات التحكم</item>
         <item>الأحجار الكريمة غير كافية! لا داعى للقلق. شراء الأحجار الكريمة من "24x7 متجر جيمس"
             متاح في أي وقت
         </item>
@@ -91,7 +91,7 @@
     <string name="your_broadcast_deactivated_by_admin">تم حظر البث بواسطة المسؤول</string>
     <string name="broadcast_deactivated_by_admin">تم حظر البث بواسطة المسؤول</string>
     <string name="stream_deactivated_by_admin">تم حظر الدفق من قِبل المسؤول</string>
-    <string name="get_prime_benefits">الحصول على فوائد رئيس الوزراء</string>
+    <string name="get_prime_benefits">احصل على مزايا اشتراك VIP</string>
     <string name="subscribe">الاشتراك</string>
     <string name="history">التاريخ</string>
     <string name="no_users_visited_yet">لم تتم زيارة أي مستخدم حتى الآن</string>
@@ -101,9 +101,10 @@
     <string name="report_user">نقل</string>
     <string name="reported_successfully">تم الإبلاغ بنجاح</string>
     <string name="undo_report_successfully">التراجع عن التقرير بنجاح</string>
-    <string name="prime">أولي</string>
+    <string name="prime">كبار الشخصيات</string>
     <string name="send">إرسال</string>
     <string name="not_enough_gems">لا يكفي الجواهر</string>
+    <string name="not_enough_gems_to_convert">لا يوجد ما يكفي من الأحجار الكريمة للتحويل</string>
     <string name="something_went_wrong_try_again">هناك خطأ ما. حاول مرة أخري</string>
     <string name="location">موقعك</string>
     <string name="select_all">اختر الكل</string>
@@ -117,7 +118,7 @@
     <string name="buy_gems">شراء الأحجار الكريمة</string>
     <string name="insufficient_funds">رصيد غير كاف</string>
     <string name="subscription_price">%1$s/%2$s</string>
-    <string name="premium_member">قسط الأعضاء</string>
+    <string name="premium_member">اشتراك VIP</string>
     <string name="purchase_cancelled">تم إلغاء الشراء</string>
     <string name="gems_purchase_response">الأحجار الكريمة المحدثة إلى حسابك</string>
 
@@ -141,7 +142,7 @@
     <string name="message">رسالة</string>
     <string name="type_your_message">اكتب رسالتك</string>
     <string name="gems_description">عن طريق شراء الأحجار الكريمة ، يمكنك تطبيق المرشحات لتلبية الأشخاص الذين تريدهم</string>
-    <string name="upgrade_to_premium_to_access">ترقية رئيس للوصول</string>
+    <string name="upgrade_to_premium_to_access">ترقية اشتراك VIP للوصول</string>
     <string name="slow_network_connection">اتصال الشبكة البطيء</string>
     <string name="exit">ىخرج</string>
     <string name="back_button_exit_description">الرجاء النقر فوق "السابق" مرة أخرى للخروج</string>
@@ -332,7 +333,7 @@
     <string name="cancel">إلغاء</string>
     <string name="filter_not_applied_description">غير محظوظ مرر لأعلى لتناسب اهتماماتك</string>
     <string name="filter_applied_description">تطابق مثالي محظوظ مع بحثك</string>
-    <string name="upgrade_to_premium_to_unlock">انتهت التهم المجانية. الترقية إلى بريميوم لفتح المزيد من المستخدمين</string>
+    <string name="upgrade_to_premium_to_unlock">انتهى التهم المجاني. قم بالترقية إلى VIP الاشتراك لفتح المزيد من المستخدمين</string>
     <string name="remaining_users_unlock">بقي %1$s مستخدمين فقط لفتح</string>
     <string name="no_user_found">لم يتم العثور على المستخدم</string>
     <string name="select_location">اختر موقعا</string>
@@ -361,8 +362,6 @@
     <string name="no_user_found_retry">لم يتم العثور على المستخدم.\nحاول إعادة اكتشاف!</string>
     <string name="search_again">ابحث ثانيا</string>
 
-
-    <string name="file_provider_authority" translatable="false">com.app.randou.provider</string>
     <string name="upload_picture_from">تحميل الصورة من</string>
     <string name="looking_for_a_friend">Looking for a friend to talk to</string>
     <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
@@ -370,5 +369,6 @@
     <string name="gifts_description">Keep earning more Gems by chatting with people and getting Gifts.</string>
     <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
     <string name="cash">Cash</string>
+    <string name="convert_money_success">في انتظار موافقة المسؤول ... سيتم تحويل الأموال إلى حسابك.</string>
 
 </resources>

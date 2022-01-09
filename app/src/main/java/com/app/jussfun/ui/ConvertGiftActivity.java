@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.app.jussfun.R;
+import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.OnOkCancelClickListener;
@@ -35,10 +37,7 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
@@ -101,7 +100,6 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         }
 
         // for convert gifts into money addon
-        btnCash.setVisibility(View.GONE);
         initView();
     }
 
@@ -123,51 +121,15 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            MobileAds.initialize(this,
-                    AdminData.googleAdsId);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                }
-
-                @Override
-                public void onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                }
-
-                @Override
-                public void onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                }
-            });
+            AdUtils.getInstance(this).loadAd(TAG, adView);
         }
     }
 
     @SuppressLint("StringFormatInvalid")
     private void getGems() {
-        Log.d(TAG, "getGemsCount: "+ GetSet.getGifts()+"count" +GetSet.getGiftEarnings());
-        if(GetSet.getGiftEarnings() != null)
-        txtGiftsCount.setText(format(getString(R.string.gift_to_gems), "" + GetSet.getGifts(), GetSet.getGiftEarnings()));
+        Log.d(TAG, "getGemsCount: " + GetSet.getGifts() + "count" + GetSet.getGiftEarnings());
+        if (GetSet.getGiftEarnings() != null)
+            txtGiftsCount.setText(format(getString(R.string.gift_to_gems), "" + GetSet.getGifts(), GetSet.getGiftEarnings()));
         else
             txtGiftsCount.setText(format(getString(R.string.gift_to_gems), "" + GetSet.getGifts(), "0"));
 
@@ -176,20 +138,19 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
 
     @SuppressLint("StringFormatInvalid")
     private void getcash() {
-        if(AdminData.conversionGems !=null){
+        if (AdminData.conversionGems != null) {
             Double gems = Double.valueOf(AdminData.conversionGems);
             Double cash = Double.valueOf(AdminData.conversionCash);
-            Log.i(TAG, "gems: "+gems);
-            Log.i(TAG, "cash: "+cash);
-            Log.i(TAG, "giftEarning: "+Double.valueOf(GetSet.getGiftEarnings()));
-            Double singleGem =  cash / gems;
-            Log.i(TAG, "singleGem: "+singleGem);
-            Double totalMoney = singleGem *  Double.valueOf(GetSet.getGiftEarnings());
-            Log.i(TAG, "totalMoney: "+totalMoney);
+            Log.i(TAG, "gems: " + gems);
+            Log.i(TAG, "cash: " + cash);
+            Log.i(TAG, "giftEarning: " + Double.valueOf(GetSet.getGiftEarnings()));
+            Double singleGem = cash / gems;
+            Log.i(TAG, "singleGem: " + singleGem);
+            Double totalMoney = singleGem * Double.valueOf(GetSet.getGiftEarnings());
+            Log.i(TAG, "totalMoney: " + totalMoney);
             //txtGiftsCount.setText(""+totalMoney);
 
-            txtGiftsCount.setText(format(getString(R.string.gift_to_cash)," "+GetSet.getGifts(),""+totalMoney));
-
+            txtGiftsCount.setText(format(getString(R.string.gift_to_cash), " " + GetSet.getGifts(), "" + totalMoney));
 
 
         }
@@ -212,14 +173,14 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
                 btnWithdraw.setText(getString(R.string.convert_gems));
                 break;
             case R.id.btnCash:
-                if (GetSet.getGiftConversionValue()!=null){
-                    if (Float.parseFloat(GetSet.getGiftConversionValue()) > 0){
+                if (GetSet.getGiftConversionValue() != null) {
+                    if (Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
                         getcash();
                         txtGiftsCount.setText(String.format(getString(R.string.gift_to_cash), "" + GetSet.getGifts(), GetSet.getGiftConversionValue()));
-                    }else {
+                    } else {
                         txtGiftsCount.setText(String.format(getString(R.string.gift_to_cash_no), "" + GetSet.getGifts()));
                     }
-                }else {
+                } else {
                     txtGiftsCount.setText(String.format(getString(R.string.gift_to_cash_no), "" + GetSet.getGifts()));
 
                 }
@@ -232,15 +193,13 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
                         showConfirmDialog();
                     } else {
                         if (btnCash.isChecked()) {
-                            if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id())!=null){
-                                if (Float.parseFloat(GetSet.getGiftConversionValue()) > 0){
-                                    String pay=SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
-                                    // for convert gifts into money addon (uncomment the method)
-//                                    confirmDialog();
-                                }else {
+                            if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
+                                if (!TextUtils.isEmpty(GetSet.getGiftConversionValue()) && Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
+                                    showConvertDialog();
+                                } else {
                                     App.makeToast(getString(R.string.gift_to_cash_not_enough));
                                 }
-                            }else {
+                            } else {
                                 App.makeToast(getString(R.string.update_paypal_id));
                             }
                         }
@@ -251,17 +210,13 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         }
     }
 
-    private void confirmDialog(){
+    private void showConvertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ConvertGiftActivity.this);
         builder.setMessage(getString(R.string.convert_gifts_to_money_desc));
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                convertGems(dialog);
-               /* String payPalId = (String) o;
-                updatePayment(payPalId);*/
-//                updatePayment(dialog);
                 updatePayments(dialog);
             }
         });
@@ -288,25 +243,29 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         Button btn2 = dialog.findViewById(android.R.id.button2);
         btn2.setTypeface(typeface);
     }
-    private  void updatePayments(DialogInterface dialog){
-        if (NetworkReceiver.isConnected()){
 
-            String pay=SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
+    private void updatePayments(DialogInterface dialog) {
+        if (NetworkReceiver.isConnected()) {
 
-            ConvertGiftRequest request =new ConvertGiftRequest();
+            String payPalId = SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
+
+            ConvertGiftRequest request = new ConvertGiftRequest();
             request.setGemsRequested(GetSet.getGiftCoversionEarnings());
             request.setUserId(GetSet.getUserId());
             request.setUserName(GetSet.getUserName());
-            request.setPayPalId(pay);
+            request.setPayPalId(payPalId);
 
             Call<ConvertGiftResponse> call = apiInterface.convertToMoney(request);
             call.enqueue(new Callback<ConvertGiftResponse>() {
                 @Override
                 public void onResponse(Call<ConvertGiftResponse> call, Response<ConvertGiftResponse> response) {
                     if (response.body().getStatus().equals(Constants.TAG_TRUE)) {
-                        Toast.makeText(ConvertGiftActivity.this, "Waiting for Admin Approval...Money Will be transfer to your Account.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ConvertGiftActivity.this, getString(R.string.convert_money_success), Toast.LENGTH_SHORT).show();
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
                         finish();
-                    }else{
+                    } else {
                         App.makeToast(getString(R.string.not_enough_gems));
                         finish();
                     }
@@ -315,7 +274,6 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
                 @Override
                 public void onFailure(Call<ConvertGiftResponse> call, Throwable t) {
                     t.printStackTrace();
-                    Log.i(TAG, "updatePaymentconvertonFailure: "+t.getMessage());
                 }
             });
 

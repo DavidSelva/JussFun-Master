@@ -286,7 +286,7 @@ public class OthersProfileFragment extends Fragment {
                     .into(profileImage);
 
             genderImage.setImageDrawable(profile.getGender().equals(Constants.TAG_MALE) ?
-                    context.getResources().getDrawable(R.drawable.men) : context.getResources().getDrawable(R.drawable.men));
+                    context.getResources().getDrawable(R.drawable.men) : context.getResources().getDrawable(R.drawable.women));
             txtLocation.setText(AppUtils.formatWord(profile.getLocation()));
         }
     }

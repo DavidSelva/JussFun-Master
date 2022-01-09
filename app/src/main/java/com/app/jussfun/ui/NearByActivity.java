@@ -709,7 +709,7 @@ public class NearByActivity extends BaseFragmentActivity implements CardStackLis
             if (follower.getGender().equals(Constants.TAG_MALE)) {
                 ((CardStackAdapter.MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
             } else {
-                ((CardStackAdapter.MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
+                ((CardStackAdapter.MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.women));
             }
             holder.itemLay.setOnClickListener(new View.OnClickListener() {
                 @Override

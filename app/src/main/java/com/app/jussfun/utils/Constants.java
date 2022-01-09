@@ -53,13 +53,7 @@ public class Constants {
 
     public static boolean isInVideoCall = false, isInStream = false, isInRandomCall = false;
 
-    /*public static  final String S3BUCKET_URL ="https://s3bucketaddon.s3.ap-south-1.amazonaws.com";
-
-    public static final String IMAGE_URL = S3BUCKET_URL + "/accounts/";
-    public static final String CHAT_IMAGE_URL = S3BUCKET_URL + "/chats/";*/
-
     public static final String IMAGE_DIRECTORY = "";
-//    public static final String IMAGE_DIRECTORY = "/randou";
 
     public static final String IMAGE_URL = SITE_URL + IMAGE_DIRECTORY + "/public/img/accounts/";
     public static final String GIFT_IMAGE_URL = SITE_URL + IMAGE_DIRECTORY + "/public/img/gifts/";

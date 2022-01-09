@@ -53,7 +53,7 @@
         android:name="com.app.jussfun.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.app.randou.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.app.jussfun.permission.C2D_MESSAGE" />
     <uses-permission
         android:name="android.permission.CAPTURE_VIDEO_OUTPUT"
         tools:ignore="ProtectedPermissions" />

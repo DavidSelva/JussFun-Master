@@ -86,7 +86,7 @@
     <string name="your_broadcast_deactivated_by_admin">Your broadcast has been blocked by Admin</string>
     <string name="broadcast_deactivated_by_admin">Broadcast has been blocked by Admin</string>
     <string name="stream_deactivated_by_admin">Your stream has been blocked by Admin</string>
-    <string name="get_prime_benefits">Get Prime benefits</string>
+    <string name="get_prime_benefits">Get VIP subscription benefits</string>
     <string name="subscribe">Subscribe</string>
     <string name="history">History</string>
     <string name="no_users_visited_yet">No users visited yet</string>
@@ -99,6 +99,7 @@
     <string name="prime">Prime</string>
     <string name="send">Send</string>
     <string name="not_enough_gems">Not enough gems</string>
+    <string name="not_enough_gems_to_convert">Not enough gems to convert</string>
     <string name="something_went_wrong_try_again">Something went wrong. Try again</string>
     <string name="location">Location</string>
     <string name="select_all">Select all</string>
@@ -112,7 +113,7 @@
     <string name="buy_gems">Buy gems</string>
     <string name="insufficient_funds">Insufficient funds</string>
     <string name="subscription_price">%1$s/%2$s</string>
-    <string name="premium_member">Premium member</string>
+    <string name="premium_member">VIP subscription</string>
     <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="gems_purchase_response">Gems updated to your account</string>
     <string name="just_now"> just now</string>
@@ -351,12 +352,12 @@
     <string name="search_again">Search again</string>s
 
     <string name="upload_picture_from">Télécharger une photo de</string>
-    <string name="file_provider_authority" translatable="false">com.app.randou.provider</string>
     <string name="looking_for_a_friend">Looking for a friend to talk to</string>
     <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="accept_our_policy">Accept our Privacy policy</string>
     <string name="gifts_description">Keep earning more Gems by chatting with people and getting Gifts.</string>
     <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
     <string name="cash">Cash</string>
+    <string name="convert_money_success">Waiting for Admin Approval...Money Will be transfer to your Account.</string>
 
 </resources>

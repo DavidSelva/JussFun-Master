@@ -462,7 +462,7 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
                 if (user.getGender().equals(Constants.TAG_MALE)) {
                     ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
                 } else {
-                    ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
+                    ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.women));
                 }
                 ((MyViewHolder) holder).txtLocation.setText(AppUtils.formatWord(user.getLocation()));
 

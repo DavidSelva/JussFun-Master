@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.app.jussfun.helper.AdUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -142,47 +143,7 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            MobileAds.initialize(this,
-                    AdminData.googleAdsId);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                    Log.i(TAG, "onAdLoaded: ");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                    Log.e(TAG, "onAdFailedToLoad: " + errorCode);
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                    Log.i(TAG, "onAdOpened: ");
-                }
-
-                @Override
-                public void onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                }
-
-                @Override
-                public void onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                }
-            });
-        }
+            AdUtils.getInstance(this).loadAd(TAG, adView);}
     }
 
     @Override

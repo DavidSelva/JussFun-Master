@@ -684,7 +684,7 @@ public class NearByUsersFragment extends Fragment implements CardStackListener {
             if (follower.getGender().equals(Constants.TAG_MALE)) {
                 ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
             } else {
-                ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.men));
+                ((MyViewHolder) holder).genderImage.setImageDrawable(context.getDrawable(R.drawable.women));
             }
             holder.itemLay.setOnClickListener(new View.OnClickListener() {
                 @Override

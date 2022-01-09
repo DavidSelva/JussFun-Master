@@ -7,13 +7,16 @@
     <string name="fb_login_protocol_scheme" translatable="false">fb1393665711030123</string>
 
     <!--  ADS ADMOB -->
-    <string name="admob_id" translatable="false">ca-app-pub-6210493408657968~8002028426</string>
-    <string name="banner_id" translatable="false">ca-app-pub-6210493408657968/7618885046</string>
-    <string name="video_ad_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
-    <string name="interstitial_ad_id" translatable="false">ca-app-pub-6210493408657968/4226434941</string>
+    <string name="admob_id" translatable="false">ca-app-pub-6210493408657968~6415359831</string>
+    <string name="banner_id" translatable="false">ca-app-pub-6210493408657968/8072056433</string>
+    <string name="video_ad_id" translatable="false">ca-app-pub-6210493408657968/1955054852</string>
+    <!--DEMO ADMOB ID-->
+    <!--<string name="admob_id" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="video_ad_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
-    <string name="dynamic_link_filter" translatable="false">randou.page.link</string>
-    <string name="ios_bundle_id" translatable="false">com.hitasoft.randou</string>
+    <string name="dynamic_link_filter" translatable="false">jussfun.page.link</string>
+    <string name="ios_bundle_id" translatable="false">com.hitasoft.jussfun</string>
     <string name="ios_app_store_id" translatable="false">1465570081</string>
     <string name="notification_channel_id" translatable="false">jussfun_notification_channel</string>
 
@@ -29,7 +32,7 @@
         <item>Inappropriate behaviour is \"STRICTLY\" not allowed</item>
         <item>Refer &amp; make your friends join here to \"EARN GEMS\"</item>
         <item>Express yourself &amp; do fun conversations by sending \"ANIME\" stickers</item>
-        <item>Subscribe &amp; become a Prime member to enjoy \"MORE OFFERS &amp; CONTROL OPTIONS\"
+        <item>Subscribe &amp; become a VIP member to enjoy \"MORE OFFERS &amp; CONTROL OPTIONS\"
         </item>
         <item>Insufficient gems! No Worries. Purchase gems from \"24 x 7 GEMS STORE\" available
             anytime
@@ -180,7 +183,7 @@
     <string name="your_broadcast_deactivated_by_admin">Your broadcast has been blocked by Admin</string>
     <string name="broadcast_deactivated_by_admin">Broadcast has been blocked by Admin</string>
     <string name="stream_deactivated_by_admin">Your stream has been blocked by Admin</string>
-    <string name="get_prime_benefits">Get Prime benefits</string>
+    <string name="get_prime_benefits">Get VIP subscription benefits</string>
     <string name="subscribe">Subscribe</string>
     <string name="history">History</string>
     <string name="no_users_visited_yet">No users visited yet</string>
@@ -190,9 +193,10 @@
     <string name="report_user">Report</string>
     <string name="reported_successfully">Reported successfully</string>
     <string name="undo_report_successfully">Undo Report successfully</string>
-    <string name="prime">Prime</string>
+    <string name="prime">VIP</string>
     <string name="send">Send</string>
     <string name="not_enough_gems">Not enough gems</string>
+    <string name="not_enough_gems_to_convert">Not enough gems to convert</string>
     <string name="something_went_wrong_try_again">Something went wrong. Try again</string>
     <string name="location">Location</string>
     <string name="select_all">Select all</string>
@@ -206,7 +210,7 @@
     <string name="buy_gems">Buy gems</string>
     <string name="insufficient_funds">Insufficient funds</string>
     <string name="subscription_price">%1$s/%2$s</string>
-    <string name="premium_member">Premium member</string>
+    <string name="premium_member">VIP subscription</string>
 
     <string name="purchase_cancelled">Purchase cancelled</string>
 
@@ -426,7 +430,7 @@
     <string name="message">Message</string>
     <string name="type_your_message">Type your message</string>
     <string name="gems_description">By purchasing gems, you can apply filters to meet the people you want</string>
-    <string name="upgrade_to_premium_to_access">Upgrade prime to access</string>
+    <string name="upgrade_to_premium_to_access">Upgrade VIP subscription to access</string>
     <string name="slow_network_connection">Slow network connection</string>
     <string name="exit">Exit</string>
     <string name="back_button_exit_description">Please click BACK again to exit</string>
@@ -613,7 +617,7 @@
     <string name="cancel">Cancel</string>
     <string name="filter_not_applied_description">#unlucky Swipe up to match your interest</string>
     <string name="filter_applied_description">#lucky Perfect Match with your Search</string>
-    <string name="upgrade_to_premium_to_unlock">Free counts ended. Upgrade to premium to unlock more users</string>
+    <string name="upgrade_to_premium_to_unlock">Free counts ended. Upgrade to VIP Subscription to unlock more users</string>
     <string name="remaining_users_unlock">%1$s users only left to unlock</string>
     <string name="no_user_found">No user found</string>
     <string name="select_location">Select location</string>
@@ -642,7 +646,7 @@
     <string name="no_user_found_retry">No user found.\n Retry to discover again!</string>
     <string name="search_again">Search again</string>
 
-    <string name="file_provider_authority" translatable="false">com.app.randou.provider</string>
+    <string name="file_provider_authority" translatable="false">com.app.jussfun.provider</string>
     <string name="upload_picture_from">Upload picture from</string>
 
 
@@ -659,5 +663,6 @@
     <string name="gifts_description">Keep earning more Gems by chatting with people and getting Gifts.</string>
     <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
     <string name="cash">Cash</string>
+    <string name="convert_money_success">Waiting for Admin Approval...Money Will be transfer to your Account.</string>
 
 </resources>
