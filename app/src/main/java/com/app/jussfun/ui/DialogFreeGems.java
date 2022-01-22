@@ -76,7 +76,7 @@ public class DialogFreeGems extends DialogFragment {
         ButterKnife.bind(this, itemView);
         String firstString = context.getString(R.string.congratulations_you_got) + " ";
         String noOfGems = "" + AdminData.freeGems;
-        String lastString = " " + context.getString(R.string.gems_free_coins);
+        String lastString = " " + context.getString(R.string.gems_free_coins)+" "+ getString(R.string.watch_video_or_invite_friends);
         SpannableStringBuilder str = new SpannableStringBuilder(firstString + noOfGems + lastString);
         str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), firstString.length(), firstString.length() + noOfGems.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         txtDescription.setText(str);

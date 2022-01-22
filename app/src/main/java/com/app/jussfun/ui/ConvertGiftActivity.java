@@ -187,25 +187,29 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
                 btnWithdraw.setText(R.string.convert_money);
                 break;
             case R.id.btnWithdraw:
-                if (GetSet.getGifts() > 0) {
-                    if (btnGems.isChecked()) {
-                        App.preventMultipleClick(btnWithdraw);
-                        showConfirmDialog();
-                    } else {
-                        if (btnCash.isChecked()) {
-                            if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
-                                if (!TextUtils.isEmpty(GetSet.getGiftConversionValue()) && Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
-                                    showConvertDialog();
+                if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                    if (GetSet.getGifts() > 0) {
+                        if (btnGems.isChecked()) {
+                            App.preventMultipleClick(btnWithdraw);
+                            showConfirmDialog();
+                        } else {
+                            if (btnCash.isChecked()) {
+                                if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
+                                    if (!TextUtils.isEmpty(GetSet.getGiftConversionValue()) && Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
+                                        showConvertDialog();
+                                    } else {
+                                        App.makeToast(getString(R.string.gift_to_cash_not_enough));
+                                    }
                                 } else {
-                                    App.makeToast(getString(R.string.gift_to_cash_not_enough));
+                                    App.makeToast(getString(R.string.update_paypal_id));
                                 }
-                            } else {
-                                App.makeToast(getString(R.string.update_paypal_id));
                             }
+    //                        App.makeToast(getString(R.string.convert_money_error_desc));
                         }
-//                        App.makeToast(getString(R.string.convert_money_error_desc));
-                    }
-                } else showAlertDialog(getString(R.string.you_dont_have_any_gifts));
+                    } else showAlertDialog(getString(R.string.you_dont_have_any_gifts));
+                } else {
+                    showPremiumAlertDialog();
+                }
                 break;
         }
     }
@@ -242,6 +246,31 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
 
         Button btn2 = dialog.findViewById(android.R.id.button2);
         btn2.setTypeface(typeface);
+    }
+
+    private void showPremiumAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ConvertGiftActivity.this);
+        builder.setMessage(R.string.this_feature_only_for_vip_members);
+        builder.setCancelable(false);
+        builder.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+        Typeface typeface = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            typeface = getResources().getFont(R.font.font_light);
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.font_light);
+        }
+        TextView textView = dialog.findViewById(android.R.id.message);
+        textView.setTypeface(typeface);
+
+        Button btn1 = dialog.findViewById(android.R.id.button1);
+        btn1.setTypeface(typeface);
     }
 
     private void updatePayments(DialogInterface dialog) {

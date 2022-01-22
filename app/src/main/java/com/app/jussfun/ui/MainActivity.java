@@ -244,6 +244,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         if (GetSet.getName() == null) {
             showProfileDialog();
         } else {
+            showGemsDialog();
             getUserProfile(GetSet.getUserId());
         }
         sendPing();

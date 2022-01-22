@@ -1,5 +1,6 @@
 package com.app.jussfun.utils;
 
+import com.app.jussfun.BuildConfig;
 import com.app.jussfun.model.GetSet;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class ApiClient {
 
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.level(HttpLoggingInterceptor.Level.NONE);
+            logging.level(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)

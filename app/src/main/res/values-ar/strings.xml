@@ -370,5 +370,7 @@
     <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
     <string name="cash">Cash</string>
     <string name="convert_money_success">في انتظار موافقة المسؤول ... سيتم تحويل الأموال إلى حسابك.</string>
+    <string name="watch_video_or_invite_friends">Watch Video Ads or Invite friends to get Free Gems everyday.</string>
+    <string name="this_feature_only_for_vip_members">This feature is only for VIP Members. Please Subscribe</string>
 
 </resources>
