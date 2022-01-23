@@ -26,7 +26,6 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.stetho.Stetho;
-import com.google.android.gms.ads.InterstitialAd;
 import com.app.jussfun.R;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.LocaleManager;
@@ -200,7 +199,6 @@ public class App extends android.app.Application implements LifecycleObserver, C
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onAppForegrounded() {
         onAppForegrounded = true;
-        Log.i(TAG, "onAppForegrounde: " + onAppForegrounded);
         getAppDefaultData();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -365,10 +363,13 @@ public class App extends android.app.Application implements LifecycleObserver, C
             call.enqueue(new Callback<AppDefaultResponse>() {
                 @Override
                 public void onResponse(Call<AppDefaultResponse> call, Response<AppDefaultResponse> response) {
-                    AppDefaultResponse defaultData = response.body();
-                    Log.i(TAG, "getAppDefaultDataonResponse: " + defaultData);
-                    if (defaultData.getStatus().equals(Constants.TAG_TRUE)) {
-                        AdminData.filterOptions = defaultData.getFilterOptions();
+                    if (response.isSuccessful()) {
+                        AppDefaultResponse defaultData = response.body();
+                        if (defaultData.getStatus().equals(Constants.TAG_TRUE)) {
+                            AdminData.filterOptions = defaultData.getFilterOptions();
+                            AdminData.gemConversion = defaultData.getGemConversion();
+                            AdminData.giftConversion = defaultData.getGiftConversion();
+                        }
                     }
                 }
 

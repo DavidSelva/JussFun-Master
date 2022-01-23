@@ -1,7 +1,6 @@
 package com.app.jussfun.utils;
 
 
-import com.app.jussfun.model.AppDefaultResponse;
 import com.app.jussfun.model.FilterGems;
 import com.app.jussfun.model.FilterOptions;
 import com.app.jussfun.model.GetSet;
@@ -32,11 +31,12 @@ public class AdminData {
     public static String welcomeMessage = "";
     public static String showVideoAd = "1";
     public static String showMoneyConversion = "0";
+    public static String gemConversion = "1";
+    public static String giftConversion = "1";
     public static String videoAdsClient = "";
     public static long videoAdsDuration = 5;
     public static long videoCallsGems = 0;
     public static boolean hasImageModerate = false;
-    public static AppDefaultResponse.StreamConnectionInfo streamDetails = null;
     public static String conversionGems = null;
     public static String conversionCash = null;
 
@@ -53,13 +53,14 @@ public class AdminData {
         filterOptions = new FilterOptions();
         showAds = "1";
         showVideoAd = "1";
+        gemConversion = "1";
+        giftConversion = "1";
         inviteCredits = 0L;
         googleAdsId = null;
         showMoneyConversion = "0";
         videoAdsClient = "";
         videoAdsDuration = 5;
         videoCallsGems = 0;
-        streamDetails = null;
         hasImageModerate = false;
     }
 

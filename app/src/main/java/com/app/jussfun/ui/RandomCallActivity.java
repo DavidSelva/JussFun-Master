@@ -31,7 +31,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,8 +42,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieDrawable;
 import com.app.jussfun.R;
 import com.app.jussfun.apprtc.util.AppRTCUtils;
 import com.app.jussfun.db.DBHelper;
@@ -1298,6 +1295,8 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
                     AdminData.videoAdsClient = defaultData.getVideoAdsClient();
                     AdminData.videoAdsDuration = defaultData.getVideoAdsDuration();
                     AdminData.videoCallsGems = defaultData.getVideoCalls() != null ? defaultData.getVideoCalls() : 0;
+                    AdminData.gemConversion = defaultData.getGemConversion();
+                    AdminData.giftConversion = defaultData.getGiftConversion();
                 }
                 initSocket();
             }

@@ -1347,7 +1347,8 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                         AdminData.videoAdsClient = defaultData.getVideoAdsClient();
                         AdminData.videoAdsDuration = defaultData.getVideoAdsDuration();
                         AdminData.videoCallsGems = defaultData.getVideoCalls();
-                        AdminData.streamDetails = defaultData.getStreamConnectionInfo();
+                        AdminData.gemConversion = defaultData.getGemConversion();
+                        AdminData.giftConversion = defaultData.getGiftConversion();
                     }
                 }
 

@@ -1,5 +1,7 @@
 package com.app.jussfun.ui;
 
+import static java.lang.String.format;
+
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
@@ -49,8 +51,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static java.lang.String.format;
-
 public class ConvertGiftActivity extends BaseFragmentActivity {
 
     private static final String TAG = ConvertGiftActivity.class.getSimpleName();
@@ -78,6 +78,10 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
     AlertDialog dialog;
     @BindView(R.id.optionLay)
     RadioGroup optionLay;
+    @BindView(R.id.txtGemsToMoney)
+    TextView txtGemsToMoney;
+    @BindView(R.id.btnGemsToMoney)
+    Button btnGemsToMoney;
     DialogCreditGems alertDialog;
     private AppUtils appUtils;
 
@@ -127,12 +131,15 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
 
     @SuppressLint("StringFormatInvalid")
     private void getGems() {
-        Log.d(TAG, "getGemsCount: " + GetSet.getGifts() + "count" + GetSet.getGiftEarnings());
+        Log.d(TAG, "getGemsCount: " + GetSet.getGifts() + "count" + GetSet.getGiftEarnings() + ", " + GetSet.getGems() + " Gems");
         if (GetSet.getGiftEarnings() != null)
             txtGiftsCount.setText(format(getString(R.string.gift_to_gems), "" + GetSet.getGifts(), GetSet.getGiftEarnings()));
         else
             txtGiftsCount.setText(format(getString(R.string.gift_to_gems), "" + GetSet.getGifts(), "0"));
-
+        if (GetSet.getGems() != null)
+            txtGemsToMoney.setText(String.format(getString(R.string.you_have_total_gems), "" + GetSet.getGems()));
+        else
+            txtGemsToMoney.setText(String.format(getString(R.string.you_have_total_gems), "" + 0));
     }
 
 
@@ -162,7 +169,7 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         AppUtils.showSnack(getApplicationContext(), findViewById(R.id.parentLay), isConnected);
     }
 
-    @OnClick({R.id.btnBack, R.id.btnWithdraw, R.id.btnGems, R.id.btnCash})
+    @OnClick({R.id.btnBack, R.id.btnWithdraw, R.id.btnGems, R.id.btnCash, R.id.btnGemsToMoney})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
@@ -187,41 +194,75 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
                 btnWithdraw.setText(R.string.convert_money);
                 break;
             case R.id.btnWithdraw:
-                if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
-                    if (GetSet.getGifts() > 0) {
-                        if (btnGems.isChecked()) {
-                            App.preventMultipleClick(btnWithdraw);
-                            showConfirmDialog();
-                        } else {
-                            if (btnCash.isChecked()) {
-                                if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
-                                    if (!TextUtils.isEmpty(GetSet.getGiftConversionValue()) && Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
-                                        showConvertDialog();
-                                    } else {
-                                        App.makeToast(getString(R.string.gift_to_cash_not_enough));
-                                    }
-                                } else {
-                                    App.makeToast(getString(R.string.update_paypal_id));
-                                }
-                            }
-    //                        App.makeToast(getString(R.string.convert_money_error_desc));
-                        }
-                    } else showAlertDialog(getString(R.string.you_dont_have_any_gifts));
+                if (AdminData.giftConversion.equals("1")) {
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        convertGift();
+                    } else {
+                        showPremiumAlertDialog();
+                    }
                 } else {
-                    showPremiumAlertDialog();
+                    convertGift();
+                }
+                break;
+            case R.id.btnGemsToMoney:
+                if (AdminData.gemConversion.equals("1")) {
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        convertGems();
+                    } else {
+                        App.preventMultipleClick(btnGemsToMoney);
+                        showPremiumAlertDialog();
+                    }
+                } else {
+                    convertGems();
                 }
                 break;
         }
     }
 
-    private void showConvertDialog() {
+    private void convertGift() {
+        if (GetSet.getGifts() > 0) {
+            if (btnGems.isChecked()) {
+                App.preventMultipleClick(btnWithdraw);
+                showConfirmDialog();
+            } else {
+                if (btnCash.isChecked()) {
+                    if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
+                        if (!TextUtils.isEmpty(GetSet.getGiftConversionValue()) && Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
+                            showConvertDialog(getString(R.string.convert_gifts_to_money_desc), Constants.TAG_GIFT);
+                        } else {
+                            App.makeToast(getString(R.string.gift_to_cash_not_enough));
+                        }
+                    } else {
+                        App.makeToast(getString(R.string.update_paypal_id));
+                    }
+                }
+                //                        App.makeToast(getString(R.string.convert_money_error_desc));
+            }
+        } else showAlertDialog(getString(R.string.you_dont_have_any_gifts));
+    }
+
+    private void convertGems() {
+        if (GetSet.getGems() != null && GetSet.getGems() > 0) {
+            App.preventMultipleClick(btnGemsToMoney);
+            if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
+                showConvertDialog(getString(R.string.convert_gems_to_money_desc), Constants.TAG_GEMS);
+            } else {
+                App.makeToast(getString(R.string.update_paypal_id));
+            }
+        } else {
+            App.preventMultipleClick(btnGemsToMoney);
+            showAlertDialog(getString(R.string.you_dont_have_any_gems));
+        }
+    }
+
+    private void showConvertDialog(String message, String type) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ConvertGiftActivity.this);
-        builder.setMessage(getString(R.string.convert_gifts_to_money_desc));
+        builder.setMessage(message);
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                updatePayments(dialog);
+                updatePayments(dialog, type);
             }
         });
         builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -273,18 +314,27 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         btn1.setTypeface(typeface);
     }
 
-    private void updatePayments(DialogInterface dialog) {
+    private void updatePayments(DialogInterface dialog, String type) {
         if (NetworkReceiver.isConnected()) {
 
             String payPalId = SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
 
             ConvertGiftRequest request = new ConvertGiftRequest();
-            request.setGemsRequested(GetSet.getGiftCoversionEarnings());
             request.setUserId(GetSet.getUserId());
             request.setUserName(GetSet.getUserName());
             request.setPayPalId(payPalId);
+            if (type.equals(Constants.TAG_GIFT)) {
+                request.setGemsRequested(GetSet.getGiftCoversionEarnings());
+            } else {
+                request.setGemsRequested("" + GetSet.getGems());
+            }
 
-            Call<ConvertGiftResponse> call = apiInterface.convertToMoney(request);
+            Call<ConvertGiftResponse> call;
+            if (type.equals(Constants.TAG_GIFT)) {
+                call = apiInterface.convertGiftsToMoney(request);
+            } else {
+                call = apiInterface.convertGemsToMoney(request);
+            }
             call.enqueue(new Callback<ConvertGiftResponse>() {
                 @Override
                 public void onResponse(Call<ConvertGiftResponse> call, Response<ConvertGiftResponse> response) {
@@ -319,7 +369,7 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                convertGems(dialog);
+                convertGemsDialog(dialog);
             }
         });
         builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -346,7 +396,7 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
         btn2.setTypeface(typeface);
     }
 
-    private void convertGems(DialogInterface dialog) {
+    private void convertGemsDialog(DialogInterface dialog) {
         ConvertGiftRequest request = new ConvertGiftRequest();
         request.setUserId(GetSet.getUserId());
         request.setType(btnGems.isChecked() ? Constants.TAG_GEMS : Constants.TAG_CASH);
@@ -379,7 +429,6 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
             @Override
             public void onOkClicked(Object o) {
                 alertDialog.dismissAllowingStateLoss();
-                finish();
             }
 
             @Override

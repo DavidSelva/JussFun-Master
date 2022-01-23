@@ -646,13 +646,8 @@ public class SplashActivity extends BaseFragmentActivity {
                             }
                             AdminData.videoAdsClient = defaultData.getVideoAdsClient();
                             AdminData.videoAdsDuration = defaultData.getVideoAdsDuration();
-                            AdminData.streamDetails = defaultData.getStreamConnectionInfo();
-
-                            // addon for live streaming
-                            /*SharedPref.putString(SharedPref.STREAM_BASE_URL, defaultData.getStreamConnectionInfo().getStreamBaseUrl());
-                            SharedPref.putString(SharedPref.STREAM_WEBSOCKET_URL, defaultData.getStreamConnectionInfo().getWebSocketUrl());
-                            SharedPref.putString(SharedPref.STREAM_VOD_URL, defaultData.getStreamConnectionInfo().getStreamVodUrl());
-                            SharedPref.putString(SharedPref.STREAM_API_URL, defaultData.getStreamConnectionInfo().getStreamApiUrl());*/
+                            AdminData.gemConversion = defaultData.getGemConversion();
+                            AdminData.giftConversion = defaultData.getGiftConversion();
                         }
                     } else {
                         App.makeToast(getString(R.string.something_went_wrong));

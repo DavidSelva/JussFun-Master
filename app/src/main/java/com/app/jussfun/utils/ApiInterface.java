@@ -54,7 +54,10 @@ public interface ApiInterface {
     Call<Map<String, String>> uploadAudio(@Part MultipartBody.Part image, @Part("user_id") RequestBody user_id);
 
     @POST("giftconversions/gifttomoneyconversion")
-    Call<ConvertGiftResponse> convertToMoney(@Body ConvertGiftRequest request);
+    Call<ConvertGiftResponse> convertGiftsToMoney(@Body ConvertGiftRequest request);
+
+    @POST("giftconversions/gemtomoneyconversion")
+    Call<ConvertGiftResponse> convertGemsToMoney(@Body ConvertGiftRequest request);
 
     @POST("accounts/signin")
     Call<SignInResponse> callSignIn(@Body SignInRequest request);

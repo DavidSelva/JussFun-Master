@@ -14,6 +14,77 @@
         </item>
     </array>
 
+    <string name="gif">Gif</string>
+    <string name="slide_to_cancel">Slide to cancel</string>
+    <string name="audio_length_error">Hold to record, release to send.</string>
+    <string name="file_not_found">File not found</string>
+    <string name="audio">Audio</string>
+
+    <string name="gift_to_cash">You have %1$s Gifts worth %2$s $</string>
+    <string name="gift_to_cash_no">You have %1$s Gifts</string>
+    <string name="gift_to_cash_not_enough">You don\'t have enough gifts</string>
+    <string name="convert_gifts_to_money_desc">Are you sure want to convert the gifts to money?</string>
+    <string name="update_paypal_id">Update your Paypal ID</string>
+    <string name="verify_mail">Verify the mail</string>
+    <string name="translate">Translate</string>
+    <string name="theme">Theme</string>
+    <string name="lighttheme">Light Theme</string>
+    <string name="darktheme">Dark Theme</string>
+    <string name="systemtheme">System Theme</string>
+
+    <string name="error_querying_decoders">Unable to query device decoders</string>
+    <string name="error_no_secure_decoder"><![CDATA[This device does not provide a secure decoder for <xliff:g id=\"mime_type\">%1$s</xliff:g>]]></string>
+    <string name="error_no_decoder"><![CDATA[This device does not provide a decoder for <xliff:g id=\"mime_type\">%1$s</xliff:g>]]></string>
+    <string name="error_instantiating_decoder"><![CDATA[Unable to instantiate decoder <xliff:g id=\"decoder_name\">%1$s</xliff:g>]]></string>
+    <string name="using_video_capture">Using video capture?</string>
+    <string name="back_camera">Back camera</string>
+    <string name="hashtags">Hashtags</string>
+    <string name="video_history">Recently watched</string>
+    <string name="recent">Recent</string>
+    <string name="hashtag">Hashtag</string>
+    <string name="views">views</string>
+    <string name="select_hashtag">Select Hashtag</string>
+    <string name="video_privacy">Video privacy</string>
+    <string name="tag_public">Public</string>
+    <string name="tag_private">Private</string>
+    <string name="select_atleast_one_user">Select atleast one user</string>
+    <string name="popular_countries">Popular countries</string>
+    <string name="received_gifts">Received gifts</string>
+    <string name="share_within_app">Share within app</string>
+    <string name="share_to_external">Share to external</string>
+    <string name="gifts_received">Gifts received</string>
+    <string name="gifts_by">Gifts by</string>
+    <string name="really_remove_from_list">Do you really want to remove the video from the list?</string>
+    <string name="history_cleared_successfully">History cleared successfully</string>
+    <string name="trending_hashtag">Trending Hashtag</string>
+    <string name="hash_symbol" translatable="false">#</string>
+    <string name="at_symbol" translatable="false">\@</string>
+    <string name="invited_you">invited you</string>
+    <string name="you_sent_an_invite_link">You sent an invite link</string>
+    <string name="shared_a_stream">Shared a stream</string>
+    <string name="join">join</string>
+    <string name="playback_not_ready_yet">Placyback not ready yet</string>
+    <string name="stream_share_description"><![CDATA[shared video. Click here to watch -> ]]></string>
+    <string name="camera">Camera</string>
+    <string name="rear_camera">Front camera</string>
+    <string name="capture_setting">Capture setting</string>
+    <string name="clear_data">Clear data</string>
+    <string name="cache">Cache</string>
+    <string name="data">Data</string>
+    <string name="clear_data_description">All chats &amp; and video caches will be deleted. Do you want to clear data?</string>
+    <string name="unblock_call_description">Unblock the user to make a call</string>
+    <string name="search_for_hashtag">Search for Hashtag</string>
+    <string name="no_hashtags">No hashtags</string>
+    <string name="unblock_follow_description">Unblock user to follow</string>
+    <string name="grant">Grant</string>
+    <string name="allow_pop_up_window">Allow pop-up window</string>
+    <string name="pop_up_permission_description">Allow the pop-up permission to enjoy the incoming call functionalities even if the app is not in background</string>
+    <string name="don_t_ask_again">Don\'t ask again</string>
+    <string name="allow">Allow</string>
+    <string name="deny">Deny</string>
+    <string name="something_wrong_with_the_stream">Something wrong with the stream</string>
+    <string name="no_countries_found">No countries found</string>
+
     <!--Use &lt; instead of < symbol for this string-->
     <string name="login_with_mobile">Login with Mobile</string>
     <string name="facebook">Facebook</string>
@@ -361,5 +432,9 @@
     <string name="convert_money_success">Waiting for Admin Approval...Money Will be transfer to your Account.</string>
     <string name="watch_video_or_invite_friends">Watch Video Ads or Invite friends to get Free Gems everyday.</string>
     <string name="this_feature_only_for_vip_members">This feature is only for VIP Members. Please Subscribe</string>
+    <string name="convert_to_money">Convert to Money</string>
+    <string name="you_have_total_gems">You have total of %1$s Gems</string>
+    <string name="you_dont_have_any_gems">Sorry! You don\\\'t have any Gems</string>
+    <string name="convert_gems_to_money_desc">Are you sure want to convert the gems to money?</string>
 
 </resources>

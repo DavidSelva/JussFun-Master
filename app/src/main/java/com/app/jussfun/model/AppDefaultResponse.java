@@ -49,8 +49,10 @@ public class AppDefaultResponse {
     private String videoAdsClient;
     @SerializedName("video_calls")
     private Long videoCalls;
-    @SerializedName("stream_connection_info")
-    private StreamConnectionInfo streamConnectionInfo;
+    @SerializedName("gemprime")
+    private String gemConversion;
+    @SerializedName("giftprime")
+    private String giftConversion;
 
     public Long getFreeGems() {
         return freeGems;
@@ -220,116 +222,19 @@ public class AppDefaultResponse {
         this.videoCalls = videoCalls;
     }
 
-    public StreamConnectionInfo getStreamConnectionInfo() {
-        return streamConnectionInfo;
+    public String getGemConversion() {
+        return gemConversion;
     }
 
-    public void setStreamConnectionInfo(StreamConnectionInfo streamConnectionInfo) {
-        this.streamConnectionInfo = streamConnectionInfo;
+    public void setGemConversion(String gemConversion) {
+        this.gemConversion = gemConversion;
     }
 
-    public class StreamConnectionInfo {
-        @SerializedName("stream_host")
-        private String streamHost;
-        @SerializedName("stream_port")
-        private int streamPort;
-        @SerializedName("stream_application_name")
-        private String streamApplicationName;
-        @SerializedName("stream_username")
-        private String streamUserName;
-        @SerializedName("stream_password")
-        private String streamPassword;
-        @SerializedName("android_sdk_license")
-        private String streamLicenseKey;
+    public String getGiftConversion() {
+        return giftConversion;
+    }
 
-        @SerializedName("base_url")
-        private String streamBaseUrl;
-        @SerializedName("api_url")
-        private String streamApiUrl;
-        @SerializedName("websocket_url")
-        private String webSocketUrl;
-        @SerializedName("vod_url")
-        private String streamVodUrl;
-
-        public String getStreamBaseUrl() {
-            return streamBaseUrl;
-        }
-
-        public void setStreamBaseUrl(String streamBaseUrl) {
-            this.streamBaseUrl = streamBaseUrl;
-        }
-
-        public String getStreamApiUrl() {
-            return streamApiUrl;
-        }
-
-        public void setStreamApiUrl(String streamApiUrl) {
-            this.streamApiUrl = streamApiUrl;
-        }
-
-        public String getWebSocketUrl() {
-            return webSocketUrl;
-        }
-
-        public void setWebSocketUrl(String webSocketUrl) {
-            this.webSocketUrl = webSocketUrl;
-        }
-
-        public String getStreamVodUrl() {
-            return streamVodUrl;
-        }
-
-        public void setStreamVodUrl(String streamVodUrl) {
-            this.streamVodUrl = streamVodUrl;
-        }
-
-
-        public String getStreamHost() {
-            return streamHost;
-        }
-
-        public void setStreamHost(String streamHost) {
-            this.streamHost = streamHost;
-        }
-
-        public int getStreamPort() {
-            return streamPort;
-        }
-
-        public void setStreamPort(int streamPort) {
-            this.streamPort = streamPort;
-        }
-
-        public String getStreamApplicationName() {
-            return streamApplicationName;
-        }
-
-        public void setStreamApplicationName(String streamApplicationName) {
-            this.streamApplicationName = streamApplicationName;
-        }
-
-        public String getStreamUserName() {
-            return streamUserName;
-        }
-
-        public void setStreamUserName(String streamUserName) {
-            this.streamUserName = streamUserName;
-        }
-
-        public String getStreamPassword() {
-            return streamPassword;
-        }
-
-        public void setStreamPassword(String streamPassword) {
-            this.streamPassword = streamPassword;
-        }
-
-        public String getStreamLicenseKey() {
-            return streamLicenseKey;
-        }
-
-        public void setStreamLicenseKey(String streamLicenseKey) {
-            this.streamLicenseKey = streamLicenseKey;
-        }
+    public void setGiftConversion(String giftConversion) {
+        this.giftConversion = giftConversion;
     }
 }
