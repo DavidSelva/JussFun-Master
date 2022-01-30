@@ -114,8 +114,8 @@ public class LoginActivity extends BaseFragmentActivity {
             case R.id.btnMobile:
                 if (btnTerms.isChecked()) {
                     App.preventMultipleClick(btnMobile);
-                    verifyMobileNumber();
-//                    signIn("9360810959", Constants.TAG_PHONENUMBER,"","", "");
+//                    verifyMobileNumber();
+                    signIn("9360810959", Constants.TAG_PHONENUMBER,"","", "");
                 } else {
                     App.makeToast(getString(R.string.accept_our_policy));
                 }

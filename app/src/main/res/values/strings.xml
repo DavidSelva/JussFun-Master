@@ -670,5 +670,8 @@
     <string name="you_have_total_gems">You have total of %1$s Gems</string>
     <string name="you_dont_have_any_gems">Sorry! You don\\\'t have any Gems</string>
     <string name="convert_gems_to_money_desc">Are you sure want to convert the gems to money?</string>
+    <string name="get_free_gems">Get Free Gems</string>
+    <string name="convert_gems_to_money">Convert Gems to Money</string>
+    <string name="paypal_id">PayPal id</string>
 
 </resources>

@@ -98,6 +98,8 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
     TextView txtDescription;
     @BindView(R.id.btnFreeGems)
     Button btnFreeGems;
+    @BindView(R.id.btnConvertGems)
+    Button btnConvertGems;
     @BindView(R.id.headerLay)
     LinearLayout headerLay;
     @BindView(R.id.collapsing_toolbar)
@@ -440,7 +442,7 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
         overridePendingTransition(R.anim.anim_stay, R.anim.anim_slide_right_out);
     }
 
-    @OnClick({R.id.btnBack, R.id.btnFreeGems})
+    @OnClick({R.id.btnBack, R.id.btnFreeGems, R.id.btnConvertGems})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
@@ -450,6 +452,12 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                 Intent freeGems = new Intent(getApplicationContext(), EarnGemsActivity.class);
                 freeGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(freeGems);
+                break;
+            case R.id.btnConvertGems: {
+                Intent convertGems = new Intent(getApplicationContext(), ConvertGiftActivity.class);
+                convertGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(convertGems);
+            }
                 break;
         }
     }

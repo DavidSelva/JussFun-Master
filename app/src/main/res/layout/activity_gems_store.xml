@@ -19,7 +19,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="300dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorTransparent"
             app:expandedTitleMarginEnd="64dp"
@@ -69,8 +69,7 @@
                         style="@style/TextWhiteRegular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
+                        android:layout_centerInParent="true"
                         android:layout_marginTop="10dp"
                         android:text="@string/gems"
                         android:textSize="@dimen/text_large_medium" />
@@ -86,6 +85,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginBottom="0dp"
                 android:layout_marginEnd="40dp"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -112,7 +112,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingBottom="10dp"
                     android:text="@string/gems_description"
                     android:textSize="@dimen/text_normal"
                     android:textColor="@color/colorWhiteText"/>
@@ -128,8 +127,28 @@
                     android:paddingStart="25dp"
                     android:paddingTop="5dp"
                     android:paddingEnd="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="0dp"
                     android:paddingBottom="5dp"
-                    android:text="@string/free_gems"
+                    android:text="@string/get_free_gems"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/text_normal" />
+
+                <Button
+                    android:id="@+id/btnConvertGems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/rounded_solid_white"
+                    android:fontFamily="@font/font_regular"
+                    android:minHeight="0dp"
+                    android:paddingStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="25dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/convert_gems_to_money"
                     android:textAllCaps="false"
                     android:textSize="@dimen/text_normal" />
 
