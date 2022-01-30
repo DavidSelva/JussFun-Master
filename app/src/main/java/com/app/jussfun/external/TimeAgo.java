@@ -8,7 +8,7 @@ import com.app.jussfun.R;
 import java.util.Date;
 
 /**
- * Created by hitasoft on 9/1/17.
+ * Created by Jussfun on 9/1/17.
  */
 
 public class TimeAgo {

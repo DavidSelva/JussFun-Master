@@ -21,7 +21,7 @@ import com.app.jussfun.R;
 import java.math.BigDecimal;
 
 /**
- * Created by hitasoft on 10/6/15.
+ * Created by Jussfun on 10/6/15.
  */
 public class RangeSeekBar<T extends Number> extends ImageView {
     /**

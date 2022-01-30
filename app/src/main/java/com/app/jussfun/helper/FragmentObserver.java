@@ -3,7 +3,7 @@ package com.app.jussfun.helper;
 import java.util.Observable;
 
 /**
- * Created by hitasoft on 26/2/18.
+ * Created by Jussfun on 26/2/18.
  */
 
 public class FragmentObserver extends Observable {

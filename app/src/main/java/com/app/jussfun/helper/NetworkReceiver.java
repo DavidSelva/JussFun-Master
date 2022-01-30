@@ -10,7 +10,7 @@ import android.net.wifi.WifiManager;
 import com.app.jussfun.ui.App;
 
 /**
- * Created by hitasoft on 4/3/17.
+ * Created by Jussfun on 4/3/17.
  */
 
 public class NetworkReceiver extends BroadcastReceiver {

@@ -18,7 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by hitasoft on 27/6/18.
+ * Created by Jussfun on 27/6/18.
  */
 
 public abstract class ImageDownloader extends AsyncTask<String, String, Bitmap> {

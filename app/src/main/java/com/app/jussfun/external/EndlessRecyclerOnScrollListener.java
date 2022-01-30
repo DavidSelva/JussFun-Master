@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
- * Created by hitasoft on 30/6/18.
+ * Created by Jussfun on 30/6/18.
  */
 
 public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {

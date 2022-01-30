@@ -16,7 +16,7 @@
     <string name="video_ad_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
     <string name="dynamic_link_filter" translatable="false">jussfun.page.link</string>
-    <string name="ios_bundle_id" translatable="false">com.hitasoft.jussfun</string>
+    <string name="ios_bundle_id" translatable="false">com.jussfun.jussfun</string>
     <string name="ios_app_store_id" translatable="false">1465570081</string>
     <string name="notification_channel_id" translatable="false">jussfun_notification_channel</string>
 

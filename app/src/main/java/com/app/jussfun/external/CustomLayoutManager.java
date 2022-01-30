@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
- * Created by hitasoft on 13/2/18.
+ * Created by Jussfun on 13/2/18.
  */
 
 public class CustomLayoutManager extends LinearLayoutManager {

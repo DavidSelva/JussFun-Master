@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * Created by hitasoft on 23/6/18.
+ * Created by Jussfun on 23/6/18.
  */
 
 public class RandomString {

@@ -19,7 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by hitasoft on 8/3/17.
+ * Created by Jussfun on 8/3/17.
  */
 
 public abstract class ImageCompression extends AsyncTask<String, Void, String> {
