@@ -35,6 +35,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.camera.core.ImageProxy;
 import androidx.core.app.ActivityCompat;
 
+import com.app.jussfun.base.App;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener;
 import com.google.android.exoplayer2.util.Log;

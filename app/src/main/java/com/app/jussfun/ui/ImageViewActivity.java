@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.app.jussfun.base.App;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,7 +34,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.app.jussfun.external.ImagePicker;
 import com.app.jussfun.utils.ApiClient;
-import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.utils.SharedPref;
 import com.app.jussfun.helper.NetworkReceiver;
@@ -88,7 +88,7 @@ public class ImageViewActivity extends BaseFragmentActivity {
     TextView txtChangePhoto;
     private RequestOptions profileImageRequest;
     StorageUtils storageUtils;
-    String from,picString;
+    String from, picString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,7 @@ public class ImageViewActivity extends BaseFragmentActivity {
         switch (from) {
             case Constants.TAG_SENT:
                 if (picString.equalsIgnoreCase("No")) {
-                    Log.d(TAG, "onCreate: "+"First"+picString+storageUtils.getImage(from,image));
+                    Log.d(TAG, "onCreate: " + "First" + picString + storageUtils.getImage(from, image));
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                         Glide.with(getApplicationContext())
                                 .load(storageUtils.getImage(from, image))
@@ -135,7 +135,7 @@ public class ImageViewActivity extends BaseFragmentActivity {
                                     }
                                 })
                                 .into(imageView);
-                    }else{
+                    } else {
                         Glide.with(getApplicationContext())
                                 .load(storageUtils.getImageUri(from, image))
                                 .listener(new RequestListener<Drawable>() {
@@ -153,7 +153,7 @@ public class ImageViewActivity extends BaseFragmentActivity {
                                 .into(imageView);
                     }
                 } else {
-                    Log.d(TAG, "onCreate: "+"Second"+Constants.CHAT_IMAGE_URL + image);
+                    Log.d(TAG, "onCreate: " + "Second" + Constants.CHAT_IMAGE_URL + image);
                     Glide.with(getApplicationContext())
                             .load(Constants.CHAT_IMAGE_URL + image)
                             .listener(new RequestListener<Drawable>() {
@@ -190,7 +190,7 @@ public class ImageViewActivity extends BaseFragmentActivity {
                                 }
                             })
                             .into(imageView);
-                }else{
+                } else {
                     Glide.with(getApplicationContext())
                             .load(storageUtils.getImageUri(from, image))
                             .listener(new RequestListener<Drawable>() {
@@ -268,7 +268,7 @@ public class ImageViewActivity extends BaseFragmentActivity {
                     } else {
                         ImagePicker.pickImage(ImageViewActivity.this);
                     }
-                }else{
+                } else {
                     if (ContextCompat.checkSelfPermission(ImageViewActivity.this, CAMERA) != PackageManager.PERMISSION_GRANTED
                             || ContextCompat.checkSelfPermission(ImageViewActivity.this, WRITE_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
@@ -337,28 +337,30 @@ public class ImageViewActivity extends BaseFragmentActivity {
         call3.enqueue(new Callback<Map<String, String>>() {
             @Override
             public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                Map<String, String> data = response.body();
-                hideLoading();
-                Log.i(TAG, "uploadImageonResponse: "+response);
-                resultCode = -1;
-                if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
-                    GetSet.setUserImage(data.get(Constants.TAG_USER_IMAGE));
-                    SharedPref.putString(Constants.TAG_USER_IMAGE, GetSet.getUserImage());
-                    Log.i(TAG, "uploadImageonResponseimg: "+data.get(Constants.TAG_USER_IMAGE));
-                    txtChangePhoto.setText(R.string.profile_image_updated);
-//                    App.makeToast(getString(R.string.profile_image_updated));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            onBackPressed();
-                        }
-                    }, 1000);
+                if (response.isSuccessful()) {
+                    Map<String, String> data = response.body();
+                    hideLoading();
+                    resultCode = -1;
+                    if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                        GetSet.setUserImage(data.get(Constants.TAG_USER_IMAGE));
+                        SharedPref.putString(Constants.TAG_USER_IMAGE, GetSet.getUserImage());
+                        txtChangePhoto.setText(R.string.profile_image_updated);
+                        //                    App.makeToast(getString(R.string.profile_image_updated));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+                            }
+                        }, 1000);
+                    }
+                } else {
+                    App.makeToast(getString(R.string.something_went_wrong));
+                    hideLoading();
                 }
             }
 
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                Log.i(TAG, "uploadImageonFailure: "+t.getMessage());
                 call.cancel();
                 hideLoading();
                 txtChangePhoto.setText(R.string.swipe_change_photo);
@@ -399,20 +401,20 @@ public class ImageViewActivity extends BaseFragmentActivity {
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case Constants.CAMERA_REQUEST_CODE:
-                    if (checkPermissions(permissions, ImageViewActivity.this)) {
-                        ImagePicker.pickImage(this, "Select your image:");
+                if (checkPermissions(permissions, ImageViewActivity.this)) {
+                    ImagePicker.pickImage(this, "Select your image:");
+                } else {
+                    if (shouldShowRationale(permissions, ImageViewActivity.this)) {
+                        ActivityCompat.requestPermissions(ImageViewActivity.this, permissions, 100);
                     } else {
-                        if (shouldShowRationale(permissions, ImageViewActivity.this)) {
-                            ActivityCompat.requestPermissions(ImageViewActivity.this, permissions, 100);
-                        } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.camera_storage_error), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", getPackageName(), null);
-                            intent.setData(uri);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivityForResult(intent, 100);
-                        }
+                        Toast.makeText(getApplicationContext(), getString(R.string.camera_storage_error), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent, 100);
                     }
+                }
 
 
                /* boolean permissionGranted = true;

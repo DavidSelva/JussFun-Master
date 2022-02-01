@@ -27,12 +27,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.app.jussfun.R;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;

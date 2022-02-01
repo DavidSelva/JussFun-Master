@@ -7,6 +7,7 @@ import com.app.jussfun.model.AppDefaultResponse;
 import com.app.jussfun.model.CommonResponse;
 import com.app.jussfun.model.ConvertGiftRequest;
 import com.app.jussfun.model.ConvertGiftResponse;
+import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.FollowRequest;
 import com.app.jussfun.model.FollowResponse;
 import com.app.jussfun.model.FollowersResponse;
@@ -177,4 +178,6 @@ public interface ApiInterface {
     @GET("accounts/chargefilters/{user_id}")
     Call<HashMap<String, String>> chargeSwipeFilters(@Path("user_id") String userId);
 
+    @GET("activities/getfeeds/{user_id}/{offset}/{limit}")
+    Call<FeedsModel> getHomeFeed(String userId, String s, String s1);
 }

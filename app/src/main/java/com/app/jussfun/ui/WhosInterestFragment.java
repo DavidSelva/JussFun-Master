@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.FollowersResponse;
 import com.app.jussfun.model.GetSet;

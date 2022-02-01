@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;

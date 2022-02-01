@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.app.jussfun.base.App;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.app.jussfun.BuildConfig;
@@ -52,7 +53,6 @@ import com.app.jussfun.apprtc.util.AppRTCUtils;
 import com.app.jussfun.external.CrystalRangeSeekbar;
 import com.app.jussfun.external.OnRangeSeekbarChangeListener;
 import com.app.jussfun.external.OnRangeSeekbarFinalValueListener;
-import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.OnOkCancelClickListener;
 import com.app.jussfun.model.GetSet;
@@ -64,7 +64,6 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.skyfishjy.library.RippleBackground;
 
 import org.json.JSONException;

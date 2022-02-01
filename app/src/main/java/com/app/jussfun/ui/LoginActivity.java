@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.NetworkReceiver;

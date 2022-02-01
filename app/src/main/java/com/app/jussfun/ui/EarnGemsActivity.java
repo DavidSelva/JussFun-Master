@@ -19,8 +19,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
@@ -31,7 +31,6 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;

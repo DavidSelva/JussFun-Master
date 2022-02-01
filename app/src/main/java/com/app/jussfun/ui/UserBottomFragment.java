@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.ProfileUpdatedListener;

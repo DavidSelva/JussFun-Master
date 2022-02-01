@@ -21,15 +21,12 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.card.MaterialCardView;
 import com.app.jussfun.R;
 import com.app.jussfun.helper.LocaleManager;

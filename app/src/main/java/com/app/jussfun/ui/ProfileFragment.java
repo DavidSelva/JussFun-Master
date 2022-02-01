@@ -19,12 +19,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.model.GetSet;
@@ -41,7 +39,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;

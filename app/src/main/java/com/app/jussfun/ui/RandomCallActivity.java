@@ -44,6 +44,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.app.jussfun.R;
 import com.app.jussfun.apprtc.util.AppRTCUtils;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.FollowUpdatedListener;

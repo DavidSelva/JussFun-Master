@@ -30,12 +30,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.external.qrgenerator.QRGContents;

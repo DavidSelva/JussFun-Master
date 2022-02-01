@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.LocaleManager;
@@ -27,10 +28,7 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;

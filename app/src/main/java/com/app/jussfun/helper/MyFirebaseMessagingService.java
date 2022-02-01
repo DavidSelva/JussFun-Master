@@ -17,7 +17,7 @@ import com.app.jussfun.apprtc.util.AppRTCUtils;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.model.AddDeviceRequest;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.ui.App;
+import com.app.jussfun.base.App;
 import com.app.jussfun.ui.ChatActivity;
 import com.app.jussfun.ui.VideoCallActivity;
 import com.app.jussfun.utils.ApiClient;

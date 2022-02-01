@@ -28,7 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.app.jussfun.base.App;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.app.jussfun.BuildConfig;

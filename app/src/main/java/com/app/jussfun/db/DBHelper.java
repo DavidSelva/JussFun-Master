@@ -21,7 +21,7 @@ import com.app.jussfun.livedata.MessageLiveModel;
 import com.app.jussfun.model.AdminMessageResponse;
 import com.app.jussfun.model.ChatResponse;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.ui.App;
+import com.app.jussfun.base.App;
 import com.app.jussfun.ui.ChatActivity;
 import com.app.jussfun.ui.VideoCallActivity;
 import com.app.jussfun.utils.AppUtils;

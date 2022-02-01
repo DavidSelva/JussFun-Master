@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
-import com.app.jussfun.ui.App;
+import com.app.jussfun.base.App;
 
 /**
  * Created by Jussfun on 4/3/17.

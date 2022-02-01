@@ -2,7 +2,6 @@ package com.app.jussfun.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +35,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.CrystalRangeSeekbar;
 import com.app.jussfun.external.OnRangeSeekbarChangeListener;
 import com.app.jussfun.external.OnRangeSeekbarFinalValueListener;

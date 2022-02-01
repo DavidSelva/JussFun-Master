@@ -10,7 +10,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.app.jussfun.ui.App;
+import com.app.jussfun.base.App;
 import com.app.jussfun.utils.AppUtils;
 
 import java.util.Collection;

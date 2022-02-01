@@ -12,7 +12,7 @@ import com.app.jussfun.R;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.model.ChatResponse;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.ui.App;
+import com.app.jussfun.base.App;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 

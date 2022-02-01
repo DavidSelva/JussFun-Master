@@ -31,12 +31,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.qrgenerator.QRGContents;
 import com.app.jussfun.external.qrgenerator.QRGEncoder;

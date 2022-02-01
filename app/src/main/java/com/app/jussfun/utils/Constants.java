@@ -343,4 +343,5 @@ public class Constants {
     public static final String KEY_NAME_NOT_INVALIDATED = "key_not_invalidated";
     public static final String DEFAULT_KEY_NAME = "default_key";
 
+    public static boolean isMute = true;
 }
