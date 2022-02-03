@@ -104,7 +104,7 @@
     <string name="free_gems">Free Gems</string>
     <string name="pick_image_intent_text">Choose an image</string>
     <string name="camera_error">Enable camera permission</string>
-    <string name="storage_error">Enable storage permission</string>
+    <string name="storage_permission_error">Enable storage permission</string>
     <string name="camera_storage_error">Enable camera and storage permissions</string>
     <string name="camera_microphone_permission_error">Enable camera and microphone permissions</string>
     <string name="camera_microphone_storage_permission_error">Enable camera, microphone and storage permissions</string>
@@ -449,5 +449,7 @@
     <string name="error_drm_unsupported_scheme">This device does not support the required DRM scheme</string>
     <string name="error_drm_unknown">An unknown DRM error occurred</string>
     <string name="storage_permission_denied">Permission to access storage was denied</string>
+    <string name="enable_camera_permission">Enable camera permission</string>
+    <string name="normal">Normal</string>
 
 </resources>

@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuFeeds"
+        android:icon="@drawable/main_discover_p"
+        android:title=""
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menuHome"
         android:icon="@drawable/main_discover_p"
         android:title=""

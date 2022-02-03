@@ -87,4 +87,7 @@
     <color name="blue_ocean">#5B86E5</color>
     <color name="blue_marin">#36D1DC</color>
 
+    <color name="filter_label_normal">#8A8889</color>
+    <color name="filter_label_selected">#000000</color>
+
 </resources>

@@ -358,7 +358,7 @@ public class QRCodeScannerActivity extends AppCompatActivity
                   public void onCancelClicked(Object o) {
 
                   }
-                }, getString(R.string.storage_error));
+                }, getString(R.string.storage_permission_error));
               }
               break;
             }
@@ -380,7 +380,7 @@ public class QRCodeScannerActivity extends AppCompatActivity
                     if (Environment.isExternalStorageManager()) {
                       btnGallery.performClick();
                     } else {
-                      App.makeToast(getString(R.string.storage_error));
+                      App.makeToast(getString(R.string.storage_permission_error));
                     }
                   }
                 }

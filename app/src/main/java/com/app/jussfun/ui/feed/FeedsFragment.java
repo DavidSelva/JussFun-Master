@@ -16,12 +16,21 @@
 
 package com.app.jussfun.ui.feed;
 
+import static android.Manifest.permission.CAMERA;
+
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +40,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -45,25 +57,33 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.ProgressWheel;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
+import com.app.jussfun.helper.OnOkCancelClickListener;
 import com.app.jussfun.helper.PermissionsUtils;
+import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
+import com.app.jussfun.utils.Constants;
+import com.app.jussfun.utils.FileUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import org.greenrobot.eventbus.EventBus;
-
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -126,9 +146,15 @@ public class FeedsFragment extends Fragment {
     private int offset = 0, limitCnt = 10;
     private EndlessRecyclerOnScrollListener scrollListener;
     private boolean isLoadedAllItems = false;
-    private int SelecthomeListposition;
-    private ActivityResultLauncher<String[]> mPermissionResult;
-    public static boolean homeMessageBadge = false;
+    private StorageUtils storageUtils;
+
+    private File currentPhotoFile;
+    private Uri mCurrentPhotoUri;
+    private ActivityResultLauncher<String[]> mCameraPermissionResult;
+    private ActivityResultLauncher<String[]> mStoragePermissionResult;
+    private ActivityResultLauncher<Intent> cameraResultLauncher;
+    private ActivityResultLauncher<Intent> galleryResultLauncher;
+    private ActivityResultLauncher<Intent> addPostResultLauncher;
 
     @Nullable
     @Override
@@ -140,10 +166,13 @@ public class FeedsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle bundle) {
-        super.onViewCreated(view, bundle);
-        initViews();
+    public void onViewCreated(@NonNull View itemView, @Nullable Bundle bundle) {
+        super.onViewCreated(itemView, bundle);
+        if (mContext == null) mContext = getActivity();
+        storageUtils = StorageUtils.getInstance(mContext);
+        initViews(itemView);
         initPermission();
+        initResultLauncher();
         findHeightWidth();
         setMargins();
         feedsList = new ArrayList<>();
@@ -176,77 +205,23 @@ public class FeedsFragment extends Fragment {
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wayType = "post";
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (PermissionsUtils.checkPermissionsArray(PermissionsUtils.HOMEPAGE_V11_PERMISSION, mContext)) {
-                        goToAddPost();
-                    } else {
-                        mPermissionResult.launch(PermissionsUtils.HOMEPAGE_V11_PERMISSION);
-                    }
-                } else {
-                    String[] permissions;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        permissions = PermissionsUtils.HOMEPAGE_V10_PERMISSION;
-                    } else {
-                        permissions = PermissionsUtils.HOMEPAGE_PERMISSION;
-                    }
-                    /*Dexter.withContext(mContext)
-                            .withPermissions(permissions)
-                            .withListener(new MultiplePermissionsListener() {
-                                @Override
-                                public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                                    if (multiplePermissionsReport != null) {
-                                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                                            goToAddPost();
-                                        } else if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-                                            new AlertDialog.Builder(getActivity())
-                                                    .setMessage(getString(R.string.camera_storage_permission_description))
-                                                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                                                    Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
-                                                            startActivityForResult(intent, 600);
-                                                            dialog.dismiss();
-                                                        }
-                                                    })
-                                                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.cancel();
-                                                        }
-                                                    })
-                                                    .create()
-                                                    .show();
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                                    permissionToken.continuePermissionRequest();
-                                }
-                            }).onSameThread()
-                            .check();*/
-                }
+                openImageDialog(itemView);
             }
         });
     }
 
-    private void initViews() {
-//        nestedScrollView = getView().findViewById(R.id.nestedScrollView);
-//        rvStories = getView().findViewById(R.id.story_view);
-        container = getView().findViewById(R.id.homeRecycler);
-        btnPost = getView().findViewById(R.id.btnPost);
-        nullLay = getView().findViewById(R.id.nullLay);
-        nullImage = getView().findViewById(R.id.nullImage);
-        nullText = getView().findViewById(R.id.nullText);
-        pgsBar = (ProgressWheel) getView().findViewById(R.id.pBar);
-        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refreshlayout);
+    private void initViews(View view) {
+        container = view.findViewById(R.id.homeRecycler);
+        btnPost = view.findViewById(R.id.btnPost);
+        nullLay = view.findViewById(R.id.nullLay);
+        nullImage = view.findViewById(R.id.nullImage);
+        nullText = view.findViewById(R.id.nullText);
+        pgsBar = view.findViewById(R.id.pBar);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refreshlayout);
     }
 
     private void initPermission() {
-        mPermissionResult = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+        mCameraPermissionResult = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
             public void onActivityResult(Map<String, Boolean> result) {
                 boolean granted = true;
@@ -255,20 +230,16 @@ public class FeedsFragment extends Fragment {
                     if (!x.getValue()) granted = false;
                 }
                 if (granted) {
-                    if (wayType.equals("story")) {
-                        goToAddStory();
-                    } else {
-                        goToAddPost();
-                    }
+                    captureImage();
                 } else {
-                    for (Map.Entry<String, Boolean> x : result.entrySet()) {/*
+                    for (Map.Entry<String, Boolean> x : result.entrySet()) {
                         if (!x.getValue()) {
                             if (shouldShowRequestPermissionRationale(x.getKey())) {
-                                mPermissionResult.launch(result.keySet().toArray(new String[result.size()]));
+                                mCameraPermissionResult.launch(result.keySet().toArray(new String[result.size()]));
                             } else {
-                                PermissionsUtils.openPermissionDialog(mContext, new OkayCancelCallback() {
+                                PermissionsUtils.openPermissionDialog(mContext, new OnOkCancelClickListener() {
                                     @Override
-                                    public void onOkayClicked(Object o) {
+                                    public void onOkClicked(Object o) {
                                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                                                 Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -279,16 +250,178 @@ public class FeedsFragment extends Fragment {
                                     public void onCancelClicked(Object o) {
 
                                     }
-                                }, mContext.getString(R.string.camera_storage_permission_description));
+                                }, getString(R.string.enable_camera_permission));
                             }
                             break;
                         }
-                    */
                     }
                 }
 
             }
         });
+
+        mStoragePermissionResult = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> result) {
+                boolean granted = true;
+                Log.d(TAG, "onActivityResult: " + result);
+                for (Map.Entry<String, Boolean> x : result.entrySet()) {
+                    if (!x.getValue()) granted = false;
+                }
+                if (granted) {
+                    openGallery();
+                } else {
+                    for (Map.Entry<String, Boolean> x : result.entrySet()) {
+                        if (!x.getValue()) {
+                            if (shouldShowRequestPermissionRationale(x.getKey())) {
+                                mStoragePermissionResult.launch(result.keySet().toArray(new String[result.size()]));
+                            } else {
+                                PermissionsUtils.openPermissionDialog(mContext, new OnOkCancelClickListener() {
+                                    @Override
+                                    public void onOkClicked(Object o) {
+                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                                Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void onCancelClicked(Object o) {
+
+                                    }
+                                }, mContext.getString(R.string.storage_permission_error));
+                            }
+                            break;
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void initResultLauncher() {
+        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    String fileName = getString(R.string.app_name) + System.currentTimeMillis() + Constants.IMAGE_EXTENSION;
+//                    Uri uri = storageUtils.saveToSDCard(FileUtil.decodeBitmap(mContext, mCurrentPhotoUri), Constants.TAG_SENT, fileName);
+                    openAddPostActivity(mCurrentPhotoUri);
+                }
+            }
+        });
+
+        galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    openAddPostActivity(result.getData().getData());
+                }
+            }
+        });
+
+        addPostResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    /*Refresh Data*/
+                }
+            }
+        });
+    }
+
+    private void openAddPostActivity(Uri data) {
+        Intent intent = new Intent(mContext, FilterActivity.class);
+        intent.setData(data);
+        addPostResultLauncher.launch(intent);
+    }
+
+    private void openImageDialog(View itemView) {
+        View contentView = getLayoutInflater().inflate(R.layout.bottom_sheet_image_pick_options, itemView.findViewById(R.id.parentLay), false);
+        BottomSheetDialog pickerOptionsSheet = new BottomSheetDialog(mContext, R.style.SimpleBottomDialog);
+        pickerOptionsSheet.setCanceledOnTouchOutside(true);
+        pickerOptionsSheet.setContentView(contentView);
+
+        View layoutCamera = contentView.findViewById(R.id.container_camera_option);
+        View layoutGallery = contentView.findViewById(R.id.container_gallery_option);
+
+        layoutCamera.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(mContext, CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                pickerOptionsSheet.dismiss();
+                captureImage();
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    mCameraPermissionResult.launch(PermissionsUtils.CAMERA_PERMISSION);
+                } else {
+                    mCameraPermissionResult.launch(PermissionsUtils.CAMERA_STORAGE_PERMISSION);
+                }
+            }
+        });
+
+        layoutGallery.setOnClickListener(v -> {
+            if (PermissionsUtils.checkStoragePermission(mContext)) {
+                pickerOptionsSheet.dismiss();
+                openGallery();
+            } else {
+                mStoragePermissionResult.launch(PermissionsUtils.READ_WRITE_PERMISSIONS);
+            }
+
+        });
+
+        pickerOptionsSheet.show();
+    }
+
+    private void captureImage() {
+        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        captureIntent.addFlags(
+                Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+        if (captureIntent.resolveActivity(mContext.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                //     Timber.e(ex);
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                mCurrentPhotoUri = FileProvider.getUriForFile(mContext,
+                        getString(R.string.file_provider_authority),
+                        photoFile);
+                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoUri);
+                cameraResultLauncher.launch(captureIntent);
+            }
+        }
+    }
+
+    private void openGallery() {
+        Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, collection);
+        pickIntent.setType("image/jpeg");
+
+        Intent chooserIntent = Intent.createChooser(pickIntent, "Select a picture");
+        if (chooserIntent.resolveActivity(mContext.getPackageManager()) != null) {
+            galleryResultLauncher.launch(chooserIntent);
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = storageUtils.getCacheDir(mContext);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoFile = image;
+        return image;
     }
 
     private void setMargins() {
@@ -348,7 +481,6 @@ public class FeedsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -359,7 +491,6 @@ public class FeedsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     public void ScrollMethod() {

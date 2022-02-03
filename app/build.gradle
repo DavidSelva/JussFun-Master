@@ -144,6 +144,9 @@ dependencies {
 //    WebKit
     implementation "androidx.webkit:webkit:1.4.0"
 
+    /*Image Filter*/
+    implementation 'info.androidhive:imagefilters:1.0.7'
+
     // Include the GoCoder SDK library dependency declaration
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -150,8 +150,22 @@ public class ChatFragment extends Fragment implements AppWebSocket.WebSocketChan
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup) inflater.inflate(
+                R.layout.fragment_chat, container, false);
+        ButterKnife.bind(this, rootView);
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        dbHelper = DBHelper.getInstance(getActivity());
+        liveModel = new ViewModelProvider(ChatFragment.this).get(MessageLiveModel.class);
+        initView();
+
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         observer = new Observer<List<ChatResponse>>() {
             @Override
             public void onChanged(List<ChatResponse> chatResponses) {
@@ -167,20 +181,6 @@ public class ChatFragment extends Fragment implements AppWebSocket.WebSocketChan
                 adapter.setData(chatResponses);
             }
         };
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_chat, container, false);
-        ButterKnife.bind(this, rootView);
-        apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        dbHelper = DBHelper.getInstance(getActivity());
-        liveModel = new ViewModelProvider(ChatFragment.this).get(MessageLiveModel.class);
-        initView();
-
-        return rootView;
     }
 
     private void initView() {

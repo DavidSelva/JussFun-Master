@@ -49,6 +49,7 @@ import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.app.jussfun.base.App;
+import com.app.jussfun.ui.feed.FeedsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.jussfun.R;
 import com.app.jussfun.db.DBHelper;
@@ -136,9 +137,9 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     SharedPreferences.Editor editor;
     SharedPreferences sharedPrefs;
     SharedPreferences.Editor editor1;
-    HomeFragment randomFragment;
 
-    NearByUsersFragment nearByUsersFragment;
+    HomeFragment randomFragment;
+    FeedsFragment feedsFragment;
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
 
@@ -155,7 +156,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     int delay = 5000; //milliseconds
     DBHelper dbHelper;
     List<String> skuList = new ArrayList<>();
-    private int NUM_PAGES = 3;
+    private int NUM_PAGES = 4;
     private String from = null;
     private BiometricPrompt.PromptInfo promptInfo;
     private ExecutorService executor;
@@ -380,17 +381,17 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.menuHome:
+                    case R.id.menuFeeds:
                         viewPager.setCurrentItem(0);
-                        NearByUsersFragment.isFragmentChanged = true;
+                        break;
+                    case R.id.menuHome:
+                        viewPager.setCurrentItem(1);
                         break;
                     case R.id.menuChat:
-                        viewPager.setCurrentItem(1);
-                        NearByUsersFragment.isFragmentChanged = true;
+                        viewPager.setCurrentItem(2);
                         break;
                     case R.id.menuProfile:
-                        viewPager.setCurrentItem(2);
-                        NearByUsersFragment.isFragmentChanged = true;
+                        viewPager.setCurrentItem(3);
                         break;
                 }
                 return false;
@@ -441,17 +442,21 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             switch (position) {
                 case 0:
                 default:
+                    feedsFragment = new FeedsFragment();
+                    return feedsFragment;
+
+                case 1:
                     randomFragment = new HomeFragment();
                     return randomFragment;
 
-                case 1:
+                case 2:
                     chatFragment = new ChatFragment();
                     Bundle chat = new Bundle();
                     chat.putInt(Constants.TAG_BOTTOM_HEIGHT, bottomNavHeight);
                     chatFragment.setArguments(chat);
                     return chatFragment;
 
-                case 2:
+                case 3:
                     profileFragment = new ProfileFragment();
                     return profileFragment;
             }
@@ -466,18 +471,28 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     private void setBottomNavigation(int position) {
         switch (position) {
             case 0:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover_p));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover_p));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case 1:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover_p));
+                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case 2:
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
+                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
+                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                break;
+            case 3:
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
@@ -485,55 +500,6 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 break;
         }
     }
-
-    // addon for live streaming
-    // uncomment this method and comment previous method
-/*
-    private void setBottomNavigation(int position) {
-        switch (position) {
-            case 0:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.explore_act));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.card_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuLivzaHome).setIcon(getDrawable(R.drawable.video_play_white));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.chat));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.profile_grey));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
-                break;
-            case 1:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.explore_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.card_act));
-                bottomNavigation.getMenu().findItem(R.id.menuLivzaHome).setIcon(getDrawable(R.drawable.video_play_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.chat_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.profile_grey));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                break;
-            case 2:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.explore_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.card_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuLivzaHome).setIcon(getDrawable(R.drawable.video_play_selected));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.chat_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.profile_grey));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                break;
-            case 3:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.explore_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.card_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuLivzaHome).setIcon(getDrawable(R.drawable.video_play_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.chat_act));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.profile_grey));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                break;
-            case 4:
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.explore_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.card_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuLivzaHome).setIcon(getDrawable(R.drawable.video_play_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.chat_grey));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.profile_act));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                break;
-        }
-    }
-*/
 
     public void checkFingerPrintEnabled() {
         if (SharedPref.getBoolean(SharedPref.IS_FINGERPRINT_LOCKED, false) && appUtils.checkIsDeviceEnabled(this)) {
@@ -805,7 +771,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             }
         }
 
-        if(isSettingsIn){
+        if (isSettingsIn) {
             if (Build.BRAND.equalsIgnoreCase("TECNO")) {
                 enableAutoStart();
             }
@@ -974,13 +940,9 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 int unseenCount = dbHelper.getUnseenMessagesCount(GetSet.getUserId());
                 dbHelper.addAdminRecentMessage(messageData, unseenCount);
                 getUserProfile(GetSet.getUserId());
-                if (nearByUsersFragment != null && nearByUsersFragment.isVisible()) {
-                    nearByUsersFragment.updateNearByUsers();
-                }
 
                 if (SharedPref.getString(SharedPref.FACEBOOK_IMAGE, null) != null) {
                     try {
-                        Logging.e(TAG, "onResponse:fbImage " + SharedPref.getString(SharedPref.FACEBOOK_IMAGE, null));
                         InputStream imageStream = new URL(SharedPref.getString(SharedPref.FACEBOOK_IMAGE, null)).openStream();
                         uploadImage(AppUtils.getBytes(imageStream));
                     } catch (Exception e) {
@@ -1143,7 +1105,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                             GetSet.setFollowNotification(profile.getFollowNotification());
                             GetSet.setChatNotification(profile.getChatNotification());
                             GetSet.setGiftEarnings(profile.getGiftEarnings());
-                            Log.d(TAG, "onResponseGiftEarning: "+profile.getGiftEarnings());
+                            Log.d(TAG, "onResponseGiftEarning: " + profile.getGiftEarnings());
                             GetSet.setReferalLink(profile.getReferalLink());
                             GetSet.setCreatedAt(profile.getCreatedAt());
                             GetSet.setInterestsCount(profile.getInterests());
@@ -1251,33 +1213,33 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                     // The billing client is ready. You can query purchases here.
 
 
-                        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-                        params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS);
-                        billingClient.querySkuDetailsAsync(params.build(),
-                                new SkuDetailsResponseListener() {
-                                    @Override
-                                    public void onSkuDetailsResponse(BillingResult billingResult1, List<SkuDetails> skuDetailsList) {
-                                        // Process the result.
-                                        // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
-                                        for (SkuDetails skuDetails : skuDetailsList) {
-                                            String sku = skuDetails.getSku();
-                                            String price = skuDetails.getPrice();
-                                            Log.i(TAG, "onSkuDetailsResponse: " + skuDetails);
-                                            String validity = skuDetails.getSubscriptionPeriod();
-                                            if (SharedPref.getString(SharedPref.DEFAULT_SUBS_SKU, Constants.DEFAULT_SUBS_SKU).equals(sku)) {
-                                                SharedPref.putString(SharedPref.IN_APP_PRICE, price);
-                                                SharedPref.putString(SharedPref.IN_APP_VALIDITY, validity);
-                                                break;
-                                            }
+                    SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+                    params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS);
+                    billingClient.querySkuDetailsAsync(params.build(),
+                            new SkuDetailsResponseListener() {
+                                @Override
+                                public void onSkuDetailsResponse(BillingResult billingResult1, List<SkuDetails> skuDetailsList) {
+                                    // Process the result.
+                                    // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
+                                    for (SkuDetails skuDetails : skuDetailsList) {
+                                        String sku = skuDetails.getSku();
+                                        String price = skuDetails.getPrice();
+                                        Log.i(TAG, "onSkuDetailsResponse: " + skuDetails);
+                                        String validity = skuDetails.getSubscriptionPeriod();
+                                        if (SharedPref.getString(SharedPref.DEFAULT_SUBS_SKU, Constants.DEFAULT_SUBS_SKU).equals(sku)) {
+                                            SharedPref.putString(SharedPref.IN_APP_PRICE, price);
+                                            SharedPref.putString(SharedPref.IN_APP_VALIDITY, validity);
+                                            break;
                                         }
-                                      //  if(getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")) {
-                                        if (GetSet.getUserId() != null) {
-                                            querySubscriptions(billingResult1);
-                                        }
-                                     //   }
                                     }
-                                });
-                    }
+                                    //  if(getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")) {
+                                    if (GetSet.getUserId() != null) {
+                                        querySubscriptions(billingResult1);
+                                    }
+                                    //   }
+                                }
+                            });
+                }
 
             }
 
@@ -1389,9 +1351,9 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
     private void openPermissionDialog() {
 //        if (SharedPref.getBoolean(SharedPref.POP_UP_WINDOW_PERMISSION, true)) {
-            if (dialogOverLayPermission != null && !dialogOverLayPermission.isAdded()) {
-                dialogOverLayPermission.show(getSupportFragmentManager(), "PermissionDialog");
-            }
+        if (dialogOverLayPermission != null && !dialogOverLayPermission.isAdded()) {
+            dialogOverLayPermission.show(getSupportFragmentManager(), "PermissionDialog");
+        }
 //        }
     }
 
@@ -1458,7 +1420,8 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
     private void enableAutoStart() {
         Log.d(TAG, "enableAutoStart: " + Build.BRAND);
-        sharedPrefs = getSharedPreferences("MyPref", 0);;
+        sharedPrefs = getSharedPreferences("MyPref", 0);
+        ;
         editor = sharedPrefs.edit();
         isAutoStartIn = sharedPrefs.getBoolean("isAutoStartIn", false);
         if (!isAutoStartIn) {

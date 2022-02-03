@@ -37,6 +37,7 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_decoder.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_earn_gems.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_edit_profile.xml" value="0.33" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_filter.xml" value="0.28854166666666664" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_find_peoples.xml" value="0.33" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_followers.xml" value="0.19739583333333333" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_gems_store.xml" value="0.33" />
@@ -100,6 +101,7 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_gems_store.xml" value="0.5" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_gifts.xml" value="0.5" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_gifts_received.xml" value="0.33" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_image_filter.xml" value="0.28854166666666664" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_language.xml" value="0.1859375" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_live_gift.xml" value="0.23324275362318841" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_near_by_users.xml" value="0.23324275362318841" />

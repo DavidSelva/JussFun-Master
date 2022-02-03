@@ -900,25 +900,11 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
                     App.makeToast(getString(R.string.no_internet_connection));
                 }
                 break;
-            // addon for chat translate
-           /* case R.id.btnLanguage:
-                Intent language = new Intent(getApplicationContext(), LanguageActivity.class);
-                language.putExtra(Constants.TAG_FROM, Constants.TAG_CHAT);
-                language.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
-                language.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivityForResult(language,Constants.LANGUAGE_REQUEST_CODE);
-                Log.i(TAG, "onViewClicked1: "+language);
-                break;*/
         }
     }
 
     @Override
     public void onBackPressed() {
-        // addon for voice message
-        /*if (player!=null){
-            player.stop();
-            player.reset();
-        }*/
         super.onBackPressed();
     }
 
@@ -1701,7 +1687,7 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
                         if (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
                             requestPermissions(permissions, Constants.DOWNLOAD_REQUEST_CODE);
                         } else {
-                            App.makeToast(getString(R.string.storage_error));
+                            App.makeToast(getString(R.string.storage_permission_error));
                             Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID));
                             startActivity(i);
                         }

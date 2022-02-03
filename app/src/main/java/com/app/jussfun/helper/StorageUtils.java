@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -1252,7 +1253,7 @@ public class StorageUtils {
        /* if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q)
             return getImage(from, imageName) != null;
          else*/
-            return getImageUri(from, imageName) != null;
+        return getImageUri(from, imageName) != null;
     }
 
     public boolean checkIfImageExistsBelowAndroid11(String from, String imageName) {
@@ -1358,6 +1359,23 @@ public class StorageUtils {
         }
         Logging.i(TAG, "getTempFile: " + mDataDir);
         return new File(mDataDir.getPath() + File.separator + fileName);
+    }
+
+    public File getCacheDir(Context context) {
+        File mDataDir = null;
+        if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
+            mDataDir = ContextCompat.getExternalCacheDirs(context)[0];
+            if (!mDataDir.exists()) {
+                mDataDir.mkdirs();
+            }
+        } else {
+            mDataDir = context.getCacheDir();
+            if (!mDataDir.exists()) {
+                mDataDir.mkdirs();
+            }
+        }
+        Logging.i(TAG, "getTempFile: " + mDataDir);
+        return mDataDir;
     }
 
     public File saveToAppDir(Bitmap bitmap, String from, String filename) {
@@ -1666,4 +1684,21 @@ public class StorageUtils {
         return path;
     }
 
+    public Bitmap getBitMapFromUri(Context mContext, Uri imageUri) {
+        Bitmap bitmap = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            try {
+                bitmap =  ImageDecoder.decodeBitmap(ImageDecoder.createSource(mContext.getContentResolver(), imageUri));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                bitmap =  MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return bitmap;
+    }
 }
