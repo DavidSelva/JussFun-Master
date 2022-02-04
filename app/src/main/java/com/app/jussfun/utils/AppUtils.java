@@ -1,5 +1,8 @@
 package com.app.jussfun.utils;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+import static android.content.Context.FINGERPRINT_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -32,21 +35,22 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.dynamiclinks.DynamicLink;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.external.CryptLib;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.ui.HomeFragment;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -66,9 +70,6 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.NoSuchPaddingException;
-
-import static android.content.Context.ACTIVITY_SERVICE;
-import static android.content.Context.FINGERPRINT_SERVICE;
 
 public class AppUtils {
 
@@ -184,6 +185,20 @@ public class AppUtils {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
+    }
+
+    public static int getDisplayWidth(AppCompatActivity activity) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        return width;
+    }
+
+    public static int getDisplayHeight(AppCompatActivity activity) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        return height;
     }
 
     public static byte[] getBytes(InputStream is) throws IOException {

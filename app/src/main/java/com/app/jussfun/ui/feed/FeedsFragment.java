@@ -27,7 +27,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -36,9 +35,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -46,11 +43,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -74,8 +71,8 @@ import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
-import com.app.jussfun.utils.FileUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +83,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,11 +102,28 @@ import retrofit2.Response;
 public class FeedsFragment extends Fragment {
 
     private static final String TAG = FeedsFragment.class.getSimpleName();
-    private static final int VERIFY_PERMISSIONS_REQUEST = 1;
-    private FeedsAdapter feedsAdapter;
+    private Context mContext;
+
+    @BindView(R.id.pBar)
+    ProgressWheel pBar;
+    @BindView(R.id.containerFeed)
+    Container containerFeed;
+    @BindView(R.id.swipe_refreshlayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.nullImage)
+    ImageView nullImage;
+    @BindView(R.id.nullText)
+    AppCompatTextView nullText;
+    @BindView(R.id.nullLay)
+    RelativeLayout nullLay;
+    @BindView(R.id.btnPost)
+    FloatingActionButton btnPost;
+    @BindView(R.id.childLay)
+    ConstraintLayout childLay;
 
     // For use other fragment
     private FeedsFragment feedsFragment;
+    private FeedsAdapter feedsAdapter;
     public static boolean isDeleteStory = false;
     //below list for delete unwanted files
     public static int exploreClickItem = 0;
@@ -117,26 +133,15 @@ public class FeedsFragment extends Fragment {
     public static boolean IsCmtButtonClicked = false;
     public static List<String> unfollowList = new ArrayList<>();
     final Handler handler = new Handler();  // post a delay due to the visibility change
-    ConstraintLayout parentLay;
-    ImageView btnPost;
-    Container container;
-    private RelativeLayout nullLay;
-    private ImageView nullImage;
-    private TextView nullText;
-    //    RecyclerView rvStories;
     LinearLayoutManager layoutManager;
-    ProgressWheel pgsBar;
-    LinearLayout newUserLayout;
-    // used for pull down refresh home page
-    SwipeRefreshLayout swipeRefreshLayout;
+
+
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     Call<FeedsModel> homeApiCall;
     ArrayList<Feeds> feedsList = new ArrayList<>();
     PlayerSelector selector = PlayerSelector.DEFAULT; // visible to user by default.
     BottomSheetDialog dialog;
     Dialog newDialog;
-    private NestedScrollView nestedScrollView;
-    private Context mContext;
     private String wayType = "";
     private int visibleItemCount;
     private int pastVisiblesItems;
@@ -170,30 +175,30 @@ public class FeedsFragment extends Fragment {
         super.onViewCreated(itemView, bundle);
         if (mContext == null) mContext = getActivity();
         storageUtils = StorageUtils.getInstance(mContext);
-        initViews(itemView);
+        ButterKnife.bind(this, itemView);
         initPermission();
         initResultLauncher();
         findHeightWidth();
         setMargins();
         feedsList = new ArrayList<>();
-        container.setVisibility(View.GONE);
+        containerFeed.setVisibility(View.GONE);
 
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        container.setLayoutManager(layoutManager);
-        ViewCompat.setNestedScrollingEnabled(container, false);
+        containerFeed.setLayoutManager(layoutManager);
+        ViewCompat.setNestedScrollingEnabled(containerFeed, false);
 
 
         feedsAdapter = new FeedsAdapter(feedsList, getActivity(), getActivity());
-        container.setAdapter(feedsAdapter);
-//        container.setCacheManager(feedsAdapter);
+        containerFeed.setAdapter(feedsAdapter);
+//        containerFeed.setCacheManager(feedsAdapter);
 
         selector = PlayerSelector.DEFAULT;
-        container.setPlayerSelector(selector);
+        containerFeed.setPlayerSelector(selector);
         // get home post data from service
         if (NetworkReceiver.isConnected() && feedsList.size() == 0) {
 //            loadHomeFeeds(offset, limitCnt);
         } else {
-            pgsBar.setVisibility(View.GONE);
+            pBar.setVisibility(View.GONE);
         }
 
         // for page scrolling
@@ -210,15 +215,6 @@ public class FeedsFragment extends Fragment {
         });
     }
 
-    private void initViews(View view) {
-        container = view.findViewById(R.id.homeRecycler);
-        btnPost = view.findViewById(R.id.btnPost);
-        nullLay = view.findViewById(R.id.nullLay);
-        nullImage = view.findViewById(R.id.nullImage);
-        nullText = view.findViewById(R.id.nullText);
-        pgsBar = view.findViewById(R.id.pBar);
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refreshlayout);
-    }
 
     private void initPermission() {
         mCameraPermissionResult = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
@@ -430,7 +426,7 @@ public class FeedsFragment extends Fragment {
         float topSpace = AppUtils.dpToPx(mContext, 15);
 //        float verticalSpacing = mContext.getResources().getDimension(R.dimen.post_bottom_margin);
         float verticalSpacing = AppUtils.dpToPx(mContext, 15);
-/*        DividerItemDecoration horizontalDecoration = new DividerItemDecoration(container.getContext(),
+/*        DividerItemDecoration horizontalDecoration = new DividerItemDecoration(containerFeed.getContext(),
                 DividerItemDecoration.VERTICAL) {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -446,8 +442,8 @@ public class FeedsFragment extends Fragment {
         };
         Drawable horizontalDivider = ContextCompat.getDrawable(mContext, R.drawable.divider);
         horizontalDecoration.setDrawable(horizontalDivider);
-        container.addItemDecoration(horizontalDecoration);*/
-        container.addItemDecoration(new RecyclerView.ItemDecoration() {
+        containerFeed.addItemDecoration(horizontalDecoration);*/
+        containerFeed.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
@@ -495,8 +491,8 @@ public class FeedsFragment extends Fragment {
 
     public void ScrollMethod() {
 
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) container.getLayoutManager();
-        container.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) containerFeed.getLayoutManager();
+        containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -547,7 +543,7 @@ public class FeedsFragment extends Fragment {
         offset = 0;
         isLoading = true;
         isLoadedAllItems = false;
-        newUserLayout.setVisibility(View.GONE);
+        nullLay.setVisibility(View.GONE);
 //        storyList.clear();
 //        storyAdapter.notifyDataSetChanged();
         feedsList.clear();
@@ -556,7 +552,7 @@ public class FeedsFragment extends Fragment {
         if (NetworkReceiver.isConnected()) {
 //            loadHomeFeeds(offset, limitCnt);
         } else
-            pgsBar.setVisibility(View.GONE);
+            pBar.setVisibility(View.GONE);
 
     }
 
@@ -566,8 +562,8 @@ public class FeedsFragment extends Fragment {
             @Override
             public void onResponse(Call<FeedsModel> call, Response<FeedsModel> response) {
                 if (offset > 0) feedsAdapter.removeLoadingView();
-                pgsBar.setVisibility(View.GONE);
-                container.setVisibility(View.VISIBLE);
+                pBar.setVisibility(View.GONE);
+                containerFeed.setVisibility(View.VISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
                 if (offsetCnt == 0)
                     feedsList.clear();
@@ -576,7 +572,7 @@ public class FeedsFragment extends Fragment {
                     if (response.body().getStatus().equalsIgnoreCase("true")) {
                         if (results.size() > 0) {
                             isChekRefresh = true;
-                            newUserLayout.setVisibility(View.GONE);
+                            nullLay.setVisibility(View.GONE);
                             isLoading = false;
                             int prevSize = feedsList.size() + 1;
                             feedsList.addAll(results);
@@ -588,9 +584,9 @@ public class FeedsFragment extends Fragment {
                         } else {
 //                            isChekRefresh = false;
                             if (offsetCnt == 0)
-                                newUserLayout.setVisibility(View.VISIBLE);
+                                nullLay.setVisibility(View.VISIBLE);
                             else
-                                newUserLayout.setVisibility(View.GONE);
+                                nullLay.setVisibility(View.GONE);
                             feedsList.addAll(results);
                             feedsAdapter.notifyDataSetChanged();
                             isLoading = true;
@@ -604,7 +600,7 @@ public class FeedsFragment extends Fragment {
             @Override
             public void onFailure(Call<FeedsModel> call, Throwable t) {
                 Log.e(TAG, "loadHomeFeeds: " + t.getMessage());
-                pgsBar.setVisibility(View.GONE);
+                pBar.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -629,7 +625,7 @@ public class FeedsFragment extends Fragment {
         // Using TabLayout has a downside: once we click to a tab to change page, there will be no animation,
         // which will cause our setup doesn't work well. We need a delay to make things work.
         handler.postDelayed(() -> {
-            if (container != null) container.setPlayerSelector(selector);
+            if (containerFeed != null) containerFeed.setPlayerSelector(selector);
         }, 500);
 
        /* if (feedsAdapter.challengecontainer != null) {
@@ -788,7 +784,7 @@ public class FeedsFragment extends Fragment {
         // Using TabLayout has a downside: once we click to a tab to change page, there will be no animation,
         // which will cause our setup doesn't work well. We need a delay to make things work.
         handler.postDelayed(() -> {
-            if (container != null) container.setPlayerSelector(selector);
+            if (containerFeed != null) containerFeed.setPlayerSelector(selector);
         }, 500);
     }*/
 
@@ -842,7 +838,7 @@ public class FeedsFragment extends Fragment {
         offset = 0;
         isLoading = true;
         isLoadedAllItems = false;
-        newUserLayout.setVisibility(View.GONE);
+        nullLay.setVisibility(View.GONE);
 //        storyList.clear();
 //        storyAdapter.notifyDataSetChanged();
         feedsList.clear();
@@ -851,7 +847,7 @@ public class FeedsFragment extends Fragment {
         if (NetworkReceiver.isConnected()) {
 //            loadHomeFeeds(offset, limitCnt);
         } else
-            pgsBar.setVisibility(View.GONE);
+            pBar.setVisibility(View.GONE);
 //        HomeListFragment.storyList.clear();
 //        storyAdapter.notifyDataSetChanged();
 //        homeAdapter.notifyItemRemoved(0);

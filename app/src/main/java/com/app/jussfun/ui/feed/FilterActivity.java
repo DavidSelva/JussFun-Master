@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -217,9 +216,10 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
 
     private void loadView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
+        int displayWidth = AppUtils.getDisplayWidth(this);
+        int displayHeight =  AppUtils.getDisplayHeight(this);
         thumbnailItemList = new ArrayList<>();
-        mAdapter = new ThumbnailsAdapter(this, thumbnailItemList, this);
+        mAdapter = new ThumbnailsAdapter(this, thumbnailItemList, this, displayWidth, displayHeight);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -334,9 +334,9 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
                 default:
             }
 
-            mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getHeight() + 260, mBitmap.getHeight(), matrix, true);
+//            mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getHeight() + 260, mBitmap.getHeight(), matrix, true);
 //            mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getWidth(), matrix, true);
-//            mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, false);
+            mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, false);
         } catch (Exception e) {
             e.printStackTrace();
         }

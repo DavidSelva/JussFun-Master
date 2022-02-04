@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parentLay"
@@ -13,7 +13,8 @@
     <RelativeLayout
         android:id="@+id/toollayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:id="@+id/backLayout"
@@ -59,55 +60,37 @@
     </RelativeLayout>
     <!--end oftoolbar-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/image_layout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toollayout">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/toollayout">
 
-        <FrameLayout
-            android:id="@+id/top_frame"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="450dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/place_holder_loading" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/image_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/place_holder_loading" />
-
-            </RelativeLayout>
-
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/image_layout"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_vertical"
         android:clipChildren="false"
         android:overScrollMode="never"
         android:padding="10dp"
         android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:itemCount="3"
         tools:listitem="@layout/item_image_filter" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,11 +69,11 @@
                     <ImageView
                         android:layout_width="@dimen/size_40"
                         android:layout_height="@dimen/size_40"
-                        android:layout_centerInParent="true"
-                        android:id="@+id/btnPost"
-                        android:src="@drawable/icon_add_photo"
                         android:layout_alignParentEnd="true"
-                        android:padding="10dp"/>
+                        android:layout_centerInParent="true"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        android:src="@drawable/icon_add_photo" />
 
                 </RelativeLayout>
 
@@ -88,7 +88,7 @@
             android:overScrollMode="never">
 
             <com.app.jussfun.external.toro.core.widget.Container
-                android:id="@+id/homeRecycler"
+                android:id="@+id/containerFeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
@@ -104,6 +104,19 @@
     </LinearLayout>
 
     <include layout="@layout/null_lay" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnPost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/size_0"
+        android:layout_marginBottom="@dimen/size_80"
+        android:layout_marginTop="@dimen/size_0"
+        android:src="@drawable/ic_add_white"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
