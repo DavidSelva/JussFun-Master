@@ -1,7 +1,5 @@
 package com.app.jussfun.ui.feed;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +10,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
@@ -45,9 +41,7 @@ import com.zomato.photofilters.utils.ThumbnailItem;
 import com.zomato.photofilters.utils.ThumbnailsManager;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -217,7 +211,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     private void loadView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         int displayWidth = AppUtils.getDisplayWidth(this);
-        int displayHeight =  AppUtils.getDisplayHeight(this);
+        int displayHeight = AppUtils.getDisplayHeight(this);
         thumbnailItemList = new ArrayList<>();
         mAdapter = new ThumbnailsAdapter(this, thumbnailItemList, this, displayWidth, displayHeight);
 
@@ -350,7 +344,8 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
      * */
 
     private void saveImageToGallery() {
-        selectedUri = saveImage(finalImage);
+        String fileName = mContext.getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".jpg";
+        selectedUri = storageManager.saveToSDCard(finalImage, Constants.TAG_IMAGE, fileName);
         addPostActivity(selectedUri);
     }
 
@@ -359,56 +354,6 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         intent.setData(selectedUri);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    public Uri saveImage(Bitmap bitmap) {
-        String filename = getString(R.string.app_name) + "Image_" + System.currentTimeMillis() + ".jpg";
-        String mimeType = "image/jpeg";
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Uri outUri;
-            String path = storageManager.getPath(Constants.TAG_IMAGE);
-            Uri mediaContentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.MediaColumns.TITLE, filename);
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filename);
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + path);
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
-            contentValues.put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis());
-            contentValues.put(MediaStore.MediaColumns.DATE_TAKEN, System.currentTimeMillis());
-            contentValues.put(MediaStore.MediaColumns.IS_PENDING, 1);
-            ContentResolver contentResolver = getContentResolver();
-            outUri = contentResolver.insert(mediaContentUri, contentValues);
-            try {
-                OutputStream outputStream = getContentResolver().openOutputStream(outUri);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                outputStream.close();
-                contentValues.clear();
-                contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0);
-                mContext.getContentResolver().update(outUri, contentValues, null, null);
-                return outUri;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            String root = Environment.getExternalStorageDirectory().toString();
-            File myDir = new File(root, storageManager.getPath(Constants.TAG_IMAGE));
-            if (!myDir.exists()) myDir.mkdirs();
-
-            File file = new File(myDir, filename);
-            if (file.exists())
-                file.delete();
-            try {
-                FileOutputStream out = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                out.flush();
-                out.close();
-                return Uri.parse(file.getAbsolutePath());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
     private void refreshGallery(File file) {

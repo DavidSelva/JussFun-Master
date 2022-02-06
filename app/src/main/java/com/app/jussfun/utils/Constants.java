@@ -74,6 +74,7 @@ public class Constants {
     public static final String TAG_USER_IMAGE = "user_image";
     public static final String TAG_PROFILE_IMAGE = "profile_image";
     public static final String TAG_CHAT_IMAGE = "chat_image";
+    public static final String TAG_FEED_IMAGE = "feed_image";
     public static final String TAG_FROM = "from";
     public static final String TAG_TRUE = "true";
     public static final String TAG_FALSE = "false";
@@ -93,6 +94,11 @@ public class Constants {
     public static final String TAG_REPORT = "report";
     public static final String TAG_VIDEO_CHAT_IMAGE = "video_chat_image";
     public static final String TAG_REPORT_SUCCESS = "Reported successfully";
+    public static final String TAG_FOLLOWER_ID = "follower_id";
+    public static final String TAG_LIKE = "like";
+    public static final String TAG_SUPER_LIKE = "super_like";
+    public static final String TAG_STAR = "star";
+    public static final String TAG_HEART = "heart";
 
     // JSON constant keys
     public static final String TAG_RESULT = "result";

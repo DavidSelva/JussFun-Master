@@ -161,7 +161,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="0dp"
@@ -175,7 +175,16 @@
             android:layout_gravity="center"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/icon_like" />
+            android:background="@drawable/ic_feed_like" />
+
+        <ImageView
+            android:id="@+id/btnSuperLike"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/feed_super_like_selector" />
 
         <ImageView
             android:id="@+id/btnHeart"
@@ -184,7 +193,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/icon_like" />
+            android:background="@drawable/feed_heart_selector" />
 
         <ImageView
             android:id="@+id/btnStar"
@@ -193,16 +202,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/icon_like" />
-
-        <ImageView
-            android:id="@+id/btnShare"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            android:layout_gravity="center"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/icon_like" />
+            android:background="@drawable/ic_feed_heart" />
 
     </LinearLayout>
 

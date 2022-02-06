@@ -23,19 +23,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseViewHolder;
+import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.Feeds;
+import com.app.jussfun.model.GetSet;
+import com.app.jussfun.utils.ApiClient;
+import com.app.jussfun.utils.ApiInterface;
+import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -49,6 +59,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private final int VIEW_TYPE_ITEM = 1;
     private final int VIEW_TYPE_LOADING = 2;
     private LayoutInflater inflater;
+    ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
     ArrayList<Feeds> parentList = new ArrayList<>();
     FragmentActivity activity;
@@ -92,23 +103,20 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.bind(position, resultsItem, "");
 
             Glide.with(mContext)
-                    .load(resultsItem.getUserImage())
+                    .load(Constants.IMAGE_URL + resultsItem.getUserImage())
                     .centerCrop()
                     .placeholder(R.drawable.avatar)
                     .into(holder.userImg);
             holder.btnMore.setVisibility(View.VISIBLE);
 
             holder.txtUserName.setText(resultsItem.getUserName());
-
-            holder.btnLike.setSelected(resultsItem.getLike() == 1);
             holder.txtPostTime.setText("" + resultsItem.getFeedTime());
 
-            holder.btnLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    App.preventMultipleClick(v);
-                }
-            });
+            holder.btnLike.setSelected(resultsItem.getLike() == 1);
+            holder.btnSuperLike.setSelected(resultsItem.getLike() == 1);
+            holder.btnStar.setSelected(resultsItem.getStar() == 1);
+            holder.btnHeart.setSelected(resultsItem.getHeart() == 1);
+
 
             holder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -131,10 +139,41 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
-            holder.btnShare.setOnClickListener(new View.OnClickListener() {
+            holder.btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    App.preventMultipleClick(v);
+                    if (resultsItem.getLike() != 1) {
+                        updateFeed(Constants.TAG_LIKE, holder.getAdapterPosition());
+                    }
+                }
+            });
+
+            holder.btnSuperLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    App.preventMultipleClick(view);
+                    if (resultsItem.getSuperLike() != 1) {
+                        updateFeed(Constants.TAG_SUPER_LIKE, holder.getAdapterPosition());
+                    }
+                }
+            });
+            holder.btnStar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    App.preventMultipleClick(view);
+                    if (resultsItem.getStar() != 1) {
+                        updateFeed(Constants.TAG_STAR, holder.getAdapterPosition());
+                    }
+                }
+            });
+            holder.btnHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    App.preventMultipleClick(view);
+                    if (resultsItem.getHeart() != 1) {
+                        updateFeed(Constants.TAG_HEART, holder.getAdapterPosition());
+                    }
                 }
             });
 
@@ -143,13 +182,47 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
+    private void updateFeed(String type, int adapterPosition) {
+        if (NetworkReceiver.isConnected()) {
+            Map<String, String> requestMap = new HashMap<>();
+            requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+            requestMap.put(Constants.TAG_TYPE, type);
+            Call<Map<String, String>> call = apiInterface.updateFeed(requestMap);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful() && response.body().get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                        switch (type) {
+                            case Constants.TAG_LIKE:
+                                parentList.get(adapterPosition).setLike(1);
+                                break;
+                            case Constants.TAG_SUPER_LIKE:
+                                parentList.get(adapterPosition).setSuperLike(1);
+                                break;
+                            case Constants.TAG_STAR:
+                                parentList.get(adapterPosition).setStar(1);
+                                break;
+                            case Constants.TAG_HEART:
+                                parentList.get(adapterPosition).setHeart(1);
+                                break;
+                        }
+                        notifyItemChanged(adapterPosition);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (parentList.size() > 0 && parentList.get(position) == null)
             return VIEW_TYPE_LOADING;
-        else if (position == 0) {
-            return VIEW_TYPE_STORY;
-        } else
+        else
             return VIEW_TYPE_ITEM;
     }
 

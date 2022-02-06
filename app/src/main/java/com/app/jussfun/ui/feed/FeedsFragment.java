@@ -34,7 +34,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.activity.result.ActivityResult;
@@ -56,8 +58,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
-import com.app.jussfun.external.ProgressWheel;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
@@ -76,15 +78,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,8 +111,10 @@ public class FeedsFragment extends Fragment {
     private static final String TAG = FeedsFragment.class.getSimpleName();
     private Context mContext;
 
-    @BindView(R.id.pBar)
-    ProgressWheel pBar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.progressLay)
+    ConstraintLayout progressLay;
     @BindView(R.id.containerFeed)
     Container containerFeed;
     @BindView(R.id.swipe_refreshlayout)
@@ -124,24 +133,19 @@ public class FeedsFragment extends Fragment {
     // For use other fragment
     private FeedsFragment feedsFragment;
     private FeedsAdapter feedsAdapter;
-    public static boolean isDeleteStory = false;
-    //below list for delete unwanted files
-    public static int exploreClickItem = 0;
     boolean isChekRefresh = false;
     public static boolean isEdit = false;
     //If user click cmtButton multipletime ,should not open multipletime activity
     public static boolean IsCmtButtonClicked = false;
-    public static List<String> unfollowList = new ArrayList<>();
     final Handler handler = new Handler();  // post a delay due to the visibility change
     LinearLayoutManager layoutManager;
 
 
-    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
     Call<FeedsModel> homeApiCall;
     ArrayList<Feeds> feedsList = new ArrayList<>();
     PlayerSelector selector = PlayerSelector.DEFAULT; // visible to user by default.
     BottomSheetDialog dialog;
-    Dialog newDialog;
     private String wayType = "";
     private int visibleItemCount;
     private int pastVisiblesItems;
@@ -161,13 +165,18 @@ public class FeedsFragment extends Fragment {
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> addPostResultLauncher;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle bundle) {
         feedsFragment = this;
-        unfollowList = new ArrayList<>();
-        return inflater.inflate(R.layout.home_post_list_new, container, false);
+        View view = inflater.inflate(R.layout.fragment_feeds, container, false);
+        ButterKnife.bind(this, view);
+       /* View loadingLay = view.findViewById(R.id.loadingLay);
+        progressLay = loadingLay.findViewById(R.id.progressLay);
+        progressBar = loadingLay.findViewById(R.id.progressBar);*/
+        return view;
     }
 
     @Override
@@ -175,7 +184,7 @@ public class FeedsFragment extends Fragment {
         super.onViewCreated(itemView, bundle);
         if (mContext == null) mContext = getActivity();
         storageUtils = StorageUtils.getInstance(mContext);
-        ButterKnife.bind(this, itemView);
+
         initPermission();
         initResultLauncher();
         findHeightWidth();
@@ -187,7 +196,6 @@ public class FeedsFragment extends Fragment {
         containerFeed.setLayoutManager(layoutManager);
         ViewCompat.setNestedScrollingEnabled(containerFeed, false);
 
-
         feedsAdapter = new FeedsAdapter(feedsList, getActivity(), getActivity());
         containerFeed.setAdapter(feedsAdapter);
 //        containerFeed.setCacheManager(feedsAdapter);
@@ -195,11 +203,7 @@ public class FeedsFragment extends Fragment {
         selector = PlayerSelector.DEFAULT;
         containerFeed.setPlayerSelector(selector);
         // get home post data from service
-        if (NetworkReceiver.isConnected() && feedsList.size() == 0) {
-//            loadHomeFeeds(offset, limitCnt);
-        } else {
-            pBar.setVisibility(View.GONE);
-        }
+        pullDownRefresh();
 
         // for page scrolling
         ScrollMethod();
@@ -322,9 +326,18 @@ public class FeedsFragment extends Fragment {
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     /*Refresh Data*/
+                    addPost(result.getData().getData());
                 }
             }
         });
+    }
+
+    private void addPost(Uri data) {
+        if (NetworkReceiver.isConnected()) {
+            uploadImage(data);
+        } else {
+            App.makeToast(mContext.getString(R.string.no_internet_connection));
+        }
     }
 
     private void openAddPostActivity(Uri data) {
@@ -467,12 +480,69 @@ public class FeedsFragment extends Fragment {
         });
     }
 
+    private void uploadImage(Uri fileUri) {
+        try {
+            showLoading();
+            InputStream imageStream = mContext.getContentResolver().openInputStream(fileUri);
+            RequestBody requestFile = RequestBody.create(storageUtils.getBytes(imageStream), MediaType.parse("image/*"));
+            MultipartBody.Part body = MultipartBody.Part.createFormData(Constants.TAG_FEED_IMAGE, "image.jpg", requestFile);
+            RequestBody userId = RequestBody.create(GetSet.getUserId(), MediaType.parse("multipart/form-data"));
+            Call<Map<String, String>> call = apiInterface.uploadImage(body, userId);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            addFeed(data.get(Constants.TAG_USER_IMAGE));
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "uploadImage: " + t.getMessage());
+                    call.cancel();
+                    hideLoading();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            hideLoading();
+        }
+    }
+
+    private void addFeed(String fileUrl) {
+        showLoading();
+        Map<String, String> requestMap = new HashMap<>();
+        requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+        requestMap.put(Constants.TAG_FEED_IMAGE, fileUrl);
+        requestMap.put(Constants.TAG_TITLE, "");
+        requestMap.put(Constants.TAG_DESCRIPTION, "");
+
+        Call<Map<String, String>> call = apiInterface.addFeed(requestMap);
+        call.enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                hideLoading();
+                if (response.isSuccessful()) {
+                    pullDownRefresh();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                call.cancel();
+                hideLoading();
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-
     }
-
 
     @Override
     public void onStart() {
@@ -544,66 +614,69 @@ public class FeedsFragment extends Fragment {
         isLoading = true;
         isLoadedAllItems = false;
         nullLay.setVisibility(View.GONE);
-//        storyList.clear();
-//        storyAdapter.notifyDataSetChanged();
         feedsList.clear();
         feedsAdapter.notifyDataSetChanged();
         // get home post data from service
-        if (NetworkReceiver.isConnected()) {
-//            loadHomeFeeds(offset, limitCnt);
-        } else
-            pBar.setVisibility(View.GONE);
+        loadHomeFeeds(offset, limitCnt);
 
     }
 
     public void loadHomeFeeds(int offsetCnt, int limitcnt) {
-        homeApiCall = apiService.getHomeFeed(GetSet.getUserId(), "" + (offsetCnt * limitcnt), limitcnt + "");
-        homeApiCall.enqueue(new Callback<FeedsModel>() {
-            @Override
-            public void onResponse(Call<FeedsModel> call, Response<FeedsModel> response) {
-                if (offset > 0) feedsAdapter.removeLoadingView();
-                pBar.setVisibility(View.GONE);
-                containerFeed.setVisibility(View.VISIBLE);
-                swipeRefreshLayout.setRefreshing(false);
-                if (offsetCnt == 0)
-                    feedsList.clear();
-                if (response.isSuccessful()) {
-                    List<Feeds> results = response.body().getResult();
-                    if (response.body().getStatus().equalsIgnoreCase("true")) {
-                        if (results.size() > 0) {
-                            isChekRefresh = true;
-                            nullLay.setVisibility(View.GONE);
-                            isLoading = false;
-                            int prevSize = feedsList.size() + 1;
-                            feedsList.addAll(results);
-                            feedsAdapter.notifyItemRangeInserted(
-                                    prevSize, feedsList.size()
-                            );
-//                                homelist.addAll(results);
-//                                adapter.notifyDataSetChanged();
-                        } else {
-//                            isChekRefresh = false;
-                            if (offsetCnt == 0)
-                                nullLay.setVisibility(View.VISIBLE);
-                            else
-                                nullLay.setVisibility(View.GONE);
-                            feedsList.addAll(results);
-                            feedsAdapter.notifyDataSetChanged();
-                            isLoading = true;
-                        }
-                    } else {
+        if (NetworkReceiver.isConnected()) {
+//            showLoading();
+            Map<String, String> requestMap = new HashMap<>();
+            requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+            requestMap.put(Constants.TAG_LIMIT, "" + limitcnt);
+            requestMap.put(Constants.TAG_OFFSET, "" + offsetCnt);
 
+            homeApiCall = apiInterface.getHomeFeeds(requestMap);
+            homeApiCall.enqueue(new Callback<FeedsModel>() {
+                @Override
+                public void onResponse(Call<FeedsModel> call, Response<FeedsModel> response) {
+                    hideLoading();
+                    if (offset > 0) feedsAdapter.removeLoadingView();
+                    containerFeed.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setRefreshing(false);
+                    if (offsetCnt == 0)
+                        feedsList.clear();
+                    if (response.isSuccessful()) {
+                        List<Feeds> results = response.body().getResult();
+                        if (response.body().getStatus().equalsIgnoreCase("true")) {
+                            if (results.size() > 0) {
+                                isChekRefresh = true;
+                                nullLay.setVisibility(View.GONE);
+                                isLoading = false;
+                                int prevSize = feedsList.size() + 1;
+                                feedsList.addAll(results);
+                                feedsAdapter.notifyItemRangeInserted(
+                                        prevSize, feedsList.size()
+                                );
+                                //                                homelist.addAll(results);
+                                //                                adapter.notifyDataSetChanged();
+                            } else {
+                                //                            isChekRefresh = false;
+                                if (offsetCnt == 0)
+                                    nullLay.setVisibility(View.VISIBLE);
+                                else
+                                    nullLay.setVisibility(View.GONE);
+                                feedsList.addAll(results);
+                                feedsAdapter.notifyDataSetChanged();
+                                isLoading = true;
+                            }
+                        } else {
+
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<FeedsModel> call, Throwable t) {
-                Log.e(TAG, "loadHomeFeeds: " + t.getMessage());
-                pBar.setVisibility(View.GONE);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+                @Override
+                public void onFailure(Call<FeedsModel> call, Throwable t) {
+                    Log.e(TAG, "loadHomeFeeds: " + t.getMessage());
+                    hideLoading();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 
     @Override
@@ -844,10 +917,8 @@ public class FeedsFragment extends Fragment {
         feedsList.clear();
         feedsAdapter.notifyDataSetChanged();
         // get home post data from service
-        if (NetworkReceiver.isConnected()) {
-//            loadHomeFeeds(offset, limitCnt);
-        } else
-            pBar.setVisibility(View.GONE);
+        loadHomeFeeds(offset, limitCnt);
+
 //        HomeListFragment.storyList.clear();
 //        storyAdapter.notifyDataSetChanged();
 //        homeAdapter.notifyItemRemoved(0);
@@ -942,5 +1013,20 @@ public class FeedsFragment extends Fragment {
             mFragmentNavigation.pushFragment(LikedUsersFragment.newInstance(postId, "post"));
         }
     }*/
+
+    private void showLoading() {
+        /*Disable touch options*/
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressLay.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
+    }
+
+    public void hideLoading() {
+        /*Enable touch options*/
+        progressLay.setVisibility(View.GONE);
+        progressBar.setIndeterminate(false);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
 
 }

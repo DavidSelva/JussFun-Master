@@ -685,5 +685,6 @@
     <string name="storage_permission_denied">Permission to access storage was denied</string>
     <string name="enable_camera_permission">Enable camera permission</string>
     <string name="normal">Normal</string>
+    <string name="feeds">Feeds</string>
 
 </resources>

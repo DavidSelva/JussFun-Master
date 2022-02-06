@@ -20,7 +20,9 @@ import android.webkit.MimeTypeMap;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.FileUtil;
@@ -792,7 +794,7 @@ public class StorageUtils {
         return type;
     }
 
-    public static byte[] getBytes(InputStream inputStream) throws IOException {
+    public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
@@ -828,38 +830,6 @@ public class StorageUtils {
             Log.d(TAG, "makeNoMedia: " + e.toString());
 
         }
-    }
-
-    public void saveImage(Bitmap bitmap, @NonNull String name, String from) throws IOException {
-        boolean saved;
-        OutputStream fos;
-        String path = getPath(from);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ContentResolver resolver = context.getContentResolver();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + path);
-            Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            fos = resolver.openOutputStream(imageUri);
-        } else {
-            String imagesDir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DCIM).toString() + File.separator + path;
-
-            File file = new File(imagesDir);
-
-            if (!file.exists()) {
-                file.mkdir();
-            }
-
-            File image = new File(imagesDir, name + ".png");
-            fos = new FileOutputStream(image);
-
-        }
-
-        saved = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        fos.flush();
-        fos.close();
     }
 
     public Uri saveToSDCard(Bitmap bitmap, String from, String fileName) {
@@ -909,33 +879,6 @@ public class StorageUtils {
             }
             return outUri;
         } else {
-            // for API 28 and below (in progress)
-           /* final String directory = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File targetDir = new File(directory);
-
-            File folder = new File(targetDir, path);
-            if (from.equals(Constants.TAG_SENT)) {
-                if (!folder.exists()) {
-                    if (folder.mkdirs()) {
-                        Timber.i("Directory created: %s", targetDir.getAbsolutePath());
-                    }
-                    File noMediaFile = new File(folder.getAbsoluteFile(), ".nomedia");
-                    try {
-                        if (!noMediaFile.exists()) {
-                            noMediaFile.createNewFile();
-                        }
-                    } catch (IOException e) {
-                        Logging.e(TAG, "saveToSDCard: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                folder.mkdirs();
-            }
-
-            File createdMedia = new File(folder.getAbsoluteFile(), fileName);
-            if (createdMedia.exists()) createdMedia.delete();*/
-
             File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
             File folder = new File(sdcard.getAbsoluteFile(), path);
@@ -973,41 +916,6 @@ public class StorageUtils {
         return null;
     }
 
-    public Uri getImageUriAndroid10(String from, String fileName) {
-        fileName = getFileName(fileName);
-        Uri imageUri = null;
-        String path = getPath(from);
-
-        ContentResolver resolver = context.getContentResolver();
-
-        Uri collection = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                ? MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-                : MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        final String selection;
-        final String[] selectionArgs;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
-            selection = MediaStore.MediaColumns.DISPLAY_NAME + "=? AND " +
-                    MediaStore.MediaColumns.RELATIVE_PATH + "=?";
-            selectionArgs = new String[]{fileName, Environment.DIRECTORY_PICTURES + path};
-        } else {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + path;
-            selection = MediaStore.MediaColumns.DATA + "=?";
-            selectionArgs = new String[]{path + fileName};
-            Log.d(TAG, "getImageUri: " + path);
-        }
-        try (Cursor c = resolver.query(collection, null, selection, selectionArgs, null)) {
-            if (c.moveToFirst()) {
-                imageUri = ContentUris.withAppendedId(collection, c.getLong(c.getColumnIndex(MediaStore.MediaColumns._ID)));
-                //  Timber.d("Check file: exists %s %s", fileName, imageUri);
-            } else {
-                //   Timber.d("Check file: not found %s", (Object) selectionArgs);
-            }
-        } catch (Exception e) {
-            //  Timber.e(e);
-        }
-        return imageUri;
-    }
-
     public Uri getImageUri(String from, String fileName) {
         fileName = getFileName(fileName);
         Uri imageUri = null;
@@ -1041,69 +949,6 @@ public class StorageUtils {
         return imageUri;
     }
 
-
-/*
-    public File saveToSDCard(Bitmap bitmap, String from, String fileName) {
-        File sdcard = Environment.getExternalStorageDirectory();
-
-        String path = "";
-        switch (from) {
-            case Constants.TAG_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent";
-                break;
-            case Constants.TAG_RECEIVED:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images";
-                break;
-            case "profile":
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Profile";
-                break;
-            case Constants.TAG_THUMBNAIL:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/.thumbnails/";
-                break;
-            default:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images";
-                break;
-        }
-
-        File folder = new File(sdcard.getAbsoluteFile(), path);
-        if (from.equals(Constants.TAG_SENT)) {
-            if (!folder.exists()) folder.mkdirs();
-            File noMediaFile = new File(folder.getAbsoluteFile(), ".nomedia");
-            try {
-                if (!noMediaFile.exists()) {
-                    noMediaFile.createNewFile();
-                }
-            } catch (IOException e) {
-                Logging.e(TAG, "saveToSDCard: " + e.getMessage());
-                e.printStackTrace();
-            }
-        } else {
-            folder.mkdirs();
-        }
-
-        File file = new File(folder.getAbsoluteFile(), fileName);
-        if (file.exists())
-            file.delete();
-
-        Log.d(TAG, "saveToSDCard: "+file.getAbsolutePath());
-
-
-            try {
-                FileOutputStream out = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                out.flush();
-                out.close();
-                refreshGallery(file);
-                return file;
-            } catch (Exception e) {
-                Logging.e(TAG, "saveToSDCard: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-        return null;
-    }
-*/
-
     public Uri createImageUri(String from, String filePath) {
         Uri imageUri = getImageUri(from, getFileName(filePath));
         if (imageUri == null) {
@@ -1136,22 +981,6 @@ public class StorageUtils {
             imgSplit = imgSplit.substring(endIndex + 1);
         }
         return imgSplit;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    private boolean containsNoMedia(@NonNull final String dir) {
-        ContentResolver resolver = context.getContentResolver();
-        final String selection = MediaStore.MediaColumns.RELATIVE_PATH + "=? AND " +
-                MediaStore.MediaColumns.TITLE + "=?";
-        final String[] selectionArgs = new String[]{dir, MediaStore.MEDIA_IGNORE_FILENAME};
-        final Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        try (Cursor c = resolver.query(collection,
-                null, selection, selectionArgs, null)) {
-            return c.moveToFirst();
-        } catch (Exception e) {
-            //   Timber.e(e);
-            return false;
-        }
     }
 
     public void refreshGallery(File file) {
@@ -1304,10 +1133,6 @@ public class StorageUtils {
         return mediaImage;
     }
 
-    public File getFileSavePath(String from) {
-        return new File(getRootDir(context) + getChildDir(from));
-    }
-
     public File getRootDir(Context context) {
         File mDataDir = null;
         if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
@@ -1376,32 +1201,6 @@ public class StorageUtils {
         }
         Logging.i(TAG, "getTempFile: " + mDataDir);
         return mDataDir;
-    }
-
-    public File saveToAppDir(Bitmap bitmap, String from, String filename) {
-        boolean stored = false;
-        File sdcard = getRootDir(context);
-        String path = getChildDir(from);
-
-        File folder = new File(sdcard.getAbsoluteFile(), path);
-        if (!folder.exists())
-            folder.mkdir();
-
-        File file = new File(folder.getAbsoluteFile(), filename);
-        if (file.exists())
-            stored = true;
-
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-            stored = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return stored ? file : null;
     }
 
     public File saveToCacheDir(Bitmap bitmap, String filename) {
@@ -1491,16 +1290,6 @@ public class StorageUtils {
         }
     }
 
-    public boolean checkIfFileExists(String from, String imageName) {
-        File file = getImage(from, imageName);
-        return file != null && file.exists();
-    }
-
-    public boolean checkIfAudioExists(String from, String imageName) {
-        File file = getFile(from, imageName);
-        return file != null && file.exists();
-    }
-
     public File getFile(String from, String fileName) {
         File file = null;
         try {
@@ -1509,152 +1298,12 @@ public class StorageUtils {
             if (!myDir.exists())
                 return null;
 
-            String path = "";
-            switch (from) {
-                case Constants.TAG_SENT:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent/";
-                    break;
-                case "profile":
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Profile/";
-                    break;
-                case Constants.TAG_THUMBNAIL:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/.thumbnails/";
-                    break;
-                case Constants.TAG_AUDIO_SENT:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
-                    break;
-                case Constants.TAG_AUDIO_RECEIVE:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
-                    break;
-                default:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/";
-                    break;
-            }
+            String path = getPath(from);
             file = new File(myDir.getPath() + path + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return file;
-    }
-
-    public byte[] getFileBytes(String filePath) {
-        File file = new File(filePath);
-        int size = (int) file.length();
-        byte[] bytes = new byte[size];
-        try {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return bytes;
-    }
-
-    public boolean ifFolderExists(String from) {
-        String path = "";
-        switch (from) {
-            case Constants.TAG_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent/";
-                break;
-            case "profile":
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Profile/";
-                break;
-            case Constants.TAG_THUMBNAIL:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/.thumbnails/";
-                break;
-            case Constants.TAG_AUDIO_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
-                break;
-            case Constants.TAG_AUDIO_RECEIVE:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
-                break;
-            default:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/";
-                break;
-        }
-
-        File sdcard = Environment.getExternalStorageDirectory();
-        File folder = new File(sdcard.getAbsoluteFile(), path);
-        if (!folder.exists()) {
-            folder.mkdirs();
-            return true;
-        }
-        return true;
-    }
-
-    public boolean ifAudioFolderExists(String from) {
-        String path = "";
-        switch (from) {
-            case Constants.TAG_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent/";
-                break;
-            case "profile":
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Profile/";
-                break;
-            case Constants.TAG_THUMBNAIL:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/.thumbnails/";
-                break;
-            case Constants.TAG_AUDIO_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
-                break;
-            case Constants.TAG_AUDIO_RECEIVE:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
-                break;
-            default:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/";
-                break;
-        }
-
-        File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-        File folder = new File(sdcard.getAbsoluteFile(), path);
-        if (!folder.exists()) {
-            folder.mkdirs();
-            return true;
-        }
-        return true;
-    }
-
-    //addons voiceRecord
-    public File createDirectory(String from, String fileName) {
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + getPath(from));
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-
-
-        File noMediaFile = new File(folder.getAbsoluteFile(), fileName);
-        try {
-            if (!noMediaFile.exists()) {
-                noMediaFile.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return folder;
-    }
-
-    public String getPathMusic(String from) {
-        File sdcard = null;
-        sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-        File folder = new File(sdcard.getAbsoluteFile(), getPath(from));
-        Log.d(TAG, "getPath: " + folder.getAbsolutePath());
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-      /*  File noMediaFile = new File(folder.getAbsoluteFile(), ".nomedia");
-        Log.d(TAG, "getPath: "+noMediaFile.getAbsolutePath());
-
-        try {
-            if (!noMediaFile.exists()) {
-                noMediaFile.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        return folder.getPath();
     }
 
     public String getPath(String from) {
@@ -1688,17 +1337,22 @@ public class StorageUtils {
         Bitmap bitmap = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             try {
-                bitmap =  ImageDecoder.decodeBitmap(ImageDecoder.createSource(mContext.getContentResolver(), imageUri));
+                bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(mContext.getContentResolver(), imageUri));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                bitmap =  MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageUri);
+                bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return bitmap;
+    }
+
+    public Uri getUriFromFile(Context mContext, File file) {
+        Uri uri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".provider", file);
+        return uri;
     }
 }

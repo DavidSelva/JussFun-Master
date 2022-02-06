@@ -178,6 +178,20 @@ public interface ApiInterface {
     @GET("accounts/chargefilters/{user_id}")
     Call<HashMap<String, String>> chargeSwipeFilters(@Path("user_id") String userId);
 
-    @GET("activities/getfeeds/{user_id}/{offset}/{limit}")
-    Call<FeedsModel> getHomeFeed(String userId, String s, String s1);
+    @FormUrlEncoded
+    @POST("activities/getfeeds/")
+    Call<FeedsModel> getHomeFeeds(@FieldMap Map<String, String> requestMap);
+
+    @Multipart
+    @POST("activities/uploadfeed")
+    Call<Map<String, String>> uploadImage(@Part MultipartBody.Part image, @Part("user_id") RequestBody user_id);
+
+    @FormUrlEncoded
+    @POST("activities/addfeed")
+    Call<Map<String, String>> addFeed(@FieldMap Map<String, String> requestMap);
+
+    @FormUrlEncoded
+    @POST("activities/updatefeed")
+    Call<Map<String, String>> updateFeed(@FieldMap Map<String, String> requestMap);
+
 }

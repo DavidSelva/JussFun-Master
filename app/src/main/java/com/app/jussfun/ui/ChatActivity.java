@@ -313,7 +313,6 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
         ButterKnife.bind(this);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         appUtils = new AppUtils(this);
-
         mContext = this;
 //        loadAd();
 
@@ -372,8 +371,6 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
                 .build();
 
         sliderInterface = Slidr.attach(this, config);
-
-        Slidr.attach(this, config);
 
         txtTitle.setText(partnerName);
         adapter = new ChatAdapter(this);
@@ -3079,53 +3076,6 @@ public class ChatActivity extends BaseFragmentActivity implements AppWebSocket.W
             }
         }
 */
-
-
-        @SuppressLint("StaticFieldLeak")
-        private class DownloadAudio extends AsyncTask<String, Integer, String> {
-            String filePath, fileurl;
-            String fileName;
-            int fileLength;
-            DownloadListener downloadListener;
-
-            public DownloadAudio(String fileurl, DownloadListener downloadListener) {
-                this.fileurl = fileurl;
-                this.downloadListener = downloadListener;
-            }
-
-            protected String doInBackground(String... urls) {
-                String imageURL = Constants.CHAT_IMAGE_URL + fileurl;
-                Log.i(TAG, "doInBackground: " + imageURL);
-                fileName = getFileName(imageURL);
-                storageUtils.ifFolderExists(Constants.TAG_AUDIO_RECEIVE);
-                filePath = storageUtils.getFile(Constants.TAG_AUDIO_RECEIVE, fileName).getAbsolutePath();
-                try {
-                    BufferedInputStream in = new BufferedInputStream(new URL(imageURL).openStream());
-                    FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-                    byte dataBuffer[] = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                        fileOutputStream.write(dataBuffer, 0, bytesRead);
-                    }
-
-                } catch (Exception e) {
-                    Log.e("Error Message", e.getMessage());
-                    e.printStackTrace();
-                }
-                return filePath;
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-                Log.e(TAG, "onProgressUpdate: " + values[0]);
-            }
-
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                downloadListener.onAudioDownloaded(result);
-            }
-        }
 
         public class ReceiveImageHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.userImage)

@@ -75,10 +75,9 @@ public class ImageViewHolder extends BaseViewHolder {
     @SuppressLint("SetTextI18n")
     @Override
     public void bind(int position, final Object object, String postId) {
-        List<Feeds> postMediaItem = (List<Feeds>) object;
-        Feeds result = postMediaItem.get(position);
+        List<Feeds> result = (List<Feeds>) object;
         Glide.with(context)
-                .load(result.getImageUrl())
+                .load(result.get(position).getImageUrl())
                 .placeholder(R.drawable.image_placeholder)
                 .transition(DrawableTransitionOptions.withCrossFade(1000))
                 .into(imageView);

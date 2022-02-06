@@ -32,6 +32,9 @@ public class Feeds {
     @SerializedName("like")
     @Expose
     private int like;
+    @SerializedName("super_like")
+    @Expose
+    private int superLike;
     @SerializedName("heart")
     @Expose
     private int heart;
@@ -85,6 +88,14 @@ public class Feeds {
 
     public void setLike(int like) {
         this.like = like;
+    }
+
+    public int getSuperLike() {
+        return superLike;
+    }
+
+    public void setSuperLike(int superLike) {
+        this.superLike = superLike;
     }
 
     public int getHeart() {

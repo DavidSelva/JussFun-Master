@@ -207,6 +207,8 @@
 
         <activity android:name=".ui.feed.FilterActivity"
             android:theme="@style/SliderThemeWhite"/>
+        <activity android:name=".ui.feed.FeedsActivity"
+            android:theme="@style/SliderThemeWhite"/>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

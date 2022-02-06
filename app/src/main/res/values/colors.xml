@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#ffff3a43</color>
+    <color name="colorPrimary">#ff3a43</color>
     <color name="colorPrimaryDark">#ffff3a43</color>
     <color name="colorAccent">#ffff3a43</color>
     <color name="btn_subscribe_text">#DC7852</color>

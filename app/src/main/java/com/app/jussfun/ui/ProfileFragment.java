@@ -28,6 +28,7 @@ import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
+import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -67,6 +68,8 @@ public class ProfileFragment extends Fragment {
     TextView txtGemsCount;
     @BindView(R.id.txtGiftsCount)
     TextView txtGiftsCount;
+    @BindView(R.id.txtFeedsCount)
+    TextView txtFeedsCount;
     @BindView(R.id.btnRenewal)
     TextView btnRenewal;
     @BindView(R.id.renewalLay)
@@ -398,7 +401,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick({R.id.profileImage, R.id.btnEdit, R.id.btnRenewal, R.id.renewalLay, R.id.btnSettings, R.id.followersLay,
-            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay})
+            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay, R.id.feedsLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profileImage: {
@@ -485,6 +488,12 @@ public class ProfileFragment extends Fragment {
                 Intent gemsIntent = new Intent(getActivity(), GemsStoreActivity.class);
                 gemsIntent.putExtra("OnCLick", "ClickHere");
                 gemsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(gemsIntent);
+            }
+            case R.id.feedsLay: {
+                Intent gemsIntent = new Intent(getActivity(), FeedsActivity.class);
+                gemsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                gemsIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                 startActivity(gemsIntent);
             }
             break;

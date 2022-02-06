@@ -1,5 +1,8 @@
 package com.app.jussfun.ui;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,20 +33,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
-import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdView;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.qrgenerator.QRGContents;
 import com.app.jussfun.external.qrgenerator.QRGEncoder;
+import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
@@ -58,9 +61,6 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.os.Build.VERSION.SDK_INT;
 
 public class QRCodeGenerateActivity extends BaseFragmentActivity {
 
@@ -141,7 +141,8 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);}
+            AdUtils.getInstance(this).loadAd(TAG, adView);
+        }
     }
 
     @Override
@@ -156,24 +157,15 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.btnDownload:
-                Log.d(TAG, "onViewClicked: "+ContextCompat.checkSelfPermission(this,WRITE_EXTERNAL_STORAGE));
+                Log.d(TAG, "onViewClicked: " + ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE));
                 if (SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(QRCodeGenerateActivity.this, WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(QRCodeGenerateActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 100);
                 } else {
                     Uri file = null;
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                        try {
-                            if(storageUtils.saveToGallery(qrBitMap, Constants.TAG_IMAGE, getString(R.string.my_qr_code).concat(Constants.IMAGE_EXTENSION))){
-                                App.makeToast(getString(R.string.saved_to_gallery));
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }else {
-                        file = storageUtils.saveToSDCard(qrBitMap, Constants.TAG_IMAGE, getString(R.string.my_qr_code).concat(Constants.IMAGE_EXTENSION));
-                        if (file != null) App.makeToast(getString(R.string.saved_to_gallery));
-
+                    file = storageUtils.saveToSDCard(qrBitMap, Constants.TAG_IMAGE, getString(R.string.my_qr_code).concat(Constants.IMAGE_EXTENSION));
+                    if (file != null) {
+                        App.makeToast(getString(R.string.saved_to_gallery));
                     }
 
                 }
@@ -188,7 +180,7 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         if (requestCode == Constants.STORAGE_REQUEST_CODE) {
-            Log.d(TAG, "onRequestPermissionsResult: "+permissions);
+            Log.d(TAG, "onRequestPermissionsResult: " + permissions);
             if (checkPermissions(permissions)) {
                 Uri file = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -250,7 +242,7 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
                 jsonObject.put(Constants.TAG_PRIVACY_CONTACT_ME, Boolean.parseBoolean(GetSet.getPrivacyContactMe()));
                 jsonObject.put(Constants.TAG_PRIVACY_AGE, Boolean.parseBoolean(GetSet.getPrivacyAge()));
 
-                jsonObject.put(Constants.TAG_APP_NAME,getString(R.string.app_name));
+                jsonObject.put(Constants.TAG_APP_NAME, getString(R.string.app_name));
 
                 profileData = "" + jsonObject;
             } catch (JSONException e) {

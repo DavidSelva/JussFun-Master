@@ -16,7 +16,6 @@
 
 package com.app.jussfun.ui.feed;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Handler;
@@ -26,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,17 +36,14 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
 import com.app.jussfun.base.BaseViewHolder;
-import com.app.jussfun.external.toro.core.CacheManager;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.ToroPlayer;
 import com.app.jussfun.external.toro.core.ToroUtil;
 import com.app.jussfun.external.toro.core.media.PlaybackInfo;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.model.Feeds;
-import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.utils.Constants;
 
 import java.util.ArrayList;
@@ -71,7 +66,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     private String way = "";
     private final SnapHelper snapHelper = new PagerSnapHelper();
     public Context context;
-    public ImageView userImg, btnLike, btnHeart, btnStar, btnShare;
+    public ImageView userImg, btnLike, btnHeart, btnStar, btnShare, btnSuperLike;
     public FrameLayout btnMore;
     public TextView txtUserName, txtPostTime;
     public List<Feeds> feedsList = new ArrayList<>();
@@ -91,7 +86,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         btnLike = itemView.findViewById(R.id.btnLike);
         btnHeart = itemView.findViewById(R.id.btnHeart);
         btnStar = itemView.findViewById(R.id.btnStar);
-        btnShare = itemView.findViewById(R.id.btnShare);
+        btnSuperLike = itemView.findViewById(R.id.btnSuperLike);
         btnMore = itemView.findViewById(R.id.btnMore);
         txtUserName = (TextView) itemView.findViewById(R.id.txtUserName);
         txtPostTime = (TextView) itemView.findViewById(R.id.txtPostTime);
@@ -106,14 +101,11 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     // Called by Adapter
     public void bind(int position, Object item, String way) {
         this.way = way;
-        List<Feeds> resultsItem = (List<Feeds>) item;
-        this.feedsList = resultsItem;
-
-        Adapter adapter = new Adapter(feedsList, listener, itemVw, this.feedsList.get(position));
+        Feeds resultsItem = (Feeds) item;
+        feedsList = new ArrayList<Feeds>();
+        feedsList.add(resultsItem);
+        Adapter adapter = new Adapter(feedsList, listener, itemVw);
         container.setAdapter(adapter);
-        if (container.getCacheManager() == null) {
-            container.setCacheManager(new StateManager(feedsList));
-        }
     }
 
     public void onDetached() {
@@ -219,18 +211,15 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         // for gesture detector
         PlayerViewHolder tempViewHolder;
         private LayoutInflater inflater;
-        private List<Feeds> childAdapterlist = new ArrayList<>();
+        private List<Feeds> childAdapterlist;
         private Context context;
         private clickListener listener;
-        private Feeds globalResultItem;
         private View itemVw;
 
-        Adapter(List<Feeds> childlist, clickListener listener, View itemVw, Feeds globalPojo) {
+        Adapter(List<Feeds> childlist, clickListener listener, View itemVw) {
             this.childAdapterlist = childlist;
-            if (childAdapterlist == null) childAdapterlist = new ArrayList<>();
             this.listener = listener;
             this.itemVw = itemVw;
-            this.globalResultItem = globalPojo;
         }
 
         @NonNull
@@ -267,7 +256,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                 ArrayList<BaseViewHolder> holders = new ArrayList<>();
                 holders.add(simplePlayerViewHolder);
 
-                holder.bind(position, childAdapterlist.get(position), "");
+                holder.bind(position, childAdapterlist, "");
 
 //                simplePlayerViewHolder.durationTxt.setText(childAdapterlist.get(position).getDuration());
 
@@ -286,7 +275,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
             } else {
                 final ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
-                imageViewHolder.bind(position, childAdapterlist, globalResultItem.getFeedId());
+                imageViewHolder.bind(position, childAdapterlist, "");
                 imageViewHolder.setListener(Adapter.this);
                 imageViewHolder.imageView.setOnClickListener(new DoubleClickListener() {
                     @Override
@@ -323,34 +312,6 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
             listener.click(frag, userid, wayType);
         }
     }
-
-    static class StateManager implements CacheManager {
-
-        final List<Feeds> childlist;
-
-        StateManager(List<Feeds> childlist) {
-            this.childlist = childlist;
-        }
-
-        @NonNull
-        @Override
-        public Object getKeyForOrder(int order) {
-            try {
-                Feeds str = this.childlist.get(order);
-                return this.childlist.get(order);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "";
-        }
-
-        @Nullable
-        @Override
-        public Integer getOrderForKey(@NonNull Object key) {
-            return key instanceof Feeds ? this.childlist.indexOf(key) : null;
-        }
-    }
-
 
     public static abstract class DoubleClickListener implements View.OnClickListener {
 
