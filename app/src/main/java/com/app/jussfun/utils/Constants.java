@@ -75,6 +75,7 @@ public class Constants {
     public static final String TAG_PROFILE_IMAGE = "profile_image";
     public static final String TAG_CHAT_IMAGE = "chat_image";
     public static final String TAG_FEED_IMAGE = "feed_image";
+    public static final String TAG_FEED_ID = "feed_id";
     public static final String TAG_FROM = "from";
     public static final String TAG_TRUE = "true";
     public static final String TAG_FALSE = "false";

@@ -30,6 +30,7 @@ import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseViewHolder;
 import com.app.jussfun.helper.NetworkReceiver;
+import com.app.jussfun.helper.OnMenuClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.ApiClient;
@@ -62,14 +63,14 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
     ArrayList<Feeds> parentList = new ArrayList<>();
-    FragmentActivity activity;
+    OnMenuClickListener listener;
     Context mContext;
 
 
-    public FeedsAdapter(ArrayList<Feeds> parentList, Context context, FragmentActivity activity) {
+    public FeedsAdapter(ArrayList<Feeds> parentList, Context context, OnMenuClickListener clickListener) {
         this.parentList = parentList;
         this.mContext = context;
-        this.activity = activity;
+        this.listener = clickListener;
     }
 
     @NonNull
@@ -121,7 +122,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    listener.onMenuClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
                 }
             });
 

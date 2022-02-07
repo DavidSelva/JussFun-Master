@@ -7,13 +7,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -26,10 +32,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,10 +46,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
+import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
+import com.app.jussfun.helper.OnMenuClickListener;
 import com.app.jussfun.helper.OnOkCancelClickListener;
 import com.app.jussfun.helper.PermissionsUtils;
 import com.app.jussfun.helper.StorageUtils;
@@ -79,7 +89,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedsActivity extends BaseFragmentActivity {
+public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickListener {
 
     private static final String TAG = FeedsActivity.class.getSimpleName();
 
@@ -129,6 +139,7 @@ public class FeedsActivity extends BaseFragmentActivity {
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> addPostResultLauncher;
     private String followerId;
+    private PopupMenu popupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -570,8 +581,9 @@ public class FeedsActivity extends BaseFragmentActivity {
             Map<String, String> requestMap = new HashMap<>();
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
             requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
+            requestMap.put(Constants.TAG_FEED_ID, "");
             requestMap.put(Constants.TAG_LIMIT, "" + limitcnt);
-            requestMap.put(Constants.TAG_OFFSET, "" + offsetCnt);
+            requestMap.put(Constants.TAG_OFFSET, "" + (offsetCnt * limitcnt));
 
             homeApiCall = apiInterface.getHomeFeeds(requestMap);
             homeApiCall.enqueue(new Callback<FeedsModel>() {
@@ -673,5 +685,45 @@ public class FeedsActivity extends BaseFragmentActivity {
     @Override
     public void onNetworkChanged(boolean isConnected) {
         AppUtils.showSnack(mContext, findViewById(R.id.childLay), isConnected);
+    }
+
+    @Override
+    public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
+        openMenu(view);
+    }
+
+    private void openMenu(View view) {
+        popupMenu = new PopupMenu(mContext, view, R.style.PopupMenuBackground);
+        popupMenu.getMenuInflater().inflate(R.menu.feed_menu, popupMenu.getMenu());
+        popupMenu.setGravity(Gravity.START);
+
+        Typeface typeface;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            typeface = getResources().getFont(R.font.font_light);
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.font_light);
+        }
+        for (int i = 0; i < popupMenu.getMenu().size(); i++) {
+            MenuItem menuItem = popupMenu.getMenu().getItem(i);
+            SpannableString mNewTitle = new SpannableString(menuItem.getTitle());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                mNewTitle.setSpan(new TypefaceSpan(typeface), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            } else {
+                mNewTitle.setSpan(new CustomTypefaceSpan("", typeface), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+            menuItem.setTitle(mNewTitle);
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getTitle().toString().equals(getString(R.string.delete_feed))) {
+
+                } else if (item.getTitle().toString().equals(getString(R.string.share))) {
+
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 }

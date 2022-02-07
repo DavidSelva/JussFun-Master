@@ -71,7 +71,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.My
         params.height = (int) (displayHeight / 4);
         holder.contentLay.setLayoutParams(params);
 
-//        holder.thumbnail.setImageBitmap(thumbnailItem.image);
+//        holder.thumbnail.setImageBitmap(thumbnailItem.filter.processFilter(thumbnailItem.image));
         Glide.with(mContext)
                 .load(thumbnailItem.image)
                 .centerCrop()

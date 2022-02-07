@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -41,6 +42,7 @@ import com.zomato.photofilters.utils.ThumbnailItem;
 import com.zomato.photofilters.utils.ThumbnailsManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -222,22 +224,14 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
                 getResources().getDisplayMetrics());
         recyclerView.addItemDecoration(new SpacesItemDecoration(space));
         recyclerView.setAdapter(mAdapter);
-        prepareThumbnail(null);
+        prepareThumbnail();
     }
 
-    public synchronized void prepareThumbnail(final Bitmap bitmap) {
+    public synchronized void prepareThumbnail() {
         Runnable r = new Runnable() {
             public void run() {
                 Bitmap thumbImage;
-                if (bitmap == null) {
-                    thumbImage = getAdapterBitmap();
-                    thumbImage = getExactOrientationBitmapThumb(thumbImage);
-                } else {
-                    thumbImage = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
-//                    thumbImage = Bitmap.createScaledBitmap(thumbImage, imagePreviewWidth, imagePreviewHeight, false);
-                    thumbImage = bitmap.copy(Bitmap.Config.RGB_565, false);
-                    //                    String imagePath = storageManager.saveBitmap(bitmap, storageManager.getTempImageCacheDir(), storageManager.getFileName("checkname"));
-                }
+                thumbImage = getAdapterBitmap();
 
                 if (thumbImage == null)
                     return;
@@ -280,7 +274,17 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     }
 
     public Bitmap getAdapterBitmap() {
-        return storageManager.getBitMapFromUri(mContext, selectedUri);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            ImageDecoder.Source source = ImageDecoder.createSource(mContext.getContentResolver(),
+                    selectedUri);
+            try {
+                return ImageDecoder.decodeBitmap(source).copy(Bitmap.Config.RGBA_F16, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Bitmap bitmap = storageManager.getBitMapFromUri(mContext, selectedUri);
+        return bitmap;
     }
 
     public Bitmap getExactOrientationBitmapThumb(Bitmap mBitmap) {

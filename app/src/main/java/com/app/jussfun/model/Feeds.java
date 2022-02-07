@@ -32,7 +32,7 @@ public class Feeds {
     @SerializedName("like")
     @Expose
     private int like;
-    @SerializedName("super_like")
+    @SerializedName("superlike")
     @Expose
     private int superLike;
     @SerializedName("heart")

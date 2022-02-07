@@ -686,5 +686,6 @@
     <string name="enable_camera_permission">Enable camera permission</string>
     <string name="normal">Normal</string>
     <string name="feeds">Feeds</string>
+    <string name="delete_feed">Delete Feed</string>
 
 </resources>
