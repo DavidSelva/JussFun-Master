@@ -63,8 +63,12 @@ import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
@@ -101,6 +105,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     Container containerFeed;
     @BindView(R.id.swipe_refreshlayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.btnBack)
+    ImageView btnBack;
     @BindView(R.id.nullImage)
     ImageView nullImage;
     @BindView(R.id.nullText)
@@ -113,7 +119,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     ConstraintLayout childLay;
 
     private Context mContext;
-    private ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+    private ApiInterface apiInterface;
     private AppUtils appUtils;
     private FeedsAdapter feedsAdapter;
     final Handler handler = new Handler();  // post a delay due to the visibility change
@@ -138,7 +144,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     private ActivityResultLauncher<Intent> cameraResultLauncher;
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> addPostResultLauncher;
-    private String followerId;
+    private String followerId, feedId;
     private PopupMenu popupMenu;
 
     @Override
@@ -150,6 +156,9 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         appUtils = new AppUtils(this);
         mContext = this;
         followerId = getIntent().getStringExtra(Constants.TAG_USER_ID);
+        if (getIntent().hasExtra(Constants.TAG_FEED_ID)) {
+            feedId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
+        }
         initView();
         initPermission();
         initResultLauncher();
@@ -185,6 +194,17 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
         // For pull to refresh listen
         pullToRefreshListener();
+
+        if (feedId != null) {
+            btnPost.setVisibility(View.GONE);
+        }
+        btnBack.setVisibility(View.VISIBLE);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -580,8 +600,16 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 //            showLoading();
             Map<String, String> requestMap = new HashMap<>();
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
-            requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
-            requestMap.put(Constants.TAG_FEED_ID, "");
+            if (feedId != null) {
+                requestMap.put(Constants.TAG_FEED_ID, feedId);
+                requestMap.put(Constants.TAG_FOLLOWER_ID, "");
+            } else if (followerId != null) {
+                requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
+                requestMap.put(Constants.TAG_FEED_ID, "");
+            } else {
+                requestMap.put(Constants.TAG_FOLLOWER_ID, "");
+                requestMap.put(Constants.TAG_FEED_ID, "");
+            }
             requestMap.put(Constants.TAG_LIMIT, "" + limitcnt);
             requestMap.put(Constants.TAG_OFFSET, "" + (offsetCnt * limitcnt));
 
@@ -599,27 +627,26 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                         List<Feeds> results = response.body().getResult();
                         if (response.body().getStatus().equalsIgnoreCase("true")) {
                             if (results.size() > 0) {
-                                nullLay.setVisibility(View.GONE);
                                 isLoading = false;
                                 int prevSize = feedsList.size() + 1;
                                 feedsList.addAll(results);
                                 feedsAdapter.notifyItemRangeInserted(
                                         prevSize, feedsList.size()
                                 );
-                                //                                homelist.addAll(results);
-                                //                                adapter.notifyDataSetChanged();
                             } else {
-                                //                            isChekRefresh = false;
-                                if (offsetCnt == 0)
-                                    nullLay.setVisibility(View.VISIBLE);
-                                else
-                                    nullLay.setVisibility(View.GONE);
                                 feedsList.addAll(results);
                                 feedsAdapter.notifyDataSetChanged();
                                 isLoading = true;
                             }
+                        }
+                        if (results.size() > 0) {
+                            nullLay.setVisibility(View.GONE);
                         } else {
-
+                            if (offsetCnt == 0) {
+                                nullLay.setVisibility(View.VISIBLE);
+                                nullText.setText(mContext.getString(R.string.no_feeds_description));
+                            } else
+                                nullLay.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -689,10 +716,15 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     @Override
     public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
-        openMenu(view);
+        openMenu(view, resultsItem, adapterPosition);
     }
 
-    private void openMenu(View view) {
+    @Override
+    public void onUserClicked(View view, Feeds resultsItem, int adapterPosition) {
+
+    }
+
+    private void openMenu(View view, Feeds resultsItem, int adapterPosition) {
         popupMenu = new PopupMenu(mContext, view, R.style.PopupMenuBackground);
         popupMenu.getMenuInflater().inflate(R.menu.feed_menu, popupMenu.getMenu());
         popupMenu.setGravity(Gravity.START);
@@ -702,6 +734,9 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             typeface = getResources().getFont(R.font.font_light);
         } else {
             typeface = ResourcesCompat.getFont(this, R.font.font_light);
+        }
+        if (!feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
+            popupMenu.getMenu().getItem(0).setVisible(false);
         }
         for (int i = 0; i < popupMenu.getMenu().size(); i++) {
             MenuItem menuItem = popupMenu.getMenu().getItem(i);
@@ -717,13 +752,69 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getTitle().toString().equals(getString(R.string.delete_feed))) {
-
+                    deleteFeed(resultsItem, adapterPosition);
+                    popupMenu.dismiss();
                 } else if (item.getTitle().toString().equals(getString(R.string.share))) {
-
+                    shareFeed(resultsItem.getFeedId());
                 }
                 return true;
             }
         });
         popupMenu.show();
+    }
+
+    private void shareFeed(String feedId) {
+        Task<ShortDynamicLink> shortLinkTask = appUtils.getFeedDynamicLink(feedId);
+
+        shortLinkTask.addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
+            @Override
+            public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                if (task.isSuccessful()) {
+                    // Short link created
+                    Uri shortLink = task.getResult().getShortLink();
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    String msg = String.format(getString(R.string.share_feed_description), getString(R.string.app_name), shortLink);
+                    intent.putExtra(Intent.EXTRA_TEXT, msg);
+                    startActivity(Intent.createChooser(intent, getString(R.string.share_link)));
+                } else {
+                    // Error
+                    // ...
+                    Log.e(TAG, "onComplete: ");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    private void deleteFeed(Feeds item, int adapterPosition) {
+        if (NetworkReceiver.isConnected()) {
+            Call<Map<String, String>> call = apiInterface.deleteFeed(GetSet.getUserId(), item.getFeedId());
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            feedsList.remove(adapterPosition);
+                            feedsAdapter.notifyItemRemoved(adapterPosition);
+                            feedsAdapter.notifyItemRangeChanged(adapterPosition, feedsList.size());
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "uploadImage: " + t.getMessage());
+                    call.cancel();
+                    hideLoading();
+                }
+            });
+        }
     }
 }

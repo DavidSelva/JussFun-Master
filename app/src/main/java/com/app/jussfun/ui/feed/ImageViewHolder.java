@@ -78,7 +78,7 @@ public class ImageViewHolder extends BaseViewHolder {
         List<Feeds> result = (List<Feeds>) object;
         Glide.with(context)
                 .load(result.get(position).getImageUrl())
-                .placeholder(R.drawable.image_placeholder)
+                .placeholder(R.drawable.place_holder_loading)
                 .transition(DrawableTransitionOptions.withCrossFade(1000))
                 .into(imageView);
 

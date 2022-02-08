@@ -37,6 +37,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -193,5 +194,9 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("activities/updatefeed")
     Call<Map<String, String>> updateFeed(@FieldMap Map<String, String> requestMap);
+
+    @FormUrlEncoded
+    @POST("activities/deleteFeed")
+    Call<Map<String, String>> deleteFeed(@Field("user_id") String userId, @Field("feed_id") String feedId );
 
 }

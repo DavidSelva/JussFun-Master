@@ -49,6 +49,7 @@ import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.app.jussfun.base.App;
+import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.ui.feed.FeedsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.jussfun.R;
@@ -235,6 +236,13 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                     }
                 }
             }
+        } else if (getIntent().hasExtra(Constants.TAG_FEED_ID)) {
+            Intent feedIntent = new Intent(getApplicationContext(), FeedsActivity.class);
+            feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+            feedIntent.putExtra(Constants.TAG_FEED_ID, getIntent().getStringExtra(Constants.TAG_FEED_ID));
+            startActivity(feedIntent);
+
         }
 
         getGooglePlayCurrency();

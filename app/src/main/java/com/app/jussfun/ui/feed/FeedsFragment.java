@@ -82,8 +82,12 @@ import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 import java.io.File;
 import java.io.IOException;
@@ -174,6 +178,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> addPostResultLauncher;
     private PopupMenu popupMenu;
+    private AppUtils appUtils;
 
     @Nullable
     @Override
@@ -193,6 +198,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         super.onViewCreated(itemView, bundle);
         if (mContext == null) mContext = getActivity();
         storageUtils = StorageUtils.getInstance(mContext);
+        appUtils = new AppUtils(mContext);
 
         initPermission();
         initResultLauncher();
@@ -655,27 +661,27 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
                         if (response.body().getStatus().equalsIgnoreCase("true")) {
                             if (results.size() > 0) {
                                 isChekRefresh = true;
-                                nullLay.setVisibility(View.GONE);
                                 isLoading = false;
                                 int prevSize = feedsList.size() + 1;
                                 feedsList.addAll(results);
                                 feedsAdapter.notifyItemRangeInserted(
                                         prevSize, feedsList.size()
                                 );
-                                //                                homelist.addAll(results);
-                                //                                adapter.notifyDataSetChanged();
                             } else {
-                                //                            isChekRefresh = false;
-                                if (offsetCnt == 0)
-                                    nullLay.setVisibility(View.VISIBLE);
-                                else
-                                    nullLay.setVisibility(View.GONE);
                                 feedsList.addAll(results);
                                 feedsAdapter.notifyDataSetChanged();
                                 isLoading = true;
                             }
+                        }
+                        if (results.size() > 0) {
+                            nullLay.setVisibility(View.GONE);
                         } else {
-
+                            if (offsetCnt == 0) {
+                                nullLay.setVisibility(View.VISIBLE);
+                                nullText.setText(mContext.getString(R.string.no_feeds_description));
+                            }
+                            else
+                                nullLay.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -1042,10 +1048,15 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
     @Override
     public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
-        openMenu(view);
+        openMenu(view, resultsItem, adapterPosition);
     }
 
-    private void openMenu(View view) {
+    @Override
+    public void onUserClicked(View view, Feeds resultsItem, int adapterPosition) {
+
+    }
+
+    private void openMenu(View view, Feeds resultsItem, int adapterPosition) {
         popupMenu = new PopupMenu(mContext, view, R.style.PopupMenuBackground);
         popupMenu.getMenuInflater().inflate(R.menu.feed_menu, popupMenu.getMenu());
         popupMenu.setGravity(Gravity.START);
@@ -1055,6 +1066,9 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
             typeface = getResources().getFont(R.font.font_light);
         } else {
             typeface = ResourcesCompat.getFont(mContext, R.font.font_light);
+        }
+        if (!feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
+            popupMenu.getMenu().getItem(0).setVisible(false);
         }
         for (int i = 0; i < popupMenu.getMenu().size(); i++) {
             MenuItem menuItem = popupMenu.getMenu().getItem(i);
@@ -1070,13 +1084,69 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getTitle().toString().equals(getString(R.string.delete_feed))) {
-
+                    deleteFeed(resultsItem, adapterPosition);
+                    popupMenu.dismiss();
                 } else if (item.getTitle().toString().equals(getString(R.string.share))) {
-
+                    shareFeed(resultsItem.getFeedId());
                 }
                 return true;
             }
         });
         popupMenu.show();
+    }
+
+    private void shareFeed(String feedId) {
+        Task<ShortDynamicLink> shortLinkTask = appUtils.getFeedDynamicLink(feedId);
+
+        shortLinkTask.addOnCompleteListener(getActivity(), new OnCompleteListener<ShortDynamicLink>() {
+            @Override
+            public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                if (task.isSuccessful()) {
+                    // Short link created
+                    Uri shortLink = task.getResult().getShortLink();
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    String msg = String.format(getString(R.string.share_feed_description), getString(R.string.app_name), shortLink);
+                    intent.putExtra(Intent.EXTRA_TEXT, msg);
+                    startActivity(Intent.createChooser(intent, getString(R.string.share_link)));
+                } else {
+                    // Error
+                    // ...
+                    Log.e(TAG, "onComplete: ");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    private void deleteFeed(Feeds item, int adapterPosition) {
+        if (NetworkReceiver.isConnected()) {
+            Call<Map<String, String>> call = apiInterface.deleteFeed(GetSet.getUserId(), item.getFeedId());
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            feedsList.remove(adapterPosition);
+                            feedsAdapter.notifyItemRemoved(adapterPosition);
+                            feedsAdapter.notifyItemRangeChanged(adapterPosition, feedsList.size());
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "uploadImage: " + t.getMessage());
+                    call.cancel();
+                    hideLoading();
+                }
+            });
+        }
     }
 }

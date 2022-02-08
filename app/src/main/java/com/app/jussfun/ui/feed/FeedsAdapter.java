@@ -129,14 +129,14 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.userImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    listener.onUserClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
                 }
             });
 
             holder.txtUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    listener.onUserClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
                 }
             });
 

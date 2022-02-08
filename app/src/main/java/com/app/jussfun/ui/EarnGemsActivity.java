@@ -218,7 +218,7 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
     }
 
     private void openShare() {
-        Task<ShortDynamicLink> shortLinkTask = appUtils.getDynamicLink();
+        Task<ShortDynamicLink> shortLinkTask = appUtils.getReferralDynamicLink();
 
         shortLinkTask.addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
             @Override
@@ -247,7 +247,7 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
 
     private void copyReferCode() {
 
-        Task<ShortDynamicLink> shortLinkTask = appUtils.getDynamicLink();
+        Task<ShortDynamicLink> shortLinkTask = appUtils.getReferralDynamicLink();
 
         shortLinkTask.addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
             @Override

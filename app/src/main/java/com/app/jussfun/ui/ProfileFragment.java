@@ -491,10 +491,10 @@ public class ProfileFragment extends Fragment {
                 startActivity(gemsIntent);
             }
             case R.id.feedsLay: {
-                Intent gemsIntent = new Intent(getActivity(), FeedsActivity.class);
-                gemsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                gemsIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
-                startActivity(gemsIntent);
+                Intent feedIntent = new Intent(getActivity(), FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                startActivity(feedIntent);
             }
             break;
         }

@@ -106,7 +106,8 @@ public class SplashActivity extends BaseFragmentActivity {
     Cipher defaultCipher;
     Cipher cipherNotInvalidated;
     private AppUtils appUtils;
-    public static boolean isAppOpened = false;
+    private boolean isFromFeed = false;
+    private String feedId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,7 +308,9 @@ public class SplashActivity extends BaseFragmentActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            if (isFromFeed) {
+                intent.putExtra(Constants.TAG_FEED_ID, feedId);
+            }
             startActivity(intent);
             AppWebSocket.mInstance = null;
             AppWebSocket.getInstance(SplashActivity.this);
@@ -399,9 +402,17 @@ public class SplashActivity extends BaseFragmentActivity {
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
                         }
+                        Log.d(TAG, "onSuccess: "+ deepLink);
                         if (deepLink != null) {
-                            String referalCode = deepLink.getQueryParameter("referal_code");
-                            SharedPref.putString(SharedPref.REFERAL_CODE, referalCode);
+                            if (deepLink.getQueryParameter("referal_code") != null) {
+                                String referalCode = deepLink.getQueryParameter("referal_code");
+                                SharedPref.putString(SharedPref.REFERAL_CODE, referalCode);
+                            } else if (deepLink.getQueryParameter("feed_id") != null) {
+                                isFromFeed = true;
+                                feedId = deepLink.getQueryParameter("feed_id");
+                            } else {
+                                SharedPref.putString(SharedPref.REFERAL_CODE, "");
+                            }
                         } else {
                             SharedPref.putString(SharedPref.REFERAL_CODE, "");
                         }

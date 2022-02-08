@@ -600,9 +600,26 @@ public class AppUtils {
         }
     }
 
-    public Task<ShortDynamicLink> getDynamicLink() {
+    public Task<ShortDynamicLink> getReferralDynamicLink() {
 
         String url = Constants.SITE_URL + "/" + GetSet.getReferalLink();
+        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse(url))
+                .setDomainUriPrefix("https://" + context.getString(R.string.dynamic_link_filter) + "/")
+                .setIosParameters(new DynamicLink.IosParameters.Builder(context.getString(R.string.ios_bundle_id))
+                        .setAppStoreId(context.getString(R.string.ios_app_store_id))
+                        .setCustomScheme(context.getString(R.string.ios_bundle_id))
+                        .build())
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder(BuildConfig.APPLICATION_ID)
+                        .build())
+                .buildShortDynamicLink();
+
+        return shortLinkTask;
+    }
+
+    public Task<ShortDynamicLink> getFeedDynamicLink(String feedId) {
+
+        String url = Constants.SITE_URL + "?feed_id=" + feedId;
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(url))
                 .setDomainUriPrefix("https://" + context.getString(R.string.dynamic_link_filter) + "/")
