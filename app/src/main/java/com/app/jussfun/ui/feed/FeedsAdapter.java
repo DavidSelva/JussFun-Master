@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.R;
@@ -36,6 +35,7 @@ import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.Constants;
+import com.app.jussfun.utils.SharedPref;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -145,7 +145,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 public void onClick(View v) {
                     App.preventMultipleClick(v);
                     if (resultsItem.getLike() != 1) {
-                        updateFeed(Constants.TAG_LIKE, holder.getAdapterPosition());
+                        updateFeed(Constants.TAG_LIKE, resultsItem, holder.getAdapterPosition());
                     }
                 }
             });
@@ -155,7 +155,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 public void onClick(View view) {
                     App.preventMultipleClick(view);
                     if (resultsItem.getSuperLike() != 1) {
-                        updateFeed(Constants.TAG_SUPER_LIKE, holder.getAdapterPosition());
+                        updateFeed(Constants.TAG_SUPER_LIKE, resultsItem, holder.getAdapterPosition());
                     }
                 }
             });
@@ -164,7 +164,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 public void onClick(View view) {
                     App.preventMultipleClick(view);
                     if (resultsItem.getStar() != 1) {
-                        updateFeed(Constants.TAG_STAR, holder.getAdapterPosition());
+                        updateFeed(Constants.TAG_STAR, resultsItem, holder.getAdapterPosition());
                     }
                 }
             });
@@ -173,7 +173,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 public void onClick(View view) {
                     App.preventMultipleClick(view);
                     if (resultsItem.getHeart() != 1) {
-                        updateFeed(Constants.TAG_HEART, holder.getAdapterPosition());
+                        updateFeed(Constants.TAG_HEART, resultsItem, holder.getAdapterPosition());
                     }
                 }
             });
@@ -183,16 +183,21 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
-    private void updateFeed(String type, int adapterPosition) {
+    private void updateFeed(String type, Feeds resultsItem, int adapterPosition) {
         if (NetworkReceiver.isConnected()) {
             Map<String, String> requestMap = new HashMap<>();
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+            requestMap.put(Constants.TAG_FEED_ID, resultsItem.getFeedId());
             requestMap.put(Constants.TAG_TYPE, type);
             Call<Map<String, String>> call = apiInterface.updateFeed(requestMap);
             call.enqueue(new Callback<Map<String, String>>() {
                 @Override
                 public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
                     if (response.isSuccessful() && response.body().get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                        if (response.body().get("gems_remaining") != null) {
+                            GetSet.setGems(Long.parseLong(response.body().get("gems_remaining")));
+                            SharedPref.putLong(SharedPref.GEMS, GetSet.getGems());
+                        }
                         switch (type) {
                             case Constants.TAG_LIKE:
                                 parentList.get(adapterPosition).setLike(1);
