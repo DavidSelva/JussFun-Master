@@ -97,7 +97,7 @@ public class Constants {
     public static final String TAG_REPORT_SUCCESS = "Reported successfully";
     public static final String TAG_FOLLOWER_ID = "follower_id";
     public static final String TAG_LIKE = "like";
-    public static final String TAG_SUPER_LIKE = "super_like";
+    public static final String TAG_SUPER_LIKE = "superlike";
     public static final String TAG_STAR = "star";
     public static final String TAG_HEART = "heart";
 

@@ -243,6 +243,13 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
                 ThumbnailItem thumbnailItem = new ThumbnailItem();
                 thumbnailItem.image = thumbImage;
                 thumbnailItem.filterName = getString(R.string.normal);
+                /*thumbnailItemList.add(thumbnailItem);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyItemInserted(thumbnailItemList.size() -1);
+                    }
+                });*/
                 ThumbnailsManager.addThumb(thumbnailItem);
 
                 List<Filter> filters = FilterPack.getFilterPack(FilterActivity.this);
@@ -253,14 +260,21 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
 
                 for (Filter filter : filters) {
                     ThumbnailItem tI = new ThumbnailItem();
+//                    tI.image = tI.filter.processFilter(thumbImage.copy(Bitmap.Config.ARGB_8888, true));
                     tI.image = thumbImage;
                     tI.filter = filter;
                     tI.filterName = filter.getName();
                     ThumbnailsManager.addThumb(tI);
+                   /* thumbnailItemList.add(tI);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyItemInserted(thumbnailItemList.size() -1);
+                        }
+                    });*/
                 }
 
                 thumbnailItemList.addAll(ThumbnailsManager.processThumbs(FilterActivity.this));
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

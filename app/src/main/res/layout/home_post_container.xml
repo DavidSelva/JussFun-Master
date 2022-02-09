@@ -125,8 +125,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -174,8 +174,8 @@
             android:layout_height="@dimen/size_40"
             android:layout_gravity="center"
             android:layout_marginStart="0dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_feed_like" />
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/feed_like_selector" />
 
         <ImageView
             android:id="@+id/btnSuperLike"
@@ -183,7 +183,7 @@
             android:layout_height="@dimen/size_40"
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/feed_super_like_selector" />
 
         <ImageView
@@ -192,7 +192,7 @@
             android:layout_height="@dimen/size_40"
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/feed_heart_selector" />
 
         <ImageView
@@ -201,8 +201,8 @@
             android:layout_height="@dimen/size_40"
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_feed_heart" />
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/feed_star_selector" />
 
     </LinearLayout>
 

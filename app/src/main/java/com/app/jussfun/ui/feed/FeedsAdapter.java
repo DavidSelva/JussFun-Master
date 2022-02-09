@@ -114,7 +114,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.txtPostTime.setText("" + resultsItem.getFeedTime());
 
             holder.btnLike.setSelected(resultsItem.getLike() == 1);
-            holder.btnSuperLike.setSelected(resultsItem.getLike() == 1);
+            holder.btnSuperLike.setSelected(resultsItem.getSuperLike() == 1);
             holder.btnStar.setSelected(resultsItem.getStar() == 1);
             holder.btnHeart.setSelected(resultsItem.getHeart() == 1);
 

@@ -14,8 +14,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ef750b7-fefb-40cd-9951-5df489d1d123" name="Default Changelist" comment="Feeds integrated">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/feed_like_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/feed_star_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/heart_inact.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/like_act.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/like_inact.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/star_act.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/star_inact.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/super_like.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/super_like_act.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FilterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FilterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/feed_heart_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/feed_heart_selector.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/feed_super_like_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/feed_super_like_selector.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_post_container.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_post_container.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +144,7 @@
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/exoplayer/ui/ToroControlView.java_SELECTED" value="ToroControlView" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/exoplayer/ui/ToroControlView.java_ToroControlView_DIMENSIONS" value="1080&#10;1920" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/menu" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="project.structure.last.edited" value="Build Variants" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -143,11 +157,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable" />
+      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\menu" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-hdpi" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-ldpi" />
-      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-mdpi" />
-      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-xhdpi" />
     </key>
     <key name="android.template.-2046459693">
       <recent name="com.app.jussfun.ui" />
