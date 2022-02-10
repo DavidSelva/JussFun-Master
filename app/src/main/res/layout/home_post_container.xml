@@ -62,8 +62,7 @@
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:textAlignment="viewStart"
-                    android:textSize="@dimen/text_medium_large"
-                    />
+                    android:textSize="@dimen/text_medium_large" />
 
                 <LinearLayout
                     android:id="@+id/followLay"
@@ -75,14 +74,14 @@
 
                     <TextView
                         android:id="@+id/txtFollow"
+                        style="@style/TextPrimaryLight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
                         android:text="@string/follow"
                         android:textAlignment="viewStart"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_normal"
-                        />
+                        android:textSize="@dimen/text_normal" />
 
                 </LinearLayout>
 
@@ -98,8 +97,7 @@
                 android:includeFontPadding="false"
                 android:text=""
                 android:textAlignment="viewStart"
-                android:textSize="@dimen/text_small"
-                />
+                android:textSize="@dimen/text_small" />
 
         </LinearLayout>
 
@@ -161,48 +159,128 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="0dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/btnLike"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/feed_like_selector" />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/btnSuperLike"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            android:layout_gravity="center"
+            <ImageView
+                android:id="@+id/btnLike"
+                android:layout_width="@dimen/iv_small"
+                android:layout_height="@dimen/iv_small"
+                android:layout_gravity="center"
+                android:background="@drawable/feed_like_selector" />
+
+            <TextView
+                android:id="@+id/txtLike"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="@string/like"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/feed_super_like_selector" />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/btnHeart"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            android:layout_gravity="center"
+            <ImageView
+                android:id="@+id/btnSuperLike"
+                android:layout_width="@dimen/iv_small"
+                android:layout_height="@dimen/iv_small"
+                android:layout_gravity="center"
+                android:background="@drawable/feed_super_like_selector" />
+
+            <TextView
+                android:id="@+id/txtSuperLike"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="@string/super_like"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/feed_heart_selector" />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/btnStar"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            android:layout_gravity="center"
+            <ImageView
+                android:id="@+id/btnHeart"
+                android:layout_width="@dimen/iv_small"
+                android:layout_height="@dimen/iv_small"
+                android:layout_gravity="center"
+                android:background="@drawable/feed_heart_selector" />
+
+            <TextView
+                android:id="@+id/txtHeart"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="@string/heart"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/feed_star_selector" />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/btnStar"
+                android:layout_width="@dimen/iv_small"
+                android:layout_height="@dimen/iv_small"
+                android:layout_gravity="center"
+                android:background="@drawable/feed_star_selector" />
+
+            <TextView
+                android:id="@+id/txtStar"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="@string/star"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_normal" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

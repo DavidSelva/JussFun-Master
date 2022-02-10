@@ -17,6 +17,7 @@
 package com.app.jussfun.ui.feed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.util.Log;
@@ -44,6 +45,7 @@ import com.app.jussfun.external.toro.core.ToroUtil;
 import com.app.jussfun.external.toro.core.media.PlaybackInfo;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.model.Feeds;
+import com.app.jussfun.ui.FullScreenImageViewActivity;
 import com.app.jussfun.utils.Constants;
 
 import java.util.ArrayList;
@@ -265,7 +267,8 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                 simplePlayerViewHolder.soundLay.setOnClickListener(new DoubleClickListener() {
 
                     @Override
-                    public void onSingleClick(View v) {}
+                    public void onSingleClick(View v) {
+                    }
 
                     @Override
                     public void onDoubleClick(View v) {
@@ -280,7 +283,10 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                 imageViewHolder.imageView.setOnClickListener(new DoubleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
-
+                        Intent intent = new Intent(context, FullScreenImageViewActivity.class);
+                        intent.putExtra(Constants.TAG_IMAGE, childAdapterlist.get(position).getImageUrl());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        context.startActivity(intent);
                     }
 
                     @Override

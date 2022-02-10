@@ -30,6 +30,7 @@
     <dimen name="toro_media_button_width">65dp</dimen>
     <dimen name="profile_small">40dp</dimen>
     <dimen name="toolbar_padding_normal">10dp</dimen>
+    <dimen name="iv_small">30dp</dimen>
     <dimen name="size_40">40dp</dimen>
     <dimen name="size_60">60dp</dimen>
     <dimen name="size_80">80dp</dimen>

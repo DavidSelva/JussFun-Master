@@ -689,5 +689,9 @@
     <string name="delete_feed">Delete Feed</string>
     <string name="share_feed_description">Checkout my feed on %1$s \n\n %2$s</string>
     <string name="no_feeds_description">No feeds yet posted</string>
+    <string name="like">Like</string>
+    <string name="super_like">Super Like</string>
+    <string name="heart">Heart</string>
+    <string name="star">Star</string>
 
 </resources>

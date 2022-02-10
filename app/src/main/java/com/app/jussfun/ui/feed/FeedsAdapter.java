@@ -118,7 +118,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.btnStar.setSelected(resultsItem.getStar() == 1);
             holder.btnHeart.setSelected(resultsItem.getHeart() == 1);
 
-
             holder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

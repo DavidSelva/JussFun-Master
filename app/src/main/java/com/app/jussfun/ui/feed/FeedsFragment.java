@@ -78,6 +78,8 @@ import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.MyProfileActivity;
+import com.app.jussfun.ui.OthersProfileActivity;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
@@ -1053,7 +1055,25 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
     @Override
     public void onUserClicked(View view, Feeds resultsItem, int adapterPosition) {
+        moveToProfile(resultsItem);
+    }
 
+    private void moveToProfile(Feeds resultsItem) {
+        if (resultsItem.getUserId().equals(GetSet.getUserId())) {
+            Intent profile = new Intent(mContext, MyProfileActivity.class);
+            profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            profile.putExtra(Constants.TAG_PARTNER_ID, GetSet.getUserId());
+            profile.putExtra(Constants.TAG_FROM, "");
+            startActivity(profile);
+        } else {
+            Intent profile = new Intent(mContext, OthersProfileActivity.class);
+            profile.putExtra(Constants.TAG_PARTNER_ID, resultsItem.getUserId());
+            profile.putExtra(Constants.TAG_PARTNER_NAME, "");
+            profile.putExtra(Constants.TAG_PARTNER_IMAGE, "");
+            profile.putExtra(Constants.TAG_FROM, Constants.TAG_MESSAGE);
+            profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(profile);
+        }
     }
 
     private void openMenu(View view, Feeds resultsItem, int adapterPosition) {

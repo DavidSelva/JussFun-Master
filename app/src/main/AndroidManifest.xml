@@ -71,10 +71,13 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.FullScreenImageViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.NearByActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:theme="@style/SliderThemeWhite"/>
+            android:theme="@style/SliderThemeWhite"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
@@ -204,11 +207,12 @@
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.LockScreenActivity" />
-
-        <activity android:name=".ui.feed.FilterActivity"
-            android:theme="@style/SliderThemeWhite"/>
-        <activity android:name=".ui.feed.FeedsActivity"
-            android:theme="@style/SliderThemeWhite"/>
+        <activity
+            android:name=".ui.feed.FilterActivity"
+            android:theme="@style/SliderThemeWhite" />
+        <activity
+            android:name=".ui.feed.FeedsActivity"
+            android:theme="@style/SliderThemeWhite" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

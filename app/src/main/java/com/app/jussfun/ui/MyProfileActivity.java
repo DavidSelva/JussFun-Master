@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.app.jussfun.R;
@@ -49,8 +50,7 @@ import retrofit2.Response;
 public class MyProfileActivity extends BaseFragmentActivity {
 
     private static String TAG = MyProfileActivity.class.getSimpleName();
-    @BindView(R.id.bannerImage)
-    ImageView bannerImage;
+
     @BindView(R.id.profileImage)
     RoundedImageView profileImage;
     @BindView(R.id.btnEdit)
@@ -96,7 +96,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
     @BindView(R.id.subscribeLay)
     RelativeLayout subscribeLay;
     @BindView(R.id.topLay)
-    RelativeLayout topLay;
+    ConstraintLayout topLay;
     @BindView(R.id.adView)
     AdView adView;
     @BindView(R.id.txtSubTitle)
@@ -104,7 +104,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.imageLay)
-    RelativeLayout imageLay;
+    ConstraintLayout imageLay;
     @BindView(R.id.iconDiamond)
     ImageView iconDiamond;
     @BindView(R.id.txtRenewalTitle)
