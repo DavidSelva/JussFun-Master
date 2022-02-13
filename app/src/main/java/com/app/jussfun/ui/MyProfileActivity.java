@@ -28,6 +28,7 @@ import com.app.jussfun.helper.OnOkCancelClickListener;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
+import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -119,12 +120,16 @@ public class MyProfileActivity extends BaseFragmentActivity {
     RelativeLayout primeBgLay;
     @BindView(R.id.renewalBgLay)
     RelativeLayout renewalBgLay;
-
-    ApiInterface apiInterface;
     @BindView(R.id.txtFollowers)
     TextView txtFollowers;
     @BindView(R.id.txtFollowings)
     TextView txtFollowings;
+    @BindView(R.id.feedsLay)
+    RelativeLayout feedsLay;
+    @BindView(R.id.txtFeedsCount)
+    TextView txtFeedsCount;
+
+    ApiInterface apiInterface;
     private String partnerId = "", from;
     ProfileResponse othersProfile;
     private RequestOptions profileImageRequest;
@@ -308,6 +313,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
     private void setProfile(ProfileResponse profile) {
         setPrimeView(profile);
         txtName.setText(profile.getName() + ", " + profile.getAge());
+        txtFeedsCount.setText(profile.getFeedCount());
         Glide.with(getApplicationContext())
                 .load(Constants.IMAGE_URL + profile.getUserImage())
                 .apply(App.getProfileImageRequest())
@@ -347,7 +353,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.profileImage, R.id.btnEdit, R.id.btnRenewal, R.id.renewalLay, R.id.btnSettings, R.id.followersLay,
-            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay,
+            R.id.feedsLay, R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay,
             R.id.btnBack})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -430,6 +436,12 @@ public class MyProfileActivity extends BaseFragmentActivity {
             case R.id.btnBack:
                 finish();
                 break;
+            case R.id.feedsLay: {
+                Intent feedIntent = new Intent(this, FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                startActivity(feedIntent);
+            }
             default:
                 break;
         }

@@ -58,6 +58,8 @@ public class ProfileResponse implements Serializable {
     private String followNotification;
     @SerializedName("gift_earnings")
     private String giftEarnings;
+    @SerializedName("feed_count")
+    private String feedCount;
 
     @SerializedName("gift_coversion_earnings")
     private String giftCoversionEarnings;
@@ -411,5 +413,13 @@ public class ProfileResponse implements Serializable {
 
     public void setDeclined(boolean declined) {
         this.declined = declined;
+    }
+
+    public String getFeedCount() {
+        return feedCount;
+    }
+
+    public void setFeedCount(String feedCount) {
+        this.feedCount = feedCount;
     }
 }

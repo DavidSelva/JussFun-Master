@@ -138,6 +138,7 @@ public class Constants {
     public static final String TAG_FRIENDS = "friends";
     public static final String TAG_INTEREST = "interest";
     public static final String TAG_MATCH = "match";
+    public static final String TAG_FEEDS = "feeds";
     public static final String TAG_PRIVACY_AGE = "privacy_age";
     public static final String TAG_PRIVACY_CONTACT_ME = "privacy_contactme";
     public static final String TAG_TYPE = "type";

@@ -14,12 +14,13 @@ import androidx.core.content.ContextCompat;
 
 import com.app.jussfun.R;
 import com.app.jussfun.apprtc.util.AppRTCUtils;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.model.AddDeviceRequest;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.base.App;
 import com.app.jussfun.ui.ChatActivity;
 import com.app.jussfun.ui.VideoCallActivity;
+import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
@@ -84,6 +85,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (scope.equals(Constants.TAG_MATCH)) {
                 if (GetSet.getInterestNotification())
                     setInterestNotification(map);
+            } else if (scope.equals(Constants.TAG_FEEDS)) {
+                setFeedsNotification(map);
             }
         }
     }
@@ -234,6 +237,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra(Constants.TAG_FROM_FOREGROUND, App.isOnAppForegrounded());
             intent.putExtra(Constants.NOTIFICATION, data.get(Constants.TAG_SCOPE));
+        }
+        String appName = getString(R.string.app_name);
+        sendNotification(0, appName, data.get(Constants.TAG_MESSAGE), intent);
+    }
+
+    private void setFeedsNotification(Map<String, String> data) {
+        Intent intent = new Intent();
+        if (!Constants.isInRandomCall && !Constants.isInVideoCall) {
+            intent = new Intent(getApplicationContext(), FeedsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Constants.TAG_FROM_FOREGROUND, App.isOnAppForegrounded());
+            intent.putExtra(Constants.NOTIFICATION, data.get(Constants.TAG_SCOPE));
+            intent.putExtra(Constants.TAG_FEED_ID, data.get(Constants.TAG_FEED_ID));
         }
         String appName = getString(R.string.app_name);
         sendNotification(0, appName, data.get(Constants.TAG_MESSAGE), intent);

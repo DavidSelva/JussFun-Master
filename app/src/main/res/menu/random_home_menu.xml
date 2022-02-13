@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/menuFeeds"
-        android:icon="@drawable/main_discover_p"
+        android:icon="@drawable/ic_home_active"
         android:title=""
         android:enabled="true"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menuHome"
-        android:icon="@drawable/main_discover_p"
+        android:icon="@drawable/main_discover"
         android:title=""
         android:enabled="true"
         app:showAsAction="ifRoom" />

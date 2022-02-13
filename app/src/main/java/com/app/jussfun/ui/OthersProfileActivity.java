@@ -28,19 +28,14 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
-import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.ads.AdView;
-import com.google.gson.Gson;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.apprtc.util.AppRTCUtils;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.qrgenerator.QRGContents;
 import com.app.jussfun.external.qrgenerator.QRGEncoder;
+import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.OnOkClickListener;
@@ -51,11 +46,17 @@ import com.app.jussfun.model.FollowersResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
+import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.ads.AdView;
+import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
@@ -141,6 +142,12 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     Button btnShare;
     @BindView(R.id.btnBlock)
     Button btnBlock;
+    @BindView(R.id.feedsLay)
+    RelativeLayout feedsLay;
+    @BindView(R.id.ivFeeds)
+    ImageView ivFeeds;
+    @BindView(R.id.txtFeedsCount)
+    TextView txtFeedsCount;
     private String partnerId = "", from = null;
     ProfileResponse othersProfile;
     private RequestOptions profileImageRequest;
@@ -201,7 +208,6 @@ public class OthersProfileActivity extends BaseFragmentActivity {
             btnFollow.setVisibility(View.GONE);
         }
         loadAd();
-
     }
 
     private void setFromIntent(Intent intent) {
@@ -274,7 +280,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);}
+            AdUtils.getInstance(this).loadAd(TAG, adView);
+        }
     }
 
     private void getProfile(String userId) {
@@ -311,6 +318,7 @@ public class OthersProfileActivity extends BaseFragmentActivity {
         } else {
             txtName.setText(profile.getName() + ", " + profile.getAge());
         }
+        txtFeedsCount.setText(profile.getFeedCount());
 
         premiumImage.setVisibility(profile.getPremiumMember().equals(Constants.TAG_TRUE) ? View.VISIBLE : View.GONE);
         txtLocation.setText(AppUtils.formatWord(profile.getLocation()));
@@ -379,7 +387,7 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.profileImage, R.id.btnSettings, R.id.followersLay, R.id.followingsLay,
-            R.id.btnFollow, R.id.btnBack, R.id.chatLay,R.id.videoLay,
+            R.id.btnFollow, R.id.btnBack, R.id.chatLay, R.id.videoLay, R.id.feedsLay,
             R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -469,6 +477,12 @@ public class OthersProfileActivity extends BaseFragmentActivity {
                 btnShare.setEnabled(false);
                 new GetQRCodeTask().execute();
                 break;
+            case R.id.feedsLay: {
+                Intent feedIntent = new Intent(this, FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, partnerId);
+                startActivity(feedIntent);
+            }
         }
     }
 

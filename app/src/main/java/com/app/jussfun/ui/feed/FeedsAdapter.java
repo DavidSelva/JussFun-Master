@@ -18,6 +18,7 @@ package com.app.jussfun.ui.feed;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.btnSuperLike.setSelected(resultsItem.getSuperLike() == 1);
             holder.btnStar.setSelected(resultsItem.getStar() == 1);
             holder.btnHeart.setSelected(resultsItem.getHeart() == 1);
+
+            holder.txtLikeCount.setText(!TextUtils.isEmpty("" + resultsItem.getLikeCount()) ? "" + resultsItem.getLikeCount() : "" + 0);
+            holder.txtSuperLikeCount.setText(!TextUtils.isEmpty("" + resultsItem.getSuperLikeCount()) ? "" + resultsItem.getSuperLikeCount() : "" + 0);
+            holder.txtHeartCount.setText(!TextUtils.isEmpty("" + resultsItem.getHeartCount()) ? "" + resultsItem.getHeartCount() : "" + 0);
+            holder.txtStarCount.setText(!TextUtils.isEmpty("" + resultsItem.getStarCount()) ? "" + resultsItem.getStarCount() : "" + 0);
 
             holder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override

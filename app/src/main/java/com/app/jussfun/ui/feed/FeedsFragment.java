@@ -142,8 +142,6 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
     RelativeLayout nullLay;
     @BindView(R.id.btnPost)
     FloatingActionButton btnPost;
-    @BindView(R.id.childLay)
-    ConstraintLayout childLay;
 
     // For use other fragment
     private FeedsFragment feedsFragment;
@@ -201,7 +199,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         if (mContext == null) mContext = getActivity();
         storageUtils = StorageUtils.getInstance(mContext);
         appUtils = new AppUtils(mContext);
-
+        initFloatingButton();
         initPermission();
         initResultLauncher();
         findHeightWidth();
@@ -232,6 +230,26 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
             @Override
             public void onClick(View view) {
                 openImageDialog(itemView);
+            }
+        });
+    }
+
+    private void initFloatingButton() {
+        containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    btnPost.show();
+                } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    btnPost.hide();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
             }
         });
     }

@@ -115,8 +115,6 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     RelativeLayout nullLay;
     @BindView(R.id.btnPost)
     FloatingActionButton btnPost;
-    @BindView(R.id.childLay)
-    ConstraintLayout childLay;
 
     private Context mContext;
     private ApiInterface apiInterface;
@@ -160,6 +158,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             feedId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
         }
         initView();
+        initFloatingButton();
         initPermission();
         initResultLauncher();
         setMargins();
@@ -210,6 +209,26 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             @Override
             public void onClick(View view) {
                 openImageDialog();
+            }
+        });
+    }
+
+    private void initFloatingButton() {
+        containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    btnPost.show();
+                } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    btnPost.hide();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
             }
         });
     }

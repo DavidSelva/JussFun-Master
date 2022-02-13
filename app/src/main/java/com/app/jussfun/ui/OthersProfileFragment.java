@@ -49,6 +49,7 @@ import com.app.jussfun.model.FollowResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
+import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -133,10 +134,15 @@ public class OthersProfileFragment extends Fragment {
     ImageView btnSettings;
     @BindView(R.id.followingsLay)
     RelativeLayout followingsLay;
+    @BindView(R.id.feedsLay)
+    RelativeLayout feedsLay;
+    @BindView(R.id.txtFeedsCount)
+    TextView txtFeedsCount;
     @BindView(R.id.btnBlock)
     Button btnBlock;
     @BindView(R.id.btnShare)
     Button btnShare;
+
     private Bundle bundle;
     ApiInterface apiInterface;
     private String partnerId = "";
@@ -277,6 +283,7 @@ public class OthersProfileFragment extends Fragment {
             } else {
                 txtName.setText(profile.getName() + ", " + profile.getAge());
             }
+            txtFeedsCount.setText(profile.getFeedCount());
 
             premiumImage.setVisibility(profile.getPremiumMember().equals(Constants.TAG_TRUE) ? View.VISIBLE : View.GONE);
 
@@ -335,7 +342,7 @@ public class OthersProfileFragment extends Fragment {
         }
     }
 
-    @OnClick({R.id.profileImage, R.id.btnSettings, R.id.followersLay, R.id.followingsLay, R.id.btnFollow,
+    @OnClick({R.id.profileImage, R.id.btnSettings, R.id.followersLay, R.id.followingsLay, R.id.btnFollow, R.id.feedsLay,
             R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare, R.id.chatLay, R.id.videoLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -386,6 +393,12 @@ public class OthersProfileFragment extends Fragment {
                 btnShare.setEnabled(false);
                 new GetQRCodeTask().execute();
                 break;
+            case R.id.feedsLay: {
+                Intent feedIntent = new Intent(getActivity(), FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                startActivity(feedIntent);
+            }
             default:
                 break;
         }

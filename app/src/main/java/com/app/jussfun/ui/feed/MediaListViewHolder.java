@@ -53,6 +53,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * This {@link RecyclerView.ViewHolder} will contain a {@link Container}.
  *
@@ -66,33 +69,48 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public static final int LAYOUT_RES = R.layout.home_post_container;
     private static final String TAG = MediaListViewHolder.class.getSimpleName();
     private String way = "";
-    private final SnapHelper snapHelper = new PagerSnapHelper();
     public Context context;
-    public ImageView userImg, btnLike, btnHeart, btnStar, btnShare, btnSuperLike;
+    private final SnapHelper snapHelper = new PagerSnapHelper();
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.container)
+    Container container;
+    @BindView(R.id.userImage)
+    public ImageView userImg;
+    @BindView(R.id.txtUserName)
+    public TextView txtUserName;
+    @BindView(R.id.btnLike)
+    ImageView btnLike;
+    @BindView(R.id.btnHeart)
+    ImageView btnHeart;
+    @BindView(R.id.btnStar)
+    ImageView btnStar;
+    @BindView(R.id.btnSuperLike)
+    ImageView btnSuperLike;
+    @BindView(R.id.txtLikeCount)
+    public TextView txtLikeCount;
+    @BindView(R.id.txtSuperLikeCount)
+    public TextView txtSuperLikeCount;
+    @BindView(R.id.txtHeartCount)
+    public TextView txtHeartCount;
+    @BindView(R.id.txtStarCount)
+    public TextView txtStarCount;
+    @BindView(R.id.btnMore)
     public FrameLayout btnMore;
-    public TextView txtUserName, txtPostTime;
+    @BindView(R.id.txtPostTime)
+    TextView txtPostTime;
+    View itemVw;
+
     public List<Feeds> feedsList = new ArrayList<>();
     public clickListener listener;
-    @SuppressWarnings("WeakerAccess")
-    Container container;
-    View itemVw;
     private int initPosition = -1;
 
 
     public MediaListViewHolder(View itemView) {
         super(itemView);
         this.context = itemView.getContext();
-        container = (Container) itemView.findViewById(R.id.container);
-        userImg = itemView.findViewById(R.id.userImage);
-
-        btnLike = itemView.findViewById(R.id.btnLike);
-        btnHeart = itemView.findViewById(R.id.btnHeart);
-        btnStar = itemView.findViewById(R.id.btnStar);
-        btnSuperLike = itemView.findViewById(R.id.btnSuperLike);
-        btnMore = itemView.findViewById(R.id.btnMore);
-        txtUserName = (TextView) itemView.findViewById(R.id.txtUserName);
-        txtPostTime = (TextView) itemView.findViewById(R.id.txtPostTime);
         itemVw = itemView;
+        ButterKnife.bind(this, itemView);
 
     }
 
@@ -258,7 +276,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                 ArrayList<BaseViewHolder> holders = new ArrayList<>();
                 holders.add(simplePlayerViewHolder);
 
-                holder.bind(position, childAdapterlist, "");
+                holder.bind(holder.getAdapterPosition(), childAdapterlist, "");
 
 //                simplePlayerViewHolder.durationTxt.setText(childAdapterlist.get(position).getDuration());
 
@@ -278,13 +296,13 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
             } else {
                 final ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
-                imageViewHolder.bind(position, childAdapterlist, "");
+                imageViewHolder.bind(holder.getAdapterPosition(), childAdapterlist, "");
                 imageViewHolder.setListener(Adapter.this);
                 imageViewHolder.imageView.setOnClickListener(new DoubleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
                         Intent intent = new Intent(context, FullScreenImageViewActivity.class);
-                        intent.putExtra(Constants.TAG_IMAGE, childAdapterlist.get(position).getImageUrl());
+                        intent.putExtra(Constants.TAG_IMAGE, childAdapterlist.get(holder.getAdapterPosition()).getImageUrl());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent);
                     }

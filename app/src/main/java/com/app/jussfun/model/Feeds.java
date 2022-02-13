@@ -32,15 +32,27 @@ public class Feeds {
     @SerializedName("like")
     @Expose
     private int like;
+    @SerializedName("feed_like_count")
+    @Expose
+    private int likeCount;
     @SerializedName("superlike")
     @Expose
     private int superLike;
+    @SerializedName("feed_superlike_count")
+    @Expose
+    private int superLikeCount;
     @SerializedName("heart")
     @Expose
     private int heart;
+    @SerializedName("feed_heart_count")
+    @Expose
+    private int heartCount;
     @SerializedName("star")
     @Expose
     private int star;
+    @SerializedName("feed_star_count")
+    @Expose
+    private int starCount;
 
     public String getFeedId() {
         return feedId;
@@ -136,5 +148,37 @@ public class Feeds {
 
     public void setFeedTime(String feedTime) {
         this.feedTime = feedTime;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public int getSuperLikeCount() {
+        return superLikeCount;
+    }
+
+    public void setSuperLikeCount(int superLikeCount) {
+        this.superLikeCount = superLikeCount;
+    }
+
+    public int getHeartCount() {
+        return heartCount;
+    }
+
+    public void setHeartCount(int heartCount) {
+        this.heartCount = heartCount;
+    }
+
+    public int getStarCount() {
+        return starCount;
+    }
+
+    public void setStarCount(int starCount) {
+        this.starCount = starCount;
     }
 }

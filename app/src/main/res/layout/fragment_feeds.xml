@@ -15,33 +15,37 @@
   -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/childLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:translationZ="1dp"
+        app:elevation="0dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:translationZ="1dp"
-            app:elevation="0dp">
+            android:contentInsetStart="0dp"
+            android:contentInsetEnd="0dp"
+            app:layout_scrollFlags="scroll">
 
-            <Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:contentInsetStart="0dp"
-                android:contentInsetEnd="0dp">
+                android:contentInsetEnd="0dp"
+                app:layout_collapseMode="pin">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     app:layout_collapseMode="pin">
@@ -52,9 +56,9 @@
                         android:layout_height="40dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/toolbar_start_margin"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        android:layout_marginStart="@dimen/toolbar_start_margin"
                         android:src="@drawable/icon_left_back_arrow"
                         android:visibility="gone"
                         app:tint="@color/colorPrimaryText" />
@@ -77,31 +81,32 @@
 
                 </RelativeLayout>
 
-            </Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refreshlayout"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar">
+
+        <com.app.jussfun.external.toro.core.widget.Container
+            android:id="@+id/containerFeed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never">
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:paddingBottom="?attr/actionBarSize"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <com.app.jussfun.external.toro.core.widget.Container
-                android:id="@+id/containerFeed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="false"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                android:paddingBottom="?attr/actionBarSize"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/home_post_container" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include layout="@layout/null_lay" />
 
@@ -118,11 +123,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/progressLay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/progressLay"
         android:background="@android:color/transparent"
         android:clickable="false"
         android:focusable="false">

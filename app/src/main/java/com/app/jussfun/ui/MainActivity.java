@@ -1,5 +1,8 @@
 package com.app.jussfun.ui;
 
+import static com.app.jussfun.utils.Constants.POP_UP_WINDOW_PERMISSION_ASK_AGAIN;
+import static com.app.jussfun.utils.Constants.isCallPopup;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
@@ -39,7 +42,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
@@ -48,11 +50,8 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
-import com.app.jussfun.base.App;
-import com.app.jussfun.ui.feed.FeedsActivity;
-import com.app.jussfun.ui.feed.FeedsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.CustomViewPager;
 import com.app.jussfun.helper.AppWebSocket;
@@ -71,6 +70,8 @@ import com.app.jussfun.model.ReferFriendResponse;
 import com.app.jussfun.model.RenewalRequest;
 import com.app.jussfun.model.SignInRequest;
 import com.app.jussfun.model.SignInResponse;
+import com.app.jussfun.ui.feed.FeedsActivity;
+import com.app.jussfun.ui.feed.FeedsFragment;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -79,10 +80,10 @@ import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.DeviceTokenPref;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,9 +118,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.app.jussfun.utils.Constants.POP_UP_WINDOW_PERMISSION_ASK_AGAIN;
-import static com.app.jussfun.utils.Constants.isCallPopup;
 
 public class MainActivity extends BaseFragmentActivity implements PurchasesUpdatedListener {
 
@@ -216,6 +214,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         dbHelper = DBHelper.getInstance(this);
         final String token = DeviceTokenPref.getInstance(getApplicationContext()).getDeviceToken();
         final String deviceId = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        Log.d(TAG, "onCreate: " + GetSet.getAuthToken());
         registerNetworkReceiver();
 
         if (getIntent().hasExtra(Constants.NOTIFICATION)) {
@@ -308,6 +307,13 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 //                profileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(profileIntent);
                 break;
+            }
+            case Constants.TAG_FEEDS: {
+                Intent feedIntent = new Intent(getApplicationContext(), FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                feedIntent.putExtra(Constants.TAG_FEED_ID, getIntent().getStringExtra(Constants.TAG_FEED_ID));
+                startActivity(feedIntent);
             }
             default:
                 break;
@@ -479,28 +485,28 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     private void setBottomNavigation(int position) {
         switch (position) {
             case 0:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover_p));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_active));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case 1:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_inactive));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover_p));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case 2:
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_inactive));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case 3:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_inactive));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
