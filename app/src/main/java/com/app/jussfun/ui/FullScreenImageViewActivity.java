@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.BaseActivity;
-import com.app.jussfun.external.TouchImageView;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;

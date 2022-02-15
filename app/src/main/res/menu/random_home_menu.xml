@@ -5,14 +5,14 @@
     <item
         android:id="@+id/menuFeeds"
         android:icon="@drawable/ic_home_active"
-        android:title=""
+        android:title="@string/feeds"
         android:enabled="true"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menuHome"
         android:icon="@drawable/main_discover"
-        android:title=""
+        android:title="@string/go_live"
         android:enabled="true"
         app:showAsAction="ifRoom" />
 
@@ -20,12 +20,12 @@
         android:id="@+id/menuChat"
         android:enabled="true"
         android:icon="@drawable/main_chat_plan"
-        android:title=""
+        android:title="@string/messages"
         app:showAsAction="ifRoom" />
     <item
         android:enabled="true"
         android:id="@+id/menuProfile"
         android:icon="@drawable/main_me_plan"
-        android:title=""
+        android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>

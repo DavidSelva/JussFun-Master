@@ -459,5 +459,6 @@
     <string name="super_like">Super Like</string>
     <string name="heart">Heart</string>
     <string name="star">Star</string>
+    <string name="messages">Messages</string>
 
 </resources>

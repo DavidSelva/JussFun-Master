@@ -204,18 +204,26 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                             SharedPref.putLong(SharedPref.GEMS, GetSet.getGems());
                         }
                         switch (type) {
-                            case Constants.TAG_LIKE:
+                            case Constants.TAG_LIKE: {
                                 parentList.get(adapterPosition).setLike(1);
-                                break;
-                            case Constants.TAG_SUPER_LIKE:
+                                parentList.get(adapterPosition).setLikeCount(parentList.get(adapterPosition).getLikeCount() + 1);
+                            }
+                            break;
+                            case Constants.TAG_SUPER_LIKE: {
                                 parentList.get(adapterPosition).setSuperLike(1);
-                                break;
-                            case Constants.TAG_STAR:
+                                parentList.get(adapterPosition).setSuperLikeCount(parentList.get(adapterPosition).getSuperLikeCount() + 1);
+                            }
+                            break;
+                            case Constants.TAG_STAR: {
                                 parentList.get(adapterPosition).setStar(1);
-                                break;
-                            case Constants.TAG_HEART:
+                                parentList.get(adapterPosition).setStarCount(parentList.get(adapterPosition).getStarCount() + 1);
+                            }
+                            break;
+                            case Constants.TAG_HEART: {
                                 parentList.get(adapterPosition).setHeart(1);
-                                break;
+                                parentList.get(adapterPosition).setHeartCount(parentList.get(adapterPosition).getHeartCount() + 1);
+                            }
+                            break;
                         }
                         notifyItemChanged(adapterPosition);
                     }

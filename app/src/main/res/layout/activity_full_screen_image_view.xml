@@ -7,17 +7,18 @@
     android:background="@color/colorBlack"
     tools:context=".ui.FullScreenImageViewActivity">
 
-    <include
-        android:id="@+id/toolBarLay"
-        layout="@layout/activity_toolbar_transparent" />
 
-    <com.ravikoradiya.zoomableimageview.ZoomableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.ortiz.touchview.TouchImageView
         android:id="@+id/ivFullScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBarLay" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/toolBarLay"
+        layout="@layout/activity_toolbar_transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

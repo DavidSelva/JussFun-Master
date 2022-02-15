@@ -16,8 +16,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         buildToolsVersion = '30.0.2'
-        versionCode 12
-        versionName "1.1.4"
+        versionCode 13
+        versionName "1.2"
         ndk { abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64", "armeabi", "mips" }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
@@ -146,7 +146,7 @@ dependencies {
 
     /*Image Filter*/
     implementation 'info.androidhive:imagefilters:1.0.7'
-    implementation 'com.github.RaviKoradiya:ZoomableImageView:1.1.1'
+    implementation 'com.github.MikeOrtiz:TouchImageView:3.1.1'
 
     // Include the GoCoder SDK library dependency declaration
     testImplementation 'junit:junit:4.13.2'

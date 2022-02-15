@@ -24,7 +24,7 @@
         android:foregroundGravity="center"
         android:layoutDirection="ltr"
         android:visibility="visible"
-        app:labelVisibilityMode="unlabeled" />
+        app:labelVisibilityMode="labeled" />
 
     <include
         layout="@layout/activity_splash"
