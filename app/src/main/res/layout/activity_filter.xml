@@ -11,7 +11,7 @@
 
     <!--toolbar layout-->
     <RelativeLayout
-        android:id="@+id/toollayout"
+        android:id="@+id/toolBarLay"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
@@ -60,22 +60,37 @@
     </RelativeLayout>
     <!--end oftoolbar-->
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/image_preview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/place_holder_loading"
+        app:layout_constraintHeight_percent=".4"
+        app:layout_constraintTop_toBottomOf="@+id/toolBarLay" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/edtDescription"
+        style="@style/TextPrimaryLight"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorWhite"
+        android:gravity="start"
+        android:hint="@string/add_a_caption"
+        android:includeFontPadding="false"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="@integer/post_description_length"
+        android:maxLines="5"
+        android:padding="5dp"
+        android:text=""
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/text_medium"
         app:layout_constraintBottom_toTopOf="@id/recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/toollayout">
-
-        <ImageView
-            android:id="@+id/image_preview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:maxHeight="450dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/place_holder_loading" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/image_preview" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -92,5 +107,27 @@
         tools:itemCount="3"
         tools:listitem="@layout/item_image_filter" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/progressLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:visibility="gone"
+        android:focusable="false">
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/CircularProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,11 +14,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ef750b7-fefb-40cd-9951-5df489d1d123" name="Default Changelist" comment="Feeds count integrated">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/color/bottom_nav_text_color.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/CustomLinkReadMoreTextView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/AddFeedActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_feed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/OnMenuClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/OnMenuClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/ProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/ProfileFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FilterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FilterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/MediaListViewHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/MediaListViewHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_filter.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_filter.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_others_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_others_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_post_container.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_post_container.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/attr.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/attr.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/integers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/integers.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +144,8 @@
     <property name="android-custom-viewC:/Users/selva/AppData/Local/Android/Sdk/sources/android-30/android/view/ViewGroup.java_ViewGroup_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/CrystalRangeSeekbar.java_CrystalRangeSeekbar_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/CrystalRangeSeekbar.java_SELECTED" value="CrystalRangeSeekbar" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/CustomLinkReadMoreTextView.java_CustomLinkReadMoreTextView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/CustomLinkReadMoreTextView.java_SELECTED" value="CustomLinkReadMoreTextView" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/ProgressWheel.java_ProgressWheel_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/ProgressWheel.java_SELECTED" value="ProgressWheel" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/TouchImageView.java_SELECTED" value="TouchImageView" />
@@ -135,11 +157,11 @@
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/exoplayer/ui/ToroControlView.java_SELECTED" value="ToroControlView" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/exoplayer/ui/ToroControlView.java_ToroControlView_DIMENSIONS" value="1080&#10;1920" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external" />
     <property name="project.structure.last.edited" value="Build Variants" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="build.tools" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Signing Configs" />
@@ -148,11 +170,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\java\com\app\jussfun\external" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\menu" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-hdpi" />
-      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-ldpi" />
     </key>
     <key name="android.template.-2046459693">
       <recent name="com.app.jussfun.ui" />
@@ -162,6 +184,9 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable" />
+    </key>
+    <key name="android.template.-1964134123">
+      <recent name="com.app.jussfun.ui.feed" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com" />
@@ -473,7 +498,21 @@
       <option name="project" value="LOCAL" />
       <updated>1644945570284</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Feeds count integrated">
+      <created>1644946617418</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1644946617418</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Feeds count integrated">
+      <created>1644946630457</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1644946630457</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

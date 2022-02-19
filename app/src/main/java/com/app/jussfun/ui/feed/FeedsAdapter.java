@@ -17,13 +17,22 @@
 package com.app.jussfun.ui.feed;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.R;
@@ -101,7 +110,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (viewHolder instanceof MediaListViewHolder) {
             Feeds resultsItem = parentList.get(position);
             final MediaListViewHolder holder = (MediaListViewHolder) viewHolder;
-//            holder.setListener(activity);
+//            holder.setListener(activity)
             holder.bind(position, resultsItem, "");
 
             Glide.with(mContext)
@@ -109,10 +118,42 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     .centerCrop()
                     .placeholder(R.drawable.avatar)
                     .into(holder.userImg);
-            holder.btnMore.setVisibility(View.VISIBLE);
 
             holder.txtUserName.setText(resultsItem.getUserName());
             holder.txtPostTime.setText("" + resultsItem.getFeedTime());
+            if (resultsItem.getUserId().equals(GetSet.getUserId())) {
+                holder.btnDelete.setVisibility(View.VISIBLE);
+            } else {
+                holder.btnDelete.setVisibility(View.GONE);
+            }
+
+            holder.txtDescription.setIsLinkable(true);
+            holder.txtDescription.setText(resultsItem.getDescription().trim());
+            holder.txtDescription.post(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            if (parentList.size() > 0) {
+                                if (resultsItem.getDescription() != null) {
+                                    if (holder.txtDescription != null && (resultsItem.getDescription()).length() > 100) {
+                                        addReadMore(resultsItem.getDescription(), holder.txtDescription);
+                                    }
+                                }
+                            }
+                        }
+                    });
+            MovementMethod m = holder.txtDescription.getMovementMethod();
+            if ((m == null) || !(m instanceof LinkMovementMethod)) {
+                if (holder.txtDescription.getLinksClickable()) {
+                    holder.txtDescription.setMovementMethod(LinkMovementMethod.getInstance());
+                }
+            }
+            /*MovementMethod movementMethod = holder.txtComments.getMovementMethod();
+            if ((movementMethod == null) || !(movementMethod instanceof LinkMovementMethod)) {
+                if (holder.txtComments.getLinksClickable()) {
+                    holder.txtComments.setMovementMethod(LinkMovementMethod.getInstance());
+                }
+            }*/
 
             holder.btnLike.setSelected(resultsItem.getLike() == 1);
             holder.btnSuperLike.setSelected(resultsItem.getSuperLike() == 1);
@@ -124,24 +165,17 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             holder.txtHeartCount.setText(!TextUtils.isEmpty("" + resultsItem.getHeartCount()) ? "" + resultsItem.getHeartCount() : "" + 0);
             holder.txtStarCount.setText(!TextUtils.isEmpty("" + resultsItem.getStarCount()) ? "" + resultsItem.getStarCount() : "" + 0);
 
-            holder.btnMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onMenuClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
-                }
-            });
-
             holder.userImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onUserClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
+                    listener.onUserClicked(holder.userImg, resultsItem, holder.getAdapterPosition());
                 }
             });
 
             holder.txtUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onUserClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
+                    listener.onUserClicked(holder.txtUserName, resultsItem, holder.getAdapterPosition());
                 }
             });
 
@@ -183,9 +217,71 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
+            holder.btnShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onShareClicked(holder.btnShare, resultsItem, holder.getAdapterPosition());
+                }
+            });
+
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onShareClicked(holder.btnDelete, resultsItem, holder.getAdapterPosition());
+                }
+            });
+
         } else if (viewHolder instanceof LoadingViewHolder) {
             viewHolder.bind(position, "", "");    /// parameter no need . just for loading
         }
+    }
+
+    private void addReadMore(final String text, final AppCompatTextView textView) {
+        SpannableString ss = new SpannableString(text.substring(0, 100) + " " + mContext.getString(R.string.read_more));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                addReadLess(text, textView);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ds.setColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                } else {
+                    ds.setColor(mContext.getResources().getColor(R.color.colorAccent));
+                }
+            }
+        };
+        ss.setSpan(clickableSpan, ss.length() - 10, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ss);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void addReadLess(final String text, final AppCompatTextView textView) {
+        SpannableString ss = new SpannableString(text + " " + mContext.getString(R.string.read_less));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                addReadMore(text, textView);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ds.setColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                } else {
+                    ds.setColor(mContext.getResources().getColor(R.color.colorAccent));
+                }
+            }
+        };
+        ss.setSpan(clickableSpan, ss.length() - 10, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ss);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void updateFeed(String type, Feeds resultsItem, int adapterPosition) {

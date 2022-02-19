@@ -47,7 +47,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="0dp"
-            android:layout_toStartOf="@+id/btnMore"
+            android:layout_toStartOf="@+id/moreLay"
             android:layout_toEndOf="@+id/userImage"
             android:orientation="vertical">
 
@@ -102,34 +102,82 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/btnMore"
+        <LinearLayout
+            android:id="@+id/moreLay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="@dimen/size_40"
-                android:layout_height="@dimen/size_40"
-                android:layout_gravity="end|center_vertical"
-                android:src="@drawable/more"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/txtShare"
-                style="@style/TextSecondaryLight"
+            <LinearLayout
+                android:id="@+id/btnDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:includeFontPadding="false"
-                android:text="@string/share"
-                android:textAlignment="viewEnd"
-                android:textSize="@dimen/text_medium" />
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
 
-        </FrameLayout>
+                <ImageView
+                    android:layout_width="@dimen/size_30"
+                    android:layout_height="@dimen/size_30"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:src="@drawable/delete"
+                    android:visibility="visible"
+                    app:tint="@color/colorPrimaryText" />
+
+                <TextView
+                    android:id="@+id/txtDelete"
+                    style="@style/TextSecondaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/delete"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_small" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/size_30"
+                    android:layout_height="@dimen/size_30"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:src="@drawable/share"
+                    android:visibility="visible"
+                    app:tint="@color/colorPrimaryText" />
+
+                <TextView
+                    android:id="@+id/txtShare"
+                    style="@style/TextSecondaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/share"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_small" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -399,6 +447,36 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:id="@+id/descriptionLay"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical">
+
+        <com.app.jussfun.external.CustomLinkReadMoreTextView
+            android:id="@+id/txtDescription"
+            style="@style/TextPrimaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/font_regular"
+            android:text=""
+            android:textAlignment="viewStart"
+            android:textColorLink="@color/colorPrimary"
+            android:textDirection="locale" />
+
+        <com.app.jussfun.external.CustomLinkReadMoreTextView
+            android:id="@+id/readMoreTextView"
+            style="@style/TextPrimaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColorLink="@color/colorPrimary"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

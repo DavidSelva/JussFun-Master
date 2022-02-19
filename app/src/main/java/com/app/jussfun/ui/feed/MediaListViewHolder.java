@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.BaseViewHolder;
+import com.app.jussfun.external.CustomLinkReadMoreTextView;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.ToroPlayer;
 import com.app.jussfun.external.toro.core.ToroUtil;
@@ -95,10 +97,18 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public TextView txtHeartCount;
     @BindView(R.id.txtStarCount)
     public TextView txtStarCount;
-    @BindView(R.id.btnMore)
-    public FrameLayout btnMore;
+    @BindView(R.id.btnShare)
+    public LinearLayout btnShare;
+    @BindView(R.id.btnDelete)
+    public LinearLayout btnDelete;
     @BindView(R.id.txtPostTime)
     TextView txtPostTime;
+    @BindView(R.id.descriptionLay)
+    public LinearLayout descriptionLay;
+    @BindView(R.id.txtDescription)
+    public CustomLinkReadMoreTextView txtDescription;
+    @BindView(R.id.readMoreTextView)
+    public CustomLinkReadMoreTextView readMoreTextView;
     View itemVw;
 
     public List<Feeds> feedsList = new ArrayList<>();

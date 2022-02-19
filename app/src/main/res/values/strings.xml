@@ -694,5 +694,13 @@
     <string name="heart">Heart</string>
     <string name="star">Star</string>
     <string name="messages">Messages</string>
+    <string name="photos">Photos</string>
+    <string name="new_feed">New Feed</string>
+    <string name="post">Post</string>
+    <string name="add_a_caption">Add a caption</string>
+    <string name="tag">TAG</string>
+    <string name="read_more">Read more</string>
+    <string name="read_less">Read less</string>
+    <string name="delete">Delete</string>
 
 </resources>

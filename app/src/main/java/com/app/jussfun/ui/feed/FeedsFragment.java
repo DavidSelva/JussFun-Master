@@ -360,19 +360,10 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
             @Override
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    /*Refresh Data*/
-                    addPost(result.getData().getData());
+                    pullDownRefresh();
                 }
             }
         });
-    }
-
-    private void addPost(Uri data) {
-        if (NetworkReceiver.isConnected()) {
-            uploadImage(data);
-        } else {
-            App.makeToast(mContext.getString(R.string.no_internet_connection));
-        }
     }
 
     private void openAddPostActivity(Uri data) {
@@ -511,65 +502,6 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
                 } else {
                     outRect.bottom = (int) verticalSpacing;
                 }*/
-            }
-        });
-    }
-
-    private void uploadImage(Uri fileUri) {
-        try {
-            showLoading();
-            InputStream imageStream = mContext.getContentResolver().openInputStream(fileUri);
-            RequestBody requestFile = RequestBody.create(storageUtils.getBytes(imageStream), MediaType.parse("image/*"));
-            MultipartBody.Part body = MultipartBody.Part.createFormData(Constants.TAG_FEED_IMAGE, "image.jpg", requestFile);
-            RequestBody userId = RequestBody.create(GetSet.getUserId(), MediaType.parse("multipart/form-data"));
-            Call<Map<String, String>> call = apiInterface.uploadImage(body, userId);
-            call.enqueue(new Callback<Map<String, String>>() {
-                @Override
-                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                    if (response.isSuccessful()) {
-                        Map<String, String> data = response.body();
-                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
-                            addFeed(data.get(Constants.TAG_USER_IMAGE));
-                        }
-                    }
-                }
-
-
-                @Override
-                public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                    Log.e(TAG, "uploadImage: " + t.getMessage());
-                    call.cancel();
-                    hideLoading();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-            hideLoading();
-        }
-    }
-
-    private void addFeed(String fileUrl) {
-        showLoading();
-        Map<String, String> requestMap = new HashMap<>();
-        requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
-        requestMap.put(Constants.TAG_FEED_IMAGE, fileUrl);
-        requestMap.put(Constants.TAG_TITLE, "");
-        requestMap.put(Constants.TAG_DESCRIPTION, "");
-
-        Call<Map<String, String>> call = apiInterface.addFeed(requestMap);
-        call.enqueue(new Callback<Map<String, String>>() {
-            @Override
-            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                hideLoading();
-                if (response.isSuccessful()) {
-                    pullDownRefresh();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                call.cancel();
-                hideLoading();
             }
         });
     }
@@ -1068,7 +1000,8 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
     @Override
     public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
-        openMenu(view, resultsItem, adapterPosition);
+        shareFeed(resultsItem.getFeedId());
+//        openMenu(view, resultsItem, adapterPosition);
     }
 
     @Override
@@ -1086,12 +1019,22 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         } else {
             Intent profile = new Intent(mContext, OthersProfileActivity.class);
             profile.putExtra(Constants.TAG_PARTNER_ID, resultsItem.getUserId());
-            profile.putExtra(Constants.TAG_PARTNER_NAME, "");
-            profile.putExtra(Constants.TAG_PARTNER_IMAGE, "");
+            profile.putExtra(Constants.TAG_PARTNER_NAME, resultsItem.getUserName());
+            profile.putExtra(Constants.TAG_PARTNER_IMAGE, resultsItem.getUserImage());
             profile.putExtra(Constants.TAG_FROM, Constants.TAG_MESSAGE);
             profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(profile);
         }
+    }
+
+    @Override
+    public void onShareClicked(View view, Feeds resultsItem, int adapterPosition) {
+        shareFeed(resultsItem.getFeedId());
+    }
+
+    @Override
+    public void onDeleteClicked(View view, Feeds resultsItem, int adapterPosition) {
+        deleteFeed(resultsItem, adapterPosition);
     }
 
     private void openMenu(View view, Feeds resultsItem, int adapterPosition) {

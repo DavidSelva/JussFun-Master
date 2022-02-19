@@ -250,4 +250,23 @@
         <attr name="siStrokeMiter" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="LinkEllipseTextView">
+        <attr name="isLinkable" format="boolean" />
+        <attr name="isEndEllipsable" format="boolean" />
+        <attr name="maxLines" format="integer" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ReadMoreTextView"><attr format="string" name="trimExpandedText"/>
+        <attr format="string" name="trimCollapsedText"/>
+        <attr format="integer" name="trimLength"/>
+        <attr format="boolean" name="showTrimExpandedText"/>
+        <attr format="color" name="colorClickableText"/>
+        <attr format="integer" name="trimLines"/>
+        <attr name="trimMode">
+            <enum name="trimModeLine" value="0"/>
+            <enum name="trimModeLength" value="1"/>
+        </attr>
+    </declare-styleable>
+
 </resources>

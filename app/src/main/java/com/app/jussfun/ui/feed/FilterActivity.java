@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
-import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -19,20 +19,26 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseActivity;
 import com.app.jussfun.external.SpacesItemDecoration;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.StorageUtils;
+import com.app.jussfun.model.GetSet;
+import com.app.jussfun.utils.ApiClient;
+import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
@@ -45,7 +51,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.ThumbnailsAdapterListener, View.OnClickListener {
@@ -58,16 +73,19 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         System.loadLibrary("NativeImageProcessor");
     }
 
-    ImageView imagePreview, back;
-    TextView btnNext;
-    RelativeLayout backLayout;
+    private TextView btnNext;
+    private ImageView imagePreview;
+    private RelativeLayout toolBarLay;
+    private RelativeLayout backLayout;
+    private MultiAutoCompleteTextView edtDescription;
+    private RecyclerView recyclerView;
+    private ConstraintLayout progressLay;
+    private ProgressBar progressBar;
+
     Bitmap originalImage;
     // to backup image with filter applied
     Bitmap filteredImage;
-    // the final image after applying
-    // brightness, saturation, contrast
     Bitmap finalImage;
-    RecyclerView recyclerView;
     ThumbnailsAdapter mAdapter;
     List<ThumbnailItem> thumbnailItemList;
     Uri selectedUri;
@@ -76,6 +94,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     boolean isPermissionDialogNeeded = true;
     private Context mContext = null;
     private int imagePreviewWidth, imagePreviewHeight;
+    ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
     private static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -104,6 +123,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+
         // For window status bar should be in black in lollipop and also below
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -112,11 +132,8 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         }
         mContext = this;
         selectedUri = getIntent().getData();
-
         storageManager = StorageUtils.getInstance(this);
-        imagePreview = (ImageView) findViewById(R.id.image_preview);
-        btnNext = (TextView) findViewById(R.id.btnNext);
-        backLayout = (RelativeLayout) findViewById(R.id.backLayout);
+        initView();
 
         ViewGroup.LayoutParams layoutParams = imagePreview.getLayoutParams();
         imagePreviewWidth = imagePreview.getDrawable().getIntrinsicWidth();
@@ -126,6 +143,17 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
 
         backLayout.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+    }
+
+    private void initView() {
+        btnNext = findViewById(R.id.btnNext);
+        toolBarLay = findViewById(R.id.toolBarLay);
+        backLayout = findViewById(R.id.backLayout);
+        imagePreview = (ImageView) findViewById(R.id.image_preview);
+        recyclerView = findViewById(R.id.recycler_view);
+        edtDescription = findViewById(R.id.edtDescription);
+        progressLay = findViewById(R.id.progressLay);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     @Override
@@ -301,62 +329,6 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         return bitmap;
     }
 
-    public Bitmap getExactOrientationBitmapThumb(Bitmap mBitmap) {
-        try {
-            // InputStream input = getContentResolver().openInputStream(Uri.fromFile(new File(selectedPath)));
-
-            ExifInterface exif = null;
-
-            InputStream in = mContext.getContentResolver().openInputStream(selectedUri);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                exif = new ExifInterface(in);
-            }
-
-//                exif.setAttribute(ExifInterface.TAG_ORIENTATION, "" + getPhotoOrientation(configurationProvider.getSensorPosition()))
-//                exif.saveAttributes()
-
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            Matrix matrix = new Matrix();
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_NORMAL:
-                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                    matrix.setScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    matrix.setRotate(180);
-                    break;
-                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                    matrix.setRotate(180);
-                    matrix.postScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_TRANSPOSE:
-                    matrix.setRotate(90);
-                    matrix.postScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    matrix.setRotate(90);
-                    break;
-                case ExifInterface.ORIENTATION_TRANSVERSE:
-                    matrix.setRotate(-90);
-                    matrix.postScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    matrix.setRotate(-90);
-                    break;
-                default:
-            }
-
-//            mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getHeight() + 260, mBitmap.getHeight(), matrix, true);
-//            mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getWidth(), matrix, true);
-            mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return mBitmap;
-
-    }
-
     /*
      * saves image to camera gallery
      * */
@@ -364,29 +336,82 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     private void saveImageToGallery() {
         String fileName = mContext.getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".jpg";
         selectedUri = storageManager.saveToSDCard(finalImage, Constants.TAG_IMAGE, fileName);
-        addPostActivity(selectedUri);
+        addPost(selectedUri);
     }
 
-    public void addPostActivity(Uri selectedUri) {
-        Intent intent = new Intent();
-        intent.setData(selectedUri);
-        setResult(RESULT_OK, intent);
-        finish();
+    public void addPost(Uri selectedUri) {
+        if (NetworkReceiver.isConnected()) {
+            uploadImage(selectedUri);
+        } else {
+            App.makeToast(mContext.getString(R.string.no_internet_connection));
+        }
+    }
+
+    private void uploadImage(Uri fileUri) {
+        try {
+            showLoading();
+            InputStream imageStream = mContext.getContentResolver().openInputStream(fileUri);
+            RequestBody requestFile = RequestBody.create(storageManager.getBytes(imageStream), MediaType.parse("image/*"));
+            MultipartBody.Part body = MultipartBody.Part.createFormData(Constants.TAG_FEED_IMAGE, "image.jpg", requestFile);
+            RequestBody userId = RequestBody.create(GetSet.getUserId(), MediaType.parse("multipart/form-data"));
+            Call<Map<String, String>> call = apiInterface.uploadImage(body, userId);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            addFeed(data.get(Constants.TAG_USER_IMAGE));
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "uploadImage: " + t.getMessage());
+                    call.cancel();
+                    hideLoading();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            hideLoading();
+        }
+    }
+
+    private void addFeed(String fileUrl) {
+        showLoading();
+        Map<String, String> requestMap = new HashMap<>();
+        requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+        requestMap.put(Constants.TAG_FEED_IMAGE, fileUrl);
+        requestMap.put(Constants.TAG_TITLE, "");
+        requestMap.put(Constants.TAG_DESCRIPTION, !TextUtils.isEmpty(edtDescription.getText()) ? edtDescription.getText().toString() : "");
+
+        Call<Map<String, String>> call = apiInterface.addFeed(requestMap);
+        call.enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                hideLoading();
+                if (response.isSuccessful()) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                call.cancel();
+                hideLoading();
+            }
+        });
     }
 
     private void refreshGallery(File file) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         mediaScanIntent.setData(Uri.fromFile(file));
         sendBroadcast(mediaScanIntent);
-    }
-
-
-    // opening image in default image viewer app
-    private void openImage(String path) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(path), "image/*");
-        startActivity(intent);
     }
 
     @Override
@@ -408,19 +433,19 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         super.onBackPressed();
     }
 
-    /**
-     * verifiy all the permissions passed to the array
-     *
-     * @param permissions
-     */
-    public void verifyPermissions(String[] permissions) {
-        Log.d(TAG, "verifyPermissions: verifying permissions.");
+    private void showLoading() {
+        /*Disable touch options*/
+        progressLay.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
 
-        ActivityCompat.requestPermissions(
-                FilterActivity.this,
-                permissions,
-                VERIFY_PERMISSIONS_REQUEST
-        );
+    public void hideLoading() {
+        /*Enable touch options*/
+        progressLay.setVisibility(View.GONE);
+        progressBar.setIndeterminate(false);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     public void AlertDialog() {

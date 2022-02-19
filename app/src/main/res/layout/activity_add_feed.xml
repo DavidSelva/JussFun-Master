@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/childLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginEnd="@dimen/toolbar_start_margin">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:src="@drawable/icon_left_back_arrow"
+                android:visibility="visible"
+                app:tint="@color/colorPrimaryText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextPrimaryRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/btnBack"
+                android:text="@string/new_feed" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextPrimaryRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="@string/post"
+                android:textColor="@color/colorPrimary" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/postLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/postimage"
+                        android:layout_width="@dimen/profile_medium"
+                        android:layout_height="@dimen/profile_medium"
+                        android:adjustViewBounds="true"
+                        android:cropToPadding="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/place_holder_loading"
+                        app:riv_corner_radius="10dp"
+                        app:riv_mutate_background="true"
+                        app:riv_oval="false" />
+
+                    <ImageView
+                        android:id="@+id/playBtn"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/editText"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/postLay"
+                    android:background="@color/colorWhite"
+                    android:gravity="start"
+                    android:hint="@string/add_a_caption"
+                    android:includeFontPadding="false"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLength="@integer/post_description_length"
+                    android:maxLines="5"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_medium" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tagLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tag"
+                    android:textSize="@dimen/text_medium" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txtTagCount"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@+id/btnTagPeople"
+                    android:text="" />
+
+                <ImageView
+                    android:id="@+id/btnTagPeople"
+                    android:layout_width="@dimen/iv_small"
+                    android:layout_height="@dimen/iv_small"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:scaleX="@integer/rtl_flip_factor"
+                    android:src="@drawable/f_arrow" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorDivider" />
+
+            <!--<RelativeLayout
+                android:id="@+id/locatLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="22dp"
+                android:paddingBottom="22dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/locationtxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_toStartOf="@+id/closelocat"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/add_location"
+                    android:textColor="@color/text_primary_color"
+                    android:textSize="@dimen/txt_medium_large"
+                    app:fonts="@string/font_medium" />
+
+                <ImageView
+                    android:id="@+id/btnLocation"
+                    android:layout_width="@dimen/icon_small"
+                    android:layout_height="@dimen/icon_small"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:scaleX="@integer/rtl_flip_factor"
+                    android:src="@drawable/next_arrow" />
+
+                <RelativeLayout
+                    android:id="@+id/closelocat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:background="@drawable/close_block" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+-->ṣ
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
