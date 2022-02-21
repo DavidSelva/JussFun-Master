@@ -219,241 +219,303 @@
 
     </RelativeLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/commentLay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtLikeCount"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txtLikeCount"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnLike"
+                        android:layout_width="@dimen/iv_small"
+                        android:layout_height="@dimen/iv_small"
+                        android:layout_gravity="center"
+                        android:background="@drawable/feed_like_selector" />
+
+                    <TextView
+                        android:id="@+id/txtLike"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"
+                        android:text="@string/like"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="@dimen/text_normal" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/size_0">
+
+                <TextView
+                    android:id="@+id/txtSuperLikeCount"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txtSuperLikeCount"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnSuperLike"
+                        android:layout_width="@dimen/iv_small"
+                        android:layout_height="@dimen/iv_small"
+                        android:layout_gravity="center"
+                        android:background="@drawable/feed_super_like_selector" />
+
+                    <TextView
+                        android:id="@+id/txtSuperLike"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"
+                        android:text="@string/super_like"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="@dimen/text_normal" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/size_0">
+
+                <TextView
+                    android:id="@+id/txtHeartCount"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txtHeartCount"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnHeart"
+                        android:layout_width="@dimen/iv_small"
+                        android:layout_height="@dimen/iv_small"
+                        android:layout_gravity="center"
+                        android:background="@drawable/feed_heart_selector" />
+
+                    <TextView
+                        android:id="@+id/txtHeart"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"
+                        android:text="@string/heart"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="@dimen/text_normal" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/size_0">
+
+                <TextView
+                    android:id="@+id/txtStarCount"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txtStarCount"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnStar"
+                        android:layout_width="@dimen/iv_small"
+                        android:layout_height="@dimen/iv_small"
+                        android:layout_gravity="center"
+                        android:background="@drawable/feed_star_selector" />
+
+                    <TextView
+                        android:id="@+id/txtStar"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:text="@string/star"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="@dimen/text_normal" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/commentLay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/btnComment"
+                android:layout_width="@dimen/iv_small"
+                android:layout_height="@dimen/iv_small"
+                android:layout_gravity="center"
+                android:background="@drawable/message_grey" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtCommentCount"
+                    style="@style/TextPrimaryRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_normal"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtComment"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/comments"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_normal" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="0dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/txtLikeCount"
-                style="@style/TextPrimaryLight"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_medium_large"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txtLikeCount"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/btnLike"
-                    android:layout_width="@dimen/iv_small"
-                    android:layout_height="@dimen/iv_small"
-                    android:layout_gravity="center"
-                    android:background="@drawable/feed_like_selector" />
-
-                <TextView
-                    android:id="@+id/txtLike"
-                    style="@style/TextPrimaryLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:gravity="center"
-                    android:text="@string/like"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/text_normal" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="@dimen/size_0">
-
-            <TextView
-                android:id="@+id/txtSuperLikeCount"
-                style="@style/TextPrimaryLight"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_medium_large"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txtSuperLikeCount"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/btnSuperLike"
-                    android:layout_width="@dimen/iv_small"
-                    android:layout_height="@dimen/iv_small"
-                    android:layout_gravity="center"
-                    android:background="@drawable/feed_super_like_selector" />
-
-                <TextView
-                    android:id="@+id/txtSuperLike"
-                    style="@style/TextPrimaryLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:gravity="center"
-                    android:text="@string/super_like"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/text_normal" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="@dimen/size_0">
-
-            <TextView
-                android:id="@+id/txtHeartCount"
-                style="@style/TextPrimaryLight"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_medium_large"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txtHeartCount"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/btnHeart"
-                    android:layout_width="@dimen/iv_small"
-                    android:layout_height="@dimen/iv_small"
-                    android:layout_gravity="center"
-                    android:background="@drawable/feed_heart_selector" />
-
-                <TextView
-                    android:id="@+id/txtHeart"
-                    style="@style/TextPrimaryLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:gravity="center"
-                    android:text="@string/heart"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/text_normal" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="@dimen/size_0">
-
-            <TextView
-                android:id="@+id/txtStarCount"
-                style="@style/TextPrimaryLight"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_medium_large"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txtStarCount"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/btnStar"
-                    android:layout_width="@dimen/iv_small"
-                    android:layout_height="@dimen/iv_small"
-                    android:layout_gravity="center"
-                    android:background="@drawable/feed_star_selector" />
-
-                <TextView
-                    android:id="@+id/txtStar"
-                    style="@style/TextPrimaryLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center"
-                    android:text="@string/star"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/text_normal" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/descriptionLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:id="@+id/descriptionLay"
         android:layout_marginEnd="10dp"
         android:orientation="vertical">
 

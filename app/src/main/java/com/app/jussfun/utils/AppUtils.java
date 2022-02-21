@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
@@ -539,6 +540,14 @@ public class AppUtils {
 
     public static String getCurrentStatus() {
         return currentStatus;
+    }
+
+    public static String stripHtml(String htmlString) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return "" + Html.fromHtml(htmlString, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return "" + Html.fromHtml(htmlString);
+        }
     }
 
     public void showKeyboard(EditText editText, Activity activity) {

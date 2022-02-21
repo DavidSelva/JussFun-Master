@@ -53,6 +53,12 @@ public class Feeds {
     @SerializedName("feed_star_count")
     @Expose
     private int starCount;
+    @SerializedName("comments_count")
+    @Expose
+    private int commentsCount;
+    @SerializedName("comment_status")
+    @Expose
+    private int commentStatus;
 
     public String getFeedId() {
         return feedId;
@@ -180,5 +186,21 @@ public class Feeds {
 
     public void setStarCount(int starCount) {
         this.starCount = starCount;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public int getCommentStatus() {
+        return commentStatus;
+    }
+
+    public void setCommentStatus(int commentStatus) {
+        this.commentStatus = commentStatus;
     }
 }

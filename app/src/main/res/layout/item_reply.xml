@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:background="@android:color/white"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp">
+
+    <!--Bottom View For Right to Left-->
+
+    <LinearLayout
+        android:id="@+id/rightSwipe"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:background="#f3f3f5"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/tvDelete"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:src="@drawable/delete"
+            swipe:tint="@color/colorRed" />
+    </LinearLayout>
+
+
+    <!-- Another Bottom View For Left to Right -->
+
+    <!-- <LinearLayout
+         android:id="@+id/leftSwipe"
+         android:layout_width="70dp"
+         android:layout_height="match_parent"
+         android:background="#f3f3f5"
+         android:weightSum="1">
+
+         <ImageView
+             android:id="@+id/tvDeletes"
+             android:layout_width="70dp"
+             android:layout_height="match_parent"
+             android:background="@null"
+             android:gravity="center"
+             android:paddingLeft="18dp"
+             android:paddingRight="18dp"
+             android:src="@drawable/deletecomment" />
+     </LinearLayout>
+ -->
+
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+
+        <!--first view-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="@dimen/profile_small"
+                    android:layout_height="@dimen/profile_small"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/userImage"
+                    android:text=""
+                    android:textAlignment="viewStart"
+                    style="@style/TextPrimaryRegular" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+        <!--first view-->
+
+        <com.app.jussfun.external.LinkEllipseTextView
+            android:id="@+id/commentTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text=""
+            android:textAlignment="viewStart"
+            style="@style/TextPrimaryRegular" />
+
+        <TextView
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/posting"
+            android:textAlignment="viewStart"
+            style="@style/TextPrimaryLight"
+            android:textSize="@dimen/text_medium_large"
+            android:visibility="gone"
+            />
+
+        <!--third part-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cmt_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:text="5hr"
+                    style="@style/TextSecondaryLight" />
+
+
+                <TextView
+                    android:id="@+id/like_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:text=""
+                    style="@style/TextSecondaryLight" />
+
+
+                <TextView
+                    android:id="@+id/reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/reply"
+                  style="@style/TextSecondaryLight" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/likeLay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/likeClick"
+                    android:layout_width="@dimen/iv_small"
+                    android:layout_height="@dimen/iv_small"
+                    android:background="@drawable/feed_heart_selector" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>

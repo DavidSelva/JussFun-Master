@@ -1009,6 +1009,11 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         moveToProfile(resultsItem);
     }
 
+    @Override
+    public void onCommentClicked(View view, Feeds resultsItem, int adapterPosition) {
+
+    }
+
     private void moveToProfile(Feeds resultsItem) {
         if (resultsItem.getUserId().equals(GetSet.getUserId())) {
             Intent profile = new Intent(mContext, MyProfileActivity.class);

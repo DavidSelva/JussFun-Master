@@ -71,6 +71,10 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.feed.CommentsActivity"
+            android:theme="@style/SliderThemeWhite"
+            android:exported="false" />
+        <activity
             android:name=".ui.feed.AddFeedActivity"
             android:exported="false" />
         <activity
@@ -212,8 +216,8 @@
         <activity android:name=".ui.LockScreenActivity" />
         <activity
             android:name=".ui.feed.FilterActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/SliderThemeWhite" />
+            android:theme="@style/SliderThemeWhite"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.feed.FeedsActivity"
             android:theme="@style/SliderThemeWhite" />

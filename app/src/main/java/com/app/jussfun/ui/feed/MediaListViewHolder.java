@@ -19,20 +19,29 @@ package com.app.jussfun.ui.feed;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,8 +56,10 @@ import com.app.jussfun.external.toro.core.ToroUtil;
 import com.app.jussfun.external.toro.core.media.PlaybackInfo;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.model.Feeds;
+import com.app.jussfun.model.GetSet;
 import com.app.jussfun.ui.FullScreenImageViewActivity;
 import com.app.jussfun.utils.Constants;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +82,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public static final int LAYOUT_RES = R.layout.home_post_container;
     private static final String TAG = MediaListViewHolder.class.getSimpleName();
     private String way = "";
-    public Context context;
+    public Context mContext;
     private final SnapHelper snapHelper = new PagerSnapHelper();
 
     @SuppressWarnings("WeakerAccess")
@@ -109,7 +120,14 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public CustomLinkReadMoreTextView txtDescription;
     @BindView(R.id.readMoreTextView)
     public CustomLinkReadMoreTextView readMoreTextView;
-    View itemVw;
+    @BindView(R.id.commentLay)
+    public LinearLayout commentLay;
+    @BindView(R.id.btnComment)
+    public ImageView btnComment;
+    @BindView(R.id.txtCommentCount)
+    public TextView txtCommentCount;
+    @BindView(R.id.txtComment)
+    public TextView txtComment;
 
     public List<Feeds> feedsList = new ArrayList<>();
     public clickListener listener;
@@ -118,9 +136,74 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
     public MediaListViewHolder(View itemView) {
         super(itemView);
-        this.context = itemView.getContext();
-        itemVw = itemView;
+        this.mContext = itemView.getContext();
         ButterKnife.bind(this, itemView);
+    }
+
+    @Override
+    public void bind(int position, Object item, String way) {
+        this.way = way;
+        Feeds resultsItem = (Feeds) item;
+        Glide.with(mContext)
+                .load(Constants.IMAGE_URL + resultsItem.getUserImage())
+                .centerCrop()
+                .placeholder(R.drawable.avatar)
+                .into(userImg);
+
+        txtUserName.setText(resultsItem.getUserName());
+        txtPostTime.setText("" + resultsItem.getFeedTime());
+        if (resultsItem.getUserId().equals(GetSet.getUserId())) {
+            btnDelete.setVisibility(View.VISIBLE);
+        } else {
+            btnDelete.setVisibility(View.GONE);
+        }
+
+        txtDescription.setIsLinkable(true);
+        txtDescription.setText(resultsItem.getDescription().trim());
+        txtDescription.post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        if (resultsItem != null) {
+                            if (resultsItem.getDescription() != null) {
+                                if (txtDescription != null && (resultsItem.getDescription()).length() > 100) {
+                                    addReadMore(resultsItem.getDescription(), txtDescription);
+                                }
+                            }
+                        }
+                    }
+                });
+        MovementMethod m = txtDescription.getMovementMethod();
+        if ((m == null) || !(m instanceof LinkMovementMethod)) {
+            if (txtDescription.getLinksClickable()) {
+                txtDescription.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        }
+            /*MovementMethod movementMethod = holder.txtComments.getMovementMethod();
+            if ((movementMethod == null) || !(movementMethod instanceof LinkMovementMethod)) {
+                if (holder.txtComments.getLinksClickable()) {
+                    holder.txtComments.setMovementMethod(LinkMovementMethod.getInstance());
+                }
+            }*/
+
+        btnLike.setSelected(resultsItem.getLike() == 1);
+        btnSuperLike.setSelected(resultsItem.getSuperLike() == 1);
+        btnStar.setSelected(resultsItem.getStar() == 1);
+        btnHeart.setSelected(resultsItem.getHeart() == 1);
+
+        txtLikeCount.setText(!TextUtils.isEmpty("" + resultsItem.getLikeCount()) ? "" + resultsItem.getLikeCount() : "" + 0);
+        txtSuperLikeCount.setText(!TextUtils.isEmpty("" + resultsItem.getSuperLikeCount()) ? "" + resultsItem.getSuperLikeCount() : "" + 0);
+        txtHeartCount.setText(!TextUtils.isEmpty("" + resultsItem.getHeartCount()) ? "" + resultsItem.getHeartCount() : "" + 0);
+        txtStarCount.setText(!TextUtils.isEmpty("" + resultsItem.getStarCount()) ? "" + resultsItem.getStarCount() : "" + 0);
+        if (resultsItem.getCommentStatus() == 0) {
+            txtCommentCount.setText("" + resultsItem.getCommentsCount());
+            commentLay.setVisibility(View.VISIBLE);
+        } else {
+            txtCommentCount.setText("");
+            commentLay.setVisibility(View.GONE);
+        }
+
+        initAdapter(resultsItem);
 
     }
 
@@ -128,14 +211,59 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         this.listener = listener;
     }
 
-    // Called by Adapter
-    public void bind(int position, Object item, String way) {
-        this.way = way;
-        Feeds resultsItem = (Feeds) item;
+    private void initAdapter(Feeds resultsItem) {
         feedsList = new ArrayList<Feeds>();
         feedsList.add(resultsItem);
-        Adapter adapter = new Adapter(feedsList, listener, itemVw);
+        Adapter adapter = new Adapter(feedsList, listener);
         container.setAdapter(adapter);
+    }
+
+    private void addReadMore(final String text, final AppCompatTextView textView) {
+        SpannableString ss = new SpannableString(text.substring(0, 100) + " " + mContext.getString(R.string.read_more));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                addReadLess(text, textView);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ds.setColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                } else {
+                    ds.setColor(mContext.getResources().getColor(R.color.colorAccent));
+                }
+            }
+        };
+        ss.setSpan(clickableSpan, ss.length() - 10, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ss);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void addReadLess(final String text, final AppCompatTextView textView) {
+        SpannableString ss = new SpannableString(text + " " + mContext.getString(R.string.read_less));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                addReadMore(text, textView);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ds.setColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                } else {
+                    ds.setColor(mContext.getResources().getColor(R.color.colorAccent));
+                }
+            }
+        };
+        ss.setSpan(clickableSpan, ss.length() - 10, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ss);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     public void onDetached() {
@@ -244,12 +372,10 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         private List<Feeds> childAdapterlist;
         private Context context;
         private clickListener listener;
-        private View itemVw;
 
-        Adapter(List<Feeds> childlist, clickListener listener, View itemVw) {
+        Adapter(List<Feeds> childlist, clickListener listener) {
             this.childAdapterlist = childlist;
             this.listener = listener;
-            this.itemVw = itemVw;
         }
 
         @NonNull

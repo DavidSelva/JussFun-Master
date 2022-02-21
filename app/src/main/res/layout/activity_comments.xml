@@ -1,0 +1,206 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    tools:context=".ui.feed.CommentsActivity">
+    <!--
+    <com.hitasoft.app.pixapop.helper.CustomRelativeLayout
+        android:layout_width=""
+        android:layout_height=""></com.hitasoft.app.pixapop.helper.CustomRelativeLayout>
+    -->
+
+    <include
+        android:id="@+id/toolBarLay"
+        layout="@layout/activity_toolbar_white" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomlayout"
+        app:layout_constraintTop_toBottomOf="@+id/toolBarLay">
+
+        <LinearLayout
+            android:id="@+id/childLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/descriptionLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="@dimen/iv_small"
+                    android:layout_height="@dimen/iv_small"
+                    android:src="@drawable/avatar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_mutate_background="true"
+                    app:riv_oval="true" />
+
+                <com.app.jussfun.external.LinkEllipseTextView
+                    android:id="@+id/txtDescription"
+                    style="@style/TextPrimaryLight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="0dp"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/userImage"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/colorDivider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:descendantFocusability="blocksDescendants"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        layout="@layout/null_lay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottomlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appBarLay" />
+
+    <LinearLayout
+        android:id="@+id/bottomlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!--replypost layout-->
+        <RelativeLayout
+            android:id="@+id/reply_postlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/reply_border"
+            android:paddingStart="@dimen/toolbar_padding_normal"
+            android:paddingTop="10dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/replyToUsername"
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null" />
+
+            <ImageView
+                android:id="@+id/closereply"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/close_black_48dp" />
+        </RelativeLayout>
+        <!--reply post layout-->
+
+        <!--commentpost layout-->
+        <RelativeLayout
+            android:id="@+id/commentlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="0dp"
+            android:visibility="gone">
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/commentEdit"
+                style="@style/TextPrimaryRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/addcomment"
+                android:background="@drawable/send_msg_greyborder"
+                android:dropDownAnchor="@+id/bottomlayout"
+                android:dropDownVerticalOffset="0.sp"
+                android:focusableInTouchMode="false"
+                android:gravity="start|center_vertical"
+                android:hint="@string/addcomment"
+                android:maxLength="180"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="15dp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack" />
+
+            <ImageView
+                android:id="@+id/addcomment"
+                android:layout_width="@dimen/iv_small"
+                android:layout_height="@dimen/iv_large"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="0dp"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:rotationY="@integer/angle_rtl_180"
+                android:scaleType="centerCrop"
+                android:src="@drawable/send" />
+
+        </RelativeLayout>
+        <!--comment post layout-->
+
+    </LinearLayout>
+
+    <com.app.jussfun.external.ProgressWheel xmlns:wheel="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pBar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"
+        wheel:layout_constraintBottom_toTopOf="@+id/bottomlayout"
+        wheel:layout_constraintEnd_toEndOf="parent"
+        wheel:layout_constraintStart_toStartOf="parent"
+        wheel:layout_constraintTop_toBottomOf="@+id/appBarLay"
+        wheel:matProg_barColor="@color/colorGrey"
+        wheel:matProg_progressIndeterminate="true" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -472,5 +472,14 @@
     <string name="read_more">Read more</string>
     <string name="read_less">Read less</string>
     <string name="delete">Delete</string>
+    <string name="addcomment">Add comment</string>
+    <string name="reply">Reply</string>
+    <string name="likes">Likes</string>
+    <string name="posting">Posting...</string>
+    <string name="view_replies">View Replies</string>
+    <string name="viewreply">View Reply</string>
+    <string name="hidereply">Hide Reply</string>
+    <string name="befirst">Be first to comment</string>
+    <string name="replying_to">Replying to</string>
 
 </resources>

@@ -3,4 +3,5 @@
     <integer name="angle_rtl_180">0</integer>
     <integer name="rtl_flip_factor">1</integer>
     <integer name="post_description_length">500</integer>
+    <integer name="comments_max_length">100</integer>
 </resources>

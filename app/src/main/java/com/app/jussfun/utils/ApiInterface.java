@@ -4,6 +4,7 @@ package com.app.jussfun.utils;
 import com.app.jussfun.model.AddDeviceRequest;
 import com.app.jussfun.model.AdminMessageResponse;
 import com.app.jussfun.model.AppDefaultResponse;
+import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.CommonResponse;
 import com.app.jussfun.model.ConvertGiftRequest;
 import com.app.jussfun.model.ConvertGiftResponse;
@@ -199,4 +200,7 @@ public interface ApiInterface {
     @POST("activities/deleteFeed")
     Call<Map<String, String>> deleteFeed(@Field("user_id") String userId, @Field("feed_id") String feedId );
 
+    @FormUrlEncoded
+    @POST("activities/getcomments")
+    Call<CommentsModel> getComments(String userId, String postId, String offsetCnt, String limitcnt, String type);
 }
