@@ -54,7 +54,7 @@ import com.app.jussfun.external.CrystalRangeSeekbar;
 import com.app.jussfun.external.OnRangeSeekbarChangeListener;
 import com.app.jussfun.external.OnRangeSeekbarFinalValueListener;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnOkCancelClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;

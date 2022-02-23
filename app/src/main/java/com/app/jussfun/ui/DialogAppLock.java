@@ -29,7 +29,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.FingerPrintCallBack;
+import com.app.jussfun.helper.callback.FingerPrintCallBack;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;

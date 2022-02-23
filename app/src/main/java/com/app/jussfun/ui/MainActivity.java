@@ -55,9 +55,9 @@ import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.CustomViewPager;
 import com.app.jussfun.helper.AppWebSocket;
-import com.app.jussfun.helper.FingerPrintCallBack;
+import com.app.jussfun.helper.callback.FingerPrintCallBack;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.model.AddDeviceRequest;
 import com.app.jussfun.model.AdminMessageResponse;
 import com.app.jussfun.model.AppDefaultResponse;
@@ -347,7 +347,6 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
     private void setupViewPager(CustomViewPager viewPager) {
         bottomNavigation.setItemIconTintList(null);
-        bottomNavigation.inflateMenu(R.menu.random_home_menu);
         viewPager.setOffscreenPageLimit(NUM_PAGES);
         viewPager.setPagingEnabled(false);
 
@@ -396,10 +395,10 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuFeeds:
-                        viewPager.setCurrentItem(0);
+                        viewPager.setCurrentItem(1);
                         break;
                     case R.id.menuHome:
-                        viewPager.setCurrentItem(1);
+                        viewPager.setCurrentItem(0);
                         break;
                     case R.id.menuChat:
                         viewPager.setCurrentItem(2);
@@ -456,12 +455,12 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             switch (position) {
                 case 0:
                 default:
-                    feedsFragment = new FeedsFragment();
-                    return feedsFragment;
-
-                case 1:
                     randomFragment = new HomeFragment();
                     return randomFragment;
+
+                case 1:
+                    feedsFragment = new FeedsFragment();
+                    return feedsFragment;
 
                 case 2:
                     chatFragment = new ChatFragment();
@@ -485,31 +484,31 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     private void setBottomNavigation(int position) {
         switch (position) {
             case 0:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_active));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover_p));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
+                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case 1:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover_p));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
-                break;
-            case 2:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
-                break;
-            case 3:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_home_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_active));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                break;
+            case 2:
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
+                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                break;
+            case 3:
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
         }

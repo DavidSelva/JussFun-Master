@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.app.jussfun.R;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.model.FollowersResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.Constants;

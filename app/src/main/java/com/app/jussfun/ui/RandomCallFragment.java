@@ -55,7 +55,7 @@ import com.app.jussfun.apprtc.util.AppRTCUtils;
 import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.ProfileUpdatedListener;
+import com.app.jussfun.helper.callback.ProfileUpdatedListener;
 import com.app.jussfun.model.CommonResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.Gift;

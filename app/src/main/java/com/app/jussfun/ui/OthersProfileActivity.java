@@ -38,7 +38,7 @@ import com.app.jussfun.external.qrgenerator.QRGEncoder;
 import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.FollowRequest;
 import com.app.jussfun.model.FollowResponse;

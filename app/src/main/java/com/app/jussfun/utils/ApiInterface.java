@@ -198,9 +198,23 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("activities/deleteFeed")
-    Call<Map<String, String>> deleteFeed(@Field("user_id") String userId, @Field("feed_id") String feedId );
+    Call<Map<String, String>> deleteFeed(@Field("user_id") String userId, @Field("feed_id") String feedId);
+
+    @FormUrlEncoded
+    @POST("activities/commentfeed")
+    Call<Map<String, String>> addComment(@Field("user_id") String userid, @Field("feed_id") String postid, @Field("comments") String comments, @Field("parent_id") String parent_id
+            , @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST("activities/likereplycomment")
+    Call<Map<String, String>> addReply(@Field("user_id") String userid, @Field("feed_id") String postid, @Field("comments") String comments, @Field("parent_id") String parent_id
+            , @Field("type") String type);
 
     @FormUrlEncoded
     @POST("activities/getcomments")
-    Call<CommentsModel> getComments(String userId, String postId, String offsetCnt, String limitcnt, String type);
+    Call<CommentsModel> getComments(@FieldMap Map<String, String> requestMap);
+
+    @FormUrlEncoded
+    @POST("activities/likecomment")
+    Call<Map<String, String>> likeComment(@Field("user_id") String userid, @Field("comment_id") String commentId);
 }

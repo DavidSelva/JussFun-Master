@@ -38,7 +38,7 @@ import com.app.jussfun.R;
 import com.app.jussfun.utils.SharedPref;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
-import com.app.jussfun.helper.OnSwipeTouchListener;
+import com.app.jussfun.helper.callback.OnSwipeTouchListener;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.ApiInterface;

@@ -2,17 +2,18 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:id="@+id/menuFeeds"
-        android:icon="@drawable/ic_home_active"
-        android:title="@string/feeds"
+        android:id="@+id/menuHome"
+        android:icon="@drawable/main_discover_p"
+        android:title="@string/go_live"
         android:enabled="true"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/menuHome"
-        android:icon="@drawable/main_discover"
-        android:title="@string/go_live"
+        android:id="@+id/menuFeeds"
+        android:icon="@drawable/ic_feed_inactive"
+        android:title="@string/feeds"
         android:enabled="true"
         app:showAsAction="ifRoom" />
 

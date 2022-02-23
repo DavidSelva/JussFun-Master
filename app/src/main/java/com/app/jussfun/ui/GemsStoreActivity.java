@@ -48,7 +48,7 @@ import com.app.jussfun.base.App;
 import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnOkCancelClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.GemsPurchaseRequest;
 import com.app.jussfun.model.GemsPurchaseResponse;
 import com.app.jussfun.model.GemsStoreResponse;

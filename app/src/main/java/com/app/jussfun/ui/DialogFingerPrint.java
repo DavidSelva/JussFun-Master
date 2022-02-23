@@ -26,7 +26,7 @@ import androidx.fragment.app.DialogFragment;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.utils.LottieValueAnimator;
 import com.app.jussfun.R;
-import com.app.jussfun.helper.FingerPrintCallBack;
+import com.app.jussfun.helper.callback.FingerPrintCallBack;
 import com.app.jussfun.helper.FingerprintUiHelper;
 
 import butterknife.BindView;

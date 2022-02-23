@@ -23,10 +23,9 @@
         android:foregroundGravity="center"
         android:layoutDirection="ltr"
         android:visibility="visible"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@color/bottom_nav_text_color"
         app:itemTextColor="@color/bottom_nav_text_color"
-        app:labelVisibilityMode="labeled" />
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/random_home_menu" />
 
     <include
         layout="@layout/activity_splash"

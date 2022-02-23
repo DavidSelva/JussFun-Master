@@ -35,7 +35,7 @@ import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
-import com.app.jussfun.helper.FingerPrintCallBack;
+import com.app.jussfun.helper.callback.FingerPrintCallBack;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.AddDeviceRequest;

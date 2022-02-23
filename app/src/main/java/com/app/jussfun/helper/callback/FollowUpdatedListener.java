@@ -1,4 +1,4 @@
-package com.app.jussfun.helper;
+package com.app.jussfun.helper.callback;
 
 
 import com.app.jussfun.model.ProfileResponse;

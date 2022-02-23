@@ -53,7 +53,7 @@ import com.app.jussfun.external.cardstackview.SwipeAnimationSetting;
 import com.app.jussfun.external.cardstackview.SwipeableMethod;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.model.FollowersResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileResponse;

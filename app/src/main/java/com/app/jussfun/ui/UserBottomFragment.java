@@ -29,7 +29,7 @@ import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.ProfileUpdatedListener;
+import com.app.jussfun.helper.callback.ProfileUpdatedListener;
 import com.app.jussfun.model.FollowRequest;
 import com.app.jussfun.model.FollowResponse;
 import com.app.jussfun.model.GetSet;

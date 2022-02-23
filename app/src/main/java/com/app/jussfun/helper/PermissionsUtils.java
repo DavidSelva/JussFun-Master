@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.app.jussfun.R;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 
 
 public class PermissionsUtils {

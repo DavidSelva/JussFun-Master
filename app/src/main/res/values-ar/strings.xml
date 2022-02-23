@@ -481,5 +481,6 @@
     <string name="hidereply">Hide Reply</string>
     <string name="befirst">Be first to comment</string>
     <string name="replying_to">Replying to</string>
+    <string name="replying">Replying...</string>
 
 </resources>

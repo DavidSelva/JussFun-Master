@@ -21,9 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.utils.AdminData;
 
 import butterknife.BindView;

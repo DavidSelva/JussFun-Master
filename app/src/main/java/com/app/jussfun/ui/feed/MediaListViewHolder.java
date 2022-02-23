@@ -196,11 +196,11 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         txtHeartCount.setText(!TextUtils.isEmpty("" + resultsItem.getHeartCount()) ? "" + resultsItem.getHeartCount() : "" + 0);
         txtStarCount.setText(!TextUtils.isEmpty("" + resultsItem.getStarCount()) ? "" + resultsItem.getStarCount() : "" + 0);
         if (resultsItem.getCommentStatus() == 0) {
-            txtCommentCount.setText("" + resultsItem.getCommentsCount());
-            commentLay.setVisibility(View.VISIBLE);
-        } else {
             txtCommentCount.setText("");
             commentLay.setVisibility(View.GONE);
+        } else {
+            txtCommentCount.setText("" + resultsItem.getCommentsCount());
+            commentLay.setVisibility(View.VISIBLE);
         }
 
         initAdapter(resultsItem);

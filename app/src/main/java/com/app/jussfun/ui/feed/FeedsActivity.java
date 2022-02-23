@@ -45,14 +45,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
-import com.app.jussfun.base.App;
 import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnMenuClickListener;
-import com.app.jussfun.helper.OnOkCancelClickListener;
+import com.app.jussfun.helper.callback.OnMenuClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.helper.PermissionsUtils;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.Feeds;
@@ -77,7 +76,6 @@ import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,9 +86,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

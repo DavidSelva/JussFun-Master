@@ -70,6 +70,31 @@
         app:layout_constraintHeight_percent=".4"
         app:layout_constraintTop_toBottomOf="@+id/toolBarLay" />
 
+    <FrameLayout
+        android:id="@+id/commentLay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/size_25"
+        app:layout_constraintTop_toBottomOf="@+id/image_preview">
+
+        <TextView
+            style="@style/TextPrimaryRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="Others can comment" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnComment"
+            android:checked="true"
+            android:layout_gravity="end"/>
+
+    </FrameLayout>
+
     <MultiAutoCompleteTextView
         android:id="@+id/edtDescription"
         style="@style/TextPrimaryLight"
@@ -77,7 +102,7 @@
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:background="@color/colorWhite"
         android:gravity="start"
         android:hint="@string/add_a_caption"
@@ -90,7 +115,7 @@
         android:textAlignment="viewStart"
         android:textSize="@dimen/text_medium"
         app:layout_constraintBottom_toTopOf="@id/recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/image_preview" />
+        app:layout_constraintTop_toBottomOf="@+id/commentLay" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -113,8 +138,8 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:clickable="false"
-        android:visibility="gone"
-        android:focusable="false">
+        android:focusable="false"
+        android:visibility="gone">
 
 
         <ProgressBar

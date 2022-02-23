@@ -31,11 +31,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.DialogFragment;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.R;
 import com.app.jussfun.external.KeyboardUtils;
 import com.app.jussfun.helper.LocaleManager;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.SignInRequest;
 import com.app.jussfun.utils.AppUtils;

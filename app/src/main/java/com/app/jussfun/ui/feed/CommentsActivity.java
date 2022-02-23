@@ -1,6 +1,7 @@
 package com.app.jussfun.ui.feed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,31 +34,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.R;
-import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseActivity;
 import com.app.jussfun.external.LinkEllipseTextView;
 import com.app.jussfun.external.ProgressWheel;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.ResponseJsonClass;
+import com.app.jussfun.helper.callback.FeedListener;
+import com.app.jussfun.helper.callback.ResponseJsonClass;
 import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.MyProfileActivity;
+import com.app.jussfun.ui.OthersProfileActivity;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
+import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
-import com.google.firebase.installations.Utils;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentsActivity extends BaseActivity implements View.OnClickListener, ResponseJsonClass.onAddCommentCallback, ResponseJsonClass.onHashTagCallback {
+public class CommentsActivity extends BaseActivity implements View.OnClickListener, ResponseJsonClass.onAddCommentCallback, ResponseJsonClass.onHashTagCallback, FeedListener {
 
     private static final String TAG = CommentsActivity.class.getSimpleName();
     private NestedScrollView nestedScrollView;
@@ -86,7 +91,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     AppUtils utils;                                         // For call showsoftkeyboard method
 
     String postId = "", postOwnerId = "", type = "", postOwnerName, postOwnerImage, postDescription;
-    private boolean commentEnabled = true;
+    private int commentEnabled = 0;
     int homeParentPosition;
     private Context mContext;
 
@@ -143,20 +148,20 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         /// ResponseJsonClass -> for get response from server
         responseJsonClass = new ResponseJsonClass(this);
         /// purpose for add comment service
-//        responseJsonClass.setAddCommentCallback(this);
+        responseJsonClass.setAddCommentCallback(this);
         /// purpose for hashTag service
 //        responseJsonClass.setHashTagCallback(this);
         utils = new AppUtils(this);
         // get postid from home post page
         if (getIntent() != null) {
-            postOwnerId = getIntent().getStringExtra("PostOwnerid");
-            postId = getIntent().getStringExtra("PostID");
+            postOwnerId = getIntent().getStringExtra(Constants.TAG_USER_ID);
+            postId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
             homeParentPosition = getIntent().getIntExtra("parentposition", -1);
             type = getIntent().getStringExtra("type");
-            postOwnerName = getIntent().getStringExtra("postOwnerName");
-            postOwnerImage = getIntent().getStringExtra("postOwnerImage");
-            postDescription = getIntent().getStringExtra("postDescription");
-            commentEnabled = getIntent().getBooleanExtra("commentEnabled", true);
+            postOwnerName = getIntent().getStringExtra(Constants.TAG_USER_NAME);
+            postOwnerImage = getIntent().getStringExtra(Constants.TAG_USER_IMAGE);
+            postDescription = getIntent().getStringExtra(Constants.TAG_DESCRIPTION);
+            commentEnabled = getIntent().getIntExtra("commentEnabled", 0);
         }
 
         Typeface typeface;
@@ -171,7 +176,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentEdit = findViewById(R.id.commentEdit);
         replyToUsername = (TextView) findViewById(R.id.replyToUsername);
         closereply = (ImageView) findViewById(R.id.closereply);
-        btnBack =  findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
         txtTitle = findViewById(R.id.txtTitle);
         descriptionLay = findViewById(R.id.descriptionLay);
         userImage = findViewById(R.id.userImage);
@@ -196,13 +201,13 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 .distanceThreshold(0.25f)
                 .build();
         Slidr.attach(this, config);
-
+        Validation("");
         commentEdit.setTypeface(typeface);
         pgsBar.setVisibility(View.GONE);
 
         commentList.clear();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        commentAdapter = new CommentsAdapter(this, commentList, postOwnerId);
+        commentAdapter = new CommentsAdapter(this, commentList, postOwnerId, this);
         mRecyclerView.setAdapter(commentAdapter);
         nestedScrollView.setVisibility(View.GONE);
 
@@ -327,9 +332,14 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    public void LoadComments(int offsetCnt, int limitcnt) {/*
-
-        Call<CommentsModel> call = apiService.getComments(GetSet.getUserId(), postId, offsetCnt + "", limitcnt + "", type);
+    public void LoadComments(int offsetCnt, int limitcnt) {
+        Map<String, String> requestMap = new HashMap<>();
+        requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+        requestMap.put(Constants.TAG_FEED_ID, postId);
+        requestMap.put(Constants.TAG_OFFSET, "" + offsetCnt);
+        requestMap.put(Constants.TAG_LIMIT, "" + limitcnt);
+        requestMap.put(Constants.TAG_TYPE, "" + type);
+        Call<CommentsModel> call = apiService.getComments(requestMap);
 
         call.enqueue(new Callback<CommentsModel>() {
             @Override
@@ -361,7 +371,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                             commentEdit.setHint(mContext.getString(R.string.addcomment));
                             nullLay.setVisibility(View.GONE);
                         }
-                        if (commentEnabled) {
+                        if (commentEnabled == 0) {
                             commentLay.setVisibility(View.VISIBLE);
                         } else {
                             commentLay.setVisibility(View.GONE);
@@ -379,7 +389,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                             nullLay.setVisibility(View.GONE);
                             commentEdit.setHint(mContext.getString(R.string.addcomment));
                         }
-                        if (commentEnabled) {
+                        if (commentEnabled == 0) {
                             commentLay.setVisibility(View.VISIBLE);
                         } else {
                             commentLay.setVisibility(View.GONE);
@@ -402,21 +412,13 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-    */}
-
+    }
 
     @Override
     public void onAddCommentStatus(String status, Object object, String cmtCount) {   // position no need for comment list
-
         if (status.equalsIgnoreCase("true")) {
-            commentList.set(commentList.size() - 1, (CommentsModel.Result) object);
+//            commentList.set(commentList.size() - 1, (CommentsModel.Result) object);
             commentAdapter.notifyItemChanged(commentList.size() - 1);
-            if (!type.equalsIgnoreCase("challenge")) {
-                /*if (homeParentPosition != -1)
-                    Utils.getInstance().updateCount(cmtCount, homeParentPosition);
-                else
-                    Utils.getInstance().updateCountInPostDetail(cmtCount, homeParentPosition);*/
-            }
         }
 
     }
@@ -465,7 +467,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     public void onAddReplyStatus(String status, Object object, int parentposition, int childPosition) {        // position needed for reply list
         if (status.equalsIgnoreCase("true")) {
             List<CommentsModel.Reply> tempList = commentList.get(parentposition).getReply();
-            commentList.get(parentposition).getReply().set(tempList.size() - 1, (CommentsModel.Reply) object);
+//            commentList.get(parentposition).getReply().set(tempList.size() - 1, (CommentsModel.Reply) object);
             commentAdapter.notifyItemChanged(parentposition);
         }
 
@@ -489,14 +491,13 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentAdapter.notifyItemInserted(commentList.size() - 1);
         commentEdit.setHint(mContext.getString(R.string.addcomment));
 
-        /// Call Add comment servicelse
-//        responseJsonClass.AddCommentService(postId, commentEdit.getText().toString().trim(), type);
+        responseJsonClass.addComment(postId, commentEdit.getText().toString().trim(), type);
         commentEdit.setText(""); // after add comment Edittext shoulbe clear .
         AppUtils.hideKeyboard(this);  // add add comment keyboard shouldbe close
         mRecyclerView.smoothScrollToPosition(commentList.size() - 1);
     }
 
-
+    @Override
     public void setParentReplyDetails(int parentPosition, int childPosition, String parentId, String userName) {
         isReply = true;
         this.parentPosition = parentPosition;
@@ -505,11 +506,28 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         this.userName = userName;
 
         reply_postlayout.setVisibility(View.VISIBLE);
-        replyToUsername.setText(getString(R.string.replying_to) + " " + userName);
-        commentEdit.setText("@" + userName + " ");
+        replyToUsername.setText(getString(R.string.replying));
         commentEdit.setSelection(commentEdit.getText().length());
         openKeyboard();
+    }
 
+    @Override
+    public void navigateToProfile(CommentsModel.Result resultItem) {
+        if (resultItem.getUserId().equals(GetSet.getUserId())) {
+            Intent profile = new Intent(mContext, MyProfileActivity.class);
+            profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            profile.putExtra(Constants.TAG_PARTNER_ID, GetSet.getUserId());
+            profile.putExtra(Constants.TAG_FROM, "");
+            startActivity(profile);
+        } else {
+            Intent profile = new Intent(mContext, OthersProfileActivity.class);
+            profile.putExtra(Constants.TAG_PARTNER_ID, resultItem.getUserId());
+            profile.putExtra(Constants.TAG_PARTNER_NAME, resultItem.getUserName());
+            profile.putExtra(Constants.TAG_PARTNER_IMAGE, resultItem.getUserImage());
+            profile.putExtra(Constants.TAG_FROM, Constants.TAG_MESSAGE);
+            profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(profile);
+        }
     }
 
 
@@ -540,7 +558,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         /// add comment to first item  into recyclerview
 
         CommentsModel.Reply reply = new CommentsModel().new Reply();
-        //replyPojo.setUsername(AppPreferences.getStringFromStore(Preference_Constants.PREF_KEY_USER_NAME));
         reply.setUserId(GetSet.getUserId());
         reply.setUserName(GetSet.getUserName());
         reply.setUserImage(GetSet.getUserImage());
@@ -555,8 +572,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentList.get(parentPosition).getReply().add(reply);
         commentList.get(parentPosition).setReplyVisible(true);
         commentAdapter.notifyDataSetChanged();
-
-//        responseJsonClass.AddRepyService(postId, commentEdit.getText().toString(), parentId, parentPosition, childPosition, type);
+        responseJsonClass.addReply(postId, commentEdit.getText().toString(), parentId, parentPosition, childPosition, type);
 
         commentEdit.setText("");              // after add comment Edittext shoulbe clear .
 
@@ -579,9 +595,9 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 onBackPressed();
                 break;
             case R.id.addcomment:
-                if (!TextUtils.isEmpty(commentEdit.getText().toString().trim())) {
+                if (!TextUtils.isEmpty(commentEdit.getText())) {
                     if (!isReply)
-                        Addcomment();  //// empty string means post comment
+                        Addcomment();
                     else
                         AddReply();
                 }

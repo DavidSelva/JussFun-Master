@@ -40,7 +40,7 @@ import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.qrgenerator.QRGContents;
 import com.app.jussfun.external.qrgenerator.QRGEncoder;
-import com.app.jussfun.helper.FollowUpdatedListener;
+import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.StorageUtils;

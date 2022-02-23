@@ -29,6 +29,7 @@
             android:paddingRight="18dp"
             android:src="@drawable/delete"
             swipe:tint="@color/colorRed" />
+
     </LinearLayout>
 
 
@@ -111,7 +112,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
-                        android:fontFamily="@font/font_regular"
                         android:text=""
                         android:textAlignment="viewStart" />
 
@@ -128,7 +128,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/font_regular"
                             android:text=""
                             android:textSize="@dimen/text_small" />
 
@@ -182,12 +181,12 @@
 
         <TextView
             android:id="@+id/loading"
+            style="@style/TextPrimaryLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:text="@string/posting"
             android:textAlignment="viewStart"
-            style="@style/TextPrimaryLight"
             android:textSize="@dimen/text_medium_large"
             android:visibility="gone" />
 
@@ -214,6 +213,7 @@
 
                 <TextView
                     android:id="@+id/view_reply"
+                    style="@style/TextSecondaryLight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/line"
@@ -222,9 +222,7 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
                     android:text="@string/view_replies"
-                    style="@style/TextSecondaryLight"
-                    android:textSize="@dimen/text_small"
-                    />
+                    android:textSize="@dimen/text_small" />
             </RelativeLayout>
 
         </RelativeLayout>

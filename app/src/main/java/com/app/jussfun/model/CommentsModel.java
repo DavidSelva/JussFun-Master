@@ -22,7 +22,7 @@ public class CommentsModel {
     @SerializedName("user_image")
     @Expose
     private String userImage;
-    @SerializedName("results")
+    @SerializedName("result")
     @Expose
     private List<Result> results = null;
 

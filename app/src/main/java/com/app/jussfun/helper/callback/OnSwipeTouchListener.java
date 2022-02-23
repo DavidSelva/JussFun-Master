@@ -1,4 +1,4 @@
-package com.app.jussfun.helper;
+package com.app.jussfun.helper.callback;
 
 import android.content.Context;
 import android.view.GestureDetector;

@@ -52,7 +52,7 @@ import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.external.ImagePicker;
 import com.app.jussfun.helper.LocaleManager;
-import com.app.jussfun.helper.OnOkCancelClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.helper.PermissionsUtils;
 import com.app.jussfun.helper.PointsOverlayView;
 import com.app.jussfun.model.GetSet;

@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.jussfun.R;
-import com.app.jussfun.helper.OnOkCancelClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

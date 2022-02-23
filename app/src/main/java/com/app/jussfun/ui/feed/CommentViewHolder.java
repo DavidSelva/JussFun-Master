@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.jussfun.R;
 import com.app.jussfun.base.BaseViewHolder;
 import com.app.jussfun.external.LinkEllipseTextView;
-import com.app.jussfun.helper.ResponseJsonClass;
+import com.app.jussfun.helper.callback.ResponseJsonClass;
 import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.AppUtils;

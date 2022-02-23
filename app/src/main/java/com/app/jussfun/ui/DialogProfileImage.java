@@ -33,7 +33,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.external.ImagePicker;
-import com.app.jussfun.helper.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.R;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.Constants;

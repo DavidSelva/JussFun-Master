@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseViewHolder;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnMenuClickListener;
+import com.app.jussfun.helper.callback.OnMenuClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.ApiClient;
@@ -95,7 +95,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull BaseViewHolder viewHolder, int holderPosition) {
+        final int position = viewHolder.getAdapterPosition();
         if (viewHolder instanceof MediaListViewHolder) {
             Feeds resultsItem = parentList.get(position);
             final MediaListViewHolder holder = (MediaListViewHolder) viewHolder;
@@ -172,6 +173,14 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, CommentsActivity.class);
+                    intent.putExtra(Constants.TAG_FEED_ID, resultsItem.getFeedId());
+                    intent.putExtra(Constants.TAG_USER_ID, resultsItem.getUserId());
+                    intent.putExtra(Constants.TAG_USER_NAME, resultsItem.getUserName());
+                    intent.putExtra(Constants.TAG_USER_IMAGE, resultsItem.getUserImage());
+                    intent.putExtra(Constants.TAG_DESCRIPTION, resultsItem.getDescription());
+                    intent.putExtra("commentEnabled", resultsItem.getCommentStatus());
+                    intent.putExtra("parentposition", position);
+                    intent.putExtra(Constants.TAG_TYPE, "post");
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     mContext.startActivity(intent);
                 }

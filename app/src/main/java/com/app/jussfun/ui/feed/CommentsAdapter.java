@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.R;
-import com.app.jussfun.helper.ResponseJsonClass;
+import com.app.jussfun.helper.callback.FeedListener;
+import com.app.jussfun.helper.callback.ResponseJsonClass;
 import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.GetSet;
 import com.daimajia.swipe.SwipeLayout;
@@ -27,14 +28,15 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     ArrayList<CommentsModel.Result> cmtList;
     ResponseJsonClass responseJsonClass;
     String PostOwnerid = "";
+    private FeedListener feedListener;
 
-    public CommentsAdapter(Context context, ArrayList<CommentsModel.Result> cmtList, String PostOwnerid) {
+    public CommentsAdapter(Context context, ArrayList<CommentsModel.Result> cmtList, String PostOwnerid, FeedListener feedListener) {
         this.context = context;
         this.cmtList = cmtList;
         this.PostOwnerid = PostOwnerid;
         responseJsonClass = new ResponseJsonClass(context);
         responseJsonClass.setLikeCommentCallback(CommentsAdapter.this);
-
+        this.feedListener = feedListener;
     }
 
     @Override
@@ -93,7 +95,7 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             commentViewHolder.reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    fragment.setParentReplyDetails(position, 0, cmtList.get(position).getCommentId(), cmtList.get(position).getUsername());
+                    feedListener.setParentReplyDetails(position, 0, cmtList.get(position).getCommentId(), cmtList.get(position).getUserName());
                 }
             });
 
@@ -101,28 +103,14 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             commentViewHolder.userImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    /*if (GetSet.getUserId().equalsIgnoreCase(cmtList.get(position).getUserId()))
-                        // Utils.getInstance().GlobalUpdate("profile", "user", ""+cmtList.get(position).getUserid());
-                        fragment.navigateToProfile("profile", "user", cmtList.get(position).getUserId());
-                    else
-                        //Utils.getInstance().GlobalUpdate("otherprofile", "user", ""+cmtList.get(position).getUserid());
-                        fragment.navigateToProfile("otherprofile", "user", cmtList.get(position).getUserId());*/
-
+                    feedListener.navigateToProfile(cmtList.get(position));
                 }
             });
 
             commentViewHolder.txtUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                   /* if (GetSet.getUserId().equalsIgnoreCase(cmtList.get(position).getUserId()))
-                        // Utils.getInstance().GlobalUpdate("profile", "user", ""+cmtList.get(position).getUserid());
-                        fragment.navigateToProfile("profile", "user", cmtList.get(position).getUserId());
-                    else
-                        //Utils.getInstance().GlobalUpdate("otherprofile", "user", ""+cmtList.get(position).getUserid());
-                        fragment.navigateToProfile("otherprofile", "user", cmtList.get(position).getUserId());*/
-
+                    feedListener.navigateToProfile(cmtList.get(position));
                 }
             });
 
@@ -179,8 +167,7 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     }
 
                     commentViewHolder.likeLay.setEnabled(false);
-
-//                    responseJsonClass.likecomment(position, cmtList.get(position).getCommentId(), commentViewHolder);
+                    responseJsonClass.likeComment(position, cmtList.get(position).getCommentId(), commentViewHolder);
 
                 }
             });

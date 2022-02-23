@@ -1,5 +1,7 @@
 package com.app.jussfun.ui;
 
+import static android.view.View.GONE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,14 +23,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.ads.AdView;
-import com.google.android.material.card.MaterialCardView;
-import com.app.jussfun.R;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.GetSet;
@@ -40,6 +37,11 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.ads.AdView;
+import com.google.android.material.card.MaterialCardView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
@@ -50,8 +52,6 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.view.View.GONE;
 
 
 public class EditProfileActivity extends BaseFragmentActivity {
@@ -186,12 +186,9 @@ public class EditProfileActivity extends BaseFragmentActivity {
                     edtName.setError(getString(R.string.enter_name));
                 } else if (TextUtils.isEmpty(txtLocation.getText().toString())) {
                     txtLocation.setError(getString(R.string.select_location));
-                }
-                // for convert gifts into money addon
-                /*else if (!edtPayPal.getText().toString().matches(emailPattern) || (edtPayPal.getText().toString().trim().length() == 0)){
+                } else if (TextUtils.isEmpty(edtPayPal.getText()) || !edtPayPal.getText().toString().matches(emailPattern)) {
                     edtPayPal.setError(getString(R.string.verify_mail));
-
-                }*/ else {
+                } else {
                     txtLocation.setError(null);
                     hideKeyboard(EditProfileActivity.this);
                     saveProfile();
@@ -207,7 +204,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
             case R.id.renewalLay:
                 if (!GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
                     Intent prime = new Intent(getApplicationContext(), PrimeActivity.class);
-                    prime.putExtra("OnCLick","ClickHere");
+                    prime.putExtra("OnCLick", "ClickHere");
                     startActivity(prime);
                 }
                 break;
@@ -313,7 +310,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
 
                         SharedPref.putString(SharedPref.GIFT_CONVERSION_EARNINGS, GetSet.getGiftCoversionEarnings());
                         SharedPref.putString(SharedPref.GIFT_CONVERSION_VALUE, GetSet.getGiftConversionValue());
-                        SharedPref.putString(SharedPref.PAYPAL_ID,GetSet.getPaypal_id());
+                        SharedPref.putString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
 
                         Intent intent = new Intent();
                         intent.putExtra(Constants.TAG_PROFILE_DATA, profile);

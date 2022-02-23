@@ -260,7 +260,7 @@
                         android:gravity="end"
                         android:hint="@string/paypal_id"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:padding="10dp"
                         android:textSize="@dimen/text_normal"

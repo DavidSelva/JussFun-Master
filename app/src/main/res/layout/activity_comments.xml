@@ -158,13 +158,12 @@
                 android:layout_toStartOf="@+id/addcomment"
                 android:background="@drawable/send_msg_greyborder"
                 android:dropDownAnchor="@+id/bottomlayout"
-                android:dropDownVerticalOffset="0.sp"
-                android:focusableInTouchMode="false"
                 android:gravity="start|center_vertical"
                 android:hint="@string/addcomment"
                 android:maxLength="180"
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
+                android:inputType="textCapSentences"
                 android:paddingEnd="15dp"
                 android:paddingBottom="15dp"
                 android:textAlignment="viewStart"
@@ -179,9 +178,9 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="0dp"
                 android:adjustViewBounds="true"
-                android:padding="10dp"
+                android:padding="6dp"
                 android:rotationY="@integer/angle_rtl_180"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/send" />
 
         </RelativeLayout>

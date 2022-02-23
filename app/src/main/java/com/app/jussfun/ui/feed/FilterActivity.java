@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -81,6 +81,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     private RecyclerView recyclerView;
     private ConstraintLayout progressLay;
     private ProgressBar progressBar;
+    private Switch btnComment;
 
     Bitmap originalImage;
     // to backup image with filter applied
@@ -154,6 +155,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         edtDescription = findViewById(R.id.edtDescription);
         progressLay = findViewById(R.id.progressLay);
         progressBar = findViewById(R.id.progressBar);
+        btnComment = findViewById(R.id.btnComment);
     }
 
     @Override
@@ -178,44 +180,6 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         imagePreview.setImageBitmap(filter.processFilter(filteredImage));
         finalImage = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
 
-    }
-
-    /**
-     * Resets image edit controls to normal when new filter
-     * is selected
-     */
-
-    private int exifToDegrees(int exifOrientation) {
-        int degree = 0;
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
-            degree = 90;
-        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
-            degree = 180;
-        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
-            degree = 270;
-        }
-        Log.d(TAG, "exifToDegrees: " + degree);
-        return degree;
-    }
-
-    private int getExifRotation(androidx.exifinterface.media.ExifInterface exifInterface) {
-        int rotation = 0;
-        int orientation = exifInterface.getAttributeInt(
-                androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION,
-                androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED);
-        switch (orientation) {
-            case androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90:
-                rotation = 90;
-                break;
-            case androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180:
-                rotation = 180;
-                break;
-            case androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270:
-                rotation = 270;
-                break;
-        }
-        Log.d(TAG, "getExifRotation: " + rotation);
-        return rotation;
     }
 
     private void loadUriImage() {
@@ -336,10 +300,10 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
     private void saveImageToGallery() {
         String fileName = mContext.getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".jpg";
         selectedUri = storageManager.saveToSDCard(finalImage, Constants.TAG_IMAGE, fileName);
-        addPost(selectedUri);
+        addFeed(selectedUri);
     }
 
-    public void addPost(Uri selectedUri) {
+    public void addFeed(Uri selectedUri) {
         if (NetworkReceiver.isConnected()) {
             uploadImage(selectedUri);
         } else {
@@ -386,6 +350,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
         requestMap.put(Constants.TAG_FEED_IMAGE, fileUrl);
         requestMap.put(Constants.TAG_TITLE, "");
+        requestMap.put(Constants.TAG_COMMENT_STATUS, btnComment.isChecked() ? "" + 1 : "" + 0);
         requestMap.put(Constants.TAG_DESCRIPTION, !TextUtils.isEmpty(edtDescription.getText()) ? edtDescription.getText().toString() : "");
 
         Call<Map<String, String>> call = apiInterface.addFeed(requestMap);

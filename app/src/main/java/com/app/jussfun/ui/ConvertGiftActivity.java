@@ -30,7 +30,7 @@ import com.app.jussfun.base.App;
 import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.OnOkCancelClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.ConvertGiftRequest;
 import com.app.jussfun.model.ConvertGiftResponse;
 import com.app.jussfun.model.GetSet;
