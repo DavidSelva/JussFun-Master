@@ -16,6 +16,7 @@ import com.app.jussfun.external.LinkEllipseTextView;
 import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.AppUtils;
+import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 
@@ -64,39 +65,34 @@ public class ReplyViewHolder extends BaseViewHolder {
 
         CommentsModel.Reply replyPojo = (CommentsModel.Reply) object;
 
-        if (replyPojo.getReplyId().equalsIgnoreCase("")) {
-            commentTxt.setVisibility(View.GONE);
-            loading.setVisibility(View.VISIBLE);
-        } else {
-            commentTxt.setVisibility(View.VISIBLE);
-            loading.setVisibility(View.GONE);
-        }
+        commentTxt.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.GONE);
 
         commentTxt.setIsLinkable(true);
 
-        username.setText(replyPojo.getUserName());
+        username.setText(replyPojo.getUser().getUserName());
         commentTxt.setText(AppUtils.stripHtml(replyPojo.getComments()).trim());
-        cmt_time.setText(replyPojo.getCommentTime());
+        cmt_time.setText(AppUtils.getTimeAgo(context, replyPojo.getReplyCreatedAt()));
 
-        if (replyPojo.getLiked().equalsIgnoreCase("true"))
+        if (replyPojo.getLiked() == 1)
             likeClick.setSelected(true);
         else
             likeClick.setSelected(false);
 
 
-        if (replyPojo.getLikeCount() == 0)
+        if (replyPojo.getReplyLikeCount() == 0)
             like_cnt.setVisibility(View.GONE);
         else {
 
             like_cnt.setVisibility(View.VISIBLE);
-            if (replyPojo.getLikeCount() == 1)
-                like_cnt.setText(replyPojo.getLikeCount() + " " + context.getString(R.string.like));
+            if (replyPojo.getReplyLikeCount() == 1)
+                like_cnt.setText(replyPojo.getReplyLikeCount() + " " + context.getString(R.string.like));
             else
-                like_cnt.setText("" + replyPojo.getLikeCount() + " " + context.getString(R.string.likes));
+                like_cnt.setText("" + replyPojo.getReplyLikeCount() + " " + context.getString(R.string.likes));
         }
 
         Glide.with(context)
-                .load(replyPojo.getUserImage())
+                .load(Constants.IMAGE_URL + replyPojo.getUser().getUserImage())
                 .centerCrop().placeholder(R.drawable.avatar)
                 .into(userImg);
 

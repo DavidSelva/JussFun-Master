@@ -206,7 +206,7 @@ public interface ApiInterface {
             , @Field("type") String type);
 
     @FormUrlEncoded
-    @POST("activities/likereplycomment")
+    @POST("activities/commentfeed")
     Call<Map<String, String>> addReply(@Field("user_id") String userid, @Field("feed_id") String postid, @Field("comments") String comments, @Field("parent_id") String parent_id
             , @Field("type") String type);
 
@@ -217,4 +217,12 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("activities/likecomment")
     Call<Map<String, String>> likeComment(@Field("user_id") String userid, @Field("comment_id") String commentId);
+
+    @FormUrlEncoded
+    @POST("activities/likereplycomment")
+    Call<Map<String, String>> likeReplyComment(@Field("user_id") String userid, @Field("reply_id") String replyId, @Field("comment_id") String commentId);
+
+    @FormUrlEncoded
+    @POST("activities/deletecomment")
+    Call<Map<String, String>> deleteComment(@Field("user_id") String userid, @Field("feed_id") String feedId, @Field("comment_id") String commentId);
 }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.jussfun.base.App;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.ui.feed.CommentViewHolder;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.Constants;
@@ -51,7 +50,7 @@ public class ResponseJsonClass {
     public interface onAddCommentCallback {
         public abstract void onAddCommentStatus(String status, Object object, String cmtCount);
 
-        public abstract void onDeleteCommentStatus(String status, String cmtCount, int position);
+        public abstract void onDeleteCommentStatus(String status, int position);
 
         public abstract void onDeleteReplyStatus(String status, String cmtCount, int position, int childPosition);
 
@@ -189,16 +188,18 @@ public class ResponseJsonClass {
 
     }
 
-    // Add Reply
-    public void likeComment(int position, String commentId, CommentViewHolder commentViewHolder) {
+    // Like Comment
+    public void likeComment(int position, String commentId, int likeCount, RecyclerView.ViewHolder holder) {
 
-        Call<Map<String, String>> call = apiService.likeComment(GetSet.getUserId(),commentId);
+        int count[] = {1};
+        count[0] = likeCount + 1;
+        Call<Map<String, String>> call = apiService.likeComment(GetSet.getUserId(), commentId);
 
         call.enqueue(new Callback<Map<String, String>>() {
             @Override
             public void onResponse(Call<Map<String, String>> call, retrofit2.Response<Map<String, String>> response) {
                 if (response.isSuccessful()) {
-                    onLikecommentCallback.onLikeCommentStatus(response.body().get(Constants.TAG_STATUS), position, 0, commentViewHolder);
+                    onLikecommentCallback.onLikeCommentStatus(response.body().get(Constants.TAG_STATUS), position, count[0], holder);
                 } else {
                     App.makeToast("Something went wrong");
                 }
@@ -213,6 +214,59 @@ public class ResponseJsonClass {
             }
         });
 
+    }
+
+    // Like Reply
+    public void likeReply(int position, String replyId, String commentId, int likeCount, RecyclerView.ViewHolder holder) {
+
+        Call<Map<String, String>> call = apiService.likeReplyComment(GetSet.getUserId(), replyId, commentId);
+
+        call.enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, retrofit2.Response<Map<String, String>> response) {
+                if (response.isSuccessful()) {
+                    onLikecommentCallback.onLikeCommentStatus(response.body().get(Constants.TAG_STATUS), position, likeCount, holder);
+                } else {
+                    App.makeToast("Something went wrong");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                Log.e("onFailure", "->" + t.toString());
+                App.makeToast("Something went wrong");
+
+            }
+        });
+
+    }
+
+    public void deleteComment(int position, int childPosition, String postId, String commentId, String type) {
+        Call<Map<String, String>> call = apiService.deleteComment(GetSet.getUserId(), commentId, postId);
+
+        call.enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, retrofit2.Response<Map<String, String>> response) {
+                if (response.isSuccessful()) {
+                    if (type.equalsIgnoreCase("reply")) {
+                        addCommentCallback.onDeleteReplyStatus(response.body().get(Constants.TAG_STATUS), "" + 0, position, childPosition);
+                    } else {
+                        addCommentCallback.onDeleteCommentStatus(response.body().get(Constants.TAG_STATUS), position);
+                    }
+                } else {
+                    App.makeToast("Something went wrong");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                Log.e("onFailure", "->" + t.toString());
+                App.makeToast("Something went wrong");
+
+            }
+        });
     }
 
 }

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
+    android:layout_marginTop="10dp"
     android:background="@android:color/white"
     swipe:leftEdgeSwipeOffset="0dp"
     swipe:rightEdgeSwipeOffset="0dp">
@@ -100,7 +101,7 @@
 
                     <TextView
                         android:id="@+id/username"
-                        style="@style/TextPrimaryRegular"
+                        style="@style/TextSecondaryRegular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -168,8 +169,8 @@
 
                     <ImageView
                         android:id="@+id/likeClick"
-                        android:layout_width="@dimen/iv_small"
-                        android:layout_height="@dimen/iv_small"
+                        android:layout_width="@dimen/size_20"
+                        android:layout_height="@dimen/size_20"
                         android:src="@drawable/feed_heart_selector" />
 
                 </LinearLayout>

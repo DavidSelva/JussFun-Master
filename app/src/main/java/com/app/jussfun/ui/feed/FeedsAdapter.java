@@ -162,10 +162,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
-            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            holder.btnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onShareClicked(holder.btnDelete, resultsItem, holder.getAdapterPosition());
+                    listener.onMenuClicked(holder.btnMore, resultsItem, holder.getAdapterPosition());
                 }
             });
 

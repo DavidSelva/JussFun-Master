@@ -995,8 +995,8 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
     @Override
     public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
-        shareFeed(resultsItem.getFeedId());
-//        openMenu(view, resultsItem, adapterPosition);
+//        shareFeed(resultsItem.getFeedId());
+        openMenu(view, resultsItem, adapterPosition);
     }
 
     @Override
@@ -1048,8 +1048,12 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         } else {
             typeface = ResourcesCompat.getFont(mContext, R.font.font_light);
         }
-        if (!feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
+        if (feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
+            popupMenu.getMenu().getItem(0).setVisible(true);
+            popupMenu.getMenu().getItem(1).setVisible(false);
+        }else  {
             popupMenu.getMenu().getItem(0).setVisible(false);
+            popupMenu.getMenu().getItem(1).setVisible(true);
         }
         for (int i = 0; i < popupMenu.getMenu().size(); i++) {
             MenuItem menuItem = popupMenu.getMenu().getItem(i);

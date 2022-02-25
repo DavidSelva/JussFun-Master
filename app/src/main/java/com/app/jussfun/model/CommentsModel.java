@@ -13,15 +13,6 @@ public class CommentsModel {
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("user_name")
-    @Expose
-    private String userName;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
-    @SerializedName("user_image")
-    @Expose
-    private String userImage;
     @SerializedName("result")
     @Expose
     private List<Result> results = null;
@@ -32,30 +23,6 @@ public class CommentsModel {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserImage() {
-        return userImage;
-    }
-
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
     }
 
     public List<Result> getResults() {
@@ -212,40 +179,53 @@ public class CommentsModel {
 
     public class Reply {
 
-        @SerializedName("reply_id")
+        @SerializedName("replycomment_like_count")
         @Expose
-        private String replyId;
+        private int replyLikeCount;
+        @SerializedName("_id")
+        @Expose
+        private String id;
+        @SerializedName("feed_id")
+        @Expose
+        private String feedId;
         @SerializedName("comments")
         @Expose
         private String comments;
-        @SerializedName("user_name")
+        @SerializedName("parent_id")
         @Expose
-        private String userName;
-        @SerializedName("user_id")
+        private String parentId;
+        @SerializedName("replycomment_createdat")
         @Expose
-        private String userId;
-        @SerializedName("user_image")
-        @Expose
-        private String userImage;
-        @SerializedName("comment_time")
-        @Expose
-        private String commentTime;
-        @SerializedName("created_time")
-        @Expose
-        private Integer createdTime;
+        private String replyCreatedAt;
         @SerializedName("liked")
         @Expose
-        private String liked;
-        @SerializedName("like_count")
+        private int liked;
+        @SerializedName("user_id")
         @Expose
-        private Integer likeCount;
+        private User user;
 
-        public String getReplyId() {
-            return replyId;
+        public int getReplyLikeCount() {
+            return replyLikeCount;
         }
 
-        public void setReplyId(String replyId) {
-            this.replyId = replyId;
+        public void setReplyLikeCount(int replyLikeCount) {
+            this.replyLikeCount = replyLikeCount;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String _id) {
+            this.id = _id;
+        }
+
+        public String getFeedId() {
+            return feedId;
+        }
+
+        public void setFeedId(String feedId) {
+            this.feedId = feedId;
         }
 
         public String getComments() {
@@ -256,13 +236,49 @@ public class CommentsModel {
             this.comments = comments;
         }
 
-        public String getUserName() {
-            return userName;
+        public String getParentId() {
+            return parentId;
         }
 
-        public void setUserName(String userName) {
-            this.userName = userName;
+        public void setParentId(String parentId) {
+            this.parentId = parentId;
         }
+
+        public String getReplyCreatedAt() {
+            return replyCreatedAt;
+        }
+
+        public void setReplyCreatedAt(String replyCreatedAt) {
+            this.replyCreatedAt = replyCreatedAt;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public int getLiked() {
+            return liked;
+        }
+
+        public void setLiked(int liked) {
+            this.liked = liked;
+        }
+    }
+
+    public class User {
+        @SerializedName("_id")
+        @Expose
+        private String userId;
+        @SerializedName("acct_name")
+        @Expose
+        private String userName;
+        @SerializedName("acct_photo")
+        @Expose
+        private String userImage;
 
         public String getUserId() {
             return userId;
@@ -272,6 +288,14 @@ public class CommentsModel {
             this.userId = userId;
         }
 
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
         public String getUserImage() {
             return userImage;
         }
@@ -279,38 +303,5 @@ public class CommentsModel {
         public void setUserImage(String userImage) {
             this.userImage = userImage;
         }
-
-        public String getCommentTime() {
-            return commentTime;
-        }
-
-        public void setCommentTime(String commentTime) {
-            this.commentTime = commentTime;
-        }
-
-        public Integer getCreatedTime() {
-            return createdTime;
-        }
-
-        public void setCreatedTime(Integer createdTime) {
-            this.createdTime = createdTime;
-        }
-
-        public String getLiked() {
-            return liked;
-        }
-
-        public void setLiked(String liked) {
-            this.liked = liked;
-        }
-
-        public Integer getLikeCount() {
-            return likeCount;
-        }
-
-        public void setLikeCount(Integer likeCount) {
-            this.likeCount = likeCount;
-        }
-
     }
 }

@@ -50,10 +50,10 @@ import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.callback.OnMenuClickListener;
-import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.helper.PermissionsUtils;
 import com.app.jussfun.helper.StorageUtils;
+import com.app.jussfun.helper.callback.OnMenuClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
@@ -665,8 +665,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     @Override
     public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
-        shareFeed(resultsItem.getFeedId());
-//        openMenu(view, resultsItem, adapterPosition);
+        openMenu(view, resultsItem, adapterPosition);
     }
 
     @Override
@@ -718,8 +717,12 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         } else {
             typeface = ResourcesCompat.getFont(this, R.font.font_light);
         }
-        if (!feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
+        if (feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
+            popupMenu.getMenu().getItem(0).setVisible(true);
+            popupMenu.getMenu().getItem(1).setVisible(false);
+        }else  {
             popupMenu.getMenu().getItem(0).setVisible(false);
+            popupMenu.getMenu().getItem(1).setVisible(true);
         }
         for (int i = 0; i < popupMenu.getMenu().size(); i++) {
             MenuItem menuItem = popupMenu.getMenu().getItem(i);
@@ -737,8 +740,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 if (item.getTitle().toString().equals(getString(R.string.delete_feed))) {
                     deleteFeed(resultsItem, adapterPosition);
                     popupMenu.dismiss();
-                } else if (item.getTitle().toString().equals(getString(R.string.share))) {
-                    shareFeed(resultsItem.getFeedId());
+                } else if (item.getTitle().toString().equals(getString(R.string.report))) {
+//                    shareFeed(resultsItem.getFeedId());
                 }
                 return true;
             }

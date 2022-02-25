@@ -13,12 +13,13 @@ import com.app.jussfun.helper.callback.FeedListener;
 import com.app.jussfun.helper.callback.ResponseJsonClass;
 import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.utils.Constants;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import java.util.ArrayList;
 
-public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder> implements ResponseJsonClass.onLikeCommentCallback, CommentViewHolder.clickListener {
+public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder> implements ResponseJsonClass.onLikeCommentCallback, FeedListener {
 
     private static final String TAG = CommentsAdapter.class.getSimpleName();
     private final int VIEW_TYPE_ITEM = 0;
@@ -27,15 +28,16 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     Context context;
     ArrayList<CommentsModel.Result> cmtList;
     ResponseJsonClass responseJsonClass;
-    String PostOwnerid = "";
+    String PostOwnerid = "", postId;
     private FeedListener feedListener;
 
-    public CommentsAdapter(Context context, ArrayList<CommentsModel.Result> cmtList, String PostOwnerid, FeedListener feedListener) {
+    public CommentsAdapter(Context context, ArrayList<CommentsModel.Result> cmtList, String PostOwnerid, String postId, FeedListener feedListener, ResponseJsonClass responseJsonClass) {
         this.context = context;
         this.cmtList = cmtList;
         this.PostOwnerid = PostOwnerid;
-        responseJsonClass = new ResponseJsonClass(context);
-        responseJsonClass.setLikeCommentCallback(CommentsAdapter.this);
+        this.postId = postId;
+        this.responseJsonClass = responseJsonClass;
+        this.responseJsonClass.setLikeCommentCallback(CommentsAdapter.this);
         this.feedListener = feedListener;
     }
 
@@ -65,7 +67,7 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             CommentsModel.Result commentPojo = cmtList.get(position);
             final CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
             commentViewHolder.bind(position, cmtList, PostOwnerid);
-            commentViewHolder.setListener(CommentsAdapter.this);
+            commentViewHolder.setFeedListener(CommentsAdapter.this);
 
             if (!commentPojo.isReplyVisible()) {
                 commentViewHolder.recyclerView.setVisibility(View.GONE);
@@ -103,14 +105,14 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             commentViewHolder.userImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    feedListener.navigateToProfile(cmtList.get(position));
+                    feedListener.navigateToProfile(cmtList.get(position).getUserId());
                 }
             });
 
             commentViewHolder.txtUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    feedListener.navigateToProfile(cmtList.get(position));
+                    feedListener.navigateToProfile(cmtList.get(position).getUserId());
                 }
             });
 
@@ -167,7 +169,7 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     }
 
                     commentViewHolder.likeLay.setEnabled(false);
-                    responseJsonClass.likeComment(position, cmtList.get(position).getCommentId(), commentViewHolder);
+                    responseJsonClass.likeComment(position, cmtList.get(position).getCommentId(),cmtList.get(position).getLikeCount(), commentViewHolder);
 
                 }
             });
@@ -189,7 +191,7 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             commentViewHolder.rightSwipe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    fragment.DeleteComment(position, -1, cmtList.get(position).getCommentId(), "");
+                    responseJsonClass.deleteComment(position, -1, postId, cmtList.get(position).getCommentId(), Constants.TAG_COMMENT);
                 }
             });
 
@@ -217,7 +219,7 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     public void onLikeCommentStatus(String status, int position, int likeCount, RecyclerView.ViewHolder holder) {
 
         if (status.equalsIgnoreCase("true")) {
-            Log.e("like", "- " + likeCount);
+            Log.e(TAG, "onLikeCommentStatus: " + likeCount);
 
             CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
 
@@ -255,9 +257,23 @@ public class CommentsAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         return R.id.swipe;
     }
 
+    @Override
+    public void setParentReplyDetails(int parentPosition, int childPosition, String parentId, String userName) {
+
+    }
 
     @Override
-    public void clickListen(String fragments, String way, String userid) {
-//        fragment.navigateToProfile(fragments, way, userid);
+    public void setChildReplyDetails(int parentPosition, int childPosition, String parentId, String userName) {
+        feedListener.setChildReplyDetails(parentPosition, childPosition, parentId, userName);
+    }
+
+    @Override
+    public void navigateToProfile(String userId) {
+        feedListener.navigateToProfile(userId);
+    }
+
+    @Override
+    public void deleteComment(int parentPos, int position, String postId, String replyId, String type) {
+        feedListener.deleteComment(parentPos, position, postId, replyId, Constants.TAG_REPLY);
     }
 }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.jussfun.R;
 import com.app.jussfun.base.BaseViewHolder;
 import com.app.jussfun.external.LinkEllipseTextView;
+import com.app.jussfun.helper.callback.FeedListener;
 import com.app.jussfun.helper.callback.ResponseJsonClass;
 import com.app.jussfun.model.CommentsModel;
 import com.app.jussfun.model.GetSet;
@@ -61,14 +62,9 @@ public class CommentViewHolder extends BaseViewHolder {
         recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
     }
 
+    public FeedListener listener;
 
-    public interface clickListener {
-        public void clickListen(String fragment, String way, String userid);
-    }
-
-    public clickListener listener;
-
-    public void setListener(clickListener listener) {
+    public void setFeedListener(FeedListener listener) {
         this.listener = listener;
     }
 
@@ -79,14 +75,8 @@ public class CommentViewHolder extends BaseViewHolder {
         this.PostOwnerId = PostOwnerId;
 
         ArrayList<CommentsModel.Result> list = (ArrayList<CommentsModel.Result>) object;
-
-        if (list.get(position).getCommentId().equalsIgnoreCase("")) {
-            txtLoading.setVisibility(View.VISIBLE);
-            reply.setVisibility(View.GONE);
-        } else {
-            txtLoading.setVisibility(View.GONE);
-            reply.setVisibility(View.VISIBLE);
-        }
+        txtLoading.setVisibility(View.GONE);
+        reply.setVisibility(View.VISIBLE);
 
         commentTxt.setVisibility(View.VISIBLE);
         txtUserName.setText(list.get(position).getUserName());
@@ -107,20 +97,7 @@ public class CommentViewHolder extends BaseViewHolder {
         commentTxt.setOnTextLinkClickListener(new LinkEllipseTextView.TextLinkClickListener() {
             @Override
             public void onTextLinkClick(View textView, String clickedString) {
-                if (clickedString.contains("@")) {
 
-                    String user_param = clickedString.replace("@", "");
-                    if (GetSet.getUserName().equalsIgnoreCase(user_param))
-                        listener.clickListen("profile", "user", user_param);
-                    else
-                        //Utils.getInstance().GlobalUpdate("otherprofile", "user", ""+user_param);
-                        listener.clickListen("otherprofile", "user", user_param);
-
-                } else if (clickedString.contains("#")) {
-                    String user_param = clickedString.replace("#", "");
-                    //  Utils.getInstance().GlobalUpdate("HashProfile", "tag", ""+user_param);
-                    listener.clickListen("HashProfile", "tag", user_param);
-                }
             }
         });
 
@@ -163,7 +140,7 @@ public class CommentViewHolder extends BaseViewHolder {
             viewreply_layout.setVisibility(View.GONE);
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        ReplyAdapter replyAdapter = new ReplyAdapter(context, replyList, position, list.get(position).getUserId());
+        ReplyAdapter replyAdapter = new ReplyAdapter(context, replyList, position, list.get(position).getCommentId());
         recyclerView.setAdapter(replyAdapter);
         replyAdapter.notifyDataSetChanged();
     }
@@ -217,26 +194,24 @@ public class CommentViewHolder extends BaseViewHolder {
                 replyViewHolder.replyClick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        CommentsAdapter.fragment.setChildReplyDetails(parentPos, position, replypojo.getCommentReplyId(), replylist.get(position).getUserName());
+                        listener.setChildReplyDetails(parentPos, position, parentId, replylist.get(position).getUser().getUserName());
                     }
                 });
 
                 replyViewHolder.likeLay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        if (replylist.get(position).getLiked().equalsIgnoreCase("true")) {
+                        int lcount = 0;
+                        if (replylist.get(position).getLiked() == 1) {
 
                             replyViewHolder.likeClick.setSelected(false);
-                            replylist.get(position).setLiked("false");
+                            replylist.get(position).setLiked(0);
 
-                            int lcount = 0;
-
-                            if (replylist.get(position).getLikeCount() > 0) {
-                                lcount = replylist.get(position).getLikeCount();
+                            if (replylist.get(position).getReplyLikeCount() > 0) {
+                                lcount = replylist.get(position).getReplyLikeCount();
                                 lcount--;
                             }
-                            replylist.get(position).setLikeCount(lcount);
+                            replylist.get(position).setReplyLikeCount(lcount);
 
                             if (lcount == 0)
                                 replyViewHolder.like_cnt.setVisibility(View.GONE);
@@ -252,18 +227,15 @@ public class CommentViewHolder extends BaseViewHolder {
                             }
 
                         } else {
-
                             replyViewHolder.likeClick.setSelected(true);
-                            replylist.get(position).setLiked("true");
+                            replylist.get(position).setLiked(1);
 
-                            int lcount = 0;
-
-                            lcount = replylist.get(position).getLikeCount();
+                            lcount = replylist.get(position).getReplyLikeCount();
 
 
                             lcount++;
 
-                            replylist.get(position).setLikeCount(lcount);
+                            replylist.get(position).setReplyLikeCount(lcount);
 
                             if (lcount == 0)
                                 replyViewHolder.like_cnt.setVisibility(View.GONE);
@@ -278,15 +250,15 @@ public class CommentViewHolder extends BaseViewHolder {
                             }
 
                         }
-
                         replyViewHolder.likeLay.setEnabled(false);
 
-//                        responseJsonClass.likecomment(position, replylist.get(position).getReplyId(), replyViewHolder);
+
+                        responseJsonClass.likeReply(position, replylist.get(position).getId(), parentId, lcount, replyViewHolder);
 
                     }
                 });
 
-                if (replylist.get(position).getUserId().equalsIgnoreCase(GetSet.getUserId()) || PostOwnerId.equalsIgnoreCase(GetSet.getUserId()))
+                if (replylist.get(position).getUser().getUserId().equalsIgnoreCase(GetSet.getUserId()) || PostOwnerId.equalsIgnoreCase(GetSet.getUserId()))
                     replyViewHolder.swipeLayout.setRightSwipeEnabled(true);
                 else
                     replyViewHolder.swipeLayout.setRightSwipeEnabled(false);
@@ -301,19 +273,10 @@ public class CommentViewHolder extends BaseViewHolder {
                 replyViewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, replyViewHolder.swipeLayout.findViewById(R.id.rightSwipe));
 
                 // Handling different events when swiping
-
-               /* replyViewHolder.leftSwipe.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((CommentsFragment)context).DeleteComment(parentPos,position,replylist.get(position).getReplyid(),"reply");
-                    }
-                });
-*/
-
                 replyViewHolder.rightSwipe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        CommentsAdapter.fragment.DeleteComment(parentPos, position, replylist.get(position).getReplyId(), "reply");
+                        listener.deleteComment(parentPos, position, replylist.get(position).getId(), parentId, "reply");
                     }
                 });
 
@@ -362,15 +325,15 @@ public class CommentViewHolder extends BaseViewHolder {
         // from Replyview Holder
         @Override
         public void clickListen(String fragment, String way, String userid) {
-            listener.clickListen(fragment, way, userid);
+            listener.navigateToProfile(userid);
         }
 
         @Override
         public void onLikeCommentStatus(String status, int position, int likeCount, RecyclerView.ViewHolder holder) {
 
             if (status.equalsIgnoreCase("true")) {
-                replylist.get(position).setLiked(status);                        // For when scroll update data
-                replylist.get(position).setLikeCount(likeCount);
+                replylist.get(position).setLiked(1);                        // For when scroll update data
+                replylist.get(position).setReplyLikeCount(likeCount);
 
                 ReplyViewHolder replyViewHolder = (ReplyViewHolder) holder;
 

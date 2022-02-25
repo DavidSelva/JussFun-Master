@@ -337,6 +337,9 @@ public class Constants {
     public static final String TAG_POSITION = "position";
     public static final String TAG_TITLE = "title";
     public static final String TAG_COMMENT_STATUS = "comment_status";
+    public static final String TAG_COMMENT = "comment";
+    public static final String TAG_REPLY = "reply";
+    public static final String TAG_POST = "post";
 
     /**
      * Milliseconds used for UI animations

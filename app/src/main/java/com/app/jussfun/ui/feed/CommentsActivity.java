@@ -194,20 +194,20 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         iconNoData.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.message_grey));
         txtNoData.setText(getResources().getString(R.string.befirst));
 
-        SlidrConfig config = new SlidrConfig.Builder()
+        /*SlidrConfig config = new SlidrConfig.Builder()
                 .position(SlidrPosition.LEFT)
                 .sensitivity(1f)
                 .velocityThreshold(2400)
                 .distanceThreshold(0.25f)
                 .build();
-        Slidr.attach(this, config);
+        Slidr.attach(this, config);*/
         Validation("");
         commentEdit.setTypeface(typeface);
         pgsBar.setVisibility(View.GONE);
 
         commentList.clear();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        commentAdapter = new CommentsAdapter(this, commentList, postOwnerId, this);
+        commentAdapter = new CommentsAdapter(this, commentList, postOwnerId, postId, this, responseJsonClass);
         mRecyclerView.setAdapter(commentAdapter);
         nestedScrollView.setVisibility(View.GONE);
 
@@ -254,7 +254,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         if (!TextUtils.isEmpty(postDescription)) {
             descriptionLay.setVisibility(View.VISIBLE);
             Glide.with(mContext)
-                    .load(postOwnerImage)
+                    .load(Constants.IMAGE_URL + postOwnerImage)
                     .placeholder(R.drawable.avatar)
                     .into(userImage);
             txtDescription.setIsLinkable(true);
@@ -371,11 +371,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                             commentEdit.setHint(mContext.getString(R.string.addcomment));
                             nullLay.setVisibility(View.GONE);
                         }
-                        if (commentEnabled == 0) {
-                            commentLay.setVisibility(View.VISIBLE);
-                        } else {
-                            commentLay.setVisibility(View.GONE);
-                        }
                     } else if (response.body().getMessage() != null && response.body().getMessage().contains("Constants.ADMIN_DISABLED")) {
 //                        App.makeToast(mContext.getString(R.string.admin_blocked_desc));
                         call.cancel();
@@ -383,17 +378,17 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         isLoading = true;
                         //if comments is empty , show message
                         if (commentList.size() == 0) {
-//                            emptyLay.setVisibility(View.VISIBLE);
-//                            commentEdit.setHint(mContext.getString(R.string.befirst));
+                            commentEdit.setHint(mContext.getString(R.string.befirst));
                         } else {
                             nullLay.setVisibility(View.GONE);
                             commentEdit.setHint(mContext.getString(R.string.addcomment));
                         }
-                        if (commentEnabled == 0) {
-                            commentLay.setVisibility(View.VISIBLE);
-                        } else {
-                            commentLay.setVisibility(View.GONE);
-                        }
+                    }
+
+                    if (commentEnabled == 1) {
+                        commentLay.setVisibility(View.VISIBLE);
+                    } else {
+                        commentLay.setVisibility(View.GONE);
                     }
                 } else {
                     makeToast(getString(R.string.something_went_wrong));
@@ -425,7 +420,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
-    public void onDeleteCommentStatus(String status, String cmtCount, int cmtParentPosition) {
+    public void onDeleteCommentStatus(String status, int cmtParentPosition) {
 
         if (status.equalsIgnoreCase("true")) {
 
@@ -437,13 +432,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             } else {
                 commentEdit.setHint(mContext.getString(R.string.addcomment));
             }
-
-           /* if (!type.equalsIgnoreCase("challenge")) {
-                if (homeParentPosition != -1)
-                    Utils.getInstance().updateCount(cmtCount, homeParentPosition);
-                else
-                    Utils.getInstance().updateCountInPostDetail(cmtCount, homeParentPosition);
-            }*/
         }
 
     }
@@ -491,7 +479,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentAdapter.notifyItemInserted(commentList.size() - 1);
         commentEdit.setHint(mContext.getString(R.string.addcomment));
 
-        responseJsonClass.addComment(postId, commentEdit.getText().toString().trim(), type);
+        responseJsonClass.addComment(postId, commentEdit.getText().toString().trim(), Constants.TAG_POST);
         commentEdit.setText(""); // after add comment Edittext shoulbe clear .
         AppUtils.hideKeyboard(this);  // add add comment keyboard shouldbe close
         mRecyclerView.smoothScrollToPosition(commentList.size() - 1);
@@ -512,8 +500,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public void navigateToProfile(CommentsModel.Result resultItem) {
-        if (resultItem.getUserId().equals(GetSet.getUserId())) {
+    public void navigateToProfile(String userId) {
+        if (userId.equals(GetSet.getUserId())) {
             Intent profile = new Intent(mContext, MyProfileActivity.class);
             profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             profile.putExtra(Constants.TAG_PARTNER_ID, GetSet.getUserId());
@@ -521,13 +509,18 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             startActivity(profile);
         } else {
             Intent profile = new Intent(mContext, OthersProfileActivity.class);
-            profile.putExtra(Constants.TAG_PARTNER_ID, resultItem.getUserId());
-            profile.putExtra(Constants.TAG_PARTNER_NAME, resultItem.getUserName());
-            profile.putExtra(Constants.TAG_PARTNER_IMAGE, resultItem.getUserImage());
+            profile.putExtra(Constants.TAG_PARTNER_ID, userId);
+//            profile.putExtra(Constants.TAG_PARTNER_NAME, resultItem.getUserName());
+//            profile.putExtra(Constants.TAG_PARTNER_IMAGE, resultItem.getUserImage());
             profile.putExtra(Constants.TAG_FROM, Constants.TAG_MESSAGE);
             profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(profile);
         }
+    }
+
+    @Override
+    public void deleteComment(int parentPos, int position, String postId, String replyId, String type) {
+        responseJsonClass.deleteComment(parentPos, position, postId, replyId, Constants.TAG_REPLY);
     }
 
 
@@ -542,8 +535,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         this.userName = userName;
 
         reply_postlayout.setVisibility(View.VISIBLE);
-        replyToUsername.setText("Replying to " + userName);
-        commentEdit.setText("@" + userName + " ");
+        replyToUsername.setText(mContext.getString(R.string.replying));
+        commentEdit.setText("");
         commentEdit.setSelection(commentEdit.getText().length());
 
         openKeyboard();
@@ -558,13 +551,15 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         /// add comment to first item  into recyclerview
 
         CommentsModel.Reply reply = new CommentsModel().new Reply();
-        reply.setUserId(GetSet.getUserId());
-        reply.setUserName(GetSet.getUserName());
-        reply.setUserImage(GetSet.getUserImage());
-        reply.setReplyId("");
+        CommentsModel.User user = new CommentsModel().new User();
+        user.setUserId(GetSet.getUserId());
+        user.setUserName(GetSet.getUserName());
+        user.setUserImage(GetSet.getUserImage());
+        reply.setUser(user);
+        reply.setId("");
         reply.setComments("" + commentEdit.getText().toString().trim());
-        reply.setLiked("");
-        reply.setLikeCount(0);
+        reply.setLiked(0);
+        reply.setReplyLikeCount(0);
 
         if (commentList.get(parentPosition).getReply() == null) {
             commentList.get(parentPosition).setReply(new ArrayList<>());
@@ -572,7 +567,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentList.get(parentPosition).getReply().add(reply);
         commentList.get(parentPosition).setReplyVisible(true);
         commentAdapter.notifyDataSetChanged();
-        responseJsonClass.addReply(postId, commentEdit.getText().toString(), parentId, parentPosition, childPosition, type);
+        responseJsonClass.addReply(postId, commentEdit.getText().toString(), commentList.get(parentPosition).getCommentId(), parentPosition, childPosition, Constants.TAG_REPLY);
 
         commentEdit.setText("");              // after add comment Edittext shoulbe clear .
 
@@ -580,13 +575,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
         isReply = false;
     }
-
-
-    // For delete comment
-    public void DeleteComment(int cmtparentPosition, int childPosition, String commentId, String type) {
-//        responseJsonClass.deleteComment(cmtparentPosition, childPosition, commentId, postId, type);
-    }
-
 
     @Override
     public void onClick(View view) {

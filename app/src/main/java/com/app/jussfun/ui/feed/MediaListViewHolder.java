@@ -110,8 +110,8 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public TextView txtStarCount;
     @BindView(R.id.btnShare)
     public LinearLayout btnShare;
-    @BindView(R.id.btnDelete)
-    public LinearLayout btnDelete;
+    @BindView(R.id.btnMore)
+    public LinearLayout btnMore;
     @BindView(R.id.txtPostTime)
     TextView txtPostTime;
     @BindView(R.id.descriptionLay)
@@ -152,11 +152,6 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
         txtUserName.setText(resultsItem.getUserName());
         txtPostTime.setText("" + resultsItem.getFeedTime());
-        if (resultsItem.getUserId().equals(GetSet.getUserId())) {
-            btnDelete.setVisibility(View.VISIBLE);
-        } else {
-            btnDelete.setVisibility(View.GONE);
-        }
 
         txtDescription.setIsLinkable(true);
         txtDescription.setText(resultsItem.getDescription().trim());

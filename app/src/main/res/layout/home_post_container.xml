@@ -111,41 +111,6 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="@dimen/size_30"
-                    android:layout_height="@dimen/size_30"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:src="@drawable/delete"
-                    android:visibility="visible"
-                    app:tint="@color/colorPrimaryText" />
-
-                <TextView
-                    android:id="@+id/txtDelete"
-                    style="@style/TextSecondaryLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:includeFontPadding="false"
-                    android:text="@string/delete"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/text_small" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/btnShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,6 +139,26 @@
                     android:text="@string/share"
                     android:textAlignment="center"
                     android:textSize="@dimen/text_small" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/iv_normal"
+                    android:layout_height="@dimen/iv_normal"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/more"
+                    android:visibility="visible"
+                    app:tint="@color/colorPrimaryText" />
 
             </LinearLayout>
 
