@@ -117,6 +117,13 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             });
 
+            holder.txtFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onFollowClicked(holder, resultsItem, holder.getAdapterPosition(), holder.txtFollow.getText().toString());
+                }
+            });
+
             holder.btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

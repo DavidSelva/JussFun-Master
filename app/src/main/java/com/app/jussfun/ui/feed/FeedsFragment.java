@@ -19,6 +19,8 @@ package com.app.jussfun.ui.feed;
 import static android.Manifest.permission.CAMERA;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -65,18 +67,20 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.callback.OnMenuClickListener;
-import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.helper.PermissionsUtils;
 import com.app.jussfun.helper.StorageUtils;
+import com.app.jussfun.helper.callback.OnMenuClickListener;
+import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
 import com.app.jussfun.utils.ApiClient;
@@ -626,8 +630,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
                             if (offsetCnt == 0) {
                                 nullLay.setVisibility(View.VISIBLE);
                                 nullText.setText(mContext.getString(R.string.no_feeds_description));
-                            }
-                            else
+                            } else
                                 nullLay.setVisibility(View.GONE);
                         }
                     }
@@ -1029,12 +1032,17 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
     @Override
     public void onShareClicked(View view, Feeds resultsItem, int adapterPosition) {
-        shareFeed(resultsItem.getFeedId());
+        shareFeed(resultsItem.getFeedId(), false);
     }
 
     @Override
     public void onDeleteClicked(View view, Feeds resultsItem, int adapterPosition) {
         deleteFeed(resultsItem, adapterPosition);
+    }
+
+    @Override
+    public void onFollowClicked(MediaListViewHolder mediaListViewHolder, Feeds resultsItem, int adapterPosition, String followStatus) {
+        AppUtils.followUnfollow(mContext, mediaListViewHolder, resultsItem, followStatus);
     }
 
     private void openMenu(View view, Feeds resultsItem, int adapterPosition) {
@@ -1051,7 +1059,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         if (feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
             popupMenu.getMenu().getItem(0).setVisible(true);
             popupMenu.getMenu().getItem(1).setVisible(false);
-        }else  {
+        } else {
             popupMenu.getMenu().getItem(0).setVisible(false);
             popupMenu.getMenu().getItem(1).setVisible(true);
         }
@@ -1068,11 +1076,14 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getTitle().toString().equals(getString(R.string.delete_feed))) {
+                if (item.getItemId() == R.id.menuDelete) {
                     deleteFeed(resultsItem, adapterPosition);
                     popupMenu.dismiss();
-                } else if (item.getTitle().toString().equals(getString(R.string.share))) {
-                    shareFeed(resultsItem.getFeedId());
+                } else if (item.getItemId() == R.id.menuReport) {
+                    AppUtils appUtils = new AppUtils(mContext);
+                    appUtils.openReportDialog(resultsItem.getFeedId(), ((MainActivity) getActivity()));
+                } else if (item.getItemId() == R.id.menuLink) {
+                    shareFeed(resultsItem.getFeedId(), true);
                 }
                 return true;
             }
@@ -1080,20 +1091,29 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         popupMenu.show();
     }
 
-    private void shareFeed(String feedId) {
+    private void shareFeed(String feedId, boolean copyLink) {
         Task<ShortDynamicLink> shortLinkTask = appUtils.getFeedDynamicLink(feedId);
 
         shortLinkTask.addOnCompleteListener(getActivity(), new OnCompleteListener<ShortDynamicLink>() {
             @Override
             public void onComplete(@NonNull Task<ShortDynamicLink> task) {
                 if (task.isSuccessful()) {
-                    // Short link created
-                    Uri shortLink = task.getResult().getShortLink();
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    String msg = String.format(getString(R.string.share_feed_description), getString(R.string.app_name), shortLink);
-                    intent.putExtra(Intent.EXTRA_TEXT, msg);
-                    startActivity(Intent.createChooser(intent, getString(R.string.share_link)));
+                    if (copyLink) {
+                        Uri shortLink = task.getResult().getShortLink();
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        String msg = String.format(getString(R.string.invite_description), getString(R.string.app_name), shortLink);
+                        ClipData clip = ClipData.newPlainText("label", "" + msg);
+                        clipboard.setPrimaryClip(clip);
+                        App.makeToast(mContext, mContext.getString(R.string.copied_successfully));
+                    } else {
+                        // Short link created
+                        Uri shortLink = task.getResult().getShortLink();
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        String msg = String.format(getString(R.string.share_feed_description), getString(R.string.app_name), shortLink);
+                        intent.putExtra(Intent.EXTRA_TEXT, msg);
+                        startActivity(Intent.createChooser(intent, getString(R.string.share_link)));
+                    }
                 } else {
                     // Error
                     // ...

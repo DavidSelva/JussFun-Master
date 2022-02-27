@@ -3,6 +3,8 @@ package com.app.jussfun.ui.feed;
 import static android.Manifest.permission.CAMERA;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,6 +47,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
@@ -698,12 +701,17 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     @Override
     public void onShareClicked(View view, Feeds resultsItem, int adapterPosition) {
-        shareFeed(resultsItem.getFeedId());
+        shareFeed(resultsItem.getFeedId(), false);
     }
 
     @Override
     public void onDeleteClicked(View view, Feeds resultsItem, int adapterPosition) {
         deleteFeed(resultsItem, adapterPosition);
+    }
+
+    @Override
+    public void onFollowClicked(MediaListViewHolder mediaListViewHolder, Feeds resultsItem, int adapterPosition, String followStatus) {
+        AppUtils.followUnfollow(mContext, mediaListViewHolder, resultsItem, followStatus);
     }
 
     private void openMenu(View view, Feeds resultsItem, int adapterPosition) {
@@ -720,7 +728,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         if (feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
             popupMenu.getMenu().getItem(0).setVisible(true);
             popupMenu.getMenu().getItem(1).setVisible(false);
-        }else  {
+        } else {
             popupMenu.getMenu().getItem(0).setVisible(false);
             popupMenu.getMenu().getItem(1).setVisible(true);
         }
@@ -737,11 +745,14 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getTitle().toString().equals(getString(R.string.delete_feed))) {
+                if (item.getItemId() == R.id.menuDelete) {
                     deleteFeed(resultsItem, adapterPosition);
                     popupMenu.dismiss();
-                } else if (item.getTitle().toString().equals(getString(R.string.report))) {
-//                    shareFeed(resultsItem.getFeedId());
+                } else if (item.getItemId() == R.id.menuReport) {
+                    AppUtils appUtils = new AppUtils(mContext);
+                    appUtils.openReportDialog(resultsItem.getFeedId(), FeedsActivity.this);
+                } else if (item.getItemId() == R.id.menuLink) {
+                    shareFeed(resultsItem.getFeedId(), true);
                 }
                 return true;
             }
@@ -749,20 +760,29 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         popupMenu.show();
     }
 
-    private void shareFeed(String feedId) {
+    private void shareFeed(String feedId, boolean copyLink) {
         Task<ShortDynamicLink> shortLinkTask = appUtils.getFeedDynamicLink(feedId);
 
         shortLinkTask.addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
             @Override
             public void onComplete(@NonNull Task<ShortDynamicLink> task) {
                 if (task.isSuccessful()) {
-                    // Short link created
-                    Uri shortLink = task.getResult().getShortLink();
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    String msg = String.format(getString(R.string.share_feed_description), getString(R.string.app_name), shortLink);
-                    intent.putExtra(Intent.EXTRA_TEXT, msg);
-                    startActivity(Intent.createChooser(intent, getString(R.string.share_link)));
+                    if (copyLink) {
+                        Uri shortLink = task.getResult().getShortLink();
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        String msg = String.format(getString(R.string.invite_description), getString(R.string.app_name), shortLink);
+                        ClipData clip = ClipData.newPlainText("label", "" + msg);
+                        clipboard.setPrimaryClip(clip);
+                        App.makeToast(getString(R.string.copied_successfully));
+                    } else {
+                        // Short link created
+                        Uri shortLink = task.getResult().getShortLink();
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        String msg = String.format(getString(R.string.share_feed_description), getString(R.string.app_name), shortLink);
+                        intent.putExtra(Intent.EXTRA_TEXT, msg);
+                        startActivity(Intent.createChooser(intent, getString(R.string.share_link)));
+                    }
                 } else {
                     // Error
                     // ...
@@ -775,6 +795,34 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 Log.e(TAG, "onFailure: " + e.getMessage());
             }
         });
+    }
+
+    private void reportFeed(String feedId) {
+        if (NetworkReceiver.isConnected()) {
+            Call<Map<String, String>> call = apiInterface.deleteFeed(GetSet.getUserId(), feedId);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            /*feedsList.remove(adapterPosition);
+                            feedsAdapter.notifyItemRemoved(adapterPosition);
+                            feedsAdapter.notifyItemRangeChanged(adapterPosition, feedsList.size());*/
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "uploadImage: " + t.getMessage());
+                    call.cancel();
+                    hideLoading();
+                }
+            });
+        }
+
     }
 
     private void deleteFeed(Feeds item, int adapterPosition) {

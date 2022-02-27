@@ -46,6 +46,10 @@ import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -235,6 +239,20 @@ public class EditProfileActivity extends BaseFragmentActivity {
             request.setProfileId(GetSet.getUserId());
             request.setName(edtName.getText().toString());
             request.setPayPalId("" + edtPayPal.getText());
+            request.setLocation("" + txtLocation.getText());
+            /*Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DAY_OF_MONTH, 9);
+            calendar.set(Calendar.MONTH, 8 - 1);
+            calendar.set(Calendar.YEAR, 1992);
+            calendar.set(Calendar.HOUR, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            String strAge = "" + AppUtils.calculateAge(calendar.getTime());
+            String strDob = displayFormat.format(calendar.getTime());
+            request.setAge(strAge);
+            request.setDob(strDob);*/
             request.setLocation("" + txtLocation.getText());
             Call<ProfileResponse> call = apiInterface.getProfile(request);
             call.enqueue(new Callback<ProfileResponse>() {

@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,27 +28,42 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.CryptLib;
 import com.app.jussfun.helper.LocaleManager;
+import com.app.jussfun.helper.NetworkReceiver;
+import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.model.Report;
 import com.app.jussfun.ui.HomeFragment;
+import com.app.jussfun.ui.MainActivity;
+import com.app.jussfun.ui.feed.FeedsActivity;
+import com.app.jussfun.ui.feed.MediaListViewHolder;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
@@ -65,12 +81,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.NoSuchPaddingException;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AppUtils {
 
@@ -83,6 +108,7 @@ public class AppUtils {
     public static final String UTC_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static boolean isExternalPlay = false;
     private static String currentStatus = Constants.ONLINE;
+    int displayHeight, displayWidth;
 
     public static List<String> smileyList = new ArrayList<String>() {{
         add("smile");
@@ -547,6 +573,124 @@ public class AppUtils {
             return "" + Html.fromHtml(htmlString, Html.FROM_HTML_MODE_LEGACY);
         } else {
             return "" + Html.fromHtml(htmlString);
+        }
+    }
+
+    public void openReportDialog(String feedId, AppCompatActivity activity) {
+        BottomSheetDialog reportDialog;
+        View sheetView = activity.getLayoutInflater().inflate(R.layout.bottom_sheet_report, null);
+        reportDialog = new BottomSheetDialog(activity, R.style.Bottom_FilterDialog); // Style here
+        reportDialog.setContentView(sheetView);
+        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) sheetView.getParent());
+//        int maxHeight = (getDisplayHeight(activity) * 80) / 100;
+//        mBehavior.setPeekHeight(maxHeight);
+        sheetView.requestLayout();
+        RecyclerView reportsView = sheetView.findViewById(R.id.reportView);
+        reportDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+            }
+        });
+        ReportAdapter reportAdapter = new ReportAdapter(activity, AdminData.reportList, feedId, reportDialog);
+        reportsView.setLayoutManager(new LinearLayoutManager(activity));
+        reportsView.setAdapter(reportAdapter);
+        reportAdapter.notifyDataSetChanged();
+        reportDialog.show();
+    }
+
+    public class ReportAdapter extends RecyclerView.Adapter {
+        private final AppCompatActivity activity;
+        private List<Report> reportList = new ArrayList<>();
+        private RecyclerView.ViewHolder viewHolder;
+        BottomSheetDialog reportDialog;
+        String feedId;
+
+        public ReportAdapter(AppCompatActivity activity, List<Report> reportList, String feedId, BottomSheetDialog reportDialog) {
+            this.activity = activity;
+            this.reportList = reportList;
+            this.reportDialog = reportDialog;
+            this.feedId = feedId;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(context)
+                    .inflate(R.layout.item_report, parent, false);
+            viewHolder = new ReportAdapter.MyViewHolder(itemView);
+
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ((ReportAdapter.MyViewHolder) holder).txtReport.setText(reportList.get(position).getTitle());
+        }
+
+        @Override
+        public int getItemCount() {
+            return reportList.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.txtReport)
+            TextView txtReport;
+            @BindView(R.id.itemReportLay)
+            LinearLayout itemReportLay;
+
+            public MyViewHolder(View view) {
+                super(view);
+                ButterKnife.bind(this, view);
+            }
+
+            @OnClick(R.id.itemReportLay)
+            public void onViewClicked() {
+                App.preventMultipleClick(itemReportLay);
+                if (activity instanceof FeedsActivity) {
+                    FeedsActivity feedsActivity = (FeedsActivity) activity;
+                    reportDialog.dismiss();
+                    feedsActivity.onReportSend(feedId, reportList.get(getAdapterPosition()).getTitle());
+                } else {
+                    MainActivity feedsActivity = (MainActivity) activity;
+                    reportDialog.dismiss();
+                    feedsActivity.onReportSend(feedId, reportList.get(getAdapterPosition()).getTitle());
+                }
+            }
+        }
+    }
+
+    public static void followUnfollow(Context mContext, MediaListViewHolder mediaListViewHolder, Feeds resultsItem, String followStatus) {
+        if (NetworkReceiver.isConnected()) {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            HashMap<String, String> requestMap = new HashMap<>();
+            requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+            requestMap.put(Constants.TAG_INTEREST_USER_ID, resultsItem.getUserId());
+            requestMap.put(Constants.TAG_INTERESTED, "" + (followStatus.equals(mContext.getString(R.string.follow)) ? 1 : 0));
+            Call<Map<String, String>> call = apiInterface.interestOnUser(requestMap);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> responseMap = response.body();
+                        if (responseMap.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            resultsItem.setFriend(Boolean.parseBoolean(responseMap.get(Constants.TAG_FRIEND)));
+                            if (followStatus.equals(mContext.getString(R.string.follow))) {
+                                mediaListViewHolder.txtFollow.setText(mContext.getString(R.string.unfollow));
+                                resultsItem.setInterestedByMe(true);
+                            } else {
+                                resultsItem.setInterestedByMe(false);
+                                mediaListViewHolder.txtFollow.setText(mContext.getString(R.string.follow));
+                            }
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
     }
 

@@ -128,6 +128,10 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public TextView txtCommentCount;
     @BindView(R.id.txtComment)
     public TextView txtComment;
+    @BindView(R.id.followLay)
+    public LinearLayout followLay;
+    @BindView(R.id.txtFollow)
+    public TextView txtFollow;
 
     public List<Feeds> feedsList = new ArrayList<>();
     public clickListener listener;
@@ -152,9 +156,24 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
         txtUserName.setText(resultsItem.getUserName());
         txtPostTime.setText("" + resultsItem.getFeedTime());
+        if (resultsItem.getUserId().equals(GetSet.getUserId())) {
+            followLay.setVisibility(View.GONE);
+        } else {
+            followLay.setVisibility(View.VISIBLE);
+        }
+        if (resultsItem.isFriend() || resultsItem.isInterestedByMe()) {
+            txtFollow.setText(mContext.getString(R.string.unfollow));
+        } else {
+            txtFollow.setText(mContext.getString(R.string.follow));
+        }
 
         txtDescription.setIsLinkable(true);
-        txtDescription.setText(resultsItem.getDescription().trim());
+        if (TextUtils.isEmpty(resultsItem.getDescription().trim())) {
+            descriptionLay.setVisibility(View.GONE);
+        } else {
+            descriptionLay.setVisibility(View.VISIBLE);
+            txtDescription.setText(resultsItem.getDescription().trim());
+        }
         txtDescription.post(
                 new Runnable() {
                     @Override

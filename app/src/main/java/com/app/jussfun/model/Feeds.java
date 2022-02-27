@@ -59,6 +59,10 @@ public class Feeds {
     @SerializedName("comment_status")
     @Expose
     private int commentStatus;
+    @SerializedName("interested_by_me")
+    private boolean interestedByMe;
+    @SerializedName("friend")
+    private boolean isFriend;
 
     public String getFeedId() {
         return feedId;
@@ -202,5 +206,21 @@ public class Feeds {
 
     public void setCommentStatus(int commentStatus) {
         this.commentStatus = commentStatus;
+    }
+
+    public boolean isInterestedByMe() {
+        return interestedByMe;
+    }
+
+    public void setInterestedByMe(boolean interestedByMe) {
+        this.interestedByMe = interestedByMe;
+    }
+
+    public boolean isFriend() {
+        return isFriend;
+    }
+
+    public void setFriend(boolean friend) {
+        isFriend = friend;
     }
 }

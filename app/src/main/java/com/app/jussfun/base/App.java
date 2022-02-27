@@ -162,6 +162,10 @@ public class App extends android.app.Application implements LifecycleObserver, C
         Toast.makeText(instance.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    public static void makeToast(Context mContext, String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    }
+
     public static void makeCustomToast(String message) {
         Toast toast = Toast.makeText(instance, message, Toast.LENGTH_SHORT);
         toast.getView()

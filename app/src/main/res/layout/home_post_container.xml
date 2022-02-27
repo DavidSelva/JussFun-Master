@@ -15,7 +15,6 @@
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemLay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -70,8 +69,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:orientation="horizontal"
                     android:visibility="gone">
+
+                    <View
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rounded_solid_white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp" />
 
                     <TextView
                         android:id="@+id/txtFollow"
@@ -166,6 +177,36 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/descriptionLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.app.jussfun.external.CustomLinkReadMoreTextView
+            android:id="@+id/txtDescription"
+            style="@style/TextPrimaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/size_20"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/size_0"
+            android:text=""
+            android:textAlignment="viewStart"
+            android:textColorLink="@color/colorPrimary"
+            android:textDirection="locale" />
+
+        <com.app.jussfun.external.CustomLinkReadMoreTextView
+            android:id="@+id/readMoreTextView"
+            style="@style/TextPrimaryLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColorLink="@color/colorPrimary"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -196,8 +237,7 @@
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/home_imageholder" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -495,35 +535,5 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/descriptionLay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="vertical">
-
-        <com.app.jussfun.external.CustomLinkReadMoreTextView
-            android:id="@+id/txtDescription"
-            style="@style/TextPrimaryLight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp"
-            android:fontFamily="@font/font_regular"
-            android:text=""
-            android:textAlignment="viewStart"
-            android:textColorLink="@color/colorPrimary"
-            android:textDirection="locale" />
-
-        <com.app.jussfun.external.CustomLinkReadMoreTextView
-            android:id="@+id/readMoreTextView"
-            style="@style/TextPrimaryLight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColorLink="@color/colorPrimary"
-            android:visibility="gone" />
-    </LinearLayout>
 
 </LinearLayout>

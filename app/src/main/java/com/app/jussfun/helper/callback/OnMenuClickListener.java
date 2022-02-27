@@ -3,6 +3,7 @@ package com.app.jussfun.helper.callback;
 import android.view.View;
 
 import com.app.jussfun.model.Feeds;
+import com.app.jussfun.ui.feed.MediaListViewHolder;
 
 public interface OnMenuClickListener {
 
@@ -15,4 +16,6 @@ public interface OnMenuClickListener {
     void onShareClicked(View view, Feeds resultsItem, int adapterPosition);
 
     void onDeleteClicked(View view, Feeds resultsItem, int adapterPosition);
+
+    void onFollowClicked(MediaListViewHolder mediaListViewHolder, Feeds resultsItem, int adapterPosition, String followStatus);
 }

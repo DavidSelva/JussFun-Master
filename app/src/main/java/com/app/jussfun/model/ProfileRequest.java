@@ -27,6 +27,10 @@ public class ProfileRequest {
     private String interestNotification;
     @SerializedName("location")
     private String location;
+    @SerializedName("age")
+    private String age;
+    @SerializedName("dob")
+    private String dob;
 
     public String getUserId() {
         return userId;
@@ -122,5 +126,21 @@ public class ProfileRequest {
 
     public void setInterestNotification(String interestNotification) {
         this.interestNotification = interestNotification;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 }

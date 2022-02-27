@@ -713,5 +713,7 @@
     <string name="replying_to">Replying to</string>
     <string name="replying">Replying...</string>
     <string name="report">Report</string>
+    <string name="copy_link">Copy link</string>
+    <string name="copied_successfully">Copied successfully</string>
 
 </resources>

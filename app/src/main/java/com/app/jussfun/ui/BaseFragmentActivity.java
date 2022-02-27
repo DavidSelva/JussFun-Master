@@ -21,6 +21,8 @@ import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.utils.ApiClient;
+import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;
@@ -29,6 +31,11 @@ import com.app.jussfun.utils.SharedPref;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public abstract class BaseFragmentActivity extends AppCompatActivity implements NetworkReceiver.ConnectivityReceiverListener {
@@ -222,5 +229,31 @@ public abstract class BaseFragmentActivity extends AppCompatActivity implements 
             overrideConfiguration.uiMode = uiMode;
         }
         super.applyOverrideConfiguration(overrideConfiguration);
+    }
+
+    public void onReportSend(String feedId, String title) {
+        App.makeToast(getString(R.string.reported_successfully));
+        if (NetworkReceiver.isConnected()) {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<Map<String, String>> call = apiInterface.reportFeed(GetSet.getUserId(), feedId, title);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            App.makeToast(getString(R.string.reported_successfully));
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "onReportSend: " + t.getMessage());
+                    call.cancel();
+                }
+            });
+        }
     }
 }

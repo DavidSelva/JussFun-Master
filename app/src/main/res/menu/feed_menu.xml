@@ -2,9 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:title="@string/delete_feed"
+        android:id="@+id/menuDelete"
         app:showAsAction="always" />
     <item
-        android:orderInCategory="100"
         android:title="@string/report"
+        android:id="@+id/menuReport"
+        app:showAsAction="ifRoom" />
+    <item
+        android:title="@string/copy_link"
+        android:id="@+id/menuLink"
         app:showAsAction="ifRoom" />
 </menu>
