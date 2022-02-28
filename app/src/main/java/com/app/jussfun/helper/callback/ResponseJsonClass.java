@@ -243,7 +243,7 @@ public class ResponseJsonClass {
     }
 
     public void deleteComment(int position, int childPosition, String postId, String commentId, String type) {
-        Call<Map<String, String>> call = apiService.deleteComment(GetSet.getUserId(), commentId, postId);
+        Call<Map<String, String>> call = apiService.deleteComment(GetSet.getUserId(), postId, commentId);
 
         call.enqueue(new Callback<Map<String, String>>() {
             @Override

@@ -70,6 +70,7 @@ import com.app.jussfun.model.ReferFriendResponse;
 import com.app.jussfun.model.RenewalRequest;
 import com.app.jussfun.model.SignInRequest;
 import com.app.jussfun.model.SignInResponse;
+import com.app.jussfun.ui.feed.CommentsActivity;
 import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.ui.feed.FeedsFragment;
 import com.app.jussfun.utils.AdminData;
@@ -235,6 +236,14 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                     }
                 }
             }
+        } else if (from != null && from.equals(Constants.TAG_COMMENT_FEEDS) && getIntent().hasExtra(Constants.TAG_FEED_ID)) {
+            Intent feedIntent = new Intent(getApplicationContext(), CommentsActivity.class);
+            feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+            feedIntent.putExtra(Constants.TAG_FEED_ID, getIntent().getStringExtra(Constants.TAG_FEED_ID));
+            feedIntent.putExtra(Constants.TAG_FROM, getIntent().getStringExtra(Constants.NOTIFICATION));
+            startActivity(feedIntent);
+
         } else if (getIntent().hasExtra(Constants.TAG_FEED_ID)) {
             Intent feedIntent = new Intent(getApplicationContext(), FeedsActivity.class);
             feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

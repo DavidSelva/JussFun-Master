@@ -41,7 +41,10 @@ import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.FeedListener;
 import com.app.jussfun.helper.callback.ResponseJsonClass;
 import com.app.jussfun.model.CommentsModel;
+import com.app.jussfun.model.Feeds;
+import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
 import com.app.jussfun.utils.ApiClient;
@@ -49,9 +52,6 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +90,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     String parentId = "", userName = "";                     // variabls for Reply comment
     AppUtils utils;                                         // For call showsoftkeyboard method
 
-    String postId = "", postOwnerId = "", type = "", postOwnerName, postOwnerImage, postDescription;
+    String postId = "", postOwnerId = "", type = Constants.TAG_POST, postOwnerName, postOwnerImage, postDescription;
     private int commentEnabled = 0;
     int homeParentPosition;
     private Context mContext;
@@ -154,14 +154,20 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         utils = new AppUtils(this);
         // get postid from home post page
         if (getIntent() != null) {
-            postOwnerId = getIntent().getStringExtra(Constants.TAG_USER_ID);
-            postId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
-            homeParentPosition = getIntent().getIntExtra("parentposition", -1);
-            type = getIntent().getStringExtra("type");
-            postOwnerName = getIntent().getStringExtra(Constants.TAG_USER_NAME);
-            postOwnerImage = getIntent().getStringExtra(Constants.TAG_USER_IMAGE);
-            postDescription = getIntent().getStringExtra(Constants.TAG_DESCRIPTION);
-            commentEnabled = getIntent().getIntExtra("commentEnabled", 0);
+            if (getIntent().hasExtra(Constants.TAG_FROM) && getIntent().getStringExtra(Constants.TAG_FROM).equals(Constants.NOTIFICATION)) {
+                postId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
+            } else if (getIntent().hasExtra(Constants.NOTIFICATION) && getIntent().getStringExtra(Constants.NOTIFICATION).equals(Constants.TAG_COMMENT_FEEDS)) {
+                postId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
+            } else {
+                postOwnerId = getIntent().getStringExtra(Constants.TAG_USER_ID);
+                postId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
+                homeParentPosition = getIntent().getIntExtra("parentposition", -1);
+                type = getIntent().getStringExtra("type");
+                postOwnerName = getIntent().getStringExtra(Constants.TAG_USER_NAME);
+                postOwnerImage = getIntent().getStringExtra(Constants.TAG_USER_IMAGE);
+                postDescription = getIntent().getStringExtra(Constants.TAG_DESCRIPTION);
+                commentEnabled = getIntent().getIntExtra("commentEnabled", 0);
+            }
         }
 
         Typeface typeface;
@@ -205,19 +211,20 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentEdit.setTypeface(typeface);
         pgsBar.setVisibility(View.GONE);
 
-        commentList.clear();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        commentAdapter = new CommentsAdapter(this, commentList, postOwnerId, postId, this, responseJsonClass);
-        mRecyclerView.setAdapter(commentAdapter);
-        nestedScrollView.setVisibility(View.GONE);
-
         searchTags();
 
         // get comment post data from service
-        if (NetworkReceiver.isConnected())
-            LoadComments(offsetCnt, limitCnt);
-        else
-            pgsBar.setVisibility(View.GONE);
+        if (getIntent().hasExtra(Constants.TAG_FROM) && getIntent().getStringExtra(Constants.TAG_FROM).equals(Constants.NOTIFICATION)) {
+            getFeedInfo(postId);
+        } else if (getIntent().hasExtra(Constants.NOTIFICATION) && getIntent().getStringExtra(Constants.NOTIFICATION).equals(Constants.TAG_SCOPE)) {
+            getFeedInfo(postId);
+        } else {
+            setAdapter();
+            if (NetworkReceiver.isConnected())
+                LoadComments(offsetCnt, limitCnt);
+            else
+                pgsBar.setVisibility(View.GONE);
+        }
 
         // for page scrolling listener
         ScrollMethod();
@@ -248,6 +255,51 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 return false;
             }
         });
+    }
+
+    private void setAdapter() {
+        commentList.clear();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        commentAdapter = new CommentsAdapter(this, commentList, postOwnerId, postId, this, responseJsonClass);
+        mRecyclerView.setAdapter(commentAdapter);
+        nestedScrollView.setVisibility(View.GONE);
+    }
+
+    private void getFeedInfo(String feedId) {
+        if (NetworkReceiver.isConnected()) {
+//            showLoading();
+            Map<String, String> requestMap = new HashMap<>();
+            requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+            if (feedId != null) {
+                requestMap.put(Constants.TAG_FEED_ID, feedId);
+                requestMap.put(Constants.TAG_FOLLOWER_ID, "");
+            }
+            requestMap.put(Constants.TAG_LIMIT, "" + 0);
+            requestMap.put(Constants.TAG_OFFSET, "" + (offsetCnt * limitCnt));
+
+            Call<FeedsModel> homeApiCall = apiService.getHomeFeeds(requestMap);
+            homeApiCall.enqueue(new Callback<FeedsModel>() {
+                @Override
+                public void onResponse(Call<FeedsModel> call, Response<FeedsModel> response) {
+                    if (response.isSuccessful() && response.body().getResult().size() > 0) {
+                        Feeds feed = response.body().getResult().get(0);
+                        postOwnerId = feed.getUserId();
+                        postId = feed.getFeedId();
+                        postOwnerName = feed.getUserName();
+                        postOwnerImage = feed.getUserImage();
+                        postDescription = feed.getDescription();
+                        commentEnabled = feed.getCommentStatus();
+                        setAdapter();
+                        LoadComments(offsetCnt, limitCnt);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FeedsModel> call, Throwable t) {
+                    Log.e(TAG, "loadHomeFeeds: " + t.getMessage());
+                }
+            });
+        }
     }
 
     private void setDescription() {
@@ -600,6 +652,18 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 break;
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            super.onBackPressed();
+        }
+        overridePendingTransition(R.anim.anim_stay, R.anim.anim_slide_right_out);
     }
 
     public void setupUI(Context context, View view) {

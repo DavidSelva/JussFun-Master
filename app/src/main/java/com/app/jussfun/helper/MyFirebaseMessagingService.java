@@ -20,6 +20,7 @@ import com.app.jussfun.model.AddDeviceRequest;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.ui.ChatActivity;
 import com.app.jussfun.ui.VideoCallActivity;
+import com.app.jussfun.ui.feed.CommentsActivity;
 import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -87,6 +88,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     setInterestNotification(map);
             } else if (scope.equals(Constants.TAG_FEEDS)) {
                 setFeedsNotification(map);
+            } else if (scope.equals(Constants.TAG_COMMENT_FEEDS)) {
+                setCommentsNotification(map);
             }
         }
     }
@@ -246,6 +249,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent();
         if (!Constants.isInRandomCall && !Constants.isInVideoCall) {
             intent = new Intent(getApplicationContext(), FeedsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Constants.TAG_FROM_FOREGROUND, App.isOnAppForegrounded());
+            intent.putExtra(Constants.NOTIFICATION, data.get(Constants.TAG_SCOPE));
+            intent.putExtra(Constants.TAG_FEED_ID, data.get(Constants.TAG_FEED_ID));
+        }
+        String appName = getString(R.string.app_name);
+        sendNotification(0, appName, data.get(Constants.TAG_MESSAGE), intent);
+    }
+
+    private void setCommentsNotification(Map<String, String> data) {
+        Intent intent = new Intent();
+        if (!Constants.isInRandomCall && !Constants.isInVideoCall) {
+            intent = new Intent(getApplicationContext(), CommentsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra(Constants.TAG_FROM_FOREGROUND, App.isOnAppForegrounded());
             intent.putExtra(Constants.NOTIFICATION, data.get(Constants.TAG_SCOPE));
