@@ -32,6 +32,7 @@ import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.OnMenuClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.feed.likes.LikedUsersActivity;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.Constants;
@@ -159,6 +160,57 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     if (resultsItem.getHeart() != 1) {
                         updateFeed(Constants.TAG_HEART, resultsItem, holder.getAdapterPosition());
                     }
+                }
+            });
+
+            holder.txtLikeCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, LikedUsersActivity.class);
+                    intent.putExtra(Constants.TAG_FEED_ID, resultsItem.getFeedId());
+                    intent.putExtra(Constants.TAG_TYPE, Constants.TAG_LIKE);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    mContext.startActivity(intent);
+                }
+            });
+            holder.txtSuperLikeCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, LikedUsersActivity.class);
+                    intent.putExtra(Constants.TAG_FEED_ID, resultsItem.getFeedId());
+                    intent.putExtra(Constants.TAG_TYPE, Constants.TAG_SUPER_LIKE);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    mContext.startActivity(intent);
+                }
+            });
+            holder.txtHeartCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, LikedUsersActivity.class);
+                    intent.putExtra(Constants.TAG_FEED_ID, resultsItem.getFeedId());
+                    intent.putExtra(Constants.TAG_TYPE, Constants.TAG_LIKE);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    mContext.startActivity(intent);
+                }
+            });
+            holder.txtViewUsers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, LikedUsersActivity.class);
+                    intent.putExtra(Constants.TAG_FEED_ID, resultsItem.getFeedId());
+                    intent.putExtra(Constants.TAG_TYPE, Constants.TAG_HEART);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    mContext.startActivity(intent);
+                }
+            });
+            holder.txtStarCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, LikedUsersActivity.class);
+                    intent.putExtra(Constants.TAG_FEED_ID, resultsItem.getFeedId());
+                    intent.putExtra(Constants.TAG_TYPE, Constants.TAG_STAR);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    mContext.startActivity(intent);
                 }
             });
 

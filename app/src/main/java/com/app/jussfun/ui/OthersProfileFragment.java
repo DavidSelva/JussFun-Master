@@ -424,14 +424,14 @@ public class OthersProfileFragment extends Fragment {
                         if (followRequest.getType().equals(Constants.TAG_FOLLOW_USER)) {
                             othersProfile.setFollow(Constants.TAG_TRUE);
                             if (updateListener != null) {
-                                updateListener.onFollowUpdated(othersProfile);
+                                updateListener.onFollowUpdated(othersProfile, -1);
                             }
                             setFollowButton(true);
 //                            App.makeToast(getString(R.string.followed_successfully));
                         } else {
                             othersProfile.setFollow(Constants.TAG_FALSE);
                             if (updateListener != null) {
-                                updateListener.onFollowUpdated(othersProfile);
+                                updateListener.onFollowUpdated(othersProfile, -1);
                             }
                             setFollowButton(false);
 //                            App.makeToast(getString(R.string.unfollowed_successfully));

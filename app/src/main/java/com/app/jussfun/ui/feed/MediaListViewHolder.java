@@ -108,6 +108,8 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     public TextView txtHeartCount;
     @BindView(R.id.txtStarCount)
     public TextView txtStarCount;
+    @BindView(R.id.txtViewUsers)
+    public TextView txtViewUsers;
     @BindView(R.id.btnShare)
     public LinearLayout btnShare;
     @BindView(R.id.btnMore)

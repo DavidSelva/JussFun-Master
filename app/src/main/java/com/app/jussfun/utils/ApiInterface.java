@@ -16,6 +16,7 @@ import com.app.jussfun.model.GemsPurchaseRequest;
 import com.app.jussfun.model.GemsPurchaseResponse;
 import com.app.jussfun.model.GemsStoreResponse;
 import com.app.jussfun.model.HelpResponse;
+import com.app.jussfun.model.LikedUsersModel;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.model.RecentHistoryResponse;
@@ -226,7 +227,11 @@ public interface ApiInterface {
     @POST("activities/deletecomment")
     Call<Map<String, String>> deleteComment(@Field("user_id") String userid, @Field("feed_id") String feedId, @Field("comment_id") String commentId);
 
-        @FormUrlEncoded
-    @POST("activities/reportfeeds ")
+    @FormUrlEncoded
+    @POST("activities/reportfeeds")
     Call<Map<String, String>> reportFeed(@Field("user_id") String userid, @Field("feed_id") String feedId, @Field("rept_detail") String detail);
+
+    @FormUrlEncoded
+    @POST("activities/getfeedlikes")
+    Call<LikedUsersModel> getLikedUsers(@Field("user_id") String userId, @Field("feed_id") String feedId, @Field("type") String type);
 }

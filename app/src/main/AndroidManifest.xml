@@ -71,9 +71,12 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
-            android:name=".ui.feed.CommentsActivity"
-            android:theme="@style/SliderThemeWhite"
+            android:name=".ui.feed.likes.LikedUsersActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.feed.CommentsActivity"
+            android:exported="false"
+            android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.feed.AddFeedActivity"
             android:exported="false" />

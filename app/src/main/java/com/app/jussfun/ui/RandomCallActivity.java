@@ -47,8 +47,8 @@ import com.app.jussfun.apprtc.util.AppRTCUtils;
 import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
-import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.helper.NetworkReceiver;
+import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.helper.callback.ProfileUpdatedListener;
 import com.app.jussfun.model.AppDefaultResponse;
@@ -827,7 +827,7 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
         }
 
         @Override
-        public void onFollowUpdated(ProfileResponse profileResponse) {
+        public void onFollowUpdated(ProfileResponse profileResponse, int holderPosition) {
             if (callFragment != null) {
                 callFragment.changeFollowStatus(profileResponse);
             }

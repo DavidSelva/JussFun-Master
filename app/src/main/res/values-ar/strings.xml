@@ -485,5 +485,6 @@
     <string name="report">Report</string>
     <string name="copy_link">Copy link</string>
     <string name="copied_successfully">Copied successfully</string>
+    <string name="view_likes">View Likes</string>
 
 </resources>

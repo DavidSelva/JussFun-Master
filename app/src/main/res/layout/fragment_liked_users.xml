@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.feed.likes.LikedUsersFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLikedUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_liked_users" />
+
+    <include layout="@layout/layout_loading_progress"
+        android:id="@+id/loadingLay"/>
+
+    <include layout="@layout/null_lay"
+        android:id="@+id/noDataLay"/>
+
+</FrameLayout>
