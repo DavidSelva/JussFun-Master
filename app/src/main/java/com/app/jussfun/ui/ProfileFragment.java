@@ -490,6 +490,7 @@ public class ProfileFragment extends Fragment {
                 gemsIntent.putExtra("OnCLick", "ClickHere");
                 gemsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(gemsIntent);
+                break;
             }
             case R.id.feedsLay: {
                 Intent feedIntent = new Intent(getActivity(), FeedsActivity.class);
