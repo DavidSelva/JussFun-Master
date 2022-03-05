@@ -32,8 +32,6 @@ public class LikedUsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_liked_users, parent, false);
         @NonNull ItemLikedUsersBinding binding = ItemLikedUsersBinding.inflate(LayoutInflater.from(mContext), parent, false);
         return new ItemViewHolder(binding);
     }
@@ -64,6 +62,21 @@ public class LikedUsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     App.preventMultipleClick(v);
                     listener.onFollowUpdated(user, holder.getAdapterPosition());
+                }
+            });
+
+            holder.binding.ivUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    App.preventMultipleClick(v);
+                    listener.onProfileClicked(user.getUserId());
+                }
+            });
+            holder.binding.txtUserName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    App.preventMultipleClick(v);
+                    holder.binding.ivUser.performClick();
                 }
             });
         }

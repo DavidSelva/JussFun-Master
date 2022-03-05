@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.databinding.ActivityBankDetailsBinding;
 import com.app.jussfun.helper.AdUtils;
 import com.app.jussfun.helper.LocaleManager;
@@ -21,6 +22,8 @@ import com.app.jussfun.utils.Constants;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -127,21 +130,21 @@ public class BankDetailsActivity extends BaseFragmentActivity {
 
     private void saveBankDetails() {
         if (NetworkReceiver.isConnected()) {
-            ProfileRequest request = new ProfileRequest();
-            request.setUserId(GetSet.getUserId());
-            request.setProfileId(GetSet.getUserId());
-            request.setBankAccNo(binding.edtAccountNo.getText().toString());
-            request.setBankIfscCode(binding.edtIfsc.getText().toString());
-            request.setBankAccName(binding.edtAccountName.getText().toString());
+            HashMap<String, String> requestMap = new HashMap<>();
+            requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
+            requestMap.put(Constants.TAG_PROFILE_ID, GetSet.getUserId());
+            requestMap.put(Constants.TAG_ACCOUNT_NUMBER, binding.edtAccountNo.getText().toString());
+            requestMap.put(Constants.TAG_IFSC_CODE, binding.edtIfsc.getText().toString());
+            requestMap.put(Constants.TAG_ACCOUNT_NAME, binding.edtAccountName.getText().toString());
 
-            Call<ProfileResponse> call = apiInterface.getProfile(request);
+            Call<ProfileResponse> call = apiInterface.saveBankDetails(requestMap);
             call.enqueue(new Callback<ProfileResponse>() {
                 @Override
                 public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
 //                    hideLoading();
                     ProfileResponse profile = response.body();
                     if (profile.getStatus().equals(Constants.TAG_TRUE)) {
-//                        App.makeToast(getString(R.string.bank_details_updated));
+                        App.makeToast(getString(R.string.bank_details_updated));
                         AppUtils.showAlertSnack(mContext, binding.parentLay, mContext.getString(R.string.bank_details_updated));
                         finish();
                     } else {

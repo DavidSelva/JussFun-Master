@@ -70,6 +70,7 @@ public class Constants {
     public static final String DEFAULT_VALIDITY = "1M";
     public static final String TAG_ID = "id";
     public static final String TAG_USER_ID = "user_id";
+    public static final String TAG_PROFILE_ID = "profile_id";
     public static final String TAG_USER_NAME = "user_name";
     public static final String TAG_USER_IMAGE = "user_image";
     public static final String TAG_PROFILE_IMAGE = "profile_image";
@@ -357,4 +358,8 @@ public class Constants {
     public static final String DEFAULT_KEY_NAME = "default_key";
 
     public static boolean isMute = true;
+
+    public static final String TAG_ACCOUNT_NUMBER = "bank_accountno";
+    public static final String TAG_IFSC_CODE = "bank_ifsccode";
+    public static final String TAG_ACCOUNT_NAME = "bank_accountname";
 }

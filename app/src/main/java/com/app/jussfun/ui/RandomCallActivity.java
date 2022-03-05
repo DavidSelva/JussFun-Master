@@ -834,6 +834,11 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
         }
 
         @Override
+        public void onProfileClicked(String userId) {
+
+        }
+
+        @Override
         public void onProfileUpdated(String partnerId) {
             refreshProfile(partnerId);
         }

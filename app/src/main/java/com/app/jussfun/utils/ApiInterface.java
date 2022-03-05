@@ -234,4 +234,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("activities/getfeedlikes")
     Call<LikedUsersModel> getLikedUsers(@Field("user_id") String userId, @Field("feed_id") String feedId, @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST("activities/addbankdetails")
+    Call<ProfileResponse> saveBankDetails(@FieldMap HashMap<String, String> requestMap);
 }

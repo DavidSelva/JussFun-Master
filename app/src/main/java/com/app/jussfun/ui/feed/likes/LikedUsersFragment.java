@@ -1,6 +1,7 @@
 package com.app.jussfun.ui.feed.likes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.LikedUsersModel;
 import com.app.jussfun.model.ProfileResponse;
+import com.app.jussfun.ui.MyProfileActivity;
+import com.app.jussfun.ui.OthersProfileActivity;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.Constants;
@@ -165,6 +168,23 @@ public class LikedUsersFragment extends Fragment implements FollowUpdatedListene
     @Override
     public void onFollowUpdated(ProfileResponse profileResponse, int holderPosition) {
         followUnFollowUser(profileResponse, holderPosition);
+    }
+
+    @Override
+    public void onProfileClicked(String userId) {
+        if (userId.equals(GetSet.getUserId())) {
+            Intent profile = new Intent(mContext, MyProfileActivity.class);
+            profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            profile.putExtra(Constants.TAG_PARTNER_ID, GetSet.getUserId());
+            profile.putExtra(Constants.TAG_FROM, "");
+            startActivity(profile);
+        } else {
+            Intent profile = new Intent(mContext, OthersProfileActivity.class);
+            profile.putExtra(Constants.TAG_PARTNER_ID, userId);
+            profile.putExtra(Constants.TAG_FROM, Constants.TAG_MESSAGE);
+            profile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(profile);
+        }
     }
 
     private void followUnFollowUser(ProfileResponse othersProfile, int holderPosition) {
