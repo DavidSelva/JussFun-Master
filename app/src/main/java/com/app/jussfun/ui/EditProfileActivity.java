@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -45,10 +46,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,8 +104,12 @@ public class EditProfileActivity extends BaseFragmentActivity {
     AppCompatTextView txtGiftsCount;
     @BindView(R.id.edtPayPal)
     AppCompatEditText edtPayPal;
-    @BindView(R.id.paymentLay)
-    MaterialCardView paymentLay;
+    @BindView(R.id.payPalLay)
+    MaterialCardView payPalLay;
+    @BindView(R.id.edtBankDetails)
+    AppCompatEditText edtBankDetails;
+    @BindView(R.id.edtBankLay)
+    LinearLayout edtBankLay;
     @BindView(R.id.btnSave)
     Button btnSave;
     @BindView(R.id.progressBar)
@@ -167,10 +168,6 @@ public class EditProfileActivity extends BaseFragmentActivity {
         }
 
         btnBack.setImageDrawable(getDrawable(R.drawable.arrow_w_l));
-        // for convert gifts into money addon
-       /* if (AdminData.showMoneyConversion!=null) {
-            paymentLay.setVisibility((AdminData.showMoneyConversion.equals("1")) ? View.VISIBLE : GONE);
-        }*/
         loadAd();
     }
 
@@ -182,7 +179,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
 
 
     @OnClick({R.id.btnSave, R.id.btnBack, R.id.profileImage, R.id.btnSubscribe, R.id.subscribeLay,
-            R.id.btnRenewal, R.id.renewalLay, R.id.txtLocation, R.id.locationLay})
+            R.id.btnRenewal, R.id.renewalLay, R.id.txtLocation, R.id.locationLay, R.id.edtBankLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnSave:
@@ -228,6 +225,12 @@ public class EditProfileActivity extends BaseFragmentActivity {
                 location.putExtra(Constants.TAG_LOCATION, strLocation != null ? strLocation : "");
                 startActivityForResult(location, Constants.LOCATION_REQUEST_CODE);
                 break;
+            case R.id.edtBankLay: {
+                Intent bankIntent = new Intent(this, BankDetailsActivity.class);
+                bankIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(bankIntent);
+            }
+            break;
         }
     }
 

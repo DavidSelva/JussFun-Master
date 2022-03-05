@@ -283,7 +283,7 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:id="@+id/gemsLay"
-                                    android:visibility="gone"
+                                    android:visibility="visible"
                                     android:layout_height="wrap_content">
 
                                     <TextView

@@ -1097,11 +1097,8 @@ public class Container extends RecyclerView {
         }
 
         @Override
-        public void onNestedScroll(@NonNull CoordinatorLayout layout, @NonNull Container child,
-                                   @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed,
-                                   int type) {
-            delegate.onNestedScroll(layout, child, target, dxConsumed, dyConsumed, dxUnconsumed,
-                    dyUnconsumed, type);
+        public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull Container child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type, @NonNull int[] consumed) {
+            delegate.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type, consumed);
         }
 
         @Override

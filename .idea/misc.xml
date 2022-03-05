@@ -14,14 +14,16 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/send_message_border.xml" value="0.205" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/drawable/send_msg_greyborder.xml" value="0.111" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_add_feed.xml" value="0.3020833333333333" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_bank_details.xml" value="0.3390625" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_comments.xml" value="0.25" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_edit_profile.xml" value="0.17249240121580547" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_edit_profile.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_filter.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_find_peoples.xml" value="0.203125" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_full_screen_image_view.xml" value="0.12864583333333332" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_liked_users.xml" value="0.296875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_main.xml" value="0.32592592592592595" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_others_profile.xml" value="0.33" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_settings.xml" value="0.2223731884057971" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_tool_bar_swipe.xml" value="0.2223731884057971" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_toolbar_black.xml" value="0.2223731884057971" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_toolbar_chat.xml" value="0.16485507246376813" />
@@ -47,6 +49,7 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/list_thumbnail_item.xml" value="0.2265625" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/null_lay.xml" value="0.2210144927536232" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/progress_lay.xml" value="0.16354166666666667" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/tab_liked_users.xml" value="0.3265625" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/chat_menu.xml" value="0.2046875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/feed_menu.xml" value="0.2046875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/random_home_menu.xml" value="0.25" />

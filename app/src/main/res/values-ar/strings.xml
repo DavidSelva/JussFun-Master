@@ -486,5 +486,22 @@
     <string name="copy_link">Copy link</string>
     <string name="copied_successfully">Copied successfully</string>
     <string name="view_likes">View Likes</string>
+    <string name="bank_details">Bank details</string>
+    <string name="edit">Edit</string>
+    <string name="post_photo"><![CDATA[Post your Photo & Earn Money]]></string>
+    <string name="account_number">Account number</string>
+    <string name="account_no">Account No</string>
+    <string name="confirm_account_no">Confirm acc no</string>
+    <string name="bank_name">Bank name</string>
+    <string name="ifsc_code">IFSC Code</string>
+    <string name="enter_bank_name">Enter your bank name</string>
+    <string name="enter_ifsc">Enter your IFSC code</string>
+    <string name="confirm_bank_account">Confirm your bank account number</string>
+    <string name="enter_bank_account">Enter your bank account number</string>
+    <string name="account_name">Account name</string>
+    <string name="enter_account_name">Enter your account name as in Bank</string>
+    <string name="bank_account_mismatched">Confirm bank account not matched with Bank account</string>
+    <string name="bank_details_updated">Bank details updated succsessfully</string>
+    <string name="_super">super</string>
 
 </resources>

@@ -71,6 +71,9 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.BankDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.feed.likes.LikedUsersActivity"
             android:exported="false" />
         <activity
@@ -85,11 +88,13 @@
             android:exported="false" />
         <activity
             android:name=".ui.NearByActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -115,114 +120,137 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.BaseFragmentActivity" />
+        <activity
+            android:name=".ui.BaseFragmentActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.GeneralSettingsActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.ChatActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.EarnGemsActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.HelpActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.SettingsActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.ConvertGiftActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.LocationFilterActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.GemsStoreActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.PrimeActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.RecentHistoryActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.TermsActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.RandomCallActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:exported="true"
             android:label="@string/app_name" />
         <activity
             android:name=".ui.LoginActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".ui.EditProfileActivity"
-            android:screenOrientation="unspecified"
+            android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/SliderThemeBlack"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.OthersProfileActivity"
-            android:screenOrientation="unspecified"
+            android:screenOrientation="portrait"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.FollowersActivity"
-            android:screenOrientation="unspecified"
+            android:screenOrientation="portrait"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.ImageViewActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.VideoCallActivity"
+            android:exported="false"
             android:keepScreenOn="true"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme" />
-        <!--
-<meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_mob_id" />
-        -->
         <activity
             android:name=".ui.MyProfileActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.BlockedUsersActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.FindPeoplesActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="stateVisible|adjustNothing" />
         <activity
             android:name=".ui.QRCodeScannerActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.QRCodeGenerateActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.LanguageActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.LockScreenActivity" />
         <activity
             android:name=".ui.feed.FilterActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.feed.FeedsActivity"
+            android:exported="false"
             android:theme="@style/SliderThemeWhite" />
 
         <meta-data

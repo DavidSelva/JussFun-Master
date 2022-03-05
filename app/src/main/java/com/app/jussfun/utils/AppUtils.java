@@ -101,6 +101,7 @@ public class AppUtils {
 
     private static final String TAG = AppUtils.class.getSimpleName();
     private static Snackbar snackbar;
+    private static Snackbar alertSnack;
     public static final String SMILEY_PATH = "images/lottie/smileys/";
     public static List<String> callerList = new ArrayList<>();
     public static List<String> filterLocation = new ArrayList<>();
@@ -743,6 +744,22 @@ public class AppUtils {
             if (!snackbar.isShown()) {
                 snackbar.show();
             }
+        }
+    }
+
+    public static void showAlertSnack(final Context context, View view, String message) {
+        if (alertSnack != null && alertSnack.isShown()) {
+            alertSnack.dismiss();
+        }
+        alertSnack = Snackbar
+                .make(view, message, Snackbar.LENGTH_SHORT)
+                .setActionTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        View sbView = alertSnack.getView();
+        TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        if (!alertSnack.isShown()) {
+            alertSnack.show();
         }
     }
 

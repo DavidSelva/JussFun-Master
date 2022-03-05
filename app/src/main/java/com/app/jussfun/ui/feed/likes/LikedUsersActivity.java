@@ -3,8 +3,11 @@ package com.app.jussfun.ui.feed.likes;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.app.jussfun.R;
 import com.app.jussfun.databinding.ActivityLikedUsersBinding;
@@ -50,14 +53,26 @@ public class LikedUsersActivity extends AppCompatActivity {
 
         new TabLayoutMediator(binding.tabLayout, binding.viewPager,
                 (tab, position) -> {
+                    View tabItemLayout = getLayoutInflater().inflate(R.layout.tab_liked_users, null);
+                    ImageView ivLike = tabItemLayout.findViewById(R.id.ivLike);
+                    TextView txtLike = tabItemLayout.findViewById(R.id.txtLike);
+                    txtLike.setMaxLines(2);
                     if (position == 0) {
-                        tab.setText(getString(R.string.likes));
+                        ivLike.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.like_act));
+                        txtLike.setText(getString(R.string.likes));
+                        tab.setCustomView(tabItemLayout);
                     } else if (position == 1) {
-                        tab.setText(getString(R.string.super_like));
+                        ivLike.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.super_like_act));
+                        txtLike.setText(mContext.getString(R.string._super) + "\n" + getString(R.string.like));
+                        tab.setCustomView(tabItemLayout);
                     } else if (position == 2) {
-                        tab.setText(getString(R.string.heart));
+                        ivLike.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.heart_act));
+                        txtLike.setText(getString(R.string.heart));
+                        tab.setCustomView(tabItemLayout);
                     } else if (position == 3) {
-                        tab.setText(getString(R.string.star));
+                        ivLike.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.star_act));
+                        txtLike.setText(getString(R.string.star));
+                        tab.setCustomView(tabItemLayout);
                     }
                 }
         ).attach();

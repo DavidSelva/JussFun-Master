@@ -31,6 +31,12 @@ public class ProfileRequest {
     private String age;
     @SerializedName("dob")
     private String dob;
+    @SerializedName("bank_accountno")
+    private String bankAccNo;
+    @SerializedName("bank_ifsccode")
+    private String bankIfscCode;
+    @SerializedName("bank_accountname")
+    private String bankAccName;
 
     public String getUserId() {
         return userId;
@@ -142,5 +148,29 @@ public class ProfileRequest {
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    public String getBankAccNo() {
+        return bankAccNo;
+    }
+
+    public void setBankAccNo(String bankAccNo) {
+        this.bankAccNo = bankAccNo;
+    }
+
+    public String getBankIfscCode() {
+        return bankIfscCode;
+    }
+
+    public void setBankIfscCode(String bankIfscCode) {
+        this.bankIfscCode = bankIfscCode;
+    }
+
+    public String getBankAccName() {
+        return bankAccName;
+    }
+
+    public void setBankAccName(String bankAccName) {
+        this.bankAccName = bankAccName;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -18,18 +19,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.CameraXConfig;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
-import com.app.jussfun.ui.RandomCallActivity;
-import com.app.jussfun.ui.RandomWebSocket;
-import com.app.jussfun.ui.SplashActivity;
-import com.app.jussfun.ui.VideoCallActivity;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.facebook.stetho.Stetho;
 import com.app.jussfun.R;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.LocaleManager;
@@ -38,6 +33,10 @@ import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.helper.ThemeHelper;
 import com.app.jussfun.model.AppDefaultResponse;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.RandomCallActivity;
+import com.app.jussfun.ui.RandomWebSocket;
+import com.app.jussfun.ui.SplashActivity;
+import com.app.jussfun.ui.VideoCallActivity;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -45,6 +44,9 @@ import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.facebook.stetho.Stetho;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,7 +165,22 @@ public class App extends android.app.Application implements LifecycleObserver, C
     }
 
     public static void makeToast(Context mContext, String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast toast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
+                View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                view.getBackground().setColorFilter(ContextCompat.getColor(mContext, R.color.colorTransparent), PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                TextView text = view.findViewById(android.R.id.message);
+                text.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                // Code here will run in UI thread
+                toast.show();
+            }
+        });
     }
 
     public static void makeCustomToast(String message) {

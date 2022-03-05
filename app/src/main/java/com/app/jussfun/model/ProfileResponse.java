@@ -88,6 +88,12 @@ public class ProfileResponse implements Serializable {
     private boolean isFriend;
     @SerializedName("declined")
     private boolean declined;
+    @SerializedName("bank_accountno")
+    private String bankAccNo;
+    @SerializedName("bank_ifsccode")
+    private String bankIfscCode;
+    @SerializedName("bank_accountname")
+    private String bankAccName;
 
     private String app_name;
 
@@ -421,5 +427,29 @@ public class ProfileResponse implements Serializable {
 
     public void setFeedCount(String feedCount) {
         this.feedCount = feedCount;
+    }
+
+    public String getBankAccNo() {
+        return bankAccNo;
+    }
+
+    public void setBankAccNo(String bankAccNo) {
+        this.bankAccNo = bankAccNo;
+    }
+
+    public String getBankIfscCode() {
+        return bankIfscCode;
+    }
+
+    public void setBankIfscCode(String bankIfscCode) {
+        this.bankIfscCode = bankIfscCode;
+    }
+
+    public String getBankAccName() {
+        return bankAccName;
+    }
+
+    public void setBankAccName(String bankAccName) {
+        this.bankAccName = bankAccName;
     }
 }

@@ -63,7 +63,6 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
                     android:elevation="5dp"
-
                     app:cardBackgroundColor="@color/colorCardBg"
                     app:cardCornerRadius="5dp">
 
@@ -224,7 +223,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/paymentLay"
+                    android:id="@+id/payPalLay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -265,6 +264,66 @@
                         android:padding="10dp"
                         android:textSize="@dimen/text_normal"
                         android:visibility="visible" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/bankLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:elevation="5dp"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/colorCardBg"
+                    app:cardCornerRadius="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtBankDetails"
+                        style="@style/TextPrimaryLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="12dp"
+                        android:text="@string/bank_details"
+                        android:textSize="@dimen/text_normal" />
+
+                    <LinearLayout
+                        android:id="@+id/edtBankLay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/edtBankDetails"
+                            style="@style/EditTextPrimaryLight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:background="@null"
+                            android:gravity="end"
+                            android:hint="@string/edit"
+                            android:focusable="false"
+                            android:imeOptions="actionDone"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:textSize="@dimen/text_normal"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:layout_width="@dimen/iv_tiny"
+                            android:layout_height="@dimen/iv_tiny"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/edit" />
+
+                    </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
