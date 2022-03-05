@@ -132,7 +132,6 @@ public class BankDetailsActivity extends BaseFragmentActivity {
         if (NetworkReceiver.isConnected()) {
             HashMap<String, String> requestMap = new HashMap<>();
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
-            requestMap.put(Constants.TAG_PROFILE_ID, GetSet.getUserId());
             requestMap.put(Constants.TAG_ACCOUNT_NUMBER, binding.edtAccountNo.getText().toString());
             requestMap.put(Constants.TAG_IFSC_CODE, binding.edtIfsc.getText().toString());
             requestMap.put(Constants.TAG_ACCOUNT_NAME, binding.edtAccountName.getText().toString());

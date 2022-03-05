@@ -15,14 +15,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3ef750b7-fefb-40cd-9951-5df489d1d123" name="Default Changelist" comment="View Likes added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/callback/FollowUpdatedListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/callback/FollowUpdatedListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/BankDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/BankDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/EditProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/EditProfileActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/RandomCallActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/RandomCallActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/likes/LikedUsersAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/likes/LikedUsersAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/likes/LikedUsersFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/likes/LikedUsersFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/utils/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/utils/ApiInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/utils/Constants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -580,7 +573,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646462533960</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="View Likes added">
+      <created>1646496128705</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1646496128705</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
