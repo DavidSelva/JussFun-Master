@@ -42,36 +42,29 @@
                 android:contentInsetEnd="0dp"
                 app:layout_collapseMode="pin">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal"
                     app:layout_collapseMode="pin">
 
                     <ImageView
                         android:id="@+id/btnBack"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/toolbar_start_margin"
+                        android:layout_gravity="start"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:src="@drawable/icon_left_back_arrow"
                         android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:tint="@color/colorPrimaryText" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/btnBack"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -88,7 +81,7 @@
 
                     </LinearLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </FrameLayout>
 
             </com.google.android.material.appbar.MaterialToolbar>
 
@@ -101,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolBar">
 
