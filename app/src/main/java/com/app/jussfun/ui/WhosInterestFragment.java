@@ -259,7 +259,7 @@ public class WhosInterestFragment extends Fragment {
                 }
 
                 boolean isPrimeUser = GetSet.getPremiumMember().equals(Constants.TAG_TRUE);
-                if (isPrimeUser || follower.getProfileUnlocked()) {
+//                if (isPrimeUser || follower.getProfileUnlocked()) {
                     ((MyViewHolder) holder).userLay.setVisibility(View.VISIBLE);
                     ((MyViewHolder) holder).lockedLay.setVisibility(View.GONE);
                     ((MyViewHolder) holder).premiumImage.setVisibility(follower.getPremiumMember().equals(Constants.TAG_TRUE) ?
@@ -269,7 +269,7 @@ public class WhosInterestFragment extends Fragment {
                             .apply(new RequestOptions().error(R.drawable.avatar).placeholder(R.drawable.avatar)
                                     .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(((MyViewHolder) holder).userImage);
-                } else {
+                /*} else {
                     ((MyViewHolder) holder).userLay.setVisibility(View.GONE);
                     ((MyViewHolder) holder).lockedLay.setVisibility(View.VISIBLE);
 
@@ -279,7 +279,7 @@ public class WhosInterestFragment extends Fragment {
                                     .transform(new BlurTransformation(5, 8))
                                     .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(((MyViewHolder) holder).userImage);
-                }
+                }*/
 
 
             } else if (holder instanceof FooterViewHolder) {
@@ -342,24 +342,25 @@ public class WhosInterestFragment extends Fragment {
 
             @OnClick(R.id.itemLay)
             public void onViewClicked() {
-                if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
-                    FollowersResponse.FollowersList item = itemList.get(getAdapterPosition());
-                    Intent intent = new Intent(getActivity(), OthersProfileActivity.class);
-                    intent.putExtra(Constants.TAG_PARTNER_ID, item.getUserId());
-                    intent.putExtra(Constants.TAG_PARTNER_NAME, item.getName());
-                    intent.putExtra(Constants.TAG_AGE, "" + item.getAge());
-                    intent.putExtra(Constants.TAG_PARTNER_IMAGE, item.getUserImage());
-                    intent.putExtra(Constants.TAG_GENDER, item.getGender());
-                    intent.putExtra(Constants.TAG_BLOCKED_BY_ME, "");
-                    intent.putExtra(Constants.TAG_LOCATION, item.getLocation());
-                    intent.putExtra(Constants.TAG_PRIVACY_AGE, item.getPrivacyAge());
-                    intent.putExtra(Constants.TAG_PRIVACY_CONTACT_ME, item.getPrivacyContactMe());
-                    intent.putExtra(Constants.TAG_FOLLOWERS, "-");
-                    intent.putExtra(Constants.TAG_FOLLOWINGS, "-");
-                    intent.putExtra(Constants.TAG_PREMIUM_MEBER, item.getPremiumMember());
-                    intent.putExtra(Constants.TAG_FROM, Constants.TAG_INTEREST);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
+                FollowersResponse.FollowersList item = itemList.get(getAdapterPosition());
+                Intent intent = new Intent(getActivity(), OthersProfileActivity.class);
+                intent.putExtra(Constants.TAG_PARTNER_ID, item.getUserId());
+                intent.putExtra(Constants.TAG_PARTNER_NAME, item.getName());
+                intent.putExtra(Constants.TAG_AGE, "" + item.getAge());
+                intent.putExtra(Constants.TAG_PARTNER_IMAGE, item.getUserImage());
+                intent.putExtra(Constants.TAG_GENDER, item.getGender());
+                intent.putExtra(Constants.TAG_BLOCKED_BY_ME, "");
+                intent.putExtra(Constants.TAG_LOCATION, item.getLocation());
+                intent.putExtra(Constants.TAG_PRIVACY_AGE, item.getPrivacyAge());
+                intent.putExtra(Constants.TAG_PRIVACY_CONTACT_ME, item.getPrivacyContactMe());
+                intent.putExtra(Constants.TAG_FOLLOWERS, "-");
+                intent.putExtra(Constants.TAG_FOLLOWINGS, "-");
+                intent.putExtra(Constants.TAG_PREMIUM_MEBER, item.getPremiumMember());
+                intent.putExtra(Constants.TAG_FROM, Constants.TAG_INTEREST);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                /*if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+
                 } else {
                     if (itemList.get(getAdapterPosition()).getProfileUnlocked()) {
                         FollowersResponse.FollowersList item = itemList.get(getAdapterPosition());
@@ -384,7 +385,7 @@ public class WhosInterestFragment extends Fragment {
                     } else {
                         goToPrime();
                     }
-                }
+                }*/
             }
 
             private void unlockUser(String partnerId, final int selectedPosition) {

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,10 +22,7 @@ import com.app.jussfun.model.GetSet;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -111,9 +109,9 @@ public class FollowersActivity extends BaseFragmentActivity {
 
         if ((getIntent().getStringExtra(Constants.TAG_ID) != null) &&
                 (getIntent().getStringExtra(Constants.TAG_ID).equals(Constants.TAG_FOLLOWINGS))) {
-            viewPager.setCurrentItem(1);
-        } else {
             viewPager.setCurrentItem(0);
+        } else {
+            viewPager.setCurrentItem(1);
         }
 
         if (GetSet.getPremiumMember().equals(Constants.TAG_FALSE))
@@ -130,7 +128,8 @@ public class FollowersActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);}
+            AdUtils.getInstance(this).loadAd(TAG, adView);
+        }
     }
 
 
@@ -141,7 +140,7 @@ public class FollowersActivity extends BaseFragmentActivity {
             }
             shimmerLayout.startShimmer();
 
-            txtTitle.setText(getString(R.string.whos_interested));
+            txtTitle.setText(getString(R.string.followings));
             txtSubTitle.setText("");
             txtSubTitle.setText(R.string.swipe_to_see_friends);
 
@@ -168,24 +167,25 @@ public class FollowersActivity extends BaseFragmentActivity {
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private static final int NUM_PAGES = 2;
 
-        public ViewPagerAdapter(FragmentManager fm) {
+        public ViewPagerAdapter(@NonNull FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                followersFragment = new WhosInterestFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.TAG_PARTNER_ID, partnerId);
-                followersFragment.setArguments(bundle);
-                return followersFragment;
-            } else {
                 followingsFragment = new FriendsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.TAG_PARTNER_ID, partnerId);
                 followingsFragment.setArguments(bundle);
                 return followingsFragment;
+            } else {
+                followersFragment = new WhosInterestFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.TAG_PARTNER_ID, partnerId);
+                followersFragment.setArguments(bundle);
+                return followersFragment;
             }
         }
 

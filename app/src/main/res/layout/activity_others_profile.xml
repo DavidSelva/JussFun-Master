@@ -135,6 +135,39 @@
                         android:layout_marginEnd="25dp"
                         android:orientation="vertical">
 
+                        <RelativeLayout
+                            android:id="@+id/followingsLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="horizontal"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <TextView
+                                android:id="@+id/txtFollowings"
+                                style="@style/TextSecondaryRegular"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@+id/txtFollowingsCount"
+                                android:hint="@string/followings"
+                                android:textSize="@dimen/text_normal" />
+
+                            <TextView
+                                android:id="@+id/txtFollowingsCount"
+                                style="@style/TextPrimaryRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:gravity="center"
+                                android:hint="-"
+                                android:textSize="@dimen/text_normal" />
+
+                        </RelativeLayout>
 
                         <RelativeLayout
                             android:id="@+id/followersLay"
@@ -160,40 +193,6 @@
 
                             <TextView
                                 android:id="@+id/txtFollowersCount"
-                                style="@style/TextPrimaryRegular"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:gravity="center"
-                                android:hint="-"
-                                android:textSize="@dimen/text_normal" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/followingsLay"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:orientation="horizontal"
-                            android:paddingTop="15dp"
-                            android:paddingBottom="15dp">
-
-                            <TextView
-                                android:id="@+id/txtFollowings"
-                                style="@style/TextSecondaryRegular"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_toStartOf="@+id/txtFollowingsCount"
-                                android:hint="@string/followings"
-                                android:textSize="@dimen/text_normal" />
-
-                            <TextView
-                                android:id="@+id/txtFollowingsCount"
                                 style="@style/TextPrimaryRegular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

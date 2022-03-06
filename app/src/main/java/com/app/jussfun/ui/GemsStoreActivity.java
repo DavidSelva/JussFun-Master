@@ -119,6 +119,7 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
     TextView txtGems;
     @BindView(R.id.parentLay)
     CoordinatorLayout parentLay;
+
     ApiInterface apiInterface;
     DialogCreditGems alertDialog;
     private int currentPage = 0, limit = 100;

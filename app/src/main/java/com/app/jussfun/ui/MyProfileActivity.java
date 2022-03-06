@@ -128,6 +128,8 @@ public class MyProfileActivity extends BaseFragmentActivity {
     RelativeLayout feedsLay;
     @BindView(R.id.txtFeedsCount)
     TextView txtFeedsCount;
+    @BindView(R.id.btnConvertGems)
+    Button btnConvertGems;
 
     ApiInterface apiInterface;
     private String partnerId = "", from;
@@ -167,9 +169,8 @@ public class MyProfileActivity extends BaseFragmentActivity {
         params.topMargin = AppUtils.getStatusBarHeight(getApplicationContext());
         toolbar.setLayoutParams(params);
 
+        txtFollowings.setText(getString(R.string.followings));
         txtFollowers.setText(getString(R.string.friends));
-        txtFollowings.setText(getString(R.string.whos_interested));
-
 
         if (LocaleManager.isRTL()) {
             btnBack.setRotation(180);
@@ -180,7 +181,8 @@ public class MyProfileActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);}
+            AdUtils.getInstance(this).loadAd(TAG, adView);
+        }
     }
 
     @Override
@@ -354,7 +356,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
 
     @OnClick({R.id.profileImage, R.id.btnEdit, R.id.btnRenewal, R.id.renewalLay, R.id.btnSettings, R.id.followersLay,
             R.id.feedsLay, R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay,
-            R.id.btnBack})
+            R.id.btnBack, R.id.btnConvertGems})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profileImage:
@@ -441,6 +443,11 @@ public class MyProfileActivity extends BaseFragmentActivity {
                 feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                 startActivity(feedIntent);
+            }
+            case R.id.btnConvertGems: {
+                Intent convertGems = new Intent(this, ConvertGiftActivity.class);
+                convertGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(convertGems);
             }
             default:
                 break;

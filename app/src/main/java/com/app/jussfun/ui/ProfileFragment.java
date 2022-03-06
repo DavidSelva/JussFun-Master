@@ -122,6 +122,9 @@ public class ProfileFragment extends Fragment {
     TextView txtFollowers;
     @BindView(R.id.txtFollowings)
     TextView txtFollowings;
+    @BindView(R.id.btnConvertGems)
+    Button btnConvertGems;
+
     private Context context;
     ApiInterface apiInterface;
     ProfileResponse profileResponse;
@@ -362,8 +365,9 @@ public class ProfileFragment extends Fragment {
                     .apply(App.getProfileImageRequest())
                     .into(profileImage);
 
-            txtFollowers.setText(getString(R.string.whos_interested));
-            txtFollowings.setText(getString(R.string.friends));
+            txtFollowings.setText(getString(R.string.followings));
+            txtFollowers.setText(getString(R.string.friends));
+
             txtFollowersCount.setText("" + profile.getInterests());
             txtFollowingsCount.setText("" + profile.getFriends());
             txtFeedsCount.setText(profile.getFeedCount());
@@ -402,7 +406,8 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick({R.id.profileImage, R.id.btnEdit, R.id.btnRenewal, R.id.renewalLay, R.id.btnSettings, R.id.followersLay,
-            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay, R.id.feedsLay})
+            R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay, R.id.feedsLay,
+            R.id.btnConvertGems})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profileImage: {
@@ -497,6 +502,11 @@ public class ProfileFragment extends Fragment {
                 feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                 startActivity(feedIntent);
+            }
+            case R.id.btnConvertGems: {
+                Intent convertGems = new Intent(context, ConvertGiftActivity.class);
+                convertGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(convertGems);
             }
             break;
         }

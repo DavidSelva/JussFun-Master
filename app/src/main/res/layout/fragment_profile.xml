@@ -162,6 +162,40 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
+                            <RelativeLayout
+                                android:id="@+id/followingsLay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:orientation="horizontal"
+                                android:paddingTop="15dp"
+                                android:paddingBottom="15dp">
+
+                                <TextView
+                                    android:id="@+id/txtFollowings"
+                                    style="@style/TextSecondaryRegular"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_toStartOf="@+id/txtFollowingsCount"
+                                    android:hint="@string/followings"
+                                    android:textSize="@dimen/text_normal" />
+
+                                <TextView
+                                    android:id="@+id/txtFollowingsCount"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:gravity="center"
+                                    android:hint="-"
+                                    android:textSize="@dimen/text_normal" />
+
+                            </RelativeLayout>
+
                            <!-- <androidx.cardview.widget.CardView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -214,118 +248,48 @@
 
 <!--                            </androidx.cardview.widget.CardView>-->
 
-                            <!--<androidx.cardview.widget.CardView
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="?attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:elevation="5dp"
-                                android:focusable="true"
-                                android:visibility="visible"
-                                app:cardBackgroundColor="@color/colorCardBg"
-                                app:cardCornerRadius="5dp">-->
+                                android:id="@+id/feedsLay"
+                                android:layout_height="wrap_content">
 
-                                <RelativeLayout
-                                    android:id="@+id/followingsLay"
-                                    android:layout_width="match_parent"
+                                <TextView
+                                    style="@style/TextSecondaryRegular"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginStart="15dp"
-                                    android:layout_marginEnd="15dp"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:orientation="horizontal"
+                                    android:layout_toEndOf="@+id/ivFeeds"
+                                    android:hint="@string/photos"
                                     android:paddingTop="15dp"
-                                    android:paddingBottom="15dp">
+                                    android:paddingBottom="15dp"
+                                    android:textSize="@dimen/text_medium" />
 
-                                    <TextView
-                                        android:id="@+id/txtFollowings"
-                                        style="@style/TextSecondaryRegular"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentStart="true"
-                                        android:layout_toStartOf="@+id/txtFollowingsCount"
-                                        android:hint="@string/followings"
-                                        android:textSize="@dimen/text_normal" />
+                                <TextView
+                                    android:id="@+id/txtFeedsCount"
+                                    style="@style/TextPrimaryRegular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_gravity="start|center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:paddingTop="15dp"
+                                    android:paddingBottom="15dp"
+                                    android:text="-"
+                                    android:textSize="@dimen/text_medium" />
 
-                                    <TextView
-                                        android:id="@+id/txtFollowingsCount"
-                                        style="@style/TextPrimaryRegular"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:gravity="center"
-                                        android:hint="-"
-                                        android:textSize="@dimen/text_normal" />
+                                <ImageView
+                                    android:id="@+id/ivFeeds"
+                                    android:layout_width="30dp"
+                                    android:visibility="gone"
+                                    android:layout_height="30dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="15dp"
+                                    android:src="@drawable/ic_gift_primary" />
 
-                                </RelativeLayout>
-
-<!--                            </androidx.cardview.widget.CardView>-->
-
-                            <!--<androidx.cardview.widget.CardView
-                                android:id="@+id/gemsLay"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="?attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:elevation="5dp"
-                                android:focusable="true"
-                                app:cardBackgroundColor="@color/colorCardBg"
-                                app:cardCornerRadius="5dp">-->
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:id="@+id/gemsLay"
-                                    android:visibility="visible"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:id="@+id/txtGems"
-                                        style="@style/TextSecondaryRegular"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_marginStart="15dp"
-                                        android:layout_toEndOf="@+id/iconDiamond"
-                                        android:hint="@string/gems"
-                                        android:paddingTop="15dp"
-                                        android:paddingBottom="15dp"
-                                        android:textSize="@dimen/text_medium" />
-
-                                    <TextView
-                                        android:id="@+id/txtGemsCount"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="start|center_vertical"
-                                        android:layout_marginEnd="15dp"
-                                        android:fontFamily="@font/font_regular"
-                                        android:paddingTop="15dp"
-                                        android:paddingBottom="15dp"
-                                        android:text="-"
-                                        android:textAppearance="@style/TextPrimaryRegular"
-                                        android:textSize="@dimen/text_medium" />
-
-                                    <ImageView
-                                        android:id="@+id/iconDiamond"
-                                        android:layout_width="48dp"
-                                        android:layout_height="48dp"
-                                        android:visibility="gone"
-                                        android:layout_alignParentStart="true"
-                                        android:layout_centerVertical="true"
-                                        android:src="@drawable/ic_diamond" />
-
-                                </RelativeLayout>
-
-<!--                            </androidx.cardview.widget.CardView>-->
+                            </RelativeLayout>
 
                             <!--<androidx.cardview.widget.CardView
                                 android:id="@+id/giftsLay"
@@ -385,52 +349,87 @@
 
                                 </RelativeLayout>
 
+<!--                            </androidx.cardview.widget.CardView>-->
+
+                            <!--<androidx.cardview.widget.CardView
+                               android:id="@+id/gemsLay"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginStart="5dp"
+                               android:layout_marginTop="5dp"
+                               android:layout_marginEnd="5dp"
+                               android:layout_marginBottom="10dp"
+                               android:background="?attr/selectableItemBackground"
+                               android:clickable="true"
+                               android:elevation="5dp"
+                               android:focusable="true"
+                               app:cardBackgroundColor="@color/colorCardBg"
+                               app:cardCornerRadius="5dp">-->
+
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:id="@+id/feedsLay"
+                                android:id="@+id/gemsLay"
+                                android:visibility="visible"
                                 android:layout_height="wrap_content">
 
                                 <TextView
+                                    android:id="@+id/txtGems"
                                     style="@style/TextSecondaryRegular"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="15dp"
-                                    android:layout_toEndOf="@+id/ivFeeds"
-                                    android:hint="@string/photos"
+                                    android:layout_toEndOf="@+id/iconDiamond"
+                                    android:hint="@string/gems"
                                     android:paddingTop="15dp"
                                     android:paddingBottom="15dp"
                                     android:textSize="@dimen/text_medium" />
 
                                 <TextView
-                                    android:id="@+id/txtFeedsCount"
-                                    style="@style/TextPrimaryRegular"
+                                    android:id="@+id/txtGemsCount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
                                     android:layout_gravity="start|center_vertical"
                                     android:layout_marginEnd="15dp"
+                                    android:fontFamily="@font/font_regular"
                                     android:paddingTop="15dp"
                                     android:paddingBottom="15dp"
                                     android:text="-"
+                                    android:textAppearance="@style/TextPrimaryRegular"
                                     android:textSize="@dimen/text_medium" />
 
                                 <ImageView
-                                    android:id="@+id/ivFeeds"
-                                    android:layout_width="30dp"
+                                    android:id="@+id/iconDiamond"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
                                     android:visibility="gone"
-                                    android:layout_height="30dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginStart="15dp"
-                                    android:src="@drawable/ic_gift_primary" />
+                                    android:src="@drawable/ic_diamond" />
 
                             </RelativeLayout>
 
-<!--                            </androidx.cardview.widget.CardView>-->
+                            <!--                            </androidx.cardview.widget.CardView>-->
 
                         </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnConvertGems"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:minHeight="0dp"
+                            android:paddingStart="25dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="25dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/convert_gems_to_money"
+                            style="@style/ButtonPrimaryBold"
+                            android:textSize="@dimen/text_normal" />
 
                     </LinearLayout>
 
