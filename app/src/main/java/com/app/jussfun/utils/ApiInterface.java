@@ -238,4 +238,12 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("activities/addbankdetails")
     Call<ProfileResponse> saveBankDetails(@FieldMap HashMap<String, String> requestMap);
+
+    @FormUrlEncoded
+    @POST("activities/deletebankdetails")
+    Call<ProfileResponse> deleteBankDetails(@Field("user_id") String userId);
+
+    @FormUrlEncoded
+    @POST("activities/sendmail")
+    Call<HashMap<String, String>> sendEmail(@Field("user_id") String userId, @Field("description") String description);
 }

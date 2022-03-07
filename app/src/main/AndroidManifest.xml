@@ -71,6 +71,9 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.ContactUsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.BankDetailsActivity"
             android:exported="false" />
         <activity

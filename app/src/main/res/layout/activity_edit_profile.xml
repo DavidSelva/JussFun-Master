@@ -315,13 +315,14 @@
                             android:maxLines="1"
                             android:padding="10dp"
                             android:textSize="@dimen/text_normal"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
                         <ImageView
                             android:layout_width="@dimen/iv_tiny"
                             android:layout_height="@dimen/iv_tiny"
+                            android:padding="@dimen/size_5"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/edit" />
+                            android:src="@drawable/f_arrow" />
 
                     </LinearLayout>
 

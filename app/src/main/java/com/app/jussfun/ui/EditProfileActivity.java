@@ -179,7 +179,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
 
 
     @OnClick({R.id.btnSave, R.id.btnBack, R.id.profileImage, R.id.btnSubscribe, R.id.subscribeLay,
-            R.id.btnRenewal, R.id.renewalLay, R.id.txtLocation, R.id.locationLay, R.id.edtBankLay})
+            R.id.btnRenewal, R.id.renewalLay, R.id.txtLocation, R.id.locationLay, R.id.bankLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnSave:
@@ -225,7 +225,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
                 location.putExtra(Constants.TAG_LOCATION, strLocation != null ? strLocation : "");
                 startActivityForResult(location, Constants.LOCATION_REQUEST_CODE);
                 break;
-            case R.id.edtBankLay: {
+            case R.id.bankLay: {
                 Intent bankIntent = new Intent(this, BankDetailsActivity.class);
                 bankIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(bankIntent);

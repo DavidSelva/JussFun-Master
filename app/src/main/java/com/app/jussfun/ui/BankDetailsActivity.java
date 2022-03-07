@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.databinding.ActivityBankDetailsBinding;
@@ -73,10 +75,10 @@ public class BankDetailsActivity extends BaseFragmentActivity {
             }
         });
 
-        binding.toolBarLay.btnBack.setOnClickListener(new View.OnClickListener() {
+        binding.toolBarLay.btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                deleteBankDetails();
             }
         });
 
@@ -117,6 +119,10 @@ public class BankDetailsActivity extends BaseFragmentActivity {
                         binding.edtConfirmAccountNo.setText("" + profile.getBankAccNo());
                         binding.edtIfsc.setText("" + profile.getBankIfscCode());
                         binding.edtAccountName.setText("" + profile.getBankAccName());
+                        if (!TextUtils.isEmpty(binding.edtAccountNo.getText())) {
+                            binding.toolBarLay.btnSettings.setVisibility(View.VISIBLE);
+                            binding.toolBarLay.btnSettings.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_baseline_delete_24));
+                        }
                     }
                 }
 
@@ -145,6 +151,32 @@ public class BankDetailsActivity extends BaseFragmentActivity {
                     if (profile.getStatus().equals(Constants.TAG_TRUE)) {
                         App.makeToast(getString(R.string.bank_details_updated));
                         AppUtils.showAlertSnack(mContext, binding.parentLay, mContext.getString(R.string.bank_details_updated));
+                        finish();
+                    } else {
+                        binding.btnSave.setEnabled(true);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                    binding.btnSave.setEnabled(true);
+                    t.printStackTrace();
+                    call.cancel();
+                }
+            });
+        }
+    }
+
+    private void deleteBankDetails() {
+        if (NetworkReceiver.isConnected()) {
+            Call<ProfileResponse> call = apiInterface.deleteBankDetails(GetSet.getUserId());
+            call.enqueue(new Callback<ProfileResponse>() {
+                @Override
+                public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+//                    hideLoading();
+                    ProfileResponse profile = response.body();
+                    if (profile.getStatus().equals(Constants.TAG_TRUE)) {
+                        App.makeToast(getString(R.string.bank_details_deleted));
                         finish();
                     } else {
                         binding.btnSave.setEnabled(true);

@@ -503,5 +503,8 @@
     <string name="bank_account_mismatched">Confirm bank account not matched with Bank account</string>
     <string name="bank_details_updated">Bank details updated succsessfully</string>
     <string name="_super">super</string>
+    <string name="bank_details_deleted">Bank details deleted successfully</string>
+    <string name="enter_queries">Enter your queries here...</string>
+    <string name="send_successfully">Send successfully</string>
 
 </resources>

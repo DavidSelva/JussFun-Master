@@ -731,7 +731,10 @@
     <string name="account_name">Account name</string>
     <string name="enter_account_name">Enter your account name as in Bank</string>
     <string name="bank_account_mismatched">Confirm bank account not matched with Bank account</string>
-    <string name="bank_details_updated">Bank details updated succsessfully</string>
+    <string name="bank_details_updated">Bank details updated successfully</string>
     <string name="_super">Super</string>
+    <string name="bank_details_deleted">Bank details deleted successfully</string>
+    <string name="enter_queries">Enter your queries here...</string>
+    <string name="send_successfully">Send successfully</string>
 
 </resources>
