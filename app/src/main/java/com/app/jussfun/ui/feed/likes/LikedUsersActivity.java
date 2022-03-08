@@ -10,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.databinding.ActivityLikedUsersBinding;
+import com.app.jussfun.ui.BaseFragmentActivity;
+import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class LikedUsersActivity extends AppCompatActivity {
+public class LikedUsersActivity extends BaseFragmentActivity {
 
     private static final String TAG = LikedUsersActivity.class.getSimpleName();
     private Context mContext;
@@ -76,5 +79,10 @@ public class LikedUsersActivity extends AppCompatActivity {
                     }
                 }
         ).attach();
+    }
+
+    @Override
+    public void onNetworkChanged(boolean isConnected) {
+        AppUtils.showSnack(mContext, binding.parentLay, isConnected);
     }
 }

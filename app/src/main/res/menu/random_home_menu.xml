@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <item
         android:id="@+id/menuHome"
-        android:icon="@drawable/main_discover_p"
-        android:title="@string/go_live"
         android:enabled="true"
+        android:icon="@drawable/connect_act"
+        android:title="@string/go_live"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menuUsers"
+        android:enabled="true"
+        android:icon="@drawable/main_discover"
+        android:title="@string/discover"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menuFeeds"
+        android:enabled="true"
         android:icon="@drawable/ic_feed_inactive"
         android:title="@string/photos"
-        android:enabled="true"
         app:showAsAction="ifRoom" />
 
     <item
@@ -24,9 +31,9 @@
         android:title="@string/messages"
         app:showAsAction="ifRoom" />
     <item
-        android:enabled="true"
         android:id="@+id/menuProfile"
-        android:icon="@drawable/main_me_plan"
+        android:enabled="true"
+        android:icon="@drawable/main_me"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>

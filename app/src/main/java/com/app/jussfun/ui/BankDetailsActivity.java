@@ -121,7 +121,7 @@ public class BankDetailsActivity extends BaseFragmentActivity {
                         binding.edtAccountName.setText("" + profile.getBankAccName());
                         if (!TextUtils.isEmpty(binding.edtAccountNo.getText())) {
                             binding.toolBarLay.btnSettings.setVisibility(View.VISIBLE);
-                            binding.toolBarLay.btnSettings.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_baseline_delete_24));
+                            binding.toolBarLay.btnSettings.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_delete_black));
                         }
                     }
                 }
