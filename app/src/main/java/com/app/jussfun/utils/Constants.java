@@ -196,6 +196,7 @@ public class Constants {
 
     public static final String TAG_ONLINE = "online";
     public static final String TAG_OFFLINE = "offline";
+    public static final String TAG_TODAY_USER = "todayuser";
     public static final String TAG_ONLINE_STATUS = "online_status";
     public static final String TAG_MIN_AGE = "min_age";
     public static final String TAG_MAX_AGE = "max_age";

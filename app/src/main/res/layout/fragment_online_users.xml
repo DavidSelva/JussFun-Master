@@ -6,15 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.onlineusers.OnlineUsersFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLikedUsers"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_height="@dimen/size_0"
         app:layout_constraintBottom_toTopOf="@id/adLay"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_liked_users" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLikedUsers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_liked_users" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <include
         android:id="@+id/loadingLay"
@@ -26,6 +34,7 @@
 
     <include
         android:id="@+id/adLay"
+        android:visibility="gone"
         layout="@layout/layout_adview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

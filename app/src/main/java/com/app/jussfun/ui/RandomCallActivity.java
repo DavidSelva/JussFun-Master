@@ -54,6 +54,7 @@ import com.app.jussfun.helper.callback.ProfileUpdatedListener;
 import com.app.jussfun.model.AppDefaultResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.Gift;
+import com.app.jussfun.model.OnlineUsers;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
@@ -831,6 +832,11 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
             if (callFragment != null) {
                 callFragment.changeFollowStatus(profileResponse);
             }
+        }
+
+        @Override
+        public void onFollowUpdated(OnlineUsers.AccountModel profileResponse, int holderPosition) {
+
         }
 
         @Override

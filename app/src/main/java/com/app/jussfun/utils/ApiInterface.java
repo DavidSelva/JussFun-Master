@@ -17,6 +17,7 @@ import com.app.jussfun.model.GemsPurchaseResponse;
 import com.app.jussfun.model.GemsStoreResponse;
 import com.app.jussfun.model.HelpResponse;
 import com.app.jussfun.model.LikedUsersModel;
+import com.app.jussfun.model.OnlineUsers;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.model.RecentHistoryResponse;
@@ -242,6 +243,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("activities/deletebankdetails")
     Call<ProfileResponse> deleteBankDetails(@Field("user_id") String userId);
+
+    @FormUrlEncoded
+    @POST("activities/getuserstatuslist")
+    Call<OnlineUsers> getOnlineUsers(@Field("user_id") String userId, @Field("status") String type,@Field("offset") int offset,@Field("limit") int limit);
 
     @FormUrlEncoded
     @POST("activities/sendmail")

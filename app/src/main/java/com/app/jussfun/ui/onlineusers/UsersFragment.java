@@ -97,8 +97,7 @@ public class UsersFragment extends Fragment {
     }
 
     private void initViewPager() {
-        ViewPagerAdapter viewPagerAdapter = new
-                ViewPagerAdapter(getActivity(), "");
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity(), "");
         binding.viewPager.setOffscreenPageLimit(1);
         binding.viewPager.setAdapter(viewPagerAdapter);
 
@@ -128,7 +127,7 @@ public class UsersFragment extends Fragment {
         ).attach();
     }
 
-    public class ViewPagerAdapter extends FragmentStateAdapter {
+    public static class ViewPagerAdapter extends FragmentStateAdapter {
         private static final int TAB_SIZE = 2;
         private String feedId = null;
 
@@ -144,9 +143,9 @@ public class UsersFragment extends Fragment {
             if (position == 0) {
                 type = Constants.TAG_ONLINE;
             } else {
-                type = Constants.TAG_OFFLINE;
+                type = Constants.TAG_TODAY_USER;
             }
-            return OnlineUsersFragment.newInstance(type, type);
+            return OnlineUsersFragment.newInstance("", type);
         }
 
         @Override

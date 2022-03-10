@@ -368,8 +368,8 @@ public class ProfileFragment extends Fragment {
             txtFollowings.setText(getString(R.string.followings));
             txtFollowers.setText(getString(R.string.friends));
 
-            txtFollowersCount.setText("" + profile.getInterests());
             txtFollowingsCount.setText("" + profile.getFriends());
+            txtFollowersCount.setText("" + profile.getInterests());
             txtFeedsCount.setText(profile.getFeedCount());
 
             genderImage.setImageDrawable(profile.getGender().equals(Constants.TAG_MALE) ?

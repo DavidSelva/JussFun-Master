@@ -4,28 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.app.jussfun.R;
-import com.app.jussfun.databinding.FragmentLikedUsersBinding;
 import com.app.jussfun.databinding.FragmentOnlineUsersBinding;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.model.LikedUsersModel;
+import com.app.jussfun.model.OnlineUsers;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
-import com.app.jussfun.ui.feed.likes.LikedUsersAdapter;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.Constants;
@@ -59,8 +58,11 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
     private Context mContext;
     private FragmentOnlineUsersBinding binding;
     private ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-    private List<ProfileResponse> likedUsers = new ArrayList<>();
-    private LikedUsersAdapter adapter;
+    private List<OnlineUsers.AccountModel> likedUsers = new ArrayList<>();
+    private OnlineUsersAdapter adapter;
+    int currentPage = 0, limit = 20;
+    private int visibleItemCount, totalItemCount, firstVisibleItem, previousTotal, visibleThreshold = 10;
+    private boolean isLoading = true;
 
     public OnlineUsersFragment() {
         // Required empty public constructor
@@ -112,6 +114,11 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         hideLoading();
+        initView();
+    }
+
+    private void initView() {
+        LinearLayoutManager mLayoutManager = (LinearLayoutManager) binding.rvLikedUsers.getLayoutManager();
         binding.rvLikedUsers.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -127,21 +134,67 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
                 }
             }
         });
-//        getUsersList(mParam1, mParam2);
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                currentPage = 0;
+                getUsersList(currentPage);
+            }
+        });
+        initAdapter(likedUsers);
+        binding.rvLikedUsers.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(final RecyclerView rv, final int dx, final int dy) {
+                visibleItemCount = binding.rvLikedUsers.getChildCount();
+                totalItemCount = mLayoutManager.getItemCount();
+                firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+                if (dy > 0) {//check for scroll down
+                    if (isLoading) {
+                        if (totalItemCount > previousTotal) {
+                            isLoading = false;
+                            previousTotal = totalItemCount;
+                            currentPage++;
+                        }
+                    }
+
+                    if (!isLoading && (totalItemCount - visibleItemCount)
+                            <= (firstVisibleItem + visibleThreshold)) {
+                        // End has been reached
+                        getUsersList(currentPage);
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+        swipeRefresh(true);
+        getUsersList(currentPage = 0);
     }
 
-    private void getUsersList(String feedId, String type) {
+    private void swipeRefresh(final boolean refresh) {
+        binding.swipeRefreshLayout.setRefreshing(refresh);
+    }
+
+    private void getUsersList(int offset) {
         if (NetworkReceiver.isConnected()) {
-            showLoading();
-            Call<LikedUsersModel> call = apiInterface.getLikedUsers(GetSet.getUserId(), feedId, type);
-            call.enqueue(new Callback<LikedUsersModel>() {
+            if (!binding.swipeRefreshLayout.isRefreshing()) {
+                adapter.showLoading(true);
+            }
+            Call<OnlineUsers> call = apiInterface.getOnlineUsers(GetSet.getUserId(), mParam2, offset * limit, limit);
+            call.enqueue(new Callback<OnlineUsers>() {
                 @Override
-                public void onResponse(Call<LikedUsersModel> call, Response<LikedUsersModel> response) {
+                public void onResponse(Call<OnlineUsers> call, Response<OnlineUsers> response) {
                     if (response.isSuccessful()) {
-                        LikedUsersModel responseModel = response.body();
+                        if (binding.swipeRefreshLayout.isRefreshing()) {
+                            likedUsers.clear();
+                        }
+                        OnlineUsers responseModel = response.body();
                         if (responseModel.getStatus().equals(Constants.TAG_TRUE)) {
-                            likedUsers.addAll(responseModel.getUsersList());
-                            initAdapter(likedUsers);
+                            likedUsers.addAll(responseModel.getResult());
                         }
                         if (likedUsers.size() == 0) {
                             binding.noDataLay.nullLay.setVisibility(View.VISIBLE);
@@ -149,23 +202,44 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
                         } else {
                             binding.noDataLay.nullLay.setVisibility(View.GONE);
                         }
-                        hideLoading();
+                    }
+                    if (binding.swipeRefreshLayout.isRefreshing()) {
+                        adapter.showLoading(false);
+                        swipeRefresh(false);
+                        adapter.notifyDataSetChanged();
+                        isLoading = true;
+                    } else {
+                        adapter.showLoading(false);
+                        adapter.notifyDataSetChanged();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<LikedUsersModel> call, Throwable t) {
-
+                public void onFailure(Call<OnlineUsers> call, Throwable t) {
+                    call.cancel();
+                    t.printStackTrace();
+                    if (currentPage != 0)
+                        currentPage--;
                 }
             });
         } else {
-            hideLoading();
+            if (currentPage != 0)
+                currentPage--;
+            if (!binding.swipeRefreshLayout.isRefreshing()) {
+                adapter.showLoading(false);
+            } else {
+                if (likedUsers.size() == 0) {
+                    binding.noDataLay.nullLay.setVisibility(View.VISIBLE);
+                    binding.noDataLay.nullText.setText(getString(R.string.no_internet_connection));
+                }
+                swipeRefresh(false);
+            }
         }
     }
 
-    private void initAdapter(List<ProfileResponse> likedUsers) {
+    private void initAdapter(List<OnlineUsers.AccountModel> likedUsers) {
         if (adapter == null) {
-            adapter = new LikedUsersAdapter(mContext, likedUsers, this);
+            adapter = new OnlineUsersAdapter(mContext, likedUsers, this, mParam2);
             binding.rvLikedUsers.setAdapter(adapter);
         }
         adapter.notifyDataSetChanged();
@@ -174,6 +248,11 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
 
     @Override
     public void onFollowUpdated(ProfileResponse profileResponse, int holderPosition) {
+
+    }
+
+    @Override
+    public void onFollowUpdated(OnlineUsers.AccountModel profileResponse, int holderPosition) {
         followUnFollowUser(profileResponse, holderPosition);
     }
 
@@ -194,12 +273,12 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
         }
     }
 
-    private void followUnFollowUser(ProfileResponse othersProfile, int holderPosition) {
+    private void followUnFollowUser(OnlineUsers.AccountModel othersProfile, int holderPosition) {
         if (NetworkReceiver.isConnected()) {
             HashMap<String, String> requestMap = new HashMap<>();
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
-            requestMap.put(Constants.TAG_INTEREST_USER_ID, othersProfile.getUserId());
-            requestMap.put(Constants.TAG_INTERESTED, "" + (othersProfile.getInterestedByMe() ? 0 : 1));
+            requestMap.put(Constants.TAG_INTEREST_USER_ID, othersProfile.getId());
+            requestMap.put(Constants.TAG_INTERESTED, "" + (othersProfile.isAcctInterestAlert() ? 0 : 1));
             Call<Map<String, String>> call = apiInterface.interestOnUser(requestMap);
             call.enqueue(new Callback<Map<String, String>>() {
                 @Override
@@ -208,14 +287,14 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
                         Map<String, String> responseMap = response.body();
                         if (responseMap.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
                             if (requestMap.get(Constants.TAG_INTERESTED).equals("" + 1)) {
-                                othersProfile.setInterestedByMe(true);
+                                othersProfile.setAcctInterestAlert(true);
                             } else {
-                                othersProfile.setInterestedByMe(false);
+                                othersProfile.setAcctInterestAlert(false);
                             }
                             if (responseMap.get(Constants.TAG_FRIEND).equals(Constants.TAG_TRUE)) {
-                                othersProfile.setFriend(true);
+//                                othersProfile.setFriend(true);
                             } else {
-                                othersProfile.setFriend(false);
+//                                othersProfile.setFriend(false);
                             }
                             if (adapter != null) {
                                 adapter.onFollowUpdated(othersProfile, holderPosition);

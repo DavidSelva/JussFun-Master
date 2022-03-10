@@ -283,6 +283,11 @@ public class OthersProfileFragment extends Fragment {
             } else {
                 txtName.setText(profile.getName() + ", " + profile.getAge());
             }
+            txtFollowings.setText(getString(R.string.followings));
+            txtFollowers.setText(getString(R.string.friends));
+
+            txtFollowingsCount.setText("" + profile.getFriends());
+            txtFollowersCount.setText("" + profile.getInterests());
             txtFeedsCount.setText(profile.getFeedCount());
 
             premiumImage.setVisibility(profile.getPremiumMember().equals(Constants.TAG_TRUE) ? View.VISIBLE : View.GONE);

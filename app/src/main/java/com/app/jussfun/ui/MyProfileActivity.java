@@ -315,6 +315,11 @@ public class MyProfileActivity extends BaseFragmentActivity {
     private void setProfile(ProfileResponse profile) {
         setPrimeView(profile);
         txtName.setText(profile.getName() + ", " + profile.getAge());
+        txtFollowings.setText(getString(R.string.followings));
+        txtFollowers.setText(getString(R.string.friends));
+
+        txtFollowingsCount.setText("" + profile.getFriends());
+        txtFollowersCount.setText("" + profile.getInterests());
         txtFeedsCount.setText(profile.getFeedCount());
         Glide.with(getApplicationContext())
                 .load(Constants.IMAGE_URL + profile.getUserImage())

@@ -20,6 +20,7 @@ import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.LikedUsersModel;
+import com.app.jussfun.model.OnlineUsers;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
@@ -168,6 +169,11 @@ public class LikedUsersFragment extends Fragment implements FollowUpdatedListene
     @Override
     public void onFollowUpdated(ProfileResponse profileResponse, int holderPosition) {
         followUnFollowUser(profileResponse, holderPosition);
+    }
+
+    @Override
+    public void onFollowUpdated(OnlineUsers.AccountModel profileResponse, int holderPosition) {
+
     }
 
     @Override

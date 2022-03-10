@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/imageLay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +19,17 @@
             app:riv_mutate_background="true"
             app:riv_oval="true" />
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/iconOnline"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignEnd="@+id/ivUser"
+            android:layout_alignBottom="@+id/ivUser"
+            android:src="@drawable/online"
+            android:translationX="2dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 
     <TextView
