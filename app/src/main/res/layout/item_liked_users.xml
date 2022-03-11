@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:id="@+id/itemLay"
+    android:clickable="true"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -15,6 +17,8 @@
             android:id="@+id/ivUser"
             android:layout_width="@dimen/iv_normal"
             android:layout_height="@dimen/iv_normal"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/avatar"
             app:riv_mutate_background="true"
             app:riv_oval="true" />
@@ -27,7 +31,7 @@
             android:layout_alignBottom="@+id/ivUser"
             android:src="@drawable/online"
             android:translationX="2dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </RelativeLayout>
 
@@ -36,9 +40,11 @@
         android:id="@+id/txtUserName"
         style="@style/TextPrimaryLight"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:gravity="start|center_vertical"
         android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnFollow"

@@ -358,7 +358,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
     private void setupViewPager(CustomViewPager viewPager) {
         bottomNavigation.setItemIconTintList(null);
-        viewPager.setOffscreenPageLimit(NUM_PAGES);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setPagingEnabled(false);
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), this);

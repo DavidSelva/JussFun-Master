@@ -141,7 +141,7 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
                 getUsersList(currentPage);
             }
         });
-        initAdapter(likedUsers);
+        initAdapter();
         binding.rvLikedUsers.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
@@ -237,7 +237,7 @@ public class OnlineUsersFragment extends Fragment implements FollowUpdatedListen
         }
     }
 
-    private void initAdapter(List<OnlineUsers.AccountModel> likedUsers) {
+    private void initAdapter() {
         if (adapter == null) {
             adapter = new OnlineUsersAdapter(mContext, likedUsers, this, mParam2);
             binding.rvLikedUsers.setAdapter(adapter);

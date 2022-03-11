@@ -20,74 +20,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:elevation="0dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentInsetStart="0dp"
-            android:contentInsetEnd="0dp"
-            app:layout_scrollFlags="scroll">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:contentInsetStart="0dp"
-                android:contentInsetEnd="0dp"
-                app:layout_collapseMode="pin">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_collapseMode="pin">
-
-                    <ImageView
-                        android:id="@+id/btnBack"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="start"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:src="@drawable/icon_left_back_arrow"
-                        android:visibility="gone"
-                        app:tint="@color/colorPrimaryText" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="45dp"
-                            android:src="@drawable/ic_logo_white" />
-
-                        <TextView
-                            style="@style/TextPrimaryRegular"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/size_5"
-                            android:text="@string/post_photo" />
-
-                    </LinearLayout>
-
-                </FrameLayout>
-
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/toolbar_feeds" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refreshlayout"

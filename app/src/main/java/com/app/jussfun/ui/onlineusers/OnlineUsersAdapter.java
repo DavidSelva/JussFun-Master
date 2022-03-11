@@ -1,11 +1,14 @@
 package com.app.jussfun.ui.onlineusers;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,11 +20,16 @@ import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.model.OnlineUsers;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
 public class OnlineUsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = OnlineUsersAdapter.class.getSimpleName();
     private Context mContext;
     private List<OnlineUsers.AccountModel> itemList;
     private FollowUpdatedListener listener;
@@ -51,32 +59,44 @@ public class OnlineUsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         if (viewHolder instanceof ItemViewHolder) {
-            OnlineUsers.AccountModel user = itemList.get(viewHolder.getAdapterPosition());
             ItemViewHolder holder = (ItemViewHolder) viewHolder;
-            holder.binding.txtUserName.setText(user.getAcctName());
+            OnlineUsers.AccountModel user = itemList.get(holder.getAdapterPosition());
+            holder.viewBinding.txtUserName.setText(user.getAcctName());
             Glide.with(mContext)
-                    .load(user.getAcctPhoto())
+                    .load(Constants.IMAGE_URL + user.getAcctPhoto())
+                    .override(Target.SIZE_ORIGINAL / 2, Target.SIZE_ORIGINAL / 2)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.viewBinding.ivUser.setImageDrawable(resource);
+                            return false;
+                        }
+                    })
                     .placeholder(R.drawable.avatar)
-                    .thumbnail(0.5f)
-                    .into(holder.binding.ivUser);
+                    .into(holder.viewBinding.ivUser);
             if (user.isAcctInterestAlert()) {
-                holder.binding.btnFollow.setText(mContext.getString(R.string.unfollow));
-                holder.binding.btnFollow.setBackground(ContextCompat.getDrawable(mContext, R.drawable.rounded_solid_white));
-                holder.binding.btnFollow.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
+                holder.viewBinding.btnFollow.setText(mContext.getString(R.string.unfollow));
+                holder.viewBinding.btnFollow.setBackground(ContextCompat.getDrawable(mContext, R.drawable.rounded_solid_white));
+                holder.viewBinding.btnFollow.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
             } else {
-                holder.binding.btnFollow.setText(mContext.getString(R.string.follow));
-                holder.binding.btnFollow.setBackground(ContextCompat.getDrawable(mContext, R.drawable.rounded_corner_primary));
-                holder.binding.btnFollow.setTextColor(mContext.getResources().getColor(R.color.colorWhite));
+                holder.viewBinding.btnFollow.setText(mContext.getString(R.string.follow));
+                holder.viewBinding.btnFollow.setBackground(ContextCompat.getDrawable(mContext, R.drawable.rounded_corner_primary));
+                holder.viewBinding.btnFollow.setTextColor(mContext.getResources().getColor(R.color.colorWhite));
+            }
+            holder.viewBinding.btnFollow.setVisibility(View.GONE);
+
+            if (type.equals(Constants.TAG_ONLINE)) {
+                holder.viewBinding.iconOnline.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.online));
+            } else {
+                holder.viewBinding.iconOnline.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.offline));
             }
 
-            holder.binding.btnFollow.setVisibility(View.GONE);
-            if (type.equals(Constants.ONLINE)) {
-                holder.binding.iconOnline.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.iconOnline.setVisibility(View.GONE);
-            }
-
-            holder.binding.btnFollow.setOnClickListener(new View.OnClickListener() {
+            holder.viewBinding.btnFollow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     App.preventMultipleClick(v);
@@ -84,14 +104,15 @@ public class OnlineUsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
 
-            holder.binding.imageLay.setOnClickListener(new View.OnClickListener() {
+            holder.viewBinding.itemLay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d(TAG, "onClick: ");
                     App.preventMultipleClick(v);
-                    holder.binding.txtUserName.performClick();
+                    listener.onProfileClicked(user.getId());
                 }
             });
-            holder.binding.txtUserName.setOnClickListener(new View.OnClickListener() {
+            holder.viewBinding.txtUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     App.preventMultipleClick(v);
@@ -134,27 +155,19 @@ public class OnlineUsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         notifyItemChanged(holderPosition);
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
+    private static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemLikedUsersBinding binding;
-
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
+        private final ItemLikedUsersBinding viewBinding;
 
         public ItemViewHolder(ItemLikedUsersBinding binding) {
             super(binding.getRoot());
-            this.binding = binding;
+            this.viewBinding = binding;
         }
     }
 
-    public class FooterViewHolder extends RecyclerView.ViewHolder {
+    public static class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemLoadingBinding binding;
-
-        public FooterViewHolder(View parent) {
-            super(parent);
-        }
+        private final ItemLoadingBinding binding;
 
         public FooterViewHolder(ItemLoadingBinding binding) {
             super(binding.getRoot());

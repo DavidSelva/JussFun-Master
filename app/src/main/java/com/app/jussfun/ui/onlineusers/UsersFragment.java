@@ -2,24 +2,21 @@ package com.app.jussfun.ui.onlineusers;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.app.jussfun.R;
 import com.app.jussfun.databinding.FragmentUsersBinding;
 import com.app.jussfun.utils.Constants;
-import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,59 +94,44 @@ public class UsersFragment extends Fragment {
     }
 
     private void initViewPager() {
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity(), "");
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), mContext);
         binding.viewPager.setOffscreenPageLimit(1);
         binding.viewPager.setAdapter(viewPagerAdapter);
-
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-                (tab, position) -> {
-                    if (position == 0) {
-                        tab.setText(getString(R.string.online));
-                    } else {
-                        tab.setText("Offline");
-                    }
-                    /*View tabItemLayout = getLayoutInflater().inflate(R.layout.tab_liked_users, null);
-                    ImageView ivLike = tabItemLayout.findViewById(R.id.ivLike);
-                    TextView txtLike = tabItemLayout.findViewById(R.id.txtLike);
-                    txtLike.setTextSize(TypedValue.COMPLEX_UNIT_SP, mContext.getResources().getDimension(R.dimen.text_small));
-                    ivLike.setVisibility(View.GONE);
-                    txtLike.setMaxLines(1);
-                    if (position == 0) {
-                        ivLike.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.like_act));
-                        txtLike.setText(getString(R.string.online));
-                        tab.setCustomView(tabItemLayout);
-                    } else {
-                        ivLike.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.star_act));
-                        txtLike.setText("Offline");
-                        tab.setCustomView(tabItemLayout);
-                    }*/
-                }
-        ).attach();
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
 
-    public static class ViewPagerAdapter extends FragmentStateAdapter {
+    public static class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private static final int TAB_SIZE = 2;
-        private String feedId = null;
+        private Context mContext = null;
 
-        public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, String feedId) {
-            super(fragmentActivity);
-            this.feedId = feedId;
+        public ViewPagerAdapter(@NonNull FragmentManager fm, Context mContext) {
+            super(fm);
+            this.mContext = mContext;
         }
 
         @NonNull
         @Override
-        public Fragment createFragment(int position) {
+        public Fragment getItem(int position) {
             String type;
             if (position == 0) {
-                type = Constants.TAG_ONLINE;
+                return OnlineUsersFragment.newInstance("", Constants.TAG_ONLINE);
             } else {
-                type = Constants.TAG_TODAY_USER;
+                return OnlineUsersFragment.newInstance("", Constants.TAG_TODAY_USER);
             }
-            return OnlineUsersFragment.newInstance("", type);
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) {
+                return (mContext.getString(R.string.online).toLowerCase(Locale.ROOT));
+            } else {
+                return "Offline".toLowerCase(Locale.ROOT);
+            }
         }
 
         @Override
-        public int getItemCount() {
+        public int getCount() {
             return TAB_SIZE;
         }
     }

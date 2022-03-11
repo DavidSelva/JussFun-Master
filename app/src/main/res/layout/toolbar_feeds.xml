@@ -1,0 +1,71 @@
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:contentInsetStart="0dp"
+    android:id="@+id/toolBar"
+    android:contentInsetEnd="0dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="@dimen/size_10"
+    app:layout_collapseMode="pin">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_collapseMode="pin">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:src="@drawable/icon_left_back_arrow"
+            android:visibility="gone"
+            app:tint="@color/colorPrimaryText" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_logo_white" />
+
+            <TextView
+                style="@style/TextPrimaryRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/size_5"
+                android:text="@string/post_photo" />
+
+            <TextView
+                style="@style/TextPrimaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/size_5"
+                android:text="Super like = 1 Gem, Heart = 2 Gems, Star = 3 Gems"
+                android:textSize="@dimen/text_normal" />
+
+            <TextView
+                style="@style/TextSecondaryLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/size_5"
+                android:text="1 Gem = 0.01 USD(1 INR)"
+                android:textSize="@dimen/text_normal" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</com.google.android.material.appbar.MaterialToolbar>
