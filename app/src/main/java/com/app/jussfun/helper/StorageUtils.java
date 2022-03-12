@@ -8,13 +8,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaScannerConnection;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Size;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
@@ -29,11 +32,9 @@ import com.app.jussfun.utils.FileUtil;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.apachecommons.FilenameUtils;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +47,7 @@ public class StorageUtils {
     public static final String IMG_BANNER_PATH = "Images/Banner/";
     public static final String IMG_THUMBNAIL_PATH = "Images/.thumbnails/";
     public static final String VIDEO_CACHE_DIR = "video-cache";
+    public static final String TAG_CACHE = "cache";
     /*  private static final String TAG = StorageUtils.class.getSimpleName();
       private static StorageUtils mInstance;
       private final Context context;
@@ -769,11 +771,11 @@ public class StorageUtils {
 */
     private static final String TAG = StorageUtils.class.getSimpleName();
     private static StorageUtils mInstance;
-    private final Context context;
+    private final Context mContext;
     private final String appDirectory;
 
     public StorageUtils(Context context) {
-        this.context = context;
+        this.mContext = context;
         appDirectory = "/" + context.getString(R.string.app_name);
     }
 
@@ -808,7 +810,7 @@ public class StorageUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void makeNoMedia(@NonNull final String dir) {
-        ContentResolver resolver = context.getContentResolver();
+        ContentResolver resolver = mContext.getContentResolver();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(MediaStore.MediaColumns.TITLE, MediaStore.MEDIA_IGNORE_FILENAME);
@@ -837,7 +839,7 @@ public class StorageUtils {
 
         String path = getPath(from);
 
-        ContentResolver resolver = context.getContentResolver();
+        ContentResolver resolver = mContext.getContentResolver();
         ContentValues contentValues = new ContentValues();
         Uri outUri;
 
@@ -920,7 +922,7 @@ public class StorageUtils {
         fileName = getFileName(fileName);
         Uri imageUri = null;
         String path = getPath(from);
-        ContentResolver resolver = context.getContentResolver();
+        ContentResolver resolver = mContext.getContentResolver();
         Uri collection = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
                 ? MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
                 : MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -956,7 +958,7 @@ public class StorageUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
             } else {
-                ContentResolver resolver = context.getContentResolver();
+                ContentResolver resolver = mContext.getContentResolver();
                 ContentValues values = new ContentValues();
 
                 final String fileName = getFileName(filePath);
@@ -989,8 +991,8 @@ public class StorageUtils {
             final Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             final Uri contentUri = Uri.fromFile(file);
             scanIntent.setData(contentUri);
-            context.sendBroadcast(scanIntent);
-            MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            mContext.sendBroadcast(scanIntent);
+            MediaScannerConnection.scanFile(mContext, new String[]{file.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
                 @Override
                 public void onScanCompleted(String path, Uri uri) {
                     Logging.i(TAG, "Finished scanning " + file.getAbsolutePath());
@@ -1004,7 +1006,7 @@ public class StorageUtils {
     public String saveThumbNail(Bitmap bitmap, String filename) {
         String stored = "";
 
-        String path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent";
+        String path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/Sent";
         File sdcard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File folder = new File(sdcard.getAbsoluteFile(), path);
         folder.mkdirs();
@@ -1038,7 +1040,7 @@ public class StorageUtils {
         File image = null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ContentResolver resolver = context.getContentResolver();
+            ContentResolver resolver = mContext.getContentResolver();
             ContentValues contentValues = new ContentValues();
             contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
             contentValues.put(MediaStore.MediaColumns.TITLE, name);
@@ -1103,22 +1105,22 @@ public class StorageUtils {
             switch (from) {
                 case Constants.TAG_SENT:
                 case Constants.TAG_THUMBNAIL:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent/";
+                    path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/Sent/";
                     break;
                 case "profile":
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Profile/";
+                    path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/Profile/";
                     break;
 
                 case Constants.TAG_AUDIO_SENT:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
+                    path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
                     break;
 
                 case Constants.TAG_AUDIO_RECEIVE:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
+                    path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
                     break;
 
                 default:
-                    path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/";
+                    path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/";
                     break;
             }
             String st = root.getPath() + path + FilenameUtils.getName(imageName);
@@ -1199,7 +1201,7 @@ public class StorageUtils {
                 mDataDir.mkdirs();
             }
         }
-        Logging.i(TAG, "getTempFile: " + mDataDir);
+        Logging.i(TAG, "getCacheDir: " + mDataDir);
         return mDataDir;
     }
 
@@ -1207,13 +1209,13 @@ public class StorageUtils {
         boolean stored = false;
         File mDataDir = null;
         if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
-            mDataDir = ContextCompat.getExternalCacheDirs(context)[0];
+            mDataDir = ContextCompat.getExternalCacheDirs(mContext)[0];
             if (!mDataDir.exists()) {
                 mDataDir.mkdirs();
             }
             Log.i(TAG, "saveToCacheDir: " + mDataDir);
         } else {
-            mDataDir = context.getCacheDir();
+            mDataDir = mContext.getCacheDir();
             if (!mDataDir.exists()) {
                 mDataDir.mkdirs();
             }
@@ -1240,7 +1242,7 @@ public class StorageUtils {
 
     public void deleteCacheDir() {
         if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
-            for (File externalCacheDir : ContextCompat.getExternalCacheDirs(context)) {
+            for (File externalCacheDir : ContextCompat.getExternalCacheDirs(mContext)) {
                 if (externalCacheDir.listFiles() != null) {
                     for (File file : externalCacheDir.listFiles()) {
                         if (!file.getName().equals(VIDEO_CACHE_DIR)) {
@@ -1251,7 +1253,7 @@ public class StorageUtils {
             }
         } else {
             File mDataDir = null;
-            mDataDir = context.getCacheDir();
+            mDataDir = mContext.getCacheDir();
             if (mDataDir.exists() && mDataDir.listFiles() != null)
                 for (File file : mDataDir.listFiles()) {
                     if (!file.getName().equals(VIDEO_CACHE_DIR)) {
@@ -1263,7 +1265,7 @@ public class StorageUtils {
 
     public void clearVideoCache() {
         if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
-            for (File externalCacheDir : ContextCompat.getExternalCacheDirs(context)) {
+            for (File externalCacheDir : ContextCompat.getExternalCacheDirs(mContext)) {
                 if (externalCacheDir.listFiles() != null) {
                     for (File file : externalCacheDir.listFiles()) {
                         if (file.getName().equals(VIDEO_CACHE_DIR) && file.isDirectory()) {
@@ -1277,7 +1279,7 @@ public class StorageUtils {
             }
         } else {
             File mDataDir = null;
-            mDataDir = context.getCacheDir();
+            mDataDir = mContext.getCacheDir();
             if (mDataDir.exists() && mDataDir.listFiles() != null)
                 for (File file : mDataDir.listFiles()) {
                     if (file.getName().equals(VIDEO_CACHE_DIR) && file.isDirectory()) {
@@ -1310,22 +1312,22 @@ public class StorageUtils {
         String path = "";
         switch (from) {
             case Constants.TAG_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Sent/";
+                path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/Sent/";
                 break;
             case "profile":
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/Profile/";
+                path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/Profile/";
                 break;
             case Constants.TAG_THUMBNAIL:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/.thumbnails/";
+                path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/.thumbnails/";
                 break;
             case Constants.TAG_AUDIO_SENT:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
+                path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/Sent/";
                 break;
             case Constants.TAG_AUDIO_RECEIVE:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
+                path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name).replaceAll(" ", "") + "_Audio/";
                 break;
             default:
-                path = "/" + context.getString(R.string.app_name) + "/" + context.getString(R.string.app_name) + "Images/";
+                path = "/" + mContext.getString(R.string.app_name) + "/" + mContext.getString(R.string.app_name) + "Images/";
                 break;
         }
 
@@ -1355,4 +1357,44 @@ public class StorageUtils {
         Uri uri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".provider", file);
         return uri;
     }
+
+    public File createDir(String dirType) {
+        getCacheDir(mContext);
+        return null;
+    }
+
+    public Bitmap getThumbnailFromVideo(File mSrcFile) {
+        Bitmap thumb = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                thumb = ThumbnailUtils.createVideoThumbnail(mSrcFile,
+                        getBitmapSize(mContext), null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            thumb = ThumbnailUtils.createVideoThumbnail(mSrcFile.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+        }
+        return thumb;
+    }
+
+    public Size getBitmapSize(Context mContext) {
+        return new Size(150, 150);
+    }
+
+    public Bitmap getFrameAtTime(File mSrcFile, int time) {
+        Bitmap thumb = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(mSrcFile.getAbsolutePath());
+            thumb = retriever.getFrameAtTime(time * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        } else {
+            thumb = ThumbnailUtils.createVideoThumbnail(mSrcFile.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
+        }
+        Log.d(TAG, "getFrameAtTime: " + mSrcFile + ", " + time);
+        Log.d(TAG, "getFrameAtTime: " + (thumb == null));
+        return thumb;
+    }
+
+
 }

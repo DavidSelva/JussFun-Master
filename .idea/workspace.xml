@@ -14,19 +14,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ef750b7-fefb-40cd-9951-5df489d1d123" name="Default Changelist" comment="Online users">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/offline.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/toolbar_feeds.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/HgLVideoTrimmer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/interfaces/OnHgLVideoListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/interfaces/OnProgressVideoListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/interfaces/OnRangeSeekBarListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/interfaces/OnTrimVideoListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/utils/BackgroundExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/utils/FileUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/utils/TrimVideoUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/utils/UiThreadExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/view/ProgressBarView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/view/RangeSeekBarView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/view/Thumb.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/external/videotrimmer/view/TimeLineView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/TrimmerActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/apptheme_text_select_handle_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/apptheme_text_select_handle_middle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/apptheme_text_select_handle_point.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/apptheme_text_select_handle_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/icon_video_play.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/black_button_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/play_button.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_trimmer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_time_line.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/onlineusers/OnlineUsersAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/onlineusers/OnlineUsersAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/onlineusers/OnlineUsersFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/onlineusers/OnlineUsersFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/onlineusers/UsersFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/onlineusers/UsersFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_feeds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_feeds.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_online_users.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_online_users.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_users.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_users.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_liked_users.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_liked_users.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/StorageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/StorageUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +166,12 @@
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/core/widget/Container.java_SELECTED" value="Container" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/exoplayer/ui/ToroControlView.java_SELECTED" value="ToroControlView" />
     <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/exoplayer/ui/ToroControlView.java_ToroControlView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/videotrimmer/HgLVideoTrimmer.java_HgLVideoTrimmer_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/videotrimmer/HgLVideoTrimmer.java_SELECTED" value="HgLVideoTrimmer" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/videotrimmer/view/ProgressBarView.java_ProgressBarView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/videotrimmer/view/ProgressBarView.java_SELECTED" value="ProgressBarView" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/videotrimmer/view/RangeSeekBarView.java_RangeSeekBarView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/videotrimmer/view/RangeSeekBarView.java_SELECTED" value="RangeSeekBarView" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -167,10 +190,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable" />
+      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\drawable-hdpi" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\res\layout" />
-      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\java\com\app\jussfun\ui\feed" />
-      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\java\com\app\jussfun\helper" />
       <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\java\com\app\jussfun\external" />
+      <recent name="D:\Android\Projects\Workspace\JussFun-master\app\src\main\java\com\app\jussfun\ui\feed" />
     </key>
     <key name="android.template.-2046459693">
       <recent name="com.app.jussfun.ui" />
@@ -635,7 +658,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646935908956</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Online users">
+      <created>1647024054342</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1647024054342</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

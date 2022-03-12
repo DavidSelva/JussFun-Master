@@ -502,5 +502,17 @@
     <string name="bank_details_deleted">Bank details deleted successfully</string>
     <string name="enter_queries">Enter your queries here...</string>
     <string name="send_successfully">Send successfully</string>
+    <string name="short_seconds">sec</string>
+    <string name="megabyte">MB</string>
+    <string name="kilobyte">KB</string>
+    <string name="say_something">Say Something</string>
+    <string name="trimming_progress">Trimming your video…</string>
+    <string name="cannot_trim_less_than_one_second">Cannot trim less than 1 second</string>
+    <string name="shipped_ffmpeg_version" translatable="false">n2.4.2</string>
+    <string name="hold_for_video_tap_for_photo">Hold for video, tap for photo</string>
+    <string name="no_media_found">No media found</string>
+    <string name="video_format_not_supported">The video format is not supported</string>
+    <string name="file_size_limit">The file should not output more than 50MB</string>
+    <string name="overlay_permission_description">This app requires to enable System Window Alert permission for calls</string>
 
 </resources>

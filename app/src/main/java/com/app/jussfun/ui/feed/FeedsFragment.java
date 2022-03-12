@@ -433,8 +433,8 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
     private void openGallery() {
         Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, collection);
-        pickIntent.setType("image/jpeg");
+        Intent pickIntent = new Intent(Intent.ACTION_PICK);
+        pickIntent.setDataAndType(collection, "image/jpeg,video/*");
 
         Intent chooserIntent = Intent.createChooser(pickIntent, "Select a picture");
         if (chooserIntent.resolveActivity(mContext.getPackageManager()) != null) {

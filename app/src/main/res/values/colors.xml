@@ -89,5 +89,7 @@
 
     <color name="filter_label_normal">#8A8889</color>
     <color name="filter_label_selected">#000000</color>
+    <color name="line_color">#0DC143</color>
+    <color name="shadow_color">#FF000000</color>
 
 </resources>
