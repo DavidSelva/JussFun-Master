@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
 import com.app.jussfun.R;
@@ -229,7 +229,7 @@ public class FindPeoplesActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);}
+            BannerAdUtils.getInstance(this).loadAd(TAG, adView);}
     }
 
     private void startAnim(View view) {

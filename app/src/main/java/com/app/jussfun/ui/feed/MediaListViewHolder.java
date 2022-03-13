@@ -385,12 +385,12 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         // for gesture detector
         PlayerViewHolder tempViewHolder;
         private LayoutInflater inflater;
-        private List<Feeds> childAdapterlist;
+        private List<Feeds> childAdapterList;
         private Context context;
         private clickListener listener;
 
         Adapter(List<Feeds> childlist, clickListener listener) {
-            this.childAdapterlist = childlist;
+            this.childAdapterList = childlist;
             this.listener = listener;
         }
 
@@ -428,7 +428,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                 ArrayList<BaseViewHolder> holders = new ArrayList<>();
                 holders.add(simplePlayerViewHolder);
 
-                holder.bind(holder.getAdapterPosition(), childAdapterlist, "");
+                holder.bind(holder.getAdapterPosition(), childAdapterList, "");
 
 //                simplePlayerViewHolder.durationTxt.setText(childAdapterlist.get(position).getDuration());
 
@@ -448,13 +448,13 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
             } else {
                 final ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
-                imageViewHolder.bind(holder.getAdapterPosition(), childAdapterlist, "");
+                imageViewHolder.bind(holder.getAdapterPosition(), childAdapterList, "");
                 imageViewHolder.setListener(Adapter.this);
                 imageViewHolder.imageView.setOnClickListener(new DoubleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
                         Intent intent = new Intent(context, FullScreenImageViewActivity.class);
-                        intent.putExtra(Constants.TAG_IMAGE, childAdapterlist.get(holder.getAdapterPosition()).getImageUrl());
+                        intent.putExtra(Constants.TAG_IMAGE, childAdapterList.get(holder.getAdapterPosition()).getImageUrl());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent);
                     }
@@ -469,7 +469,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
         @Override
         public int getItemViewType(int position) {
-            return childAdapterlist.get(position).getImageUrl().contains(".mp4") ? VIEW_TYPE_VIDEO_ITEM : VIEW_TYPE_IMAGE_ITEM;
+            return childAdapterList.get(position).getImageUrl().contains(".mp4") ? VIEW_TYPE_VIDEO_ITEM : VIEW_TYPE_IMAGE_ITEM;
 
         }
 
@@ -479,7 +479,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
         @Override
         public int getItemCount() {
-            return childAdapterlist.size();
+            return childAdapterList.size();
         }
 
 

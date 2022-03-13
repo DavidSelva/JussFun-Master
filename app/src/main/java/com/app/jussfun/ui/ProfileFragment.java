@@ -5,7 +5,6 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
@@ -36,10 +35,7 @@ import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -131,8 +127,6 @@ public class ProfileFragment extends Fragment {
     DialogCreditGems alertDialog;
     private String userId = null;
     private AppUtils appUtils;
-
-    private InterstitialAd mInterstitialAd;
     private String from;
 
     public ProfileFragment() {
@@ -173,64 +167,8 @@ public class ProfileFragment extends Fragment {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(context).loadAd(TAG, adView);
+            BannerAdUtils.getInstance(context).loadAd(TAG, adView);
         }
-    }
-
-    private void loadAds() {
-        mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Log.d(TAG, "onAdLoaded: ");
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.e("TAG", "FailedToLoad: " + errorCode);
-
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the interstitial ad is closed.
-                if (from.equals("Gems")) {
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                    Intent freeGems = new Intent(getContext(), GemsStoreActivity.class);
-                    freeGems.putExtra("OnCLick", "ClickHere");
-                    freeGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(freeGems);
-                } else {
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                    Intent freeGems = new Intent(getContext(), SettingsActivity.class);
-                    freeGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(freeGems);
-                }
-
-
-            }
-        });
-
-
     }
 
     private void initProfile() {

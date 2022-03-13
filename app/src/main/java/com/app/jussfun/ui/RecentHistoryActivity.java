@@ -25,23 +25,20 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.jussfun.base.App;
-import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.external.shimmer.ShimmerFrameLayout;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.RecentHistoryResponse;
-import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
@@ -188,45 +185,7 @@ public class RecentHistoryActivity extends BaseFragmentActivity {
     }
 
     private void loadAd() {
-        if (AdminData.isAdEnabled()) {
-            MobileAds.initialize(RecentHistoryActivity.this,
-                    AdminData.googleAdsId);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                }
-
-                @Override
-                public void onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                }
-
-                @Override
-                public void onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                }
-            });
-        }
+        BannerAdUtils.getInstance(this).loadAd(TAG, adView);
     }
 
     @Override

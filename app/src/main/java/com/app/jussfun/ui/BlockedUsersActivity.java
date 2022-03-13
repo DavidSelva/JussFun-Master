@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -239,7 +239,7 @@ public class BlockedUsersActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);
+            BannerAdUtils.getInstance(this).loadAd(TAG, adView);
         }
     }
 

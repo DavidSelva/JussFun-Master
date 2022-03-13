@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/edtMsgLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@drawable/chat_edit_bg"
+        android:backgroundTint="@color/colorDivider"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <EditText
+            android:id="@+id/edtMessage"
+            style="@style/TextPrimaryLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toStartOf="@+id/btnSend"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/type_your_message"
+            android:inputType="textCapSentences|textMultiLine"
+            android:isScrollContainer="true"
+            android:paddingStart="15dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorWhiteText"
+            android:textColorHint="@color/colorWhiteText"
+            android:textSize="@dimen/text_medium" />
+
+        <ImageView
+            android:id="@+id/btnSend"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:src="@drawable/send_able"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+    >
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.GetSet;
@@ -173,7 +173,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);
+            BannerAdUtils.getInstance(this).loadAd(TAG, adView);
         }
     }
 

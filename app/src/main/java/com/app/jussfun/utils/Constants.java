@@ -364,4 +364,5 @@ public class Constants {
     public static final String TAG_ACCOUNT_NUMBER = "bank_accountno";
     public static final String TAG_IFSC_CODE = "bank_ifsccode";
     public static final String TAG_ACCOUNT_NAME = "bank_accountname";
+    public static final String TAG_ATTACHMENT = "attachment";
 }

@@ -21,7 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.GetSet;
@@ -31,12 +31,15 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -55,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVideoAdListener {
+public class EarnGemsActivity extends BaseFragmentActivity {
 
     private static final String TAG = EarnGemsActivity.class.getSimpleName();
     ApiInterface apiInterface;
@@ -82,9 +85,9 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
     @BindView(R.id.txtVideoTime)
     TextView txtVideoTime;
     private LinearLayout.LayoutParams linearParams;
-    private RewardedVideoAd mRewardedVideoAd;
     private CountDownTimer timer;
     private AppUtils appUtils;
+    private RewardedAd mRewardedAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,12 +167,11 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
 
         btnCopy.setImageDrawable(getDrawable(R.drawable.copy));
         txtTitle.setText(getString(R.string.earn_gems));
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener(this);
         if (!AdminData.showVideoAd.equals("1")) {
             btnWatchVideo.setVisibility(View.INVISIBLE);
         }
         loadAd();
+        initVideoAd();
 
         if (LocaleManager.isRTL()) {
             btnBack.setRotation(180);
@@ -182,8 +184,48 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);
+            BannerAdUtils.getInstance(this).loadAd(TAG, adView);
         }
+    }
+
+    private void initVideoAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, getString(R.string.video_ad_id),
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        Log.d(TAG, loadAdError.getMessage());
+                        mRewardedAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        mRewardedAd = rewardedAd;
+                        Log.d(TAG, "Ad was loaded.");
+                        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                // Called when ad is shown.
+                                Log.d(TAG, "Ad was shown.");
+                            }
+
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                // Called when ad fails to show.
+                                Log.d(TAG, "Ad failed to show.");
+                            }
+
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                // Called when ad is dismissed.
+                                // Set the ad reference to null so you don't show the ad a second time.
+                                Log.d(TAG, "Ad was dismissed.");
+                                mRewardedAd = null;
+                            }
+                        });
+                    }
+                });
     }
 
     @Override
@@ -213,8 +255,22 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
     }
 
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(AdminData.videoAdsClient != null ? AdminData.videoAdsClient : getString(R.string.video_ad_id),
-                new AdRequest.Builder().build());
+        if (mRewardedAd != null) {
+            mRewardedAd.show(this, new OnUserEarnedRewardListener() {
+                @Override
+                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                    // Handle the reward.
+                    Log.d(TAG, "The user earned the reward.");
+                    int rewardAmount = rewardItem.getAmount();
+                    String rewardType = rewardItem.getType();
+                    Log.d(TAG, "onUserEarnedReward: "+ rewardAmount);
+                    Log.d(TAG, "onUserEarnedReward: "+ rewardType);
+                    onRewarded(rewardItem);
+                }
+            });
+        } else {
+            Log.d(TAG, "The rewarded ad wasn't ready yet.");
+        }
     }
 
     private void openShare() {
@@ -277,34 +333,9 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
     }
 
     private void openVideo() {
-
         loadRewardedVideoAd();
     }
 
-    @Override
-    public void onRewardedVideoAdLoaded() {
-        Log.d(TAG, "onRewardedVideoAdLoaded: "+mRewardedVideoAd.isLoaded());
-        if (mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.show();
-        }
-    }
-
-    @Override
-    public void onRewardedVideoAdOpened() {
-
-    }
-
-    @Override
-    public void onRewardedVideoStarted() {
-
-    }
-
-    @Override
-    public void onRewardedVideoAdClosed() {
-
-    }
-
-    @Override
     public void onRewarded(RewardItem rewardItem) {
         updateRewards(rewardItem.getAmount());
         SharedPref.putLong(SharedPref.VIDEO_END_TIME, (SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(AdminData.videoAdsDuration)));
@@ -346,34 +377,18 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
         timer.start();
     }
 
-    @Override
-    public void onRewardedVideoAdLeftApplication() {
-
-    }
-
-    @Override
-    public void onRewardedVideoAdFailedToLoad(int i) {
-
-    }
-
-    @Override
-    public void onRewardedVideoCompleted() {
-
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
         btnWatchVideo.setEnabled(true);
         AppUtils.showSnack(getApplicationContext(), findViewById(R.id.parentLay), NetworkReceiver.isConnected());
-        mRewardedVideoAd.resume(this);
         registerNetworkReceiver();
     }
 
     @Override
     protected void onDestroy() {
         unregisterNetworkReceiver();
-        mRewardedVideoAd.destroy(this);
         if (timer != null) {
             timer.cancel();
         }
@@ -382,7 +397,6 @@ public class EarnGemsActivity extends BaseFragmentActivity implements RewardedVi
 
     @Override
     public void onPause() {
-        mRewardedVideoAd.pause(this);
         super.onPause();
     }
 

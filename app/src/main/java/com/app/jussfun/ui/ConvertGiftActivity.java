@@ -27,7 +27,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.OnOkCancelClickListener;
@@ -126,7 +126,7 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);
+            BannerAdUtils.getInstance(this).loadAd(TAG, adView);
         }
     }
 

@@ -40,26 +40,23 @@ import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.qrgenerator.QRGContents;
 import com.app.jussfun.external.qrgenerator.QRGEncoder;
-import com.app.jussfun.helper.callback.FollowUpdatedListener;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.StorageUtils;
+import com.app.jussfun.helper.callback.FollowUpdatedListener;
 import com.app.jussfun.model.FollowRequest;
 import com.app.jussfun.model.FollowResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.ui.feed.FeedsActivity;
-import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONException;
@@ -188,45 +185,7 @@ public class OthersProfileFragment extends Fragment {
     }
 
     private void loadAd() {
-        if (AdminData.isAdEnabled()) {
-            MobileAds.initialize(context,
-                    AdminData.googleAdsId);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                }
-
-                @Override
-                public void onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                }
-
-                @Override
-                public void onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                }
-            });
-        }
+        BannerAdUtils.getInstance(context).loadAd(TAG, adView);
     }
 
 

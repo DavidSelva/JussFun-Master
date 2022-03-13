@@ -366,9 +366,15 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
     }
 
     private void openAddPostActivity(Uri data) {
-        Intent intent = new Intent(mContext, FilterActivity.class);
-        intent.setData(data);
-        addPostResultLauncher.launch(intent);
+        if (storageUtils.getMimeTypeOfUri(mContext, data).contains("video")) {
+            Intent intent = new Intent(mContext, TrimmerActivity.class);
+            intent.setData(data);
+            addPostResultLauncher.launch(intent);
+        } else {
+            Intent intent = new Intent(mContext, FilterActivity.class);
+            intent.setData(data);
+            addPostResultLauncher.launch(intent);
+        }
     }
 
     private void openImageDialog(View itemView) {

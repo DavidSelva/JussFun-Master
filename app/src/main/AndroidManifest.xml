@@ -255,6 +255,7 @@
             android:name=".ui.feed.FeedsActivity"
             android:exported="false"
             android:theme="@style/SliderThemeWhite" />
+        <activity android:name=".ui.feed.TrimmerActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

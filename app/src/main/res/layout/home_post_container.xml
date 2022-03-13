@@ -161,17 +161,30 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/iv_normal"
-                    android:layout_height="@dimen/iv_normal"
+                    android:layout_width="@dimen/size_30"
+                    android:layout_height="@dimen/size_30"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/more"
                     android:visibility="visible"
                     app:tint="@color/colorPrimaryText" />
+
+                <TextView
+                    android:id="@+id/txtMore"
+                    style="@style/TextSecondaryLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/more"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_small" />
 
             </LinearLayout>
 

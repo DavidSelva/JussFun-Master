@@ -36,9 +36,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.hitasoft.app.external.videotrimmer.utils.BackgroundExecutor;
-import com.hitasoft.app.external.videotrimmer.utils.UiThreadExecutor;
-import com.hitasoft.app.hiddy.R;
+import com.app.jussfun.R;
+import com.app.jussfun.external.videotrimmer.utils.BackgroundExecutor;
+import com.app.jussfun.external.videotrimmer.utils.UiThreadExecutor;
 
 
 public class TimeLineView extends View {

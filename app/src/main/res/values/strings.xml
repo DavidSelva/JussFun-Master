@@ -749,5 +749,8 @@
     <string name="video_format_not_supported">The video format is not supported</string>
     <string name="file_size_limit">The file should not output more than 50MB</string>
     <string name="overlay_permission_description">This app requires to enable System Window Alert permission for calls</string>
+    <string name="maximum_characters_limit_reached">Maximum characters limit reached</string>
+    <string name="maximum_line_limit_reached">Maximum characters line reached</string>
+    <string name="more">More</string>
 
 </resources>

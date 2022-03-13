@@ -24,11 +24,11 @@
 package com.app.jussfun.external.videotrimmer;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.google.android.exoplayer2.Player.STATE_ENDED;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.session.MediaController;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -50,9 +50,7 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
 
-import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.external.videotrimmer.interfaces.OnHgLVideoListener;
 import com.app.jussfun.external.videotrimmer.interfaces.OnProgressVideoListener;
@@ -68,33 +66,33 @@ import com.app.jussfun.external.videotrimmer.view.TimeLineView;
 import com.app.jussfun.helper.StorageUtils;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.PlaybackException;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.PlaybackPreparer;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
-import com.google.android.exoplayer2.upstream.HttpDataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener, VideoRendererEventListener {
+public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener, VideoRendererEventListener, PlaybackPreparer {
 
     private static final String TAG = HgLVideoTrimmer.class.getSimpleName();
     private static final int MIN_TIME_FRAME = 1000;
@@ -114,7 +112,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     private ImageView btnPlay;
 
     private ProgressBarView mVideoProgressIndicator;
-    private Uri mSrc;
+    private Uri videoUri;
     private String mFinalPath;
 
     private int mMaxDuration;
@@ -134,15 +132,38 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     private boolean mResetSeekBar = true;
     private final MessageHandler mMessageHandler = new MessageHandler(this);
     private SharedPreferences pref;
-    private ExoPlayer player;
-    StyledPlayerView playerView;
+    private SimpleExoPlayer player;
+    SimpleExoPlayerView playerView;
     private StorageUtils storageUtils;
-    private Context context;
+    private Context mContext;
     private boolean playReady;
+    public static String MEDIA_ACTION = "media_action";
+    private static DefaultBandwidthMeter BANDWIDTH_METER;
+    private static String USER_AGENT;
+    Handler handler;
+    private static final CookieManager DEFAULT_COOKIE_MANAGER;
+
+    static {
+        DEFAULT_COOKIE_MANAGER = new CookieManager();
+        DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+    }
+
+    DefaultLoadControl loadControl;
+    MediaController mediaController;
+    private boolean needNewPlayer = player == null;
+    private boolean isPlayerInitialized = false;
+    private boolean shouldAutoPlay = true, durationSet = false;
+    private long resumePosition;
+    private int resumeWindow;
+    private boolean needRetrySource;
+    private DefaultTrackSelector trackSelector;
+    private float videoDuration;
+    private long estimatedDuration, trimStartTime, trimEndTime;
+    private long originalSize, estimatedSize;
 
     public HgLVideoTrimmer(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-        this.context = context;
+        this.mContext = context;
     }
 
     public HgLVideoTrimmer(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
@@ -151,7 +172,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     }
 
     private void init(Context context) {
-        this.context = context;
+        this.mContext = context;
         LayoutInflater.from(context).inflate(R.layout.view_time_line, this, true);
         pref = context.getSharedPreferences("SavedPref", MODE_PRIVATE);
         storageUtils = StorageUtils.getInstance(context);
@@ -169,77 +190,111 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
 
         closeLay = findViewById(R.id.close_layout);
         btnPlay = findViewById(R.id.icon_video_play);
+        USER_AGENT = Util.getUserAgent(mContext, mContext.getString(R.string.app_name));
+        BANDWIDTH_METER = new DefaultBandwidthMeter.Builder(mContext).build();
+        if (CookieHandler.getDefault() != DEFAULT_COOKIE_MANAGER) {
+            CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
+        }
+
         initMargins();
         setUpListeners();
         setUpMargins();
     }
 
     private void initExoPlayer() {
-        playerView.setControllerVisibilityListener(null);
-        playerView.setControllerAutoShow(false);
-        playerView.requestFocus();
-        // Create a default TrackSelector
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(context).build();
-        TrackSelector trackSelector = new DefaultTrackSelector(context);
-        LoadControl loadControl = new DefaultLoadControl();
+        if (needNewPlayer || needRetrySource) {
+            // Prepare the player with the source.
+            DefaultExtractorsFactory extractorsFactory =
+                    new DefaultExtractorsFactory().setConstantBitrateSeekingEnabled(true);
+            DataSource.Factory dataSourceFactory =
+                    new DefaultDataSourceFactory(mContext, USER_AGENT);
+            ProgressiveMediaSource.Factory factory = new ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory);
+            MediaSource mediaSource = factory.createMediaSource(videoUri);
+            isPlayerInitialized = true;
+            playerView.setControllerVisibilityListener(null);
+            playerView.setControllerAutoShow(false);
+            playerView.requestFocus();
+            playerView.setKeepContentOnPlayerReset(true);
 
-        //Initialize the player
-        player = new ExoPlayer.Builder(context)
-                .setBandwidthMeter(bandwidthMeter)
-                .setTrackSelector(trackSelector)
-                .setLoadControl(loadControl)
-                .build();
-
-        player.setPlayWhenReady(false);
-        playerView.setPlayer(player);
-
-        playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
-        player.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-        // Produces DataSource instances through which media data is loaded.
-        // used for Repeat mode to video
-        DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(getContext(),
-                buildHttpDataSourceFactory());
-        MediaItem.Builder builder = new MediaItem.Builder();
-        builder.setUri(mSrc);
-        MediaItem mediaItem = builder.build();
-        MediaSource videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem);
-        setPlayerListener();
-        // Prepare the player with the source.
-        player.setMediaSource(videoSource);
-        player.prepare();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onVideoPrepared(playerView.getWidth(), playerView.getHeight());
+            if (videoUri.toString().startsWith("file://")) {
+                player = new SimpleExoPlayer.Builder(mContext).build();
+            } else {
+                final int loadControlStartBufferMs = 1500;
+                /* Instantiate a DefaultLoadControl.Builder. */
+                DefaultLoadControl.Builder builder = new DefaultLoadControl.Builder();
+                builder.setBufferDurationsMs(
+                        DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
+                        DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
+                        loadControlStartBufferMs,
+                        DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS);
+                /* Build the actual DefaultLoadControl instance */
+                loadControl = builder.createDefaultLoadControl();
+                TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
+                trackSelector = new DefaultTrackSelector(mContext, videoTrackSelectionFactory);
+                player = new SimpleExoPlayer.Builder(mContext)
+                        .setBandwidthMeter(BANDWIDTH_METER)
+                        .setLoadControl(loadControl)
+                        .setTrackSelector(trackSelector)
+                        .build();
             }
-        }, 500);
-    }
-
-    public HttpDataSource.Factory buildHttpDataSourceFactory() {
-        DefaultHttpDataSource.Factory factory = new DefaultHttpDataSource.Factory();
-        factory.setUserAgent(Util.getUserAgent(getContext(), getContext().getString(R.string.app_name)));
-        return factory;
+            /* Milliseconds of media data buffered before playback starts or resumes. */
+            setPlayerListener();
+            playerView.setPlayer(player);
+            playerView.setPlaybackPreparer(this);
+            player.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+            boolean haveResumePosition = resumeWindow != C.INDEX_UNSET;
+            if (haveResumePosition) {
+                player.seekTo(resumeWindow, resumePosition);
+            }
+            player.setPlayWhenReady(shouldAutoPlay);
+            player.getPlaybackState();
+            player.prepare(mediaSource, !haveResumePosition, false);
+            needRetrySource = false;
+        }
     }
 
 
     private void setPlayerListener() {
-        player.addListener(new Player.Listener() {
-            @Override
-            public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
-                playReady = playWhenReady;
-            }
+        player.addListener(new Player.EventListener() {
 
             @Override
-            public void onPlaybackStateChanged(int playbackState) {
-                if (!playReady && playbackState == STATE_ENDED) {
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                Log.d(TAG, "onPlayerStateChanged: " + playWhenReady + " , " + playbackState);
+
+                if (playWhenReady && playbackState == Player.STATE_IDLE) {
+
+                } else if (playbackState == Player.STATE_READY) {
+//                    handler.removeCallbacks(runnable);
+                    if (playWhenReady) {
+                        if (!durationSet) {
+                            durationSet = true;
+                            videoDuration = player.getDuration();
+                        }
+                        btnPlay.setVisibility(View.GONE);
+                    } else {
+//                        mTimeLineView.removeCallbacks(updateProgressRunnable);
+                        btnPlay.setVisibility(View.VISIBLE);
+                    }
+                } else if (playbackState == Player.STATE_BUFFERING) {
+
+                } else if (playbackState == Player.STATE_ENDED) {
                     onVideoCompleted();
                 }
             }
 
             @Override
-            public void onPlayerError(PlaybackException error) {
-                Log.e(TAG, "onPlayerError: " + error.getMessage());
+            public void onPositionDiscontinuity(int reason) {
+                Log.i(TAG, "onPositionDiscontinuity: " + reason);
+                if (needRetrySource) {
+                    // This will only occur if the user has performed a seek whilst in the error state. Update the
+                    // resume position so that if the user then retries, playback will resume from the position to
+                    // which they seeked.
+
+                }
+            }
+
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {
                 if (mOnTrimVideoListener != null)
                     mOnTrimVideoListener.onError(null);
             }
@@ -366,17 +421,18 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD_MR1)
     public void onSaveClicked() {
         if (mStartPosition == 0 && mEndPosition >= mDuration) {
-            if (mSrc != null && mSrc.getPath() != null) {
+            if (videoUri != null && videoUri.getPath() != null) {
                 //notify that video trimming started
                 if (mOnTrimVideoListener != null)
                     mOnTrimVideoListener.onTrimStarted();
-                final File mSrcFile = new File(mSrc.getPath());
+                final File destDir = storageUtils.getCacheDir(mContext);
                 String mDestFileName = getContext().getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".mp4";
-                File mDestDir = storageUtils.getCacheDir(context);
-                Bitmap thumb = storageUtils.getThumbnailFromVideo(mSrcFile);
+                File savedFile = storageUtils.saveUriToFile(mContext, videoUri, destDir, mDestFileName);
+                Bitmap thumb = storageUtils.getThumbnailFromVideo(savedFile);
 
-                Uri uri = FileProvider.getUriForFile(context,
-                        BuildConfig.APPLICATION_ID + ".provider", mSrcFile);
+                /*Uri uri = FileProvider.getUriForFile(mContext,
+                        BuildConfig.APPLICATION_ID + ".provider", mSrcFile);*/
+                Uri uri = Uri.parse(savedFile.getAbsolutePath());
 //                File tempSrc = storageUtils.saveToCacheDir(context, uri, mDestDir, mDestFileName);
                 //notify that video trimming started
                 if (mOnTrimVideoListener != null) {
@@ -391,10 +447,10 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
                 if (mOnTrimVideoListener != null)
                     mOnTrimVideoListener.onError(getContext().getString(R.string.cannot_trim_less_than_one_second));
             } else {
-                if (mSrc != null && mSrc.getPath() != null) {
-                    final File mSrcFile = new File(mSrc.getPath());
+                if (videoUri != null && videoUri.getPath() != null) {
+                    final File mSrcFile = new File(videoUri.getPath());
                     String mDestFileName = getContext().getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".mp4";
-                    File mDestFile = new File(storageUtils.getCacheDir(context), mDestFileName);
+                    File mDestFile = new File(storageUtils.getCacheDir(mContext), mDestFileName);
                     if (!mDestFile.exists()) {
                         try {
                             mDestFile.createNewFile();
@@ -446,8 +502,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     }
 
     private void onCancelClicked() {
-        player.stop();
-        player.clearMediaItems();
+        releasePlayer();
         if (mOnTrimVideoListener != null) {
             mOnTrimVideoListener.cancelAction();
         }
@@ -721,10 +776,10 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
      */
     @SuppressWarnings("unused")
     public void setVideoURI(final Uri videoURI) {
-        mSrc = videoURI;
+        videoUri = videoURI;
 
         if (mOriginSizeFile == 0) {
-            File file = new File(mSrc.getPath());
+            File file = new File(videoUri.getPath());
 
             mOriginSizeFile = file.length();
             long fileSizeInKB = mOriginSizeFile / 1024;
@@ -738,7 +793,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
         }
 
         initExoPlayer();
-        mTimeLineView.setVideo(mSrc);
+        mTimeLineView.setVideo(videoUri);
     }
 
     @Override
@@ -748,6 +803,11 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
 
     public void stopPlayer() {
         player.stop(true);
+    }
+
+    @Override
+    public void preparePlayback() {
+
     }
 
     private static class MessageHandler extends Handler {

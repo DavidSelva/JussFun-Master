@@ -50,6 +50,8 @@ import com.google.android.exoplayer2.mediacodec.MediaCodecUtil;
 import com.google.android.exoplayer2.source.BehindLiveWindowException;
 import com.google.android.exoplayer2.ui.PlayerView;
 
+import java.util.List;
+
 
 /**
  * @author eneim (7/1/17).
@@ -199,14 +201,14 @@ public class PlayerViewHolder extends BaseViewHolder implements ToroPlayer {
     @Override
     public void bind(int position, Object object, String way) {
         this.way = way;
-        Feeds postMediaItem = (Feeds) object;
+        List<Feeds> postMediaItem = (List<Feeds>) object;
         Glide.with(itemView.getContext())
-                .load(postMediaItem.getImageUrl())
+                .load(postMediaItem.get(position).getImageUrl())
                 .placeholder(R.drawable.bg_local_video_view)
                 .error(R.drawable.bg_local_video_view)
                 .thumbnail(0.5f)
                 .into(thumbnail);
-        mediaUri = Uri.parse(postMediaItem.getImageUrl());
+        mediaUri = Uri.parse(postMediaItem.get(position).getImageUrl());
     }
 
     public void setMute(boolean isMute) {

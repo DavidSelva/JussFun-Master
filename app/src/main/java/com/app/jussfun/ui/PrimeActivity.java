@@ -39,7 +39,7 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.external.LoopViewPager;
-import com.app.jussfun.helper.AdUtils;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.GetSet;
@@ -192,7 +192,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            AdUtils.getInstance(this).loadAd(TAG, adView);
+            BannerAdUtils.getInstance(this).loadAd(TAG, adView);
         }
     }
 
