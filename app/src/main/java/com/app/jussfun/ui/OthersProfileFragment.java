@@ -243,7 +243,7 @@ public class OthersProfileFragment extends Fragment {
                 txtName.setText(profile.getName() + ", " + profile.getAge());
             }
             txtFollowings.setText(getString(R.string.followings));
-            txtFollowers.setText(getString(R.string.friends));
+            txtFollowers.setText(getString(R.string.followers));
 
             txtFollowingsCount.setText("" + profile.getFriends());
             txtFollowersCount.setText("" + profile.getInterests());

@@ -12,11 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.app.jussfun.R;
 import com.app.jussfun.databinding.FragmentUsersBinding;
 import com.app.jussfun.utils.Constants;
-
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,9 +121,9 @@ public class UsersFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return (mContext.getString(R.string.online).toLowerCase(Locale.ROOT));
+                return "Currently Online";
             } else {
-                return "Offline".toLowerCase(Locale.ROOT);
+                return "Recently Online";
             }
         }
 

@@ -170,7 +170,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
         toolbar.setLayoutParams(params);
 
         txtFollowings.setText(getString(R.string.followings));
-        txtFollowers.setText(getString(R.string.friends));
+        txtFollowers.setText(getString(R.string.followers));
 
         if (LocaleManager.isRTL()) {
             btnBack.setRotation(180);
@@ -316,7 +316,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
         setPrimeView(profile);
         txtName.setText(profile.getName() + ", " + profile.getAge());
         txtFollowings.setText(getString(R.string.followings));
-        txtFollowers.setText(getString(R.string.friends));
+        txtFollowers.setText(getString(R.string.followers));
 
         txtFollowingsCount.setText("" + profile.getFriends());
         txtFollowersCount.setText("" + profile.getInterests());

@@ -71,6 +71,8 @@ public class TrimVideoUtils {
 
     private void genVideoUsingMp4Parser(@NonNull File src, @NonNull File dst, long startMs,
                                         long endMs, @NonNull OnTrimVideoListener callback) throws IOException {
+        Log.d(TAG, "genVideoUsingMp4Parser: " + src.getAbsolutePath() + ", " + (src.exists()));
+        Log.d(TAG, "genVideoUsingMp4Parser: " + dst.getAbsolutePath() + ", " + (dst.exists()));
         // NOTE: Switched to using FileDataSourceViaHeapImpl since it does not use memory mapping (VM).
         // Otherwise we get OOM with large movie files.
         Movie movie = MovieCreator.build(new FileDataSourceViaHeapImpl(src.getAbsolutePath()));
@@ -81,7 +83,6 @@ public class TrimVideoUtils {
 
         double startTime1 = startMs / 1000;
         double endTime1 = endMs / 1000;
-        Log.i(TAG, "genVideoUsingMp4Parser: " + startTime1 + ", " + endTime1);
         boolean timeCorrected = false;
 
         // Here we try to find a track that has sync samples. Since we can only start decoding

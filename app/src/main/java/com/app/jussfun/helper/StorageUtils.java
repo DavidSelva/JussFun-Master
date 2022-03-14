@@ -419,7 +419,7 @@ public class StorageUtils {
         return new File(mDataDir.getPath() + File.separator + fileName);
     }
 
-    public File getCacheDir(Context context) {
+    public File createCacheDir(Context context) {
         File mDataDir = null;
         if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
             mDataDir = ContextCompat.getExternalCacheDirs(context)[0];
@@ -602,7 +602,7 @@ public class StorageUtils {
     }
 
     public File createDir(String dirType) {
-        getCacheDir(mContext);
+        createCacheDir(mContext);
         return null;
     }
 

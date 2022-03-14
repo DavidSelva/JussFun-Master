@@ -130,7 +130,6 @@ public class TrimmerActivity extends BaseActivity implements OnTrimVideoListener
         //setting progressbar
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage(getString(R.string.trimming_progress));
 
         if (binding.mVideoTrimmer != null) {
             /**
@@ -164,6 +163,7 @@ public class TrimmerActivity extends BaseActivity implements OnTrimVideoListener
 
     @Override
     public void onTrimStarted() {
+        mProgressDialog.setMessage(getString(R.string.trimming_progress));
         mProgressDialog.show();
     }
 
@@ -348,17 +348,24 @@ public class TrimmerActivity extends BaseActivity implements OnTrimVideoListener
 
     private void showLoading() {
         /*Disable touch options*/
-        binding.progressLay.setVisibility(View.VISIBLE);
+        /*binding.progressLay.setVisibility(View.VISIBLE);
         binding.progressBar.setIndeterminate(true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
+        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage(getString(R.string.uploading));
+            mProgressDialog.show();
+        }
     }
 
     public void hideLoading() {
         /*Enable touch options*/
-        binding.progressLay.setVisibility(View.GONE);
+        /*binding.progressLay.setVisibility(View.GONE);
         binding.progressBar.setIndeterminate(false);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 
 }

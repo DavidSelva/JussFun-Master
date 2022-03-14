@@ -151,7 +151,7 @@ public class FollowersActivity extends BaseFragmentActivity {
             }
             shimmerLayout.startShimmer();
 
-            txtTitle.setText(getString(R.string.friends));
+            txtTitle.setText(getString(R.string.followers));
             txtSubTitle.setText("");
             txtSubTitle.setText(R.string.swipe_to_see_whos_interested);
 

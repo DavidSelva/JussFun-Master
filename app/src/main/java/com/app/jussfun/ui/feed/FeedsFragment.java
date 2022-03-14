@@ -80,6 +80,7 @@ import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.model.HolderModel;
 import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
@@ -178,6 +179,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
     private ActivityResultLauncher<Intent> addPostResultLauncher;
     private PopupMenu popupMenu;
     private AppUtils appUtils;
+    public static ArrayList<HolderModel> mainHolderList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -452,7 +454,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = storageUtils.getCacheDir(mContext);
+        File storageDir = storageUtils.createCacheDir(mContext);
         File image = File.createTempFile(
                 imageFileName,
                 ".jpg",

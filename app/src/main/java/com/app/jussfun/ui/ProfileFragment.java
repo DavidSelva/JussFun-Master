@@ -304,7 +304,7 @@ public class ProfileFragment extends Fragment {
                     .into(profileImage);
 
             txtFollowings.setText(getString(R.string.followings));
-            txtFollowers.setText(getString(R.string.friends));
+            txtFollowers.setText(getString(R.string.followers));
 
             txtFollowingsCount.setText("" + profile.getFriends());
             txtFollowersCount.setText("" + profile.getInterests());

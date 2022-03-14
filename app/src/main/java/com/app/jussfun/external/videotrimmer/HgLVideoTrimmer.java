@@ -84,7 +84,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -152,7 +151,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     MediaController mediaController;
     private boolean needNewPlayer = player == null;
     private boolean isPlayerInitialized = false;
-    private boolean shouldAutoPlay = true, durationSet = false;
+    private boolean shouldAutoPlay = false, durationSet = false;
     private long resumePosition;
     private int resumeWindow;
     private boolean needRetrySource;
@@ -250,6 +249,12 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
             player.getPlaybackState();
             player.prepare(mediaSource, !haveResumePosition, false);
             needRetrySource = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onVideoPrepared(playerView.getWidth(), playerView.getHeight());
+                }
+            }, 1000);
         }
     }
 
@@ -425,7 +430,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
                 //notify that video trimming started
                 if (mOnTrimVideoListener != null)
                     mOnTrimVideoListener.onTrimStarted();
-                final File destDir = storageUtils.getCacheDir(mContext);
+                final File destDir = storageUtils.createCacheDir(mContext);
                 String mDestFileName = getContext().getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".mp4";
                 File savedFile = storageUtils.saveUriToFile(mContext, videoUri, destDir, mDestFileName);
                 Bitmap thumb = storageUtils.getThumbnailFromVideo(savedFile);
@@ -448,16 +453,12 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
                     mOnTrimVideoListener.onError(getContext().getString(R.string.cannot_trim_less_than_one_second));
             } else {
                 if (videoUri != null && videoUri.getPath() != null) {
-                    final File mSrcFile = new File(videoUri.getPath());
                     String mDestFileName = getContext().getString(R.string.app_name) + "_" + System.currentTimeMillis() + ".mp4";
-                    File mDestFile = new File(storageUtils.getCacheDir(mContext), mDestFileName);
-                    if (!mDestFile.exists()) {
-                        try {
-                            mDestFile.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    File mDestDir = storageUtils.createCacheDir(mContext);
+                    File savedFile = storageUtils.saveUriToFile(mContext, videoUri, mDestDir, mDestFileName);
+                    final File mSrcFile = savedFile;
+                    mDestFileName = getContext().getString(R.string.app_name) + "_" + System.currentTimeMillis() / 1000 + ".mp4";
+                    File mDestFile = new File(mDestDir, mDestFileName);
                     Bitmap thumb = storageUtils.getFrameAtTime(mSrcFile, mStartPosition);
                     //notify that video trimming started
                     if (mOnTrimVideoListener != null)
@@ -763,7 +764,7 @@ public class HgLVideoTrimmer extends FrameLayout implements View.OnClickListener
     @SuppressWarnings("unused")
     public void setMaxDuration(int maxDuration) {
         if (maxDuration <= 30) {
-            mMaxDuration = maxDuration;
+            mMaxDuration = maxDuration * 1000;
         } else {
             mMaxDuration = 30 * 1000;
         }

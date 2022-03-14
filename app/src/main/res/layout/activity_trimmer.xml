@@ -18,18 +18,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom_lay"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="5dp"
-        android:backgroundTint="@color/colorDivider"
-        android:layout_marginBottom="@dimen/size_25">
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/size_25"
+        android:backgroundTint="@color/colorDivider">
 
         <TextView
             style="@style/TextPrimaryRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:textColor="@color/colorWhite"
-            android:text="Others can comment" />
+            android:text="Others can comment"
+            android:textColor="@color/colorWhite" />
 
         <Switch
             android:id="@+id/btnComment"

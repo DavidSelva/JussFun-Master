@@ -57,6 +57,7 @@ import com.app.jussfun.external.toro.core.media.PlaybackInfo;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
+import com.app.jussfun.model.HolderModel;
 import com.app.jussfun.ui.FullScreenImageViewActivity;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
@@ -427,6 +428,9 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
                 ArrayList<BaseViewHolder> holders = new ArrayList<>();
                 holders.add(simplePlayerViewHolder);
+                HolderModel holderModel = new HolderModel();
+                holderModel.setListHolder(holders);
+                FeedsFragment.mainHolderList.add(holderModel);
 
                 holder.bind(holder.getAdapterPosition(), childAdapterList, "");
 
@@ -438,6 +442,30 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
                     @Override
                     public void onSingleClick(View v) {
+                        if (!PlayerViewHolder.isBuffer) {
+                            if (Constants.isMute)
+                                Constants.isMute = false;
+                            else Constants.isMute = true;
+
+                            ArrayList<HolderModel> holderList = null;
+                            holderList = FeedsFragment.mainHolderList;
+                            for (int i = 0; i < holderList.size(); i++) {
+                                ArrayList<BaseViewHolder> listBH = holderList.get(i).getListHolder();
+
+                                for (int y = 0; y < listBH.size(); y++) {
+
+                                    PlayerViewHolder holdr = (PlayerViewHolder) listBH.get(y);
+
+                                    if (Constants.isMute) {
+                                        holdr.img_vol.setSelected(false);
+                                        simplePlayerViewHolder.setMute(true);
+                                    } else {
+                                        holdr.img_vol.setSelected(true);
+                                        simplePlayerViewHolder.setMute(false);
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     @Override
