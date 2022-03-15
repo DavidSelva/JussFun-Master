@@ -51,34 +51,30 @@
             app:riv_corner_radius_top_left="0dp"
             app:riv_corner_radius_top_right="0dp"
             app:riv_mutate_background="true"
-            app:riv_oval="false"/>
+            app:riv_oval="false" />
 
         <FrameLayout
-            android:id="@+id/soundLay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:orientation="vertical">
+            android:id="@+id/clickLay"/>
 
-            <ImageView
-                android:id="@+id/img_vol"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="10dp"
-                android:src="@drawable/volume_selector"
-                android:visibility="gone" />
 
-        </FrameLayout>
+        <ImageView
+            android:id="@+id/img_vol"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="10dp"
+            android:src="@drawable/volume_selector"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/durationTxt"
+            style="@style/TextWhiteLight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom"
             android:layout_margin="8dp"
-            style="@style/TextWhiteLight"
             android:textSize="@dimen/text_large"
             android:visibility="gone" />
 

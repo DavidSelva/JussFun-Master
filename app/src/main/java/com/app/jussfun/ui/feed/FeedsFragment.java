@@ -1162,4 +1162,10 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
             });
         }
     }
+
+    public void pausePlayer() {
+        if (MediaListViewHolder.container != null) {
+            MediaListViewHolder.container.setPlayerSelector(PlayerSelector.NONE);
+        }
+    }
 }

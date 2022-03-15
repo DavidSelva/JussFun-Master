@@ -264,7 +264,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         if (GetSet.getName() == null) {
             showProfileDialog();
         } else {
-            showGemsDialog();
+//            showGemsDialog();
             getUserProfile(GetSet.getUserId());
         }
         sendPing();
@@ -358,7 +358,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
     private void setupViewPager(CustomViewPager viewPager) {
         bottomNavigation.setItemIconTintList(null);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setPagingEnabled(false);
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), this);
@@ -373,12 +373,22 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
             @Override
             public void onPageSelected(int position) {
-
                 switch (position) {
                     case 0:
-                    case 1:
-                    case 2:
                         resetTyping();
+                        break;
+                    case 1:
+                        pausePlayer();
+                        resetTyping();
+                        break;
+                    case 2:
+                        pausePlayer();
+                        resetTyping();
+                    case 3:
+                        pausePlayer();
+                        break;
+                    case 4:
+                        pausePlayer();
                         break;
                     default:
                         break;
@@ -424,6 +434,12 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 return false;
             }
         });
+    }
+
+    private void pausePlayer() {
+        if (feedsFragment != null) {
+            feedsFragment.pausePlayer();
+        }
     }
 
     private void resetTyping() {

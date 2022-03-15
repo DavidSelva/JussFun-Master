@@ -484,7 +484,7 @@
     <string name="view_likes">View Likes</string>
     <string name="bank_details">Bank details</string>
     <string name="edit">Edit</string>
-    <string name="post_photo"><![CDATA[Post your Photo & Earn Money]]></string>
+    <string name="post_photo"><![CDATA[Post a Photo or Video & Earn <Money></Money>]]></string>
     <string name="account_number">Account number</string>
     <string name="account_no">Account No</string>
     <string name="confirm_account_no">Confirm acc no</string>

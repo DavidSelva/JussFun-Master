@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -48,6 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.app.jussfun.R;
+import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseViewHolder;
 import com.app.jussfun.external.CustomLinkReadMoreTextView;
 import com.app.jussfun.external.toro.core.PlayerSelector;
@@ -55,6 +57,7 @@ import com.app.jussfun.external.toro.core.ToroPlayer;
 import com.app.jussfun.external.toro.core.ToroUtil;
 import com.app.jussfun.external.toro.core.media.PlaybackInfo;
 import com.app.jussfun.external.toro.core.widget.Container;
+import com.app.jussfun.helper.callback.clickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.HolderModel;
@@ -87,8 +90,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     private final SnapHelper snapHelper = new PagerSnapHelper();
 
     @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.container)
-    Container container;
+    static Container container;
     @BindView(R.id.userImage)
     public ImageView userImg;
     @BindView(R.id.txtUserName)
@@ -145,6 +147,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         super(itemView);
         this.mContext = itemView.getContext();
         ButterKnife.bind(this, itemView);
+        container = itemView.findViewById(R.id.container);
     }
 
     @Override
@@ -339,7 +342,8 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
     @Override
     public void pause() {
-        this.container.setPlayerSelector(PlayerSelector.NONE);
+        if (container != null)
+            this.container.setPlayerSelector(PlayerSelector.NONE);
     }
 
     @Override
@@ -373,12 +377,9 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         return getAdapterPosition();
     }
 
-    public interface clickListener {
-        public void click(String frag, String userid, String wayType);
-    }
 
     //// Recycler paging adapter
-    static class Adapter extends RecyclerView.Adapter<BaseViewHolder> implements ImageViewHolder.clickListener {
+    class Adapter extends RecyclerView.Adapter<BaseViewHolder> implements ImageViewHolder.clickListener, clickListener {
 
         private final int VIEW_TYPE_IMAGE_ITEM = 0;
         private final int VIEW_TYPE_VIDEO_ITEM = 1;
@@ -424,10 +425,10 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
             if (holder instanceof PlayerViewHolder) {
 
-                final PlayerViewHolder simplePlayerViewHolder = (PlayerViewHolder) holder;
+                final PlayerViewHolder playerViewHolder = (PlayerViewHolder) holder;
 
                 ArrayList<BaseViewHolder> holders = new ArrayList<>();
-                holders.add(simplePlayerViewHolder);
+                holders.add(playerViewHolder);
                 HolderModel holderModel = new HolderModel();
                 holderModel.setListHolder(holders);
                 FeedsFragment.mainHolderList.add(holderModel);
@@ -436,9 +437,9 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
 //                simplePlayerViewHolder.durationTxt.setText(childAdapterlist.get(position).getDuration());
 
-                simplePlayerViewHolder.img_vol.setSelected(Constants.isMute);
+                playerViewHolder.img_vol.setSelected(Constants.isMute);
 
-                simplePlayerViewHolder.soundLay.setOnClickListener(new DoubleClickListener() {
+                playerViewHolder.img_vol.setOnClickListener(new DoubleClickListener() {
 
                     @Override
                     public void onSingleClick(View v) {
@@ -458,10 +459,10 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
 
                                     if (Constants.isMute) {
                                         holdr.img_vol.setSelected(false);
-                                        simplePlayerViewHolder.setMute(true);
+                                        playerViewHolder.setMute(true);
                                     } else {
                                         holdr.img_vol.setSelected(true);
-                                        simplePlayerViewHolder.setMute(false);
+                                        playerViewHolder.setMute(false);
                                     }
                                 }
                             }
@@ -471,6 +472,20 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                     @Override
                     public void onDoubleClick(View v) {
 
+                    }
+                });
+
+                playerViewHolder.clickLay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        App.preventMultipleClick(v);
+                        pauseVideo();
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            Intent intent = new Intent(context, PlayerActivity.class);
+                            intent.putExtra(Constants.TAG_VIDEO, childAdapterList.get(playerViewHolder.getAdapterPosition()).getImageUrl());
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            context.startActivity(intent);
+                        }, 500);
                     }
                 });
 
@@ -495,6 +510,13 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
             }
         }
 
+        private void pauseVideo() {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                PlayerSelector selector = PlayerSelector.NONE;
+                if (container != null) container.setPlayerSelector(selector);
+            }, 500);
+        }
+
         @Override
         public int getItemViewType(int position) {
             return childAdapterList.get(position).getImageUrl().contains(".mp4") ? VIEW_TYPE_VIDEO_ITEM : VIEW_TYPE_IMAGE_ITEM;
@@ -514,6 +536,14 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
         @Override
         public void click(String frag, String userid, String wayType) {
             listener.click(frag, userid, wayType);
+        }
+
+        @Override
+        public void onVideoClicked(String imageUrl) {
+            PlayerSelector selector = PlayerSelector.NONE;
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (container != null) container.setPlayerSelector(selector);
+            }, 500);
         }
     }
 

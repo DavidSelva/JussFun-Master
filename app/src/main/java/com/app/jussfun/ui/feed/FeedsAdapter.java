@@ -28,8 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseViewHolder;
+import com.app.jussfun.external.toro.exoplayer.ExoPlayerViewHelper;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.OnMenuClickListener;
+import com.app.jussfun.helper.callback.clickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.ui.feed.likes.LikedUsersActivity;
@@ -53,7 +55,7 @@ import retrofit2.Response;
  * @author eneim (7/1/17).
  */
 
-public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implements clickListener {
 
     private static String TAG = FeedsAdapter.class.getSimpleName();
     private final int VIEW_TYPE_STORY = 0;
@@ -61,6 +63,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private final int VIEW_TYPE_LOADING = 2;
     private LayoutInflater inflater;
     ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+    public ExoPlayerViewHelper helper;
+    MediaListViewHolder currentHolder = null;
 
     ArrayList<Feeds> parentList = new ArrayList<>();
     OnMenuClickListener listener;
@@ -101,7 +105,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (viewHolder instanceof MediaListViewHolder) {
             Feeds resultsItem = parentList.get(position);
             final MediaListViewHolder holder = (MediaListViewHolder) viewHolder;
-//            holder.setListener(activity)
+            holder.setListener(this);
             holder.bind(position, resultsItem, "");
 
             holder.userImg.setOnClickListener(new View.OnClickListener() {
@@ -342,6 +346,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         super.onViewDetachedFromWindow(holder);
         if (holder instanceof MediaListViewHolder) {
             ((MediaListViewHolder) holder).onDetached();
+            currentHolder = null;
         }
     }
 
@@ -350,7 +355,24 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         super.onViewAttachedToWindow(holder);
         if (holder instanceof MediaListViewHolder) {
             ((MediaListViewHolder) holder).onAttached();
+            currentHolder = (MediaListViewHolder) holder;
         }
+    }
+
+    public void pausePlayer() {
+        if (currentHolder != null) {
+            currentHolder.pause();
+        }
+    }
+
+    @Override
+    public void click(String frag, String userid, String wayType) {
+
+    }
+
+    @Override
+    public void onVideoClicked(String imageUrl) {
+
     }
 
     public static abstract class DoubleClickListener implements View.OnClickListener {

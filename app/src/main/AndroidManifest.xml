@@ -71,13 +71,22 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.feed.PlayerActivity"
+            android:theme="@style/PlayerTheme"
+            android:screenOrientation="sensor"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true" />
+        <activity
             android:name=".ui.ContactUsActivity"
+            android:theme="@style/SliderThemeWhite"
             android:exported="false" />
         <activity
             android:name=".ui.BankDetailsActivity"
+            android:theme="@style/SliderThemeWhite"
             android:exported="false" />
         <activity
             android:name=".ui.feed.likes.LikedUsersActivity"
+            android:theme="@style/SliderThemeWhite"
             android:exported="false" />
         <activity
             android:name=".ui.feed.CommentsActivity"
@@ -85,9 +94,11 @@
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.feed.AddFeedActivity"
+            android:theme="@style/SliderThemeWhite"
             android:exported="false" />
         <activity
             android:name=".ui.FullScreenImageViewActivity"
+            android:theme="@style/SliderThemeBlack"
             android:exported="false" />
         <activity
             android:name=".ui.NearByActivity"

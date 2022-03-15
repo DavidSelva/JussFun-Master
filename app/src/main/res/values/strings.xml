@@ -647,7 +647,7 @@
     <string name="search_again">Search again</string>
 
     <string name="file_provider_authority" translatable="false">com.app.jussfun.provider</string>
-    <string name="upload_picture_from">Upload picture from</string>
+    <string name="upload_picture_from">Upload Photo/Video from</string>
 
 
     <string name="allow_pop_up_tecno" translatable="false">Protected Apps</string>
@@ -694,7 +694,7 @@
     <string name="heart">Heart</string>
     <string name="star">Star</string>
     <string name="messages">Messages</string>
-    <string name="photos">Selfie</string>
+    <string name="photos">Feed</string>
     <string name="new_feed">New Feed</string>
     <string name="post">Post</string>
     <string name="add_a_caption">Add a caption</string>
@@ -718,7 +718,7 @@
     <string name="view_likes">View People who Reacted</string>
     <string name="bank_details">Bank details</string>
     <string name="edit">Edit</string>
-    <string name="post_photo"><![CDATA[Post your Photo & Earn Money]]></string>
+    <string name="post_photo"><![CDATA[Post a Photo or Video & Earn Money]]></string>
     <string name="account_number">Account number</string>
     <string name="account_no">Account No</string>
     <string name="confirm_account_no">Confirm Acc.No</string>

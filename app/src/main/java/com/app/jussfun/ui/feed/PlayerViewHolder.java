@@ -67,7 +67,7 @@ public class PlayerViewHolder extends BaseViewHolder implements ToroPlayer {
     public ImageView img_vol, thumbnail;
     public TextView durationTxt;
     public ProgressWheel pgsBar;
-    public FrameLayout soundLay;
+    public FrameLayout clickLay;
     ExoPlayerViewHelper helper;
     Uri mediaUri;
     DefaultControlDispatcher dispatcher;
@@ -179,12 +179,12 @@ public class PlayerViewHolder extends BaseViewHolder implements ToroPlayer {
 
     public PlayerViewHolder(View itemView) {
         super(itemView);
+        clickLay = itemView.findViewById(R.id.clickLay);
         playerView = (PlayerView) itemView.findViewById(R.id.player);
         img_vol = (ImageView) itemView.findViewById(R.id.img_vol);
         thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
         durationTxt = (TextView) itemView.findViewById(R.id.durationTxt);
         pgsBar = (ProgressWheel) itemView.findViewById(R.id.pBar);
-        soundLay = (FrameLayout) itemView.findViewById(R.id.soundLay);
         dispatcher = new DefaultControlDispatcher();
         mContext = itemView.getContext();
 
