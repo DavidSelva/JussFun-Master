@@ -441,6 +441,7 @@ public class ProfileFragment extends Fragment {
                 feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                 startActivity(feedIntent);
             }
+            break;
             case R.id.btnConvertGems: {
                 Intent convertGems = new Intent(context, ConvertGiftActivity.class);
                 convertGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

@@ -218,6 +218,9 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
         selector = PlayerSelector.DEFAULT;
         containerFeed.setPlayerSelector(selector);
+
+        selector = PlayerSelector.DEFAULT;
+        containerFeed.setPlayerSelector(selector);
         // get home post data from service
         pullDownRefresh();
 
@@ -516,6 +519,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        onPlayVideo(true);
     }
 
     @Override
@@ -526,6 +530,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
     @Override
     public void onPause() {
         super.onPause();
+        onPlayVideo(false);
     }
 
     @Override
@@ -663,9 +668,9 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         super.onDestroyView();
     }
 
-    public void onPlayVideo(boolean isVisibletoUser) {
+    public void onPlayVideo(boolean isVisibleToUser) {
 
-        if (isVisibletoUser) {
+        if (isVisibleToUser) {
             selector = PlayerSelector.DEFAULT;
         } else {
             selector = PlayerSelector.NONE;
@@ -675,14 +680,6 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
         handler.postDelayed(() -> {
             if (containerFeed != null) containerFeed.setPlayerSelector(selector);
         }, 500);
-
-       /* if (feedsAdapter.challengecontainer != null) {
-            handler.postDelayed(() -> {
-                if (isVisibletoUser) feedsAdapter.challengecontainer.pause();
-                else feedsAdapter.challengecontainer.play();
-            }, 400);
-
-        }*/
     }
 
     public void open(String type, Feeds homeParentpojo, int homeListposition, String comment_status, String postId, String follwerid) {/*
@@ -1160,12 +1157,6 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
                     hideLoading();
                 }
             });
-        }
-    }
-
-    public void pausePlayer() {
-        if (MediaListViewHolder.container != null) {
-            MediaListViewHolder.container.setPlayerSelector(PlayerSelector.NONE);
         }
     }
 }

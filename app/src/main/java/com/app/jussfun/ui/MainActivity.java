@@ -378,17 +378,13 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                         resetTyping();
                         break;
                     case 1:
-                        pausePlayer();
                         resetTyping();
                         break;
                     case 2:
-                        pausePlayer();
                         resetTyping();
                     case 3:
-                        pausePlayer();
                         break;
                     case 4:
-                        pausePlayer();
                         break;
                     default:
                         break;
@@ -434,12 +430,6 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 return false;
             }
         });
-    }
-
-    private void pausePlayer() {
-        if (feedsFragment != null) {
-            feedsFragment.pausePlayer();
-        }
     }
 
     private void resetTyping() {

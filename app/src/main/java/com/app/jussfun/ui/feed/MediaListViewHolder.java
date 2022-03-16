@@ -90,7 +90,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
     private final SnapHelper snapHelper = new PagerSnapHelper();
 
     @SuppressWarnings("WeakerAccess")
-    static Container container;
+    private Container container;
     @BindView(R.id.userImage)
     public ImageView userImg;
     @BindView(R.id.txtUserName)

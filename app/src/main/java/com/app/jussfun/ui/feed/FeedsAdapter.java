@@ -64,7 +64,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implement
     private LayoutInflater inflater;
     ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
     public ExoPlayerViewHelper helper;
-    MediaListViewHolder currentHolder = null;
 
     ArrayList<Feeds> parentList = new ArrayList<>();
     OnMenuClickListener listener;
@@ -346,7 +345,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implement
         super.onViewDetachedFromWindow(holder);
         if (holder instanceof MediaListViewHolder) {
             ((MediaListViewHolder) holder).onDetached();
-            currentHolder = null;
         }
     }
 
@@ -355,13 +353,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implement
         super.onViewAttachedToWindow(holder);
         if (holder instanceof MediaListViewHolder) {
             ((MediaListViewHolder) holder).onAttached();
-            currentHolder = (MediaListViewHolder) holder;
-        }
-    }
-
-    public void pausePlayer() {
-        if (currentHolder != null) {
-            currentHolder.pause();
         }
     }
 
