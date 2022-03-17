@@ -319,8 +319,8 @@
 
                     <ImageView
                         android:id="@+id/btnLike"
-                        android:layout_width="@dimen/iv_small"
-                        android:layout_height="@dimen/iv_small"
+                        android:layout_width="@dimen/iv_like_small"
+                        android:layout_height="@dimen/iv_like_small"
                         android:layout_gravity="center"
                         android:background="@drawable/feed_like_selector" />
 
@@ -374,8 +374,8 @@
 
                     <ImageView
                         android:id="@+id/btnSuperLike"
-                        android:layout_width="@dimen/iv_small"
-                        android:layout_height="@dimen/iv_small"
+                        android:layout_width="@dimen/iv_like_small"
+                        android:layout_height="@dimen/iv_like_small"
                         android:layout_gravity="center"
                         android:background="@drawable/feed_super_like_selector" />
 
@@ -387,7 +387,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="1dp"
                         android:gravity="center"
-                        android:text="@string/super_like"
+                        android:text="@string/super_n_like"
                         android:textColor="@color/colorSecondaryText"
                         android:textSize="@dimen/text_normal" />
 
@@ -429,8 +429,8 @@
 
                     <ImageView
                         android:id="@+id/btnHeart"
-                        android:layout_width="@dimen/iv_small"
-                        android:layout_height="@dimen/iv_small"
+                        android:layout_width="@dimen/iv_like_small"
+                        android:layout_height="@dimen/iv_like_small"
                         android:layout_gravity="center"
                         android:background="@drawable/feed_heart_selector" />
 
@@ -484,8 +484,8 @@
 
                     <ImageView
                         android:id="@+id/btnStar"
-                        android:layout_width="@dimen/iv_small"
-                        android:layout_height="@dimen/iv_small"
+                        android:layout_width="@dimen/iv_like_small"
+                        android:layout_height="@dimen/iv_like_small"
                         android:layout_gravity="center"
                         android:background="@drawable/feed_star_selector" />
 
@@ -521,8 +521,8 @@
 
             <ImageView
                 android:id="@+id/btnComment"
-                android:layout_width="@dimen/iv_small"
-                android:layout_height="@dimen/iv_small"
+                android:layout_width="@dimen/iv_like_small"
+                android:layout_height="@dimen/iv_like_small"
                 android:layout_gravity="center"
                 android:background="@drawable/message_grey" />
 

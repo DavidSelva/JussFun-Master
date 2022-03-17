@@ -752,5 +752,6 @@
     <string name="maximum_characters_limit_reached">Maximum characters limit reached</string>
     <string name="maximum_line_limit_reached">Maximum characters line reached</string>
     <string name="more">More</string>
+    <string name="super_n_like">Super\nLike</string>
 
 </resources>

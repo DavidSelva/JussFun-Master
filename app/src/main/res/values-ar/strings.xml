@@ -519,5 +519,6 @@
     <string name="file_size_limit">The file should not output more than 50MB</string>
     <string name="overlay_permission_description">This app requires to enable System Window Alert permission for calls</string>
     <string name="more">More</string>
+    <string name="super_n_like">Super\nLike</string>
 
 </resources>
