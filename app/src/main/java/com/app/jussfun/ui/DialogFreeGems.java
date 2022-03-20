@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -79,12 +77,18 @@ public class DialogFreeGems extends DialogFragment {
             container, @Nullable Bundle savedInstanceState) {
         View itemView = inflater.inflate(R.layout.dialog_free_gems, container, false);
         ButterKnife.bind(this, itemView);
-        String firstString = context.getString(R.string.congratulations_you_got) + " ";
-        String noOfGems = "" + AdminData.freeGems;
-        String lastString = " " + context.getString(R.string.gems_free_coins) + " " + getString(R.string.watch_video_or_invite_friends);
-        SpannableStringBuilder str = new SpannableStringBuilder(firstString + noOfGems + lastString);
-        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), firstString.length(), firstString.length() + noOfGems.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        txtDescription.setText(str);
+        String firstString = String.format(context.getString(R.string.congratulations_you_got), "" + AdminData.freeGems);
+        StringBuilder builder = new StringBuilder();
+        builder.append(firstString);
+        builder.append("\n");
+        builder.append("1. Post a photo or Video");
+        builder.append("\n");
+        builder.append("2. Watch Video Ads");
+        builder.append("\n");
+        builder.append("3. Invite Friends");
+//        SpannableStringBuilder str = new SpannableStringBuilder(firstString + noOfGems + lastString);
+//        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), firstString.length(), firstString.length() + noOfGems.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        txtDescription.setText(builder);
 
         return itemView;
 

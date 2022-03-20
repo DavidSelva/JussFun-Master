@@ -160,7 +160,7 @@
     <string name="history">التاريخ</string>
     <string name="no_users_visited_yet">لم تتم زيارة أي مستخدم حتى الآن</string>
     <string name="stickers">ملصقات</string>
-    <string name="congratulations_you_got">تهانينا. أنت حصلت</string>
+    <string name="congratulations_you_got">تهاني! تمت إضافة s٪ جواهر مجانية في ملفك الشخصي. اربح جواهر مجانية كل يوم</string>
     <string name="gems_free_coins">عملات خالية من الأحجار الكريمة</string>
     <string name="report_user">نقل</string>
     <string name="reported_successfully">تم الإبلاغ بنجاح</string>
@@ -430,8 +430,8 @@
     <string name="looking_for_a_friend">Looking for a friend to talk to</string>
     <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="accept_our_policy">Accept our Privacy policy</string>
-    <string name="gifts_description">Keep earning more Gems by chatting with people and getting Gifts.</string>
-    <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
+    <string name="gifts_description">1. Go Live, Chat with random strangers, Collect Virtual Gifts &amp; Convert Gifts to Gems.</string>
+    <string name="convert_money_description">Convert all your Gems to Money and get it transferred into your PayPal or Bank account.</string>
     <string name="cash">Cash</string>
     <string name="convert_money_success">في انتظار موافقة المسؤول ... سيتم تحويل الأموال إلى حسابك.</string>
     <string name="watch_video_or_invite_friends">Watch Video Ads or Invite friends to get Free Gems everyday.</string>

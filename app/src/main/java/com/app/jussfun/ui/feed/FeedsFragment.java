@@ -214,7 +214,7 @@ public class FeedsFragment extends Fragment implements OnMenuClickListener {
 
         feedsAdapter = new FeedsAdapter(feedsList, getActivity(), this);
         containerFeed.setAdapter(feedsAdapter);
-        containerFeed.setCacheManager(feedsAdapter);
+//        containerFeed.setCacheManager(feedsAdapter);
 
         selector = PlayerSelector.DEFAULT;
         containerFeed.setPlayerSelector(selector);

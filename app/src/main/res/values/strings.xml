@@ -188,7 +188,7 @@
     <string name="history">History</string>
     <string name="no_users_visited_yet">No users visited yet</string>
     <string name="stickers">Stickers</string>
-    <string name="congratulations_you_got">Congratulations. You\'ve got </string>
+    <string name="congratulations_you_got">Congrats! %s Free Gems Added in your profile. EARN FREE GEMS EVERYDAY</string>
     <string name="gems_free_coins"> gems Free!</string>
     <string name="report_user">Report</string>
     <string name="reported_successfully">Reported successfully</string>
@@ -660,8 +660,8 @@
     <string name="looking_for_a_friend">Looking for a friend to talk to</string>
     <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="accept_our_policy">Accept our Privacy policy</string>
-    <string name="gifts_description">Keep earning more Gems by chatting with people and getting Gifts.</string>
-    <string name="convert_money_description">Gifts can be converted as Gems and Gems can be as converted as Cash later.</string>
+    <string name="gifts_description">1. Go Live, Chat with random strangers, Collect Virtual Gifts &amp; Convert Gifts to Gems.</string>
+    <string name="convert_money_description">Convert all your Gems to Money and get it transferred into your PayPal or Bank account.</string>
     <string name="cash">Cash</string>
     <string name="convert_money_success">Waiting for Admin Approval...Money Will be transfer to your Account.</string>
     <string name="watch_video_or_invite_friends">Watch Video Ads or Invite friends to get Free Gems everyday.</string>

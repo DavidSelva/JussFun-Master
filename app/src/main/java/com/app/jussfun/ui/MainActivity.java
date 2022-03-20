@@ -258,7 +258,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         getGooglePlayCurrency();
 
 //        showProfileDialog();
-//        showGemsDialog();
+        showGemsDialog();
 //        showProfileImageDialog();
 
         if (GetSet.getName() == null) {
@@ -363,8 +363,8 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-        setBottomNavigation(0);
-        viewPager.setCurrentItem(0);
+        setBottomNavigation(bottomNavigation.getMenu().getItem(0));
+//        viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -398,7 +398,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
                 bottomNavigation.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigation.getMenu().getItem(position);
-                setBottomNavigation(position);
+                setBottomNavigation(bottomNavigation.getMenu().getItem(position));
             }
 
             @Override
@@ -407,18 +407,18 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             }
         });
 
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuHome:
-                        viewPager.setCurrentItem(2);
+                        viewPager.setCurrentItem(0);
                         break;
                     case R.id.menuUsers:
                         viewPager.setCurrentItem(1);
                         break;
                     case R.id.menuFeeds:
-                        viewPager.setCurrentItem(0);
+                        viewPager.setCurrentItem(2);
                         break;
                     case R.id.menuChat:
                         viewPager.setCurrentItem(3);
@@ -475,22 +475,20 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             switch (position) {
                 case 0:
                 default:
-                    feedsFragment = new FeedsFragment();
-                    return feedsFragment;
+                    randomFragment = new HomeFragment();
+                    return randomFragment;
                 case 1:
                     usersFragment = new UsersFragment();
                     return usersFragment;
                 case 2:
-                    randomFragment = new HomeFragment();
-                    return randomFragment;
-
+                    feedsFragment = new FeedsFragment();
+                    return feedsFragment;
                 case 3:
                     chatFragment = new ChatFragment();
                     Bundle chat = new Bundle();
                     chat.putInt(Constants.TAG_BOTTOM_HEIGHT, bottomNavHeight);
                     chatFragment.setArguments(chat);
                     return chatFragment;
-
                 case 4:
                     profileFragment = new ProfileFragment();
                     return profileFragment;
@@ -503,25 +501,9 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         }
     }
 
-    private void setBottomNavigation(int position) {
-        switch (position) {
-            case 0:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_active));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
-                break;
-            case 1:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover_p));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
-                break;
-            case 2:
+    private void setBottomNavigation(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.menuHome:
                 bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
                 bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_act));
@@ -529,7 +511,23 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
-            case 3:
+            case R.id.menuUsers:
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover_p));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                break;
+            case R.id.menuFeeds:
+                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_active));
+                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
+                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
+                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                break;
+            case R.id.menuChat:
                 bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
                 bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
@@ -537,7 +535,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
                 bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
-            case 4:
+            case R.id.menuProfile:
                 bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
                 bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
                 bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));

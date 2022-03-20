@@ -34,17 +34,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txtTitle"
-                            style="@style/TextWhiteRegular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@string/free_gems"
-                            android:textSize="@dimen/text_header" />
-
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/dimenImage"
                             android:layout_width="90dp"
@@ -54,13 +43,25 @@
                             app:riv_oval="true" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtTitle"
+                            style="@style/TextWhiteRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="@string/free_gems"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/text_header" />
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/txtDescription"
                             style="@style/TextWhiteLight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:maxLines="3"
                             android:padding="10dp"
                             android:text="@string/congratulations_you_got"
                             android:textSize="@dimen/text_medium" />
@@ -72,16 +73,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/TextWhiteRegular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@string/gifts"
-                            android:textSize="@dimen/text_header" />
-
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:layout_width="90dp"
                             android:layout_height="90dp"
@@ -90,12 +81,21 @@
                             app:riv_oval="true" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/TextWhiteRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="GIFTS to GEMS"
+                            android:textSize="@dimen/text_header" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/TextWhiteLight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:maxLines="3"
                             android:padding="10dp"
                             android:text="@string/gifts_description"
                             android:textSize="@dimen/text_medium" />
@@ -107,16 +107,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/TextWhiteRegular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@string/cash"
-                            android:textSize="@dimen/text_header" />
-
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/cash"
                             android:layout_width="90dp"
@@ -126,12 +116,21 @@
                             app:riv_oval="true" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/TextWhiteRegular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="GEMS to MONEY"
+                            android:textSize="@dimen/text_header" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/TextWhiteLight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:maxLines="3"
                             android:padding="10dp"
                             android:text="@string/convert_money_description"
                             android:textSize="@dimen/text_medium" />
