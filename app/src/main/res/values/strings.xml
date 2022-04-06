@@ -21,6 +21,12 @@
     <string name="notification_channel_id" translatable="false">jussfun_notification_channel</string>
 
     <string name="layout_direction">0</string>
+    <array name="menu_array">
+        <item>Photos</item>
+        <item>Videos</item>
+        <item>Live</item>
+    </array>
+
     <array name="language_array">
         <item>English-en</item>
         <item>العربية-ar</item>
@@ -694,7 +700,7 @@
     <string name="heart">Heart</string>
     <string name="star">Star</string>
     <string name="messages">Messages</string>
-    <string name="photos">Feed</string>
+    <string name="feed">Feed</string>
     <string name="new_feed">New Feed</string>
     <string name="post">Post</string>
     <string name="add_a_caption">Add a caption</string>
@@ -753,5 +759,9 @@
     <string name="maximum_line_limit_reached">Maximum characters line reached</string>
     <string name="more">More</string>
     <string name="super_n_like">Super\nLike</string>
+    <string name="photos">Photos</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="add_a_profile_photo">Add a Profile Photo</string>
 
 </resources>

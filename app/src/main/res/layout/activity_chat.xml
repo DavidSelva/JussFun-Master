@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/smartRepliesRecycler"
         android:layout_below="@+id/toolbar"
-        android:background="@drawable/side_nav_bar"
+        android:background="@drawable/gradient_bg"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:paddingTop="10dp"

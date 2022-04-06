@@ -714,7 +714,7 @@ public class OthersProfileActivity extends BaseFragmentActivity {
                     out.flush();
                     out.close();
                     //getting the logo
-                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.qr_code_logo);
+                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.ic_app_logo_transparent);
                     overlay = Bitmap.createScaledBitmap(overlay, AppUtils.dpToPx(OthersProfileActivity.this, 60),
                             AppUtils.dpToPx(OthersProfileActivity.this, 60), false);
                     qrBitMap = mergeQRWithLogo(overlay, bitmap);

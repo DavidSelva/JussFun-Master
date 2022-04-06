@@ -22,7 +22,7 @@
                 android:id="@+id/headerLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/side_nav_bar"
+                android:background="@drawable/gradient_bg"
                 android:orientation="vertical">
 
                 <LinearLayout

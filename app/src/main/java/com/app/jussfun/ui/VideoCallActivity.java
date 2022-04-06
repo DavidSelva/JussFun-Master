@@ -486,7 +486,7 @@ public class VideoCallActivity extends BaseFragmentActivity implements AppWebSoc
 //            calltext.setText("Audio Calling.....");
 
             Log.i(TAG, "initViewaudi: " + chatType);
-            Glide.with(VideoCallActivity.this).load(R.drawable.chat_bg)
+            Glide.with(VideoCallActivity.this).load(R.drawable.gradient_bg)
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(callbg);

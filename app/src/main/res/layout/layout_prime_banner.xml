@@ -2,7 +2,7 @@
     android:id="@+id/subscribeLay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/side_nav_bar">
+    android:background="@drawable/gradient_bg">
 
     <RelativeLayout
         android:id="@+id/primeBgLay"

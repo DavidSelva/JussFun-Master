@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2017 Nam Nguyen, nam@ene.im
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.app.jussfun.ui.feed;
 
 import static android.Manifest.permission.CAMERA;
@@ -21,8 +37,10 @@ import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -33,15 +51,17 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -60,7 +80,8 @@ import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.ui.BaseFragmentActivity;
+import com.app.jussfun.model.HolderModel;
+import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
 import com.app.jussfun.utils.ApiClient;
@@ -73,9 +94,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,9 +111,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickListener {
+/**
+ * A list of content that contains a {@link Container} as one of its child. We gonna use a
+ * {@link PagerSnapHelper} to mimic a Pager-inside-RecyclerView. Other contents will be
+ * normal text to preserve the performance and also to not make user confused.
+ *
+ * @author eneim (7/1/17).
+ */
 
-    private static final String TAG = FeedsActivity.class.getSimpleName();
+
+@SuppressWarnings("unused")
+public class PhotosFragment extends Fragment implements OnMenuClickListener {
+
+    private static final String TAG = PhotosFragment.class.getSimpleName();
+    private Context mContext;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -105,8 +134,6 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     Container containerFeed;
     @BindView(R.id.swipe_refreshlayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.btnBack)
-    ImageView btnBack;
     @BindView(R.id.nullImage)
     ImageView nullImage;
     @BindView(R.id.nullText)
@@ -116,15 +143,23 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     @BindView(R.id.btnPost)
     FloatingActionButton btnPost;
 
-    private Context mContext;
-    private ApiInterface apiInterface;
-    private AppUtils appUtils;
+    // For use other fragment
+    private PhotosFragment feedsFragment;
     private FeedsAdapter feedsAdapter;
+    boolean isChekRefresh = false;
+    public static boolean isEdit = false;
+    //If user click cmtButton multipletime ,should not open multipletime activity
+    public static boolean IsCmtButtonClicked = false;
     final Handler handler = new Handler();  // post a delay due to the visibility change
+    LinearLayoutManager layoutManager;
+
+
+    ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
     Call<FeedsModel> homeApiCall;
     ArrayList<Feeds> feedsList = new ArrayList<>();
     PlayerSelector selector = PlayerSelector.DEFAULT; // visible to user by default.
-    LinearLayoutManager layoutManager;
+    BottomSheetDialog dialog;
+    private String wayType = "";
     private int visibleItemCount;
     private int pastVisiblesItems;
     private boolean isLoading = true;
@@ -142,51 +177,51 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     private ActivityResultLauncher<Intent> cameraResultLauncher;
     private ActivityResultLauncher<Intent> galleryResultLauncher;
     private ActivityResultLauncher<Intent> addPostResultLauncher;
-    private String followerId, feedId, feedType;
     private PopupMenu popupMenu;
+    private AppUtils appUtils;
+    public static ArrayList<HolderModel> mainHolderList = new ArrayList<>();
+
+    public static Fragment newInstance(String s1, String s2) {
+        return new PhotosFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle bundle) {
+        feedsFragment = this;
+        View view = inflater.inflate(R.layout.fragment_feeds, container, false);
+        ButterKnife.bind(this, view);
+       /* View loadingLay = view.findViewById(R.id.loadingLay);
+        progressLay = loadingLay.findViewById(R.id.progressLay);
+        progressBar = loadingLay.findViewById(R.id.progressBar);*/
+        return view;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_feeds);
-        ButterKnife.bind(this);
-        apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        appUtils = new AppUtils(this);
-        mContext = this;
-        if (getIntent().hasExtra(Constants.TAG_USER_ID)) {
-            followerId = getIntent().getStringExtra(Constants.TAG_USER_ID);
-        }
-        if (getIntent().hasExtra(Constants.TAG_FEED_ID)) {
-            feedId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
-        }
-        if (getIntent().hasExtra(Constants.TAG_TYPE)) {
-            feedType = getIntent().getStringExtra(Constants.TAG_TYPE);
-        }
-        initView();
+    public void onViewCreated(@NonNull View itemView, @Nullable Bundle bundle) {
+        super.onViewCreated(itemView, bundle);
+        if (mContext == null) mContext = getActivity();
+        storageUtils = StorageUtils.getInstance(mContext);
+        appUtils = new AppUtils(mContext);
         initFloatingButton();
         initPermission();
         initResultLauncher();
+        findHeightWidth();
         setMargins();
-    }
-
-    private void initView() {
-        SlidrConfig config = new SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .sensitivity(1f)
-                .velocityThreshold(2400)
-                .distanceThreshold(0.25f)
-                .build();
-        Slidr.attach(this, config);
         feedsList = new ArrayList<>();
         containerFeed.setVisibility(View.GONE);
 
-        layoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         containerFeed.setLayoutManager(layoutManager);
         ViewCompat.setNestedScrollingEnabled(containerFeed, false);
 
-        feedsAdapter = new FeedsAdapter(feedsList, this, this);
+        feedsAdapter = new FeedsAdapter(feedsList, getActivity(), this);
         containerFeed.setAdapter(feedsAdapter);
 //        containerFeed.setCacheManager(feedsAdapter);
+
+        selector = PlayerSelector.DEFAULT;
+        containerFeed.setPlayerSelector(selector);
 
         selector = PlayerSelector.DEFAULT;
         containerFeed.setPlayerSelector(selector);
@@ -199,21 +234,10 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         // For pull to refresh listen
         pullToRefreshListener();
 
-        if (feedId != null) {
-            btnPost.setVisibility(View.GONE);
-        }
-        btnBack.setVisibility(View.VISIBLE);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openImageDialog();
+                openImageDialog(itemView);
             }
         });
     }
@@ -238,6 +262,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         });
     }
 
+
     private void initPermission() {
         mCameraPermissionResult = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
@@ -252,7 +277,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 } else {
                     for (Map.Entry<String, Boolean> x : result.entrySet()) {
                         if (!x.getValue()) {
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(FeedsActivity.this, x.getKey())) {
+                            if (shouldShowRequestPermissionRationale(x.getKey())) {
                                 mCameraPermissionResult.launch(result.keySet().toArray(new String[result.size()]));
                             } else {
                                 PermissionsUtils.openPermissionDialog(mContext, new OnOkCancelClickListener() {
@@ -291,7 +316,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 } else {
                     for (Map.Entry<String, Boolean> x : result.entrySet()) {
                         if (!x.getValue()) {
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(FeedsActivity.this, x.getKey())) {
+                            if (shouldShowRequestPermissionRationale(x.getKey())) {
                                 mStoragePermissionResult.launch(result.keySet().toArray(new String[result.size()]));
                             } else {
                                 PermissionsUtils.openPermissionDialog(mContext, new OnOkCancelClickListener() {
@@ -343,7 +368,6 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             @Override
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    /*Refresh Data*/
                     pullDownRefresh();
                 }
             }
@@ -351,13 +375,19 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     }
 
     private void openAddPostActivity(Uri data) {
-        Intent intent = new Intent(mContext, FilterActivity.class);
-        intent.setData(data);
-        addPostResultLauncher.launch(intent);
+        if (storageUtils.getMimeTypeOfUri(mContext, data).contains("video")) {
+            Intent intent = new Intent(mContext, TrimmerActivity.class);
+            intent.setData(data);
+            addPostResultLauncher.launch(intent);
+        } else {
+            Intent intent = new Intent(mContext, FilterActivity.class);
+            intent.setData(data);
+            addPostResultLauncher.launch(intent);
+        }
     }
 
-    private void openImageDialog() {
-        View contentView = getLayoutInflater().inflate(R.layout.bottom_sheet_image_pick_options, findViewById(R.id.childLay), false);
+    private void openImageDialog(View itemView) {
+        View contentView = getLayoutInflater().inflate(R.layout.bottom_sheet_image_pick_options, itemView.findViewById(R.id.parentLay), false);
         BottomSheetDialog pickerOptionsSheet = new BottomSheetDialog(mContext, R.style.SimpleBottomDialog);
         pickerOptionsSheet.setCanceledOnTouchOutside(true);
         pickerOptionsSheet.setContentView(contentView);
@@ -418,8 +448,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     private void openGallery() {
         Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, collection);
-        pickIntent.setType("image/jpeg");
+        Intent pickIntent = new Intent(Intent.ACTION_PICK);
+        pickIntent.setDataAndType(collection, "image/jpeg,video/*");
 
         Intent chooserIntent = Intent.createChooser(pickIntent, "Select a picture");
         if (chooserIntent.resolveActivity(mContext.getPackageManager()) != null) {
@@ -490,6 +520,28 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        onPlayVideo(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        onPlayVideo(false);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
     public void ScrollMethod() {
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) containerFeed.getLayoutManager();
@@ -557,18 +609,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 //            showLoading();
             Map<String, String> requestMap = new HashMap<>();
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
-            if (feedId != null) {
-                requestMap.put(Constants.TAG_FEED_ID, feedId);
-                requestMap.put(Constants.TAG_FOLLOWER_ID, "");
-            } else if (followerId != null) {
-                requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
-                requestMap.put(Constants.TAG_FEED_ID, "");
-            } else if (feedType != null) {
-                requestMap.put(Constants.TAG_TYPE, feedType);
-            } else {
-                requestMap.put(Constants.TAG_FOLLOWER_ID, "");
-                requestMap.put(Constants.TAG_FEED_ID, "");
-            }
+            requestMap.put(Constants.TAG_FOLLOWER_ID, "");
+            requestMap.put(Constants.TAG_FEED_ID, "");
             requestMap.put(Constants.TAG_LIMIT, "" + limitcnt);
             requestMap.put(Constants.TAG_OFFSET, "" + (offsetCnt * limitcnt));
 
@@ -586,6 +628,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                         List<Feeds> results = response.body().getResult();
                         if (response.body().getStatus().equalsIgnoreCase("true")) {
                             if (results.size() > 0) {
+                                isChekRefresh = true;
                                 isLoading = false;
                                 int prevSize = feedsList.size() + 1;
                                 feedsList.addAll(results);
@@ -618,6 +661,225 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 }
             });
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        handler.removeCallbacksAndMessages(null);
+        layoutManager = null;
+        //adapter = null;
+        selector = null;
+        super.onDestroyView();
+    }
+
+    public void onPlayVideo(boolean isVisibleToUser) {
+
+        if (isVisibleToUser) {
+            selector = PlayerSelector.DEFAULT;
+        } else {
+            selector = PlayerSelector.NONE;
+        }
+        // Using TabLayout has a downside: once we click to a tab to change page, there will be no animation,
+        // which will cause our setup doesn't work well. We need a delay to make things work.
+        handler.postDelayed(() -> {
+            if (containerFeed != null) containerFeed.setPlayerSelector(selector);
+        }, 500);
+    }
+
+    public void open(String type, Feeds homeParentpojo, int homeListposition, String comment_status, String postId, String follwerid) {/*
+        // custom dialog
+        dialog = new BottomSheetDialog(mContext, R.style.BottomSheetDialog);
+        dialog.setContentView(R.layout.home_dialog);
+        View bottomSheet = dialog.findViewById(R.id.design_bottom_sheet);
+        BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
+        BottomSheetBehavior.from(bottomSheet).setSkipCollapsed(true);
+        BottomSheetBehavior.from(bottomSheet).setHideable(true);
+
+        this.SelecthomeListposition = homeListposition;
+        ArrayList<String> popupList = new ArrayList<>();
+
+        if (type.equalsIgnoreCase("ownpost")) {
+            popupList = utils.OwnPostList(comment_status);
+        } else {
+            popupList = utils.OtherPostList(homeParentpojo);
+        }
+
+        // set the custom dialog components - text, image and button
+        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        PopupListAdapter replyAdapter = new PopupListAdapter(FeedsFragment.this, popupList, postId, homeListposition, follwerid, feedsList);
+        recyclerView.setAdapter(replyAdapter);
+        float horizontalSpacing = mContext.getResources().getDimension(R.dimen.activity_horizontal_margin);
+        float verticalSpacing = App.dpToPx(mContext, 8);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                int position = parent.getChildViewHolder(view).getAbsoluteAdapterPosition();
+                int itemCount = state.getItemCount();
+                outRect.left = (int) horizontalSpacing;
+                outRect.right = (int) horizontalSpacing;
+                outRect.top = (int) verticalSpacing;
+                if (position == itemCount - 1) {
+                    outRect.bottom = (int) verticalSpacing;
+                } else {
+                    outRect.bottom = 0;
+                }
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    */
+    }
+
+    /*@Override
+    public void Reportcallback(int homeListposition) {
+        feedsList.remove(homeListposition);
+        homeListposition++;
+        feedsAdapter.notifyItemRemoved(homeListposition);
+        feedsAdapter.notifyItemRangeChanged(homeListposition, feedsList.size());
+    }
+
+    // When unfollow service completed , this method is invoked
+    @Override
+    public void Followcallback(int position, String followerId, String result, String followersCnt, String mutualStatus, RecyclerView.ViewHolder viewHolder) {
+        if (result.equalsIgnoreCase("Followed successfully")) {
+            int pos = position + 1;
+            feedsList.get(position).setFollowStatus("true");
+            feedsAdapter.notifyItemChanged(pos);
+        } else {
+            feedsList.remove(position);
+            feedsAdapter.notifyItemRemoved(position);
+        }
+    }
+
+
+    // When TurnOffOnCommentCallback service completed , this method is invoked
+
+    // When Deletepost service completed , this method is invoked
+    @Override
+    public void DeletePostcallback(int homeListposition) {
+        feedsList.remove(homeListposition);
+//        homeListposition++;
+        feedsAdapter.notifyItemRemoved(homeListposition);
+        feedsAdapter.notifyItemRangeChanged(homeListposition, feedsList.size());
+    }
+
+    // when add comments in coment page, count will update in home page via this interface
+
+    @Override
+    public void TurnOffOnCommentCallback(int homeListposition, String status) {
+        feedsList.get(homeListposition).setCommentStatus(status);
+//        homeListposition++;
+        feedsAdapter.notifyItemChanged(homeListposition);
+
+    }
+
+    @Override
+    public void commentCntUpdate(String cmtCount, int homeParentPosition) {
+        feedsList.get(homeParentPosition).setCommentCount(cmtCount);
+        int pos = homeParentPosition + 1;
+        feedsAdapter.notifyItemChanged(pos);
+
+    }*/
+
+    public void closeDialog() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
+    }
+
+    public void makeToast(String msg) {
+        //Toast.makeText(context,""+msg,Toast.LENGTH_SHORT).show();
+    }
+
+    public void newUserPopup() {/*
+        // custom dialog
+        newDialog = new Dialog(getActivity());
+        newDialog.setContentView(R.layout.newuser_popup);
+
+        Button ok = (Button) newDialog.findViewById(R.id.ok);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newDialog.dismiss();
+            }
+        });
+
+        newDialog.show();
+    */
+    }
+
+    // when launch another page if video isplaying , video should pause
+   /* @Override
+    public void visibility(String visibleUser) {
+        Log.e("visible", visibleUser);
+
+        if (visibleUser.equalsIgnoreCase("true")) {
+            selector = PlayerSelector.DEFAULT;
+        } else {
+            selector = PlayerSelector.NONE;
+        }
+
+        // Using TabLayout has a downside: once we click to a tab to change page, there will be no animation,
+        // which will cause our setup doesn't work well. We need a delay to make things work.
+        handler.postDelayed(() -> {
+            if (containerFeed != null) containerFeed.setPlayerSelector(selector);
+        }, 500);
+    }*/
+
+    private void findHeightWidth() {
+//        parentLay.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                height = parentLay.getMeasuredHeight();
+//                width = parentLay.getMeasuredWidth();
+//            }
+//        });
+
+    }
+
+   /* @Override
+    public void onItemSelected(Object obj, int position) {
+        if (AppPreferences.getIntFromStore(Preference_Constants.PREF_KEY_USER_STORY_COUNT) < Constants.MAX_STORY_COUNT) {
+            wayType = "story";
+            String[] permissionsArray;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                permissionsArray = PermissionsUtils.HOMEPAGE_V11_PERMISSION;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                permissionsArray = PermissionsUtils.HOMEPAGE_V10_PERMISSION;
+            } else {
+                permissionsArray = PermissionsUtils.HOMEPAGE_PERMISSION;
+            }
+            if (PermissionsUtils.checkPermissionsArray(permissionsArray, mContext)) {
+                goToAddStory();
+            } else {
+                mPermissionResult.launch(permissionsArray);
+            }
+        } else {
+            App.showToast(mContext, mContext.getString(R.string.max_story_description));
+        }
+    }*/
+
+    private void goToAddPost() {
+//        Intent intent = new Intent(mContext, GalleryActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        startActivity(intent);
+    }
+
+    private void goToAddStory() {
+//        Intent intent = new Intent(mContext, StoryCameraKitActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        mContext.startActivity(intent);
     }
 
     public void manualRefresh() {
@@ -653,9 +915,84 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 //        loadHomeFeeds(offset, limitCnt);
     }
 
+    public void navigateToShare(Bundle bundle) {/*
+        Utils.openShareDialog(mContext, new OkayCancelCallback() {
+            @Override
+            public void onOkayClicked(Object o) {
+                FragmentShare fragmentShare = FragmentShare.newInstance(bundle);
+                fragmentShare.show(getChildFragmentManager(), TAG);
+            }
+
+            @Override
+            public void onCancelClicked(Object o) {
+                Task<ShortDynamicLink> shortLinkTask = Utils.getInstance().getPostShareLink(mContext, bundle.getString(Constants.TAG_PRODUCT_ID));
+                shortLinkTask.addOnCompleteListener(feedsFragment.getActivity(), new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful()) {
+                            // Short link created
+                            Uri shortLink = task.getResult().getShortLink();
+                            String inviteApiLink = String.format(mContext.getString(R.string.post_share_description), mContext.getString(R.string.app_name)) + " " + shortLink;
+//                            inviteSocketLink = GetSet.getName() + " " + getString(R.string.stream_share_description) + " " + shortLink;
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("text/plain");
+                            intent.putExtra(Intent.EXTRA_TEXT, inviteApiLink);
+                            startActivity(Intent.createChooser(intent, mContext.getString(R.string.share_link)));
+                        } else {
+                            // Error
+                            App.showToast(mContext, mContext.getString(R.string.something_went_wrong));
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        App.showToast(mContext, mContext.getString(R.string.something_went_wrong));
+                    }
+                });
+            }
+        });
+    */
+    }
+
+    public void navigateToShareExternal(Bundle bundle) {/*
+        Task<ShortDynamicLink> shortLinkTask = Utils.getInstance().getPostShareLink(mContext, bundle.getString(Constants.TAG_PRODUCT_ID));
+        shortLinkTask.addOnCompleteListener(feedsFragment.getActivity(), new OnCompleteListener<ShortDynamicLink>() {
+            @Override
+            public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                if (task.isSuccessful()) {
+                    // Short link created
+                    Uri shortLink = task.getResult().getShortLink();
+                    String inviteApiLink = String.format(mContext.getString(R.string.post_share_description), mContext.getString(R.string.app_name)) + " " + shortLink;
+//                            inviteSocketLink = GetSet.getName() + " " + getString(R.string.stream_share_description) + " " + shortLink;
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, inviteApiLink);
+                    startActivity(Intent.createChooser(intent, mContext.getString(R.string.share_link)));
+                } else {
+                    // Error
+                    App.showToast(mContext, mContext.getString(R.string.something_went_wrong));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                App.showToast(mContext, mContext.getString(R.string.something_went_wrong));
+            }
+        });
+    */
+    }
+
+   /* public void navigateToLikeList(String postId) {
+        if (mFragmentNavigation != null) {
+            mFragmentNavigation.pushFragment(LikedUsersFragment.newInstance(postId, "post"));
+        }
+    }*/
+
     private void showLoading() {
         /*Disable touch options*/
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         progressLay.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
@@ -665,16 +1002,12 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         /*Enable touch options*/
         progressLay.setVisibility(View.GONE);
         progressBar.setIndeterminate(false);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-    }
-
-    @Override
-    public void onNetworkChanged(boolean isConnected) {
-        AppUtils.showSnack(mContext, findViewById(R.id.childLay), isConnected);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     @Override
     public void onMenuClicked(View view, Feeds resultsItem, int adapterPosition) {
+//        shareFeed(resultsItem.getFeedId());
         openMenu(view, resultsItem, adapterPosition);
     }
 
@@ -730,7 +1063,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             typeface = getResources().getFont(R.font.font_light);
         } else {
-            typeface = ResourcesCompat.getFont(this, R.font.font_light);
+            typeface = ResourcesCompat.getFont(mContext, R.font.font_light);
         }
         if (feedsList.get(adapterPosition).getUserId().equals(GetSet.getUserId())) {
             popupMenu.getMenu().getItem(0).setVisible(true);
@@ -757,7 +1090,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                     popupMenu.dismiss();
                 } else if (item.getItemId() == R.id.menuReport) {
                     AppUtils appUtils = new AppUtils(mContext);
-                    appUtils.openReportDialog(resultsItem.getFeedId(), FeedsActivity.this);
+                    appUtils.openReportDialog(resultsItem.getFeedId(), ((MainActivity) getActivity()));
                 } else if (item.getItemId() == R.id.menuLink) {
                     shareFeed(resultsItem.getFeedId(), true);
                 }
@@ -770,17 +1103,17 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     private void shareFeed(String feedId, boolean copyLink) {
         Task<ShortDynamicLink> shortLinkTask = appUtils.getFeedDynamicLink(feedId);
 
-        shortLinkTask.addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
+        shortLinkTask.addOnCompleteListener(getActivity(), new OnCompleteListener<ShortDynamicLink>() {
             @Override
             public void onComplete(@NonNull Task<ShortDynamicLink> task) {
                 if (task.isSuccessful()) {
                     if (copyLink) {
                         Uri shortLink = task.getResult().getShortLink();
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                         String msg = String.format(getString(R.string.invite_description), getString(R.string.app_name), shortLink);
                         ClipData clip = ClipData.newPlainText("label", "" + msg);
                         clipboard.setPrimaryClip(clip);
-                        App.makeToast(getString(R.string.copied_successfully));
+                        App.makeToast(mContext, mContext.getString(R.string.copied_successfully));
                     } else {
                         // Short link created
                         Uri shortLink = task.getResult().getShortLink();
@@ -802,34 +1135,6 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 Log.e(TAG, "onFailure: " + e.getMessage());
             }
         });
-    }
-
-    private void reportFeed(String feedId) {
-        if (NetworkReceiver.isConnected()) {
-            Call<Map<String, String>> call = apiInterface.deleteFeed(GetSet.getUserId(), feedId);
-            call.enqueue(new Callback<Map<String, String>>() {
-                @Override
-                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                    if (response.isSuccessful()) {
-                        Map<String, String> data = response.body();
-                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
-                            /*feedsList.remove(adapterPosition);
-                            feedsAdapter.notifyItemRemoved(adapterPosition);
-                            feedsAdapter.notifyItemRangeChanged(adapterPosition, feedsList.size());*/
-                        }
-                    }
-                }
-
-
-                @Override
-                public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                    Log.e(TAG, "uploadImage: " + t.getMessage());
-                    call.cancel();
-                    hideLoading();
-                }
-            });
-        }
-
     }
 
     private void deleteFeed(Feeds item, int adapterPosition) {

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/side_nav_bar" />
+        android:src="@drawable/gradient_bg" />
 
     <include layout="@layout/activity_toolbar_transparent" />
 

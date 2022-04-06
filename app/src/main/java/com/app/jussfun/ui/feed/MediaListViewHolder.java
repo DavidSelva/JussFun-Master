@@ -431,7 +431,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                 holders.add(playerViewHolder);
                 HolderModel holderModel = new HolderModel();
                 holderModel.setListHolder(holders);
-                FeedsFragment.mainHolderList.add(holderModel);
+                VideosFragment.mainHolderList.add(holderModel);
 
                 holder.bind(holder.getAdapterPosition(), childAdapterList, "");
 
@@ -449,7 +449,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                             else Constants.isMute = true;
 
                             ArrayList<HolderModel> holderList = null;
-                            holderList = FeedsFragment.mainHolderList;
+                            holderList = VideosFragment.mainHolderList;
                             for (int i = 0; i < holderList.size(); i++) {
                                 ArrayList<BaseViewHolder> listBH = holderList.get(i).getListHolder();
 

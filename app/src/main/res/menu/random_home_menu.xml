@@ -20,7 +20,7 @@
         android:id="@+id/menuFeeds"
         android:enabled="true"
         android:icon="@drawable/ic_feed_inactive"
-        android:title="@string/photos"
+        android:title="@string/feed"
         app:showAsAction="ifRoom" />
 
     <item

@@ -101,6 +101,8 @@ public class Constants {
     public static final String TAG_SUPER_LIKE = "superlike";
     public static final String TAG_STAR = "star";
     public static final String TAG_HEART = "heart";
+    public static final String TAG_PHOTOS = "photos";
+    public static final String TAG_VIDEOS = "videos";
 
     // JSON constant keys
     public static final String TAG_RESULT = "result";

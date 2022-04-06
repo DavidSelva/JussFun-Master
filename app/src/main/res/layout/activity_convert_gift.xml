@@ -4,7 +4,7 @@
     android:id="@+id/parentLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar"
+    android:background="@drawable/gradient_bg"
     tools:context="com.app.jussfun.ui.ConvertGiftActivity">
 
     <include layout="@layout/activity_toolbar_transparent" />

@@ -20,8 +20,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
-    <include layout="@layout/toolbar_feeds" />
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refreshlayout"
         android:layout_width="match_parent"
@@ -29,7 +27,7 @@
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.app.jussfun.external.toro.core.widget.Container
             android:id="@+id/containerFeed"

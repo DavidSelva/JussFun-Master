@@ -460,7 +460,7 @@
     <string name="heart">Heart</string>
     <string name="star">Star</string>
     <string name="messages">Messages</string>
-    <string name="photos">Photos</string>
+    <string name="feed">Photos</string>
     <string name="new_feed">New Feed</string>
     <string name="post">Post</string>
     <string name="add_a_caption">Add a caption</string>
@@ -516,5 +516,9 @@
     <string name="overlay_permission_description">This app requires to enable System Window Alert permission for calls</string>
     <string name="more">More</string>
     <string name="super_n_like">Super\nLike</string>
+    <string name="photos">Photos</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="add_a_profile_photo">Add a Profile Photo</string>
 
 </resources>
