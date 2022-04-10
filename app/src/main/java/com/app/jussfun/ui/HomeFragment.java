@@ -1,5 +1,13 @@
 package com.app.jussfun.ui;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.MODIFY_AUDIO_SETTINGS;
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WAKE_LOCK;
+import static com.app.jussfun.ui.RandomCallActivity.EXTRA_CIRCULAR_REVEAL_X;
+import static com.app.jussfun.ui.RandomCallActivity.EXTRA_CIRCULAR_REVEAL_Y;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -22,21 +30,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
@@ -44,12 +48,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.app.jussfun.base.App;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.apprtc.util.AppRTCUtils;
+import com.app.jussfun.base.App;
+import com.app.jussfun.databinding.FragmentRandomHomeBinding;
 import com.app.jussfun.external.CrystalRangeSeekbar;
 import com.app.jussfun.external.OnRangeSeekbarChangeListener;
 import com.app.jussfun.external.OnRangeSeekbarFinalValueListener;
@@ -64,7 +67,8 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;
-import com.skyfishjy.library.RippleBackground;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,50 +78,16 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.INTERNET;
-import static android.Manifest.permission.MODIFY_AUDIO_SETTINGS;
-import static android.Manifest.permission.RECORD_AUDIO;
-import static android.Manifest.permission.WAKE_LOCK;
-import static com.app.jussfun.ui.RandomCallActivity.EXTRA_CIRCULAR_REVEAL_X;
-import static com.app.jussfun.ui.RandomCallActivity.EXTRA_CIRCULAR_REVEAL_Y;
-
 public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketChannelEvents {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
-    @BindView(R.id.previewView)
-    PreviewView previewView;
-    @BindView(R.id.gemsLay)
-    FrameLayout gemsLay;
-    @BindView(R.id.filterLay)
-    RelativeLayout filterLay;
-    @BindView(R.id.recentLay)
-    LinearLayout recentLay;
-    @BindView(R.id.filterImageLay)
-    RelativeLayout filterImageLay;
-    @BindView(R.id.ivFilter)
-    ImageView ivFilter;
-    @BindView(R.id.radioBtnVideo)
-    RadioButton radioBtnVideo;
-    @BindView(R.id.btnVideoCall)
-    FrameLayout btnVideoCall;
-    @BindView(R.id.radioBtnAudio)
-    RadioButton radioBtnAudio;
-    @BindView(R.id.btnAudioCall)
-    FrameLayout btnAudioCall;
-    @BindView(R.id.txtTouchToStart)
-    AppCompatTextView txtTouchToStart;
-    @BindView(R.id.audioLay)
-    FrameLayout audioLay;
-    @BindView(R.id.bgImage)
-    ImageView bgImage;
+    private FragmentRandomHomeBinding binding;
+
     private ApiInterface apiInterface;
     /*Filter Dialog*/
     BottomSheetDialog filterDialog;
@@ -126,16 +96,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     ImageView imageMale, imageFemale, imageBoth, imageLocation;
     TextView txtAge, txtFilterGems;
     CrystalRangeSeekbar seekBar;
-    @BindView(R.id.parentLay)
-    ConstraintLayout parentLay;
-    @BindView(R.id.txtAudioStart)
-    TextView txtAudioStart;
-    @BindView(R.id.rippleBackground)
-    RippleBackground rippleBackground;
-    @BindView(R.id.audioRippleBackground)
-    RippleBackground audioRippleBackground;
-    @BindView(R.id.optionLay)
-    LinearLayout optionLay;
+
     Animation zoomIn;
     Animation zoomOut;
     private int bottomNavHeight;
@@ -170,38 +131,37 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_random_home, container, false);
-        ButterKnife.bind(this, rootView);
+        binding = FragmentRandomHomeBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         appUtils = new AppUtils(context);
         zoomIn = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in);
         zoomOut = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out);
         executor = Executors.newSingleThreadExecutor();
         cameraProviderFuture = ProcessCameraProvider.getInstance(context);
-        bgImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.his_msg_voicecall_bg));
-        rippleBackground.startRippleAnimation();
+        binding.bgImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.his_msg_voicecall_bg));
+        binding.rippleBackground.startRippleAnimation();
         Animation a = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
-        txtTouchToStart.startAnimation(a);
-        ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) optionLay.getLayoutParams();
+        binding.txtTouchToStart.startAnimation(a);
+        ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) binding.optionLay.getLayoutParams();
         newLayoutParams.topMargin = 0;
         newLayoutParams.leftMargin = 0;
         newLayoutParams.rightMargin = 0;
         newLayoutParams.bottomMargin = AppUtils.dpToPx(context, 66);
-        optionLay.setLayoutParams(newLayoutParams);
+        binding.optionLay.setLayoutParams(newLayoutParams);
 //        updateCallType();
 
         tempLocations = (ArrayList<String>) AdminData.locationList;
-
         updateGemsCount();
+        initFilterOverLay();
 
-        parentLay.setOnTouchListener(new View.OnTouchListener() {
+        binding.parentLay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (NetworkReceiver.isConnected()) {
                     if (isPermissionsGranted(AppRTCUtils.MANDATORY_PERMISSIONS)) {
-                        App.preventMultipleClick(parentLay);
-                        startCallActivity(parentLay);
+                        App.preventMultipleClick(binding.parentLay);
+                        startCallActivity(binding.parentLay);
                     } else {
                         requestMandatoryPermissions(AppRTCUtils.MANDATORY_PERMISSIONS);
                     }
@@ -218,7 +178,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         if (!isCameraInit) {
             isCameraInit = true;
             // Wait for the views to be properly laid out
-            previewView.post(new Runnable() {
+            binding.previewView.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "initCameraView: ");
@@ -232,7 +192,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     private void bindCameraUseCases() {
         // Get screen metrics used to setup camera for full screen resolution
         int screenAspectRatio = aspectRatio(widthPixels, heightPixels);
-        int rotation = previewView.getDisplay().getRotation();
+        int rotation = binding.previewView.getDisplay().getRotation();
         // Bind the CameraProvider to the LifeCycleOwner
         CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(lensFacing).build();
 
@@ -251,7 +211,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                             .build();
 
                     // Attach the viewfinder's surface provider to preview use case
-                    preview.setSurfaceProvider(previewView.getSurfaceProvider());
+                    preview.setSurfaceProvider(binding.previewView.getSurfaceProvider());
                     // Must unbind the use-cases before rebinding them
 
                     cameraProvider.unbindAll();
@@ -264,13 +224,216 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                         Logging.e(TAG, "Use case binding failed: " + exception.getMessage());
                     }
 
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }, ContextCompat.getMainExecutor(requireContext()));
+    }
+
+    private void initFilterOverLay() {
+        binding.filterOverLay.parentLay.setVisibility(View.VISIBLE);
+        binding.filterOverLay.parentLay.setOnClickListener(null);
+        ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) binding.filterOverLay.btnGoLive.getLayoutParams();
+        newLayoutParams.topMargin = 0;
+        newLayoutParams.leftMargin = AppUtils.dpToPx(context, 50);
+        ;
+        newLayoutParams.rightMargin = AppUtils.dpToPx(context, 50);
+        ;
+        newLayoutParams.bottomMargin = AppUtils.dpToPx(context, 66);
+        binding.filterOverLay.btnGoLive.setLayoutParams(newLayoutParams);
+
+        binding.filterOverLay.menLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (NetworkReceiver.isConnected()) {
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
+                            applyGenderMale();
+                        } else {
+                            showGemsErrorDialog();
+                        }
+                    } else {
+                        if (("" + AdminData.filterOptions.getGender().getNonPrime()).equals("1")) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
+                                applyGenderMale();
+                            } else {
+                                showGemsErrorDialog();
+                            }
+                        } else {
+                            goToPrime();
+                        }
+                    }
+                } else {
+                    App.makeToast(getString(R.string.no_internet_connection));
+                }
+            }
+        });
+
+        binding.filterOverLay.womenLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (NetworkReceiver.isConnected()) {
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
+                            applyGenderFemale();
+                        } else {
+                            showGemsErrorDialog();
+                        }
+                    } else {
+                        if (("" + AdminData.filterOptions.getGender().getNonPrime()).equals("1")) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
+                                applyGenderFemale();
+                            } else {
+                                showGemsErrorDialog();
+                            }
+                        } else {
+                            goToPrime();
+                        }
+                    }
+                } else {
+                    App.makeToast(getString(R.string.no_internet_connection));
+                }
+            }
+        });
+
+        binding.filterOverLay.bothLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (NetworkReceiver.isConnected()) {
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
+                            applyGenderBoth();
+                        } else {
+                            showGemsErrorDialog();
+                        }
+                    } else {
+                        if (("" + AdminData.filterOptions.getGender().getNonPrime()).equals("1")) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
+                                applyGenderBoth();
+                            } else {
+                                showGemsErrorDialog();
+                            }
+                        } else {
+                            goToPrime();
+                        }
+                    }
+                } else {
+                    App.makeToast(getString(R.string.no_internet_connection));
+                }
+            }
+        });
+
+        binding.filterOverLay.locationLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (NetworkReceiver.isConnected()) {
+                    App.preventMultipleClick(binding.filterOverLay.locationLay);
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
+                            Intent locationIntent = new Intent(getActivity(), LocationFilterActivity.class);
+                            locationIntent.putExtra(Constants.TAG_FROM, "random");
+                            locationIntent.putExtra(Constants.TAG_LOCATION_SELECTED, isAllLocationSelected);
+                            if (isAllLocationSelected) {
+                                locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, (ArrayList<String>) AdminData.locationList);
+                            } else {
+                                locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, tempLocations);
+                            }
+                            startActivityForResult(locationIntent, 100);
+                        } else {
+                            showGemsErrorDialog();
+                        }
+                    } else {
+                        if (("" + AdminData.filterOptions.getLocation().getNonPrime()).equals("1")) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
+                                Intent locationIntent = new Intent(getActivity(), LocationFilterActivity.class);
+                                locationIntent.putExtra(Constants.TAG_FROM, "random");
+                                locationIntent.putExtra(Constants.TAG_LOCATION_SELECTED, isAllLocationSelected);
+                                if (isAllLocationSelected) {
+                                    locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, (ArrayList<String>) AdminData.locationList);
+                                } else {
+                                    locationIntent.putStringArrayListExtra(Constants.TAG_FILTER_LOCATION, tempLocations);
+                                }
+                                startActivityForResult(locationIntent, 100);
+                            } else {
+                                showGemsErrorDialog();
+                            }
+                        } else {
+                            goToPrime();
+                        }
+                    }
+                } else {
+                    App.makeToast(getString(R.string.no_internet_connection));
+                }
+            }
+        });
+
+        binding.filterOverLay.seekBar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                if (NetworkReceiver.isConnected()) {
+
+                    if (GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
+                        if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getSubFilterPrice()) ? AdminData.filterGems.getSubFilterPrice() : "0")) {
+                            applyAge(minValue, maxValue);
+                        } else {
+                            showGemsErrorDialog();
+                            resetSeekBar();
+                        }
+                    } else {
+                        if (("" + AdminData.filterOptions.getAge().getNonPrime()).equals("1")) {
+                            if (GetSet.getGems() >= Long.parseLong(!TextUtils.isEmpty(AdminData.filterGems.getUnSubFilterPrice()) ? AdminData.filterGems.getUnSubFilterPrice() : "0")) {
+                                applyAge(minValue, maxValue);
+                            } else {
+                                showGemsErrorDialog();
+                                resetSeekBar();
+                            }
+                        } else {
+                            resetSeekBar();
+                            goToPrime();
+                        }
+                    }
+                } else {
+                    App.makeToast(getString(R.string.no_internet_connection));
+                    resetSeekBar();
+                }
+            }
+        });
+
+        binding.filterOverLay.seekBar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                binding.filterOverLay.txtAge.setText(minValue + " - " + maxValue);
+            }
+        });
+
+        binding.filterOverLay.btnGoLive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (NetworkReceiver.isConnected()) {
+                    if (isPermissionsGranted(AppRTCUtils.MANDATORY_PERMISSIONS)) {
+                        if (filterApplied) {
+                            GetSet.setFilterApplied(true);
+                            GetSet.setFilterMinAge("" + minimumAge);
+                            GetSet.setFilterMaxAge("" + maximumAge);
+                            GetSet.setFilterGender(genderSelected);
+                        }
+                        App.preventMultipleClick(binding.filterOverLay.btnGoLive);
+                        startCallActivity(binding.filterOverLay.btnGoLive);
+                    } else {
+                        requestMandatoryPermissions(AppRTCUtils.MANDATORY_PERMISSIONS);
+                    }
+                } else {
+                    App.makeToast(getString(R.string.no_internet_connection));
+                }
+            }
+        });
+        binding.filterOverLay.btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.filterOverLay.parentLay.setVisibility(View.GONE);
+            }
+        });
     }
 
     /**
@@ -285,14 +448,14 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             // Display flash animation to indicate that photo was captured
-            parentLay.postDelayed(new Runnable() {
+            binding.parentLay.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    parentLay.setForeground(new ColorDrawable(Color.WHITE));
-                    parentLay.postDelayed(new Runnable() {
+                    binding.parentLay.setForeground(new ColorDrawable(Color.WHITE));
+                    binding.parentLay.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            parentLay.setForeground(null);
+                            binding.parentLay.setForeground(null);
                         }
                     }, Constants.ANIMATION_FAST_MILLIS);
                 }
@@ -354,6 +517,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding = null;
     }
 
     /**
@@ -399,7 +563,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 
                 break;
             case R.id.filterLay:
-                App.preventMultipleClick(filterLay);
+                App.preventMultipleClick(binding.filterLay);
                 openFilterDialog();
                 break;
             case R.id.recentLay:
@@ -409,29 +573,29 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                 break;
             case R.id.btnVideoCall:
             case R.id.radioBtnVideo: {
-                txtTouchToStart.setVisibility(View.VISIBLE);
-                radioBtnVideo.setChecked(true);
-                radioBtnAudio.setChecked(false);
-                audioLay.setVisibility(View.GONE);
-                audioRippleBackground.stopRippleAnimation();
-                rippleBackground.startRippleAnimation();
+                binding.txtTouchToStart.setVisibility(View.VISIBLE);
+                binding.radioBtnVideo.setChecked(true);
+                binding.radioBtnAudio.setChecked(false);
+                binding.audioLay.setVisibility(View.GONE);
+                binding.audioRippleBackground.stopRippleAnimation();
+                binding.rippleBackground.startRippleAnimation();
                 Animation a = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
-                txtTouchToStart.startAnimation(a);
-                txtAudioStart.clearAnimation();
+                binding.txtTouchToStart.startAnimation(a);
+                binding.txtAudioStart.clearAnimation();
 //                updateCallType();
             }
             break;
             case R.id.btnAudioCall:
             case R.id.radioBtnAudio: {
-                txtTouchToStart.setVisibility(View.GONE);
-                radioBtnVideo.setChecked(false);
-                radioBtnAudio.setChecked(true);
-                audioLay.setVisibility(View.VISIBLE);
-                rippleBackground.stopRippleAnimation();
-                audioRippleBackground.startRippleAnimation();
+                binding.txtTouchToStart.setVisibility(View.GONE);
+                binding.radioBtnVideo.setChecked(false);
+                binding.radioBtnAudio.setChecked(true);
+                binding.audioLay.setVisibility(View.VISIBLE);
+                binding.rippleBackground.stopRippleAnimation();
+                binding.audioRippleBackground.startRippleAnimation();
                 Animation a = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
-                txtAudioStart.startAnimation(a);
-                txtTouchToStart.clearAnimation();
+                binding.txtAudioStart.startAnimation(a);
+                binding.txtTouchToStart.clearAnimation();
 //                updateCallType();
             }
             break;
@@ -445,7 +609,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         Intent randomChat = new Intent(getActivity(), RandomCallActivity.class);
         randomChat.putExtra(EXTRA_CIRCULAR_REVEAL_X, revealX);
         randomChat.putExtra(EXTRA_CIRCULAR_REVEAL_Y, revealY);
-        randomChat.putExtra(Constants.TAG_CALL_TYPE, radioBtnVideo.isChecked() ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
+        randomChat.putExtra(Constants.TAG_CALL_TYPE, binding.radioBtnVideo.isChecked() ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(getActivity(), view, "transition");
         //just start the activity as an shared transition, but set the options bundle to null
@@ -712,47 +876,59 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     void applyGenderBoth() {
 //        App.makeToast(getString(R.string.both));
         filterApplied = true;
-        imageBoth.startAnimation(zoomIn);
-        imageBoth.startAnimation(zoomOut);
-        imageMale.setAnimation(null);
-        imageFemale.setAnimation(null);
         genderSelected = Constants.TAG_BOTH;
-        imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
-        imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
-        imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        if (filterDialog.isShowing()) {
+            imageBoth.startAnimation(zoomIn);
+            imageBoth.startAnimation(zoomOut);
+            imageMale.setAnimation(null);
+            imageFemale.setAnimation(null);
+            imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        } else {
+        }
     }
 
     void applyGenderMale() {
 //        App.makeToast(getString(R.string.male));
         filterApplied = true;
-        imageMale.startAnimation(zoomIn);
-        imageMale.startAnimation(zoomOut);
-        imageFemale.setAnimation(null);
-        imageBoth.setAnimation(null);
         genderSelected = Constants.TAG_MALE;
-        imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
-        imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
-        imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        if (filterDialog.isShowing()) {
+            imageMale.startAnimation(zoomIn);
+            imageMale.startAnimation(zoomOut);
+            imageFemale.setAnimation(null);
+            imageBoth.setAnimation(null);
+            imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+            imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        } else {
+        }
     }
 
     void applyGenderFemale() {
 //        App.makeToast(getString(R.string.female));
         filterApplied = true;
-        imageFemale.startAnimation(zoomIn);
-        imageFemale.startAnimation(zoomOut);
-        imageMale.setAnimation(null);
-        imageBoth.setAnimation(null);
         genderSelected = Constants.TAG_FEMALE;
-        imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
-        imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
-        imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        if (filterDialog.isShowing()) {
+            imageFemale.startAnimation(zoomIn);
+            imageFemale.startAnimation(zoomOut);
+            imageMale.setAnimation(null);
+            imageBoth.setAnimation(null);
+            imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+            imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        }
     }
 
     void applyAge(Number minValue, Number maxValue) {
         filterApplied = true;
         minimumAge = minValue.intValue();
         maximumAge = maxValue.intValue();
-        txtAge.setText(minValue + " - " + maxValue);
+        if (filterDialog.isShowing()) {
+            txtAge.setText(minValue + " - " + maxValue);
+        } else {
+            binding.filterOverLay.txtAge.setText(minValue + " - " + maxValue);
+        }
     }
 
     private void updateCallType() {
@@ -760,7 +936,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             ProfileRequest request = new ProfileRequest();
             request.setUserId(GetSet.getUserId());
             request.setProfileId(GetSet.getUserId());
-            request.setCallType(radioBtnVideo.isChecked() ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
+            request.setCallType(binding.radioBtnVideo.isChecked() ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
             Call<ProfileResponse> call = apiInterface.getProfile(request);
             call.enqueue(new Callback<ProfileResponse>() {
                 @Override
@@ -793,9 +969,14 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             filterApplied = true;
             GetSet.setFilterApplied(true);
             GetSet.setLocationApplied(true);
+            if (binding.filterOverLay.parentLay.getVisibility() == View.VISIBLE) {
+                if (isAllLocationSelected) {
+                    binding.filterOverLay.txtLocation.setText(context.getString(R.string.world_wide));
+                } else {
+                    binding.filterOverLay.txtLocation.setText("" + tempLocations);
+                }
+            }
             updateFilterView();
-
-
         }
     }
 
@@ -838,7 +1019,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
                     }
                 } else {
                     Intent randomChat = new Intent(getActivity(), RandomCallActivity.class);
-                    randomChat.putExtra(Constants.TAG_CALL_TYPE, radioBtnVideo.isChecked() ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
+                    randomChat.putExtra(Constants.TAG_CALL_TYPE, binding.radioBtnVideo.isChecked() ? Constants.TAG_VIDEO : Constants.TAG_AUDIO);
                     startActivity(randomChat);
                 }
                 break;
@@ -902,9 +1083,9 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 
     public void updateFilterView() {
         if (GetSet.isFilterApplied()) {
-            ivFilter.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+            binding.ivFilter.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
         } else {
-            ivFilter.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+            binding.ivFilter.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
         }
     }
 

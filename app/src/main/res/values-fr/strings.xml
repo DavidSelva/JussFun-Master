@@ -520,5 +520,6 @@
     <string name="women">Women</string>
     <string name="men">Men</string>
     <string name="add_a_profile_photo">Add a Profile Photo</string>
+    <string name="add_photos_videos">Add Photo or Video</string>
 
 </resources>

@@ -660,6 +660,8 @@ public class SplashActivity extends BaseFragmentActivity {
                             AdminData.videoAdsDuration = defaultData.getVideoAdsDuration();
                             AdminData.gemConversion = defaultData.getGemConversion();
                             AdminData.giftConversion = defaultData.getGiftConversion();
+                            AdminData.feedTitle = defaultData.getFeedTitle();
+                            AdminData.feedDescription = defaultData.getFeedDescription();
                         }
                     } else {
                         App.makeToast(getString(R.string.something_went_wrong));

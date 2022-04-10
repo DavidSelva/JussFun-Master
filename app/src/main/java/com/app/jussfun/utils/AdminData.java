@@ -39,6 +39,8 @@ public class AdminData {
     public static boolean hasImageModerate = false;
     public static String conversionGems = null;
     public static String conversionCash = null;
+    public static String feedTitle = null;
+    public static String feedDescription = null;
 
     public static void resetData() {
         freeGems = 0L;
@@ -62,6 +64,8 @@ public class AdminData {
         videoAdsDuration = 5;
         videoCallsGems = 0;
         hasImageModerate = false;
+        feedTitle = null;
+        feedDescription = null;
     }
 
     public static boolean isAdEnabled() {

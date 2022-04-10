@@ -34,6 +34,8 @@ import com.app.jussfun.R;
 import com.app.jussfun.databinding.FragmentFeedsMainBinding;
 import com.app.jussfun.databinding.ItemMainMenuBinding;
 import com.app.jussfun.external.toro.core.widget.Container;
+import com.app.jussfun.helper.callback.HomeMenuListener;
+import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 
@@ -51,7 +53,7 @@ import java.util.List;
 
 
 @SuppressWarnings("unused")
-public class FeedsFragment extends Fragment {
+public class FeedsFragment extends Fragment implements HomeMenuListener {
 
     private static final String TAG = FeedsFragment.class.getSimpleName();
     private Context mContext;
@@ -100,9 +102,19 @@ public class FeedsFragment extends Fragment {
                 }
             }
         });
-        adapter = new MenuAdapter(mContext, menuList, displayWidth, displayHeight);
+        adapter = new MenuAdapter(mContext, menuList, displayWidth, displayHeight, this);
         binding.rvMenu.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onMenuClicked(String type) {
+        if (type.equalsIgnoreCase(mContext.getString(R.string.live))) {
+            if (getActivity() != null && getActivity() instanceof MainActivity) {
+                MainActivity activity = (MainActivity) getActivity();
+                activity.onLiveClicked();
+            }
+        }
     }
 
     private static class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -110,12 +122,14 @@ public class FeedsFragment extends Fragment {
         private Context mContext;
         private List<String> menuList = new ArrayList<>();
         public int displayWidth, displayHeight;
+        HomeMenuListener listener;
 
-        public MenuAdapter(Context mContext, List<String> menuList, int displayWidth, int displayHeight) {
+        public MenuAdapter(Context mContext, List<String> menuList, int displayWidth, int displayHeight, HomeMenuListener listener) {
             this.mContext = mContext;
             this.menuList = menuList;
             this.displayHeight = displayHeight;
             this.displayWidth = displayWidth;
+            this.listener = listener;
         }
 
         @NonNull
@@ -132,11 +146,18 @@ public class FeedsFragment extends Fragment {
             holder.binding.itemLay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (menuList.get(holder.getAdapterPosition()).equals(mContext.getString(R.string.photos))) {
+                    if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.photos))) {
                         Intent intent = new Intent(mContext, FeedsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        intent.putExtra(Constants.TAG_TYPE, mContext.getString(R.string.photos));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        intent.putExtra(Constants.TAG_TYPE, Constants.TAG_PHOTO);
                         mContext.startActivity(intent);
+                    } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.videos))) {
+                        Intent intent = new Intent(mContext, FeedsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        intent.putExtra(Constants.TAG_TYPE, Constants.TAG_VIDEO);
+                        mContext.startActivity(intent);
+                    } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.live))) {
+                        listener.onMenuClicked(mContext.getString(R.string.live));
                     }
                 }
             });

@@ -187,7 +187,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
                     edtName.setError(getString(R.string.enter_name));
                 } else if (TextUtils.isEmpty(txtLocation.getText().toString())) {
                     txtLocation.setError(getString(R.string.select_location));
-                } else if (TextUtils.isEmpty(edtPayPal.getText()) || !edtPayPal.getText().toString().matches(emailPattern)) {
+                } else if (!TextUtils.isEmpty(edtPayPal.getText()) && !edtPayPal.getText().toString().matches(emailPattern)) {
                     edtPayPal.setError(getString(R.string.verify_mail));
                 } else {
                     txtLocation.setError(null);

@@ -53,6 +53,10 @@ public class AppDefaultResponse {
     private String gemConversion;
     @SerializedName("giftprime")
     private String giftConversion;
+    @SerializedName("feed_title")
+    private String feedTitle;
+    @SerializedName("feed_description")
+    private String feedDescription;
 
     public Long getFreeGems() {
         return freeGems;
@@ -236,5 +240,13 @@ public class AppDefaultResponse {
 
     public void setGiftConversion(String giftConversion) {
         this.giftConversion = giftConversion;
+    }
+
+    public String getFeedTitle() {
+        return feedTitle;
+    }
+
+    public String getFeedDescription() {
+        return feedDescription;
     }
 }

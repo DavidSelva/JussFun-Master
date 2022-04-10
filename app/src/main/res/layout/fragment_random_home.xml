@@ -279,4 +279,8 @@
 
     </LinearLayout>
 
+    <include layout="@layout/layout_filter"
+        android:visibility="gone"
+        android:id="@+id/filterOverLay"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

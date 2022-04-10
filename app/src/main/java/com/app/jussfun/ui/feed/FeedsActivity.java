@@ -3,13 +3,16 @@ package com.app.jussfun.ui.feed;
 import static android.Manifest.permission.CAMERA;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +51,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
+import com.app.jussfun.databinding.DialogFeedDescriptionBinding;
 import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
@@ -61,8 +65,10 @@ import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.FeedsModel;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.ui.BaseFragmentActivity;
+import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.ui.MyProfileActivity;
 import com.app.jussfun.ui.OthersProfileActivity;
+import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
@@ -206,7 +212,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
@@ -671,6 +677,48 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     @Override
     public void onNetworkChanged(boolean isConnected) {
         AppUtils.showSnack(mContext, findViewById(R.id.childLay), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showDescriptionDialog();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void showDescriptionDialog() {
+        DialogFeedDescriptionBinding dialogBinding = DialogFeedDescriptionBinding.inflate(getLayoutInflater());
+        // Initialize dialog
+        Dialog dialog = new Dialog(FeedsActivity.this);
+
+        // set background transparent
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(
+                Color.TRANSPARENT
+        ));
+        // set view
+        dialog.setContentView(dialogBinding.getRoot());
+        dialog.setCancelable(true);
+        dialogBinding.txtTitle.setText(AdminData.feedTitle);
+        dialogBinding.txtDescription.setText(AdminData.feedDescription);
+        dialogBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageDialog();
+                dialog.dismiss();
+            }
+        });
+        // display dialog
+        dialog.show();
     }
 
     @Override
