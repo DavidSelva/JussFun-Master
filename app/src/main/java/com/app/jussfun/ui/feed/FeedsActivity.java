@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -173,6 +174,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         initPermission();
         initResultLauncher();
         setMargins();
+        showDescriptionDialog();
     }
 
     private void initView() {
@@ -357,9 +359,15 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     }
 
     private void openAddPostActivity(Uri data) {
-        Intent intent = new Intent(mContext, FilterActivity.class);
-        intent.setData(data);
-        addPostResultLauncher.launch(intent);
+        if (feedType != null && feedType.equals(Constants.TAG_VIDEO)) {
+            Intent intent = new Intent(mContext, TrimmerActivity.class);
+            intent.setData(data);
+            addPostResultLauncher.launch(intent);
+        } else {
+            Intent intent = new Intent(mContext, FilterActivity.class);
+            intent.setData(data);
+            addPostResultLauncher.launch(intent);
+        }
     }
 
     private void openImageDialog() {
@@ -368,8 +376,15 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         pickerOptionsSheet.setCanceledOnTouchOutside(true);
         pickerOptionsSheet.setContentView(contentView);
 
+        TextView labelUpload = contentView.findViewById(R.id.labelUpload);
         View layoutCamera = contentView.findViewById(R.id.container_camera_option);
         View layoutGallery = contentView.findViewById(R.id.container_gallery_option);
+        if (feedType != null && feedType.equals(Constants.TAG_VIDEO)) {
+            labelUpload.setText(mContext.getString(R.string.upload_video_from));
+            layoutCamera.setVisibility(View.GONE);
+        } else {
+            labelUpload.setText(mContext.getString(R.string.upload_photo_from));
+        }
 
         layoutCamera.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(mContext, CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -424,8 +439,12 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     private void openGallery() {
         Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, collection);
-        pickIntent.setType("image/jpeg");
+        Intent pickIntent = new Intent(Intent.ACTION_PICK);
+        if (feedType != null && feedType.equals(Constants.TAG_VIDEO)) {
+            pickIntent.setDataAndType(collection, "video/*");
+        } else {
+            pickIntent.setDataAndType(collection, "image/*");
+        }
 
         Intent chooserIntent = Intent.createChooser(pickIntent, "Select a picture");
         if (chooserIntent.resolveActivity(mContext.getPackageManager()) != null) {
@@ -569,11 +588,12 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             } else if (followerId != null) {
                 requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
                 requestMap.put(Constants.TAG_FEED_ID, "");
-            } else if (feedType != null) {
-                requestMap.put(Constants.TAG_TYPE, feedType);
             } else {
                 requestMap.put(Constants.TAG_FOLLOWER_ID, "");
                 requestMap.put(Constants.TAG_FEED_ID, "");
+            }
+            if (feedType != null) {
+                requestMap.put(Constants.TAG_TYPE, feedType);
             }
             requestMap.put(Constants.TAG_LIMIT, "" + limitcnt);
             requestMap.put(Constants.TAG_OFFSET, "" + (offsetCnt * limitcnt));
@@ -682,7 +702,6 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        showDescriptionDialog();
     }
 
     @Override
@@ -710,6 +729,11 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         dialog.setCancelable(true);
         dialogBinding.txtTitle.setText(AdminData.feedTitle);
         dialogBinding.txtDescription.setText(AdminData.feedDescription);
+        if (feedType != null && feedType.equals(Constants.TAG_VIDEO)) {
+            dialogBinding.btnAdd.setText(mContext.getString(R.string.add_video));
+        } else {
+            dialogBinding.btnAdd.setText(mContext.getString(R.string.add_photo));
+        }
         dialogBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

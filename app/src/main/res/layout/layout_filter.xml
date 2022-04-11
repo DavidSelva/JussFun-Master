@@ -133,11 +133,11 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:adjustViewBounds="true"
+                    android:id="@+id/ivFemale"
                     android:background="@drawable/selector_gender"
-                    android:padding="@dimen/size_10"
+                    android:padding="@dimen/size_20"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_register_male_selected"
-                    app:riv_corner_radius="@dimen/size_20"
+                    android:src="@drawable/female"
                     app:riv_oval="false" />
 
                 <TextView
@@ -169,10 +169,10 @@
                     android:layout_height="100dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/selector_gender"
-                    android:padding="@dimen/size_10"
+                    android:padding="@dimen/size_20"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_register_female_selected"
-                    app:riv_corner_radius="@dimen/size_20"
+                    android:id="@+id/ivBoth"
+                    android:src="@drawable/equality"
                     app:riv_oval="false" />
 
                 <TextView
@@ -201,10 +201,10 @@
                     android:layout_height="100dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/selector_gender"
-                    android:padding="@dimen/size_10"
+                    android:padding="@dimen/size_20"
+                    android:id="@+id/ivMale"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_register_female_selected"
-                    app:riv_corner_radius="@dimen/size_20"
+                    android:src="@drawable/male"
                     app:riv_oval="false" />
 
                 <TextView
@@ -262,13 +262,13 @@
                 android:layout_marginTop="5dp"
                 app:bar_color="@color/colorDivider"
                 app:bar_color_mode="solid"
-                app:bar_highlight_color="@color/colorPrimary"
+                app:bar_highlight_color="@color/colorYellow"
                 app:bar_highlight_color_mode="solid"
                 app:gap="1"
-                app:left_thumb_color="@color/colorPrimary"
-                app:left_thumb_color_pressed="@color/colorPrimary"
-                app:right_thumb_color="@color/colorPrimary"
-                app:right_thumb_color_pressed="@color/colorPrimary"
+                app:left_thumb_color="@color/colorYellow"
+                app:left_thumb_color_pressed="@color/colorYellow"
+                app:right_thumb_color="@color/colorYellow"
+                app:right_thumb_color_pressed="@color/colorYellow"
                 app:thumb_diameter="20dp" />
 
         </LinearLayout>

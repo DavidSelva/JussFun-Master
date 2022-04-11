@@ -60,6 +60,8 @@ public class ProfileResponse implements Serializable {
     private String giftEarnings;
     @SerializedName("feed_count")
     private String feedCount;
+    @SerializedName("report_user")
+    private boolean reportUser;
 
     @SerializedName("gift_coversion_earnings")
     private String giftCoversionEarnings;
@@ -313,6 +315,14 @@ public class ProfileResponse implements Serializable {
 
     public void setFollowNotification(String followNotification) {
         this.followNotification = followNotification;
+    }
+
+    public boolean isReportUser() {
+        return reportUser;
+    }
+
+    public void setReportUser(boolean reportUser) {
+        this.reportUser = reportUser;
     }
 
     public String getGiftEarnings() {

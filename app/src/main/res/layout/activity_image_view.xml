@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBgBlack"
     android:fitsSystemWindows="true"
-    tools:context="com.app.livza.ui.ImageViewActivity">
+    tools:context="com.app.jussfun.ui.ImageViewActivity">
 
     <ImageButton
         android:id="@+id/btnClose"
@@ -18,6 +18,18 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/close_white"
         android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/btnMenu"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/size_40"
+        android:layout_height="@dimen/size_40"
+        android:layout_gravity="end"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/menu"
+        android:visibility="invisible"
+        app:tint="@color/colorWhite" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -49,14 +61,14 @@
         <com.app.jussfun.external.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerLayout"
             android:layout_width="wrap_content"
-            app:shimmer_repeat_delay="2000"
-            app:shimmer_repeat_count="100"
             android:layout_height="wrap_content"
-            app:shimmer_auto_start="true">
+            app:shimmer_auto_start="true"
+            app:shimmer_repeat_count="100"
+            app:shimmer_repeat_delay="2000">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/TextWhiteLight"
                 android:id="@+id/txtChangePhoto"
+                style="@style/TextWhiteLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/swipe_change_photo"

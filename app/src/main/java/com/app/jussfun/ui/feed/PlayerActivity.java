@@ -1,20 +1,36 @@
 package com.app.jussfun.ui.feed;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseActivity;
 import com.app.jussfun.databinding.ActivityPlayerBinding;
+import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.StorageUtils;
+import com.app.jussfun.model.GetSet;
+import com.app.jussfun.ui.FullScreenImageViewActivity;
+import com.app.jussfun.utils.ApiClient;
+import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.google.android.exoplayer2.C;
@@ -51,7 +67,12 @@ import com.google.android.exoplayer2.video.VideoListener;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.Map;
 import java.util.Timer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PlayerActivity extends BaseActivity implements PlaybackPreparer {
 
@@ -74,6 +95,8 @@ public class PlayerActivity extends BaseActivity implements PlaybackPreparer {
     Timer netWorktimer = new Timer();
     private AppUtils appUtils;
     private Player.EventListener playerListener;
+    private PopupMenu popupMenu;
+    private String feedId;
 
     static {
         DEFAULT_COOKIE_MANAGER = new CookieManager();
@@ -152,6 +175,7 @@ public class PlayerActivity extends BaseActivity implements PlaybackPreparer {
     }
 
     private void initValues() {
+        feedId = getIntent().getStringExtra(Constants.TAG_FEED_ID);
         mContext = this;
         videoUri = Uri.parse(getIntent().getStringExtra(Constants.TAG_VIDEO));
         appUtils = new AppUtils(this);
@@ -276,6 +300,15 @@ public class PlayerActivity extends BaseActivity implements PlaybackPreparer {
                 onBackPressed();
             }
         });
+        binding.btnMenu.setVisibility(View.VISIBLE);
+        binding.btnMenu.setColorFilter(ContextCompat.getColor(this, R.color.colorWhite));
+        binding.btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMenu(v);
+            }
+        });
+
         if (videoUri != null) {
             setUpExoPlayer(videoUri);
         }
@@ -515,6 +548,66 @@ public class PlayerActivity extends BaseActivity implements PlaybackPreparer {
         }
     }
 
+    private void openMenu(View view) {
+        popupMenu = new PopupMenu(this, view, R.style.PopupMenuBackground);
+        popupMenu.getMenuInflater().inflate(R.menu.feed_menu, popupMenu.getMenu());
+        popupMenu.setGravity(Gravity.START);
+        popupMenu.getMenu().getItem(0).setVisible(false);
+        popupMenu.getMenu().getItem(2).setVisible(false);
+        Typeface typeface;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            typeface = getResources().getFont(R.font.font_light);
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.font_light);
+        }
+        for (int i = 0; i < popupMenu.getMenu().size(); i++) {
+            MenuItem menuItem = popupMenu.getMenu().getItem(i);
+            SpannableString mNewTitle = new SpannableString(menuItem.getTitle());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                mNewTitle.setSpan(new TypefaceSpan(typeface), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            } else {
+                mNewTitle.setSpan(new CustomTypefaceSpan("", typeface), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+            menuItem.setTitle(mNewTitle);
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menuReport) {
+                    AppUtils appUtils = new AppUtils(PlayerActivity.this);
+                    appUtils.openReportDialog(feedId, PlayerActivity.this);
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+    public void onReportSend(String feedId, String title) {
+        App.makeToast(getString(R.string.reported_successfully));
+        if (NetworkReceiver.isConnected()) {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<Map<String, String>> call = apiInterface.reportFeed(GetSet.getUserId(), feedId, title);
+            call.enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    if (response.isSuccessful()) {
+                        Map<String, String> data = response.body();
+                        if (data.get(Constants.TAG_STATUS) != null && data.get(Constants.TAG_STATUS).equals(Constants.TAG_TRUE)) {
+                            App.makeToast(getString(R.string.reported_successfully));
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    Log.e(TAG, "onReportSend: " + t.getMessage());
+                    call.cancel();
+                }
+            });
+        }
+    }
 
     @Override
     public void onNetworkChanged(boolean isConnected) {

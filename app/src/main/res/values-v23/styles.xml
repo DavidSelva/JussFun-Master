@@ -35,7 +35,6 @@
         <item name="colorPrimaryDark">@color/colorBgBlack</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="colorControlActivated">@color/colorWhite</item>
     </style>
 

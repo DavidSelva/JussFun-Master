@@ -5,7 +5,6 @@
     <color name="colorPrimaryDark">#ffff3a43</color>
     <color name="colorAccent">#ffff3a43</color>
     <color name="btn_subscribe_text">#DC7852</color>
-    <color name="btn_rounded_tick">#3F1AFA</color>
 
     <color name="smartReplyBg">#f6f6f6</color>
     <color name="colorMain">#000000</color>
@@ -70,6 +69,8 @@
     <color name="colorChatReceive">#FFFFFF</color>
     <color name="colorSecondary">#ffffff</color>
     <color name="colorRed">#ffcc0000</color>
+    <color name="colorBlue">#3F1AFA</color>
+
     <color name="textPrimary">#1E1E1E</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="viewfinder_laser">#ffcc0000</color>

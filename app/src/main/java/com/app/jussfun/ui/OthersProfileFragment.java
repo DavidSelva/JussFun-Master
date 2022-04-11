@@ -4,6 +4,7 @@ import static android.content.Context.WINDOW_SERVICE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +34,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
@@ -45,18 +48,25 @@ import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.StorageUtils;
 import com.app.jussfun.helper.callback.FollowUpdatedListener;
+import com.app.jussfun.helper.callback.OnReportListener;
 import com.app.jussfun.model.FollowRequest;
 import com.app.jussfun.model.FollowResponse;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
+import com.app.jussfun.model.ReportRequest;
+import com.app.jussfun.model.ReportResponse;
 import com.app.jussfun.ui.feed.FeedsActivity;
+import com.app.jussfun.ui.feed.ReportAdapter;
+import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONException;
@@ -79,6 +89,8 @@ public class OthersProfileFragment extends Fragment {
     private static String TAG = OthersProfileFragment.class.getSimpleName();
     @BindView(R.id.btnFollow)
     Button btnFollow;
+    @BindView(R.id.btnReport)
+    Button btnReport;
     @BindView(R.id.premiumImage)
     ImageView premiumImage;
     @BindView(R.id.txtSubTitle)
@@ -135,6 +147,8 @@ public class OthersProfileFragment extends Fragment {
     RelativeLayout feedsLay;
     @BindView(R.id.txtFeedsCount)
     TextView txtFeedsCount;
+    @BindView(R.id.txtVideoCount)
+    TextView txtVideoCount;
     @BindView(R.id.btnBlock)
     Button btnBlock;
     @BindView(R.id.btnShare)
@@ -152,6 +166,9 @@ public class OthersProfileFragment extends Fragment {
     private Bitmap qrBitMap;
     private AppUtils appUtils;
     private StorageUtils storageUtils;
+    private BottomSheetDialog reportDialog;
+    private RecyclerView reportsView;
+    private ReportAdapter reportAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -181,7 +198,6 @@ public class OthersProfileFragment extends Fragment {
         setProfileFromBundle(bundle);
         return rootView;
 
-
     }
 
     private void loadAd() {
@@ -207,6 +223,66 @@ public class OthersProfileFragment extends Fragment {
             profile.setPrivacyContactMe(bundle.getString(Constants.TAG_PRIVACY_CONTACT_ME));
             setProfile(profile);
         }
+    }
+
+    private void openReportDialog() {
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_report, null);
+        reportDialog = new BottomSheetDialog(context, R.style.Bottom_FilterDialog); // Style here
+        reportDialog.setContentView(sheetView);
+        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) sheetView.getParent());
+        int maxHeight = (AppUtils.getDisplayHeight(getActivity()) * 80) / 100;
+        mBehavior.setPeekHeight(maxHeight);
+        sheetView.requestLayout();
+        reportsView = sheetView.findViewById(R.id.reportView);
+        reportDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+            }
+        });
+
+        loadReports();
+    }
+
+    private void loadReports() {
+        reportAdapter = new ReportAdapter(context, AdminData.reportList, new OnReportListener() {
+            @Override
+            public void onReportSend(Object o) {
+                App.makeToast(getString(R.string.reported_successfully));
+//                sendReport((String) o);
+            }
+        });
+        reportsView.setLayoutManager(new LinearLayoutManager(context));
+        reportsView.setAdapter(reportAdapter);
+        reportAdapter.notifyDataSetChanged();
+        reportDialog.show();
+    }
+
+    private void sendReport(String reportMessage) {
+        ReportRequest request = new ReportRequest();
+        request.setReport(reportMessage);
+        request.setReportBy(GetSet.getUserId());
+        request.setUserId(partnerId);
+        request.setReportType(Constants.TAG_AUDIO);
+        Call<ReportResponse> call = apiInterface.reportUser(request);
+        call.enqueue(new Callback<ReportResponse>() {
+            @Override
+            public void onResponse(Call<ReportResponse> call, Response<ReportResponse> response) {
+                ReportResponse reportResponse = response.body();
+                if (reportResponse.getStatus().equals(Constants.TAG_TRUE)) {
+                    if (reportResponse.getMessage().equals(Constants.TAG_REPORT_SUCCESS)) {
+                        App.makeToast(getString(R.string.reported_successfully));
+                    } else {
+                        App.makeToast(reportResponse.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReportResponse> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     private void getProfile(String userId) {
@@ -248,6 +324,11 @@ public class OthersProfileFragment extends Fragment {
             txtFollowingsCount.setText("" + profile.getFriends());
             txtFollowersCount.setText("" + profile.getInterests());
             txtFeedsCount.setText(profile.getFeedCount());
+            if (profile.isReportUser()) {
+                btnReport.setText(context.getString(R.string.undo_report));
+            } else {
+                btnReport.setText(context.getString(R.string.report));
+            }
 
             premiumImage.setVisibility(profile.getPremiumMember().equals(Constants.TAG_TRUE) ? View.VISIBLE : View.GONE);
 
@@ -307,7 +388,8 @@ public class OthersProfileFragment extends Fragment {
     }
 
     @OnClick({R.id.profileImage, R.id.btnSettings, R.id.followersLay, R.id.followingsLay, R.id.btnFollow, R.id.feedsLay,
-            R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare, R.id.chatLay, R.id.videoLay})
+            R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare, R.id.chatLay, R.id.videoLay,
+            R.id.videosLay, R.id.btnReport})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profileImage:
@@ -337,6 +419,15 @@ public class OthersProfileFragment extends Fragment {
                 App.preventMultipleClick(btnFollow);
                 followUnFollowUser(partnerId);
                 break;
+            case R.id.btnReport: {
+                App.preventMultipleClick(btnReport);
+                if (btnReport.getText().toString().equals(context.getString(R.string.report_user))) {
+                    openReportDialog();
+                } else {
+                    App.makeToast(getString(R.string.undo_report_successfully));
+                }
+            }
+            break;
             case R.id.btnInterest: {
                 App.preventMultipleClick(btnInterest);
                 appUtils.onInterestClicked(btnInterest);
@@ -361,8 +452,18 @@ public class OthersProfileFragment extends Fragment {
                 Intent feedIntent = new Intent(getActivity(), FeedsActivity.class);
                 feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                feedIntent.putExtra(Constants.TAG_TYPE, Constants.TAG_PHOTO);
                 startActivity(feedIntent);
             }
+            break;
+            case R.id.videosLay: {
+                Intent feedIntent = new Intent(getActivity(), FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                feedIntent.putExtra(Constants.TAG_TYPE, Constants.TAG_VIDEO);
+                startActivity(feedIntent);
+            }
+            break;
             default:
                 break;
         }

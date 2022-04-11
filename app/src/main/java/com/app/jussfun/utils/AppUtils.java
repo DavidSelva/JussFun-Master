@@ -61,10 +61,12 @@ import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.Report;
+import com.app.jussfun.ui.FullScreenImageViewActivity;
 import com.app.jussfun.ui.HomeFragment;
 import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.ui.feed.FeedsActivity;
 import com.app.jussfun.ui.feed.MediaListViewHolder;
+import com.app.jussfun.ui.feed.PlayerActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -681,6 +683,14 @@ public class AppUtils {
                     FeedsActivity feedsActivity = (FeedsActivity) activity;
                     reportDialog.dismiss();
                     feedsActivity.onReportSend(feedId, reportList.get(getAdapterPosition()).getTitle());
+                } else if (activity instanceof FullScreenImageViewActivity) {
+                    FullScreenImageViewActivity imageViewActivity = (FullScreenImageViewActivity) activity;
+                    reportDialog.dismiss();
+                    imageViewActivity.onReportSend(feedId, reportList.get(getAdapterPosition()).getTitle());
+                } else if (activity instanceof PlayerActivity) {
+                    PlayerActivity playerActivity = (PlayerActivity) activity;
+                    reportDialog.dismiss();
+                    playerActivity.onReportSend(feedId, reportList.get(getAdapterPosition()).getTitle());
                 } else {
                     MainActivity feedsActivity = (MainActivity) activity;
                     reportDialog.dismiss();

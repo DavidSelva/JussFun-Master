@@ -215,7 +215,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="15dp"
                                 android:layout_toEndOf="@+id/ivFeeds"
-                                android:hint="@string/feed"
+                                android:hint="@string/photos"
                                 android:paddingTop="15dp"
                                 android:paddingBottom="15dp"
                                 android:textSize="@dimen/text_medium" />
@@ -243,6 +243,49 @@
                                 android:layout_marginStart="15dp"
                                 android:src="@drawable/ic_gift_primary"
                                 android:visibility="gone" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:id="@+id/videosLay"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                style="@style/TextSecondaryRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="15dp"
+                                android:layout_toEndOf="@+id/ivVideos"
+                                android:hint="@string/videos"
+                                android:paddingTop="15dp"
+                                android:paddingBottom="15dp"
+                                android:textSize="@dimen/text_medium" />
+
+                            <TextView
+                                android:id="@+id/txtVideoCount"
+                                style="@style/TextPrimaryRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="start|center_vertical"
+                                android:layout_marginEnd="15dp"
+                                android:paddingTop="15dp"
+                                android:paddingBottom="15dp"
+                                android:text="-"
+                                android:textSize="@dimen/text_medium" />
+
+                            <ImageView
+                                android:id="@+id/ivVideos"
+                                android:layout_width="30dp"
+                                android:visibility="gone"
+                                android:layout_height="30dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="15dp"
+                                android:src="@drawable/ic_gift_primary" />
 
                         </RelativeLayout>
 
@@ -396,6 +439,21 @@
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/rounded_corner_primary"
                             android:text="@string/follow"
+                            android:textSize="@dimen/text_medium"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/btnReport"
+                            style="@style/ButtonPrimaryLight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/rounded_corner_primary"
+                            android:text="@string/report"
                             android:textSize="@dimen/text_medium"
                             android:visibility="gone" />
 

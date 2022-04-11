@@ -483,6 +483,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             Intent intent = new Intent(context, PlayerActivity.class);
                             intent.putExtra(Constants.TAG_VIDEO, childAdapterList.get(playerViewHolder.getAdapterPosition()).getImageUrl());
+                            intent.putExtra(Constants.TAG_FEED_ID, childAdapterList.get(holder.getAdapterPosition()).getFeedId());
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             context.startActivity(intent);
                         }, 500);
@@ -498,6 +499,7 @@ class MediaListViewHolder extends BaseViewHolder implements ToroPlayer {
                     public void onSingleClick(View v) {
                         Intent intent = new Intent(context, FullScreenImageViewActivity.class);
                         intent.putExtra(Constants.TAG_IMAGE, childAdapterList.get(holder.getAdapterPosition()).getImageUrl());
+                        intent.putExtra(Constants.TAG_FEED_ID, childAdapterList.get(holder.getAdapterPosition()).getFeedId());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent);
                     }

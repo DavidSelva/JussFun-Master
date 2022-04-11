@@ -1,6 +1,7 @@
 package com.app.jussfun.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,8 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
@@ -38,8 +41,9 @@ import com.app.jussfun.external.qrgenerator.QRGEncoder;
 import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
-import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.helper.StorageUtils;
+import com.app.jussfun.helper.callback.OnOkClickListener;
+import com.app.jussfun.helper.callback.OnReportListener;
 import com.app.jussfun.model.FollowRequest;
 import com.app.jussfun.model.FollowResponse;
 import com.app.jussfun.model.FollowersResponse;
@@ -47,6 +51,7 @@ import com.app.jussfun.model.GetSet;
 import com.app.jussfun.model.ProfileRequest;
 import com.app.jussfun.model.ProfileResponse;
 import com.app.jussfun.ui.feed.FeedsActivity;
+import com.app.jussfun.ui.feed.ReportAdapter;
 import com.app.jussfun.utils.AdminData;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
@@ -56,6 +61,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.r0adkll.slidr.Slidr;
@@ -109,6 +116,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     ImageView premiumImage;
     @BindView(R.id.btnFollow)
     Button btnFollow;
+    @BindView(R.id.btnReport)
+    Button btnReport;
     @BindView(R.id.txtSubTitle)
     TextView txtSubTitle;
     @BindView(R.id.parentLay)
@@ -148,6 +157,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     ImageView ivFeeds;
     @BindView(R.id.txtFeedsCount)
     TextView txtFeedsCount;
+    @BindView(R.id.txtVideoCount)
+    TextView txtVideoCount;
     private String partnerId = "", from = null;
     ProfileResponse othersProfile;
     private RequestOptions profileImageRequest;
@@ -157,6 +168,9 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     private Bitmap qrBitMap;
     private StorageUtils storageUtils;
     private DBHelper dbHelper;
+    private BottomSheetDialog reportDialog;
+    private RecyclerView reportsView;
+    private ReportAdapter reportAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -392,8 +406,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
     }
 
     @OnClick({R.id.profileImage, R.id.btnSettings, R.id.followersLay, R.id.followingsLay,
-            R.id.btnFollow, R.id.btnBack, R.id.chatLay, R.id.videoLay, R.id.feedsLay,
-            R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare})
+            R.id.btnFollow, R.id.btnBack, R.id.chatLay, R.id.videoLay, R.id.feedsLay, R.id.videosLay,
+            R.id.btnInterest, R.id.btnUnInterest, R.id.btnBlock, R.id.btnShare, R.id.btnReport})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profileImage:
@@ -425,6 +439,15 @@ public class OthersProfileActivity extends BaseFragmentActivity {
                 App.preventMultipleClick(btnFollow);
                 followUnFollowUser(partnerId);
                 break;
+            case R.id.btnReport: {
+                App.preventMultipleClick(btnReport);
+                if (btnReport.getText().toString().equals(getString(R.string.report_user))) {
+                    openReportDialog();
+                } else {
+                    App.makeToast(getString(R.string.undo_report_successfully));
+                }
+            }
+            break;
             case R.id.btnBack:
                 onBackPressed();
                 break;
@@ -486,8 +509,20 @@ public class OthersProfileActivity extends BaseFragmentActivity {
                 Intent feedIntent = new Intent(this, FeedsActivity.class);
                 feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 feedIntent.putExtra(Constants.TAG_USER_ID, partnerId);
+                feedIntent.putExtra(Constants.TAG_TYPE, Constants.TAG_PHOTO);
                 startActivity(feedIntent);
             }
+            break;
+            case R.id.videosLay: {
+                Intent feedIntent = new Intent(this, FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                feedIntent.putExtra(Constants.TAG_TYPE, Constants.TAG_VIDEO);
+                startActivity(feedIntent);
+            }
+            break;
+            default:
+                break;
         }
     }
 
@@ -654,6 +689,39 @@ public class OthersProfileActivity extends BaseFragmentActivity {
                 }
             });
         }
+    }
+
+    private void openReportDialog() {
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_report, null);
+        reportDialog = new BottomSheetDialog(this, R.style.Bottom_FilterDialog); // Style here
+        reportDialog.setContentView(sheetView);
+        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) sheetView.getParent());
+        int maxHeight = (AppUtils.getDisplayHeight(this) * 80) / 100;
+        mBehavior.setPeekHeight(maxHeight);
+        sheetView.requestLayout();
+        reportsView = sheetView.findViewById(R.id.reportView);
+        reportDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+            }
+        });
+
+        loadReports();
+    }
+
+    private void loadReports() {
+        reportAdapter = new ReportAdapter(this, AdminData.reportList, new OnReportListener() {
+            @Override
+            public void onReportSend(Object o) {
+                App.makeToast(getString(R.string.reported_successfully));
+//                sendReport((String) o);
+            }
+        });
+        reportsView.setLayoutManager(new LinearLayoutManager(this));
+        reportsView.setAdapter(reportAdapter);
+        reportAdapter.notifyDataSetChanged();
+        reportDialog.show();
     }
 
     @SuppressLint("StaticFieldLeak")

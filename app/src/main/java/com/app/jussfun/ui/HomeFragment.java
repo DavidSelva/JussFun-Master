@@ -233,13 +233,12 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 
     private void initFilterOverLay() {
         binding.filterOverLay.parentLay.setVisibility(View.VISIBLE);
+        binding.filterOverLay.ivBoth.setSelected(true);
         binding.filterOverLay.parentLay.setOnClickListener(null);
         ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) binding.filterOverLay.btnGoLive.getLayoutParams();
         newLayoutParams.topMargin = 0;
         newLayoutParams.leftMargin = AppUtils.dpToPx(context, 50);
-        ;
         newLayoutParams.rightMargin = AppUtils.dpToPx(context, 50);
-        ;
         newLayoutParams.bottomMargin = AppUtils.dpToPx(context, 66);
         binding.filterOverLay.btnGoLive.setLayoutParams(newLayoutParams);
 
@@ -877,7 +876,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 //        App.makeToast(getString(R.string.both));
         filterApplied = true;
         genderSelected = Constants.TAG_BOTH;
-        if (filterDialog.isShowing()) {
+        if (filterDialog != null && filterDialog.isShowing()) {
             imageBoth.startAnimation(zoomIn);
             imageBoth.startAnimation(zoomOut);
             imageMale.setAnimation(null);
@@ -886,6 +885,9 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
             imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
         } else {
+            binding.filterOverLay.ivFemale.setSelected(false);
+            binding.filterOverLay.ivBoth.setSelected(true);
+            binding.filterOverLay.ivMale.setSelected(false);
         }
     }
 
@@ -893,7 +895,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 //        App.makeToast(getString(R.string.male));
         filterApplied = true;
         genderSelected = Constants.TAG_MALE;
-        if (filterDialog.isShowing()) {
+        if (filterDialog != null && filterDialog.isShowing()) {
             imageMale.startAnimation(zoomIn);
             imageMale.startAnimation(zoomOut);
             imageFemale.setAnimation(null);
@@ -902,6 +904,9 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
             imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
         } else {
+            binding.filterOverLay.ivFemale.setSelected(false);
+            binding.filterOverLay.ivBoth.setSelected(false);
+            binding.filterOverLay.ivMale.setSelected(true);
         }
     }
 
@@ -909,7 +914,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 //        App.makeToast(getString(R.string.female));
         filterApplied = true;
         genderSelected = Constants.TAG_FEMALE;
-        if (filterDialog.isShowing()) {
+        if (filterDialog != null && filterDialog.isShowing()) {
             imageFemale.startAnimation(zoomIn);
             imageFemale.startAnimation(zoomOut);
             imageMale.setAnimation(null);
@@ -917,6 +922,10 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             imageMale.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
             imageFemale.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
             imageBoth.setColorFilter(ContextCompat.getColor(context, R.color.colorWhite));
+        } else {
+            binding.filterOverLay.ivFemale.setSelected(true);
+            binding.filterOverLay.ivBoth.setSelected(false);
+            binding.filterOverLay.ivMale.setSelected(false);
         }
     }
 
@@ -924,7 +933,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         filterApplied = true;
         minimumAge = minValue.intValue();
         maximumAge = maxValue.intValue();
-        if (filterDialog.isShowing()) {
+        if (filterDialog != null && filterDialog.isShowing()) {
             txtAge.setText(minValue + " - " + maxValue);
         } else {
             binding.filterOverLay.txtAge.setText(minValue + " - " + maxValue);

@@ -128,6 +128,8 @@ public class MyProfileActivity extends BaseFragmentActivity {
     RelativeLayout feedsLay;
     @BindView(R.id.txtFeedsCount)
     TextView txtFeedsCount;
+    @BindView(R.id.txtVideoCount)
+    TextView txtVideoCount;
     @BindView(R.id.btnConvertGems)
     Button btnConvertGems;
 
@@ -361,7 +363,7 @@ public class MyProfileActivity extends BaseFragmentActivity {
 
     @OnClick({R.id.profileImage, R.id.btnEdit, R.id.btnRenewal, R.id.renewalLay, R.id.btnSettings, R.id.followersLay,
             R.id.feedsLay, R.id.followingsLay, R.id.btnSubscribe, R.id.subscribeLay, R.id.gemsLay, R.id.giftsLay,
-            R.id.btnBack, R.id.btnConvertGems})
+            R.id.btnBack, R.id.btnConvertGems, R.id.videosLay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.profileImage:
@@ -446,9 +448,19 @@ public class MyProfileActivity extends BaseFragmentActivity {
             case R.id.feedsLay: {
                 Intent feedIntent = new Intent(this, FeedsActivity.class);
                 feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_TYPE, Constants.TAG_PHOTO);
                 feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                 startActivity(feedIntent);
             }
+            break;
+            case R.id.videosLay: {
+                Intent feedIntent = new Intent(this, FeedsActivity.class);
+                feedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                feedIntent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
+                feedIntent.putExtra(Constants.TAG_TYPE, Constants.TAG_VIDEO);
+                startActivity(feedIntent);
+            }
+            break;
             case R.id.btnConvertGems: {
                 Intent convertGems = new Intent(this, ConvertGiftActivity.class);
                 convertGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
