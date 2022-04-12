@@ -36,10 +36,10 @@ public class ReportAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((ItemViewHolder) holder).binding.txtReport.setText(reportList.get(position).getTitle());
-        ((ItemViewHolder) holder).binding.txtReport.setOnClickListener(new View.OnClickListener() {
+        ((ItemViewHolder) holder).binding.itemReportLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reportList.get(holder.getAdapterPosition()).getTitle();
+                listener.onReportSend(reportList.get(holder.getAdapterPosition()).getTitle());
             }
         });
     }

@@ -77,6 +77,7 @@ public class Constants {
     public static final String TAG_CHAT_IMAGE = "chat_image";
     public static final String TAG_FEED_IMAGE = "feed_image";
     public static final String TAG_FEED_ID = "feed_id";
+    public static final String TAG_FEED_TYPE = "feed_type";
     public static final String TAG_FROM = "from";
     public static final String TAG_TRUE = "true";
     public static final String TAG_FALSE = "false";
@@ -208,7 +209,7 @@ public class Constants {
     public static final String TAG_UNTYPING = "untyping";
 
     public static final String TAG_PARTNER_LIST = "partner_list";
-    public static final Integer MAX_AGE = 99;
+    public static final Integer MAX_AGE = 100;
     public static final Integer MIN_AGE = 18;
     public static final String OFFLINE = "0";
     public static final String ONLINE = "1";

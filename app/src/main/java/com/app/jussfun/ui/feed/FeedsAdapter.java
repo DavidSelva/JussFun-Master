@@ -24,10 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.jussfun.base.App;
 import com.app.jussfun.base.BaseViewHolder;
+import com.app.jussfun.external.toro.core.CacheManager;
 import com.app.jussfun.external.toro.exoplayer.ExoPlayerViewHelper;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.callback.OnMenuClickListener;
@@ -55,7 +57,7 @@ import retrofit2.Response;
  * @author eneim (7/1/17).
  */
 
-public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implements clickListener {
+public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implements clickListener, CacheManager {
 
     private static String TAG = FeedsAdapter.class.getSimpleName();
     private final int VIEW_TYPE_STORY = 0;
@@ -364,6 +366,18 @@ public class FeedsAdapter extends RecyclerView.Adapter<BaseViewHolder> implement
     @Override
     public void onVideoClicked(String imageUrl) {
 
+    }
+
+    @Nullable
+    @Override
+    public Object getKeyForOrder(int order) {
+        return order;
+    }
+
+    @Nullable
+    @Override
+    public Integer getOrderForKey(@NonNull Object key) {
+        return key instanceof Integer ? (Integer) key : null;
     }
 
     public static abstract class DoubleClickListener implements View.OnClickListener {

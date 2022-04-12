@@ -279,6 +279,7 @@ public class TrimmerActivity extends BaseActivity implements OnTrimVideoListener
         requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
         requestMap.put(Constants.TAG_FEED_IMAGE, fileUrl);
         requestMap.put(Constants.TAG_TITLE, "");
+        requestMap.put(Constants.TAG_FEED_TYPE, Constants.TAG_VIDEO);
         requestMap.put(Constants.TAG_COMMENT_STATUS, binding.btnComment.isChecked() ? "" + 1 : "" + 0);
         requestMap.put(Constants.TAG_DESCRIPTION, !TextUtils.isEmpty(binding.inputLay.edtMessage.getText()) ? binding.inputLay.edtMessage.getText().toString() : "");
 

@@ -78,12 +78,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketChannelEvents {
+public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketChannelEvents, View.OnClickListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private FragmentRandomHomeBinding binding;
@@ -154,14 +153,15 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         tempLocations = (ArrayList<String>) AdminData.locationList;
         updateGemsCount();
         initFilterOverLay();
+        initClickListeners();
 
-        binding.parentLay.setOnTouchListener(new View.OnTouchListener() {
+        binding.previewView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (NetworkReceiver.isConnected()) {
                     if (isPermissionsGranted(AppRTCUtils.MANDATORY_PERMISSIONS)) {
-                        App.preventMultipleClick(binding.parentLay);
-                        startCallActivity(binding.parentLay);
+                        App.preventMultipleClick(binding.previewView);
+                        startCallActivity(binding.previewView);
                     } else {
                         requestMandatoryPermissions(AppRTCUtils.MANDATORY_PERMISSIONS);
                     }
@@ -231,6 +231,16 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         }, ContextCompat.getMainExecutor(requireContext()));
     }
 
+    private void initClickListeners() {
+        binding.gemsLay.setOnClickListener(this);
+        binding.filterLay.setOnClickListener(this);
+        binding.recentLay.setOnClickListener(this);
+        binding.btnVideoCall.setOnClickListener(this);
+        binding.btnAudioCall.setOnClickListener(this);
+        binding.radioBtnVideo.setOnClickListener(this);
+        binding.radioBtnAudio.setOnClickListener(this);
+    }
+
     private void initFilterOverLay() {
         binding.filterOverLay.parentLay.setVisibility(View.VISIBLE);
         binding.filterOverLay.ivBoth.setSelected(true);
@@ -241,6 +251,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         newLayoutParams.rightMargin = AppUtils.dpToPx(context, 50);
         newLayoutParams.bottomMargin = AppUtils.dpToPx(context, 66);
         binding.filterOverLay.btnGoLive.setLayoutParams(newLayoutParams);
+        resetSeekBar();
 
         binding.filterOverLay.menLay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -550,9 +561,8 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         }
     }
 
-    @OnClick({R.id.gemsLay, R.id.filterLay, R.id.recentLay,
-            R.id.btnVideoCall, R.id.btnAudioCall, R.id.radioBtnVideo, R.id.radioBtnAudio})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.gemsLay:
                 Intent gemsIntent = new Intent(context, GemsStoreActivity.class);
@@ -686,12 +696,21 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
     }
 
     private void resetSeekBar() {
-        seekBar.setMinValue(Constants.MIN_AGE);
-        seekBar.setMaxValue(Constants.MAX_AGE);
-        seekBar.setMinStartValue(Constants.MIN_AGE);
-        seekBar.setMaxStartValue(Constants.MAX_AGE);
-        seekBar.apply();
-        txtAge.setText(Constants.MIN_AGE + " - " + Constants.MAX_AGE);
+        if (binding.filterOverLay.parentLay.getVisibility() != View.VISIBLE) {
+            seekBar.setMinValue(Constants.MIN_AGE);
+            seekBar.setMaxValue(Constants.MAX_AGE);
+            seekBar.setMinStartValue(Constants.MIN_AGE);
+            seekBar.setMaxStartValue(Constants.MAX_AGE);
+            seekBar.apply();
+            txtAge.setText(Constants.MIN_AGE + " - " + Constants.MAX_AGE);
+        } else {
+            binding.filterOverLay.seekBar.setMinValue(Constants.MIN_AGE);
+            binding.filterOverLay.seekBar.setMaxValue(Constants.MAX_AGE);
+            binding.filterOverLay.seekBar.setMinStartValue(Constants.MIN_AGE);
+            binding.filterOverLay.seekBar.setMaxStartValue(Constants.MAX_AGE);
+            binding.filterOverLay.seekBar.apply();
+            binding.filterOverLay.txtAge.setText(Constants.MIN_AGE + " - " + Constants.MAX_AGE);
+        }
     }
 
     private void setListeners() {

@@ -24,7 +24,7 @@
     <array name="menu_array">
         <item>Photos</item>
         <item>Videos</item>
-        <item>Live</item>
+        <item>Go Live</item>
     </array>
 
     <array name="language_array">

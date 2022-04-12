@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
-        android:id="@+id/menuFeeds"
+        android:id="@+id/menuHome"
         android:enabled="true"
-        android:icon="@drawable/ic_feed_inactive"
-        android:title="@string/feed"
+        android:icon="@drawable/connect_act"
+        android:title="@string/go_live"
         app:showAsAction="ifRoom" />
+
 
     <item
         android:id="@+id/menuUsers"
@@ -18,10 +18,10 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/menuHome"
+        android:id="@+id/menuFeeds"
         android:enabled="true"
-        android:icon="@drawable/connect_act"
-        android:title="@string/go_live"
+        android:icon="@drawable/ic_feed_inactive"
+        android:title="@string/feed"
         app:showAsAction="ifRoom" />
 
     <item

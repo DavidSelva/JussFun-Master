@@ -194,7 +194,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
         feedsAdapter = new FeedsAdapter(feedsList, this, this);
         containerFeed.setAdapter(feedsAdapter);
-//        containerFeed.setCacheManager(feedsAdapter);
+        containerFeed.setCacheManager(feedsAdapter);
 
         selector = PlayerSelector.DEFAULT;
         containerFeed.setPlayerSelector(selector);
@@ -584,13 +584,13 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
             if (feedId != null) {
                 requestMap.put(Constants.TAG_FEED_ID, feedId);
-                requestMap.put(Constants.TAG_FOLLOWER_ID, "");
-            } else if (followerId != null) {
-                requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
+            } else {
                 requestMap.put(Constants.TAG_FEED_ID, "");
+            }
+            if (followerId != null) {
+                requestMap.put(Constants.TAG_FOLLOWER_ID, followerId);
             } else {
                 requestMap.put(Constants.TAG_FOLLOWER_ID, "");
-                requestMap.put(Constants.TAG_FEED_ID, "");
             }
             if (feedType != null) {
                 requestMap.put(Constants.TAG_TYPE, feedType);
@@ -609,8 +609,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                     if (offsetCnt == 0)
                         feedsList.clear();
                     if (response.isSuccessful()) {
-                        List<Feeds> results = response.body().getResult();
                         if (response.body().getStatus().equalsIgnoreCase("true")) {
+                            List<Feeds> results = response.body().getResult();
                             if (results.size() > 0) {
                                 isLoading = false;
                                 int prevSize = feedsList.size() + 1;
@@ -624,7 +624,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                                 isLoading = true;
                             }
                         }
-                        if (results.size() > 0) {
+                        if (feedsList.size() > 0) {
                             nullLay.setVisibility(View.GONE);
                         } else {
                             if (offsetCnt == 0) {

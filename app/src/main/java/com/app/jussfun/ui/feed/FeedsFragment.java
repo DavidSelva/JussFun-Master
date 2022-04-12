@@ -35,6 +35,7 @@ import com.app.jussfun.databinding.FragmentFeedsMainBinding;
 import com.app.jussfun.databinding.ItemMainMenuBinding;
 import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.callback.HomeMenuListener;
+import com.app.jussfun.model.GetSet;
 import com.app.jussfun.ui.MainActivity;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
@@ -93,13 +94,8 @@ public class FeedsFragment extends Fragment implements HomeMenuListener {
                 outRect.bottom = (int) mContext.getResources().getDimension(R.dimen.size_10);
                 outRect.top = (int) mContext.getResources().getDimension(R.dimen.size_10);
                 //add left margin only to the first column
-                if (position % 2 == 0) {
-                    outRect.left = (int) mContext.getResources().getDimension(R.dimen.size_10);
-                    outRect.right = (int) mContext.getResources().getDimension(R.dimen.size_5);
-                } else {
-                    outRect.left = (int) mContext.getResources().getDimension(R.dimen.size_5);
-                    outRect.right = (int) mContext.getResources().getDimension(R.dimen.size_10);
-                }
+                outRect.right = (int) mContext.getResources().getDimension(R.dimen.size_10);
+                outRect.left = (int) mContext.getResources().getDimension(R.dimen.size_10);
             }
         });
         adapter = new MenuAdapter(mContext, menuList, displayWidth, displayHeight, this);
@@ -109,7 +105,7 @@ public class FeedsFragment extends Fragment implements HomeMenuListener {
 
     @Override
     public void onMenuClicked(String type) {
-        if (type.equalsIgnoreCase(mContext.getString(R.string.live))) {
+        if (type.equalsIgnoreCase(mContext.getString(R.string.go_live))) {
             if (getActivity() != null && getActivity() instanceof MainActivity) {
                 MainActivity activity = (MainActivity) getActivity();
                 activity.onLiveClicked();
@@ -150,14 +146,16 @@ public class FeedsFragment extends Fragment implements HomeMenuListener {
                         Intent intent = new Intent(mContext, FeedsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         intent.putExtra(Constants.TAG_TYPE, Constants.TAG_PHOTO);
+//                        intent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                         mContext.startActivity(intent);
                     } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.videos))) {
                         Intent intent = new Intent(mContext, FeedsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         intent.putExtra(Constants.TAG_TYPE, Constants.TAG_VIDEO);
+//                        intent.putExtra(Constants.TAG_USER_ID, GetSet.getUserId());
                         mContext.startActivity(intent);
-                    } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.live))) {
-                        listener.onMenuClicked(mContext.getString(R.string.live));
+                    } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.go_live))) {
+                        listener.onMenuClicked(mContext.getString(R.string.go_live));
                     }
                 }
             });

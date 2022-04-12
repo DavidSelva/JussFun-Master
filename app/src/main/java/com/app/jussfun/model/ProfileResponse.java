@@ -60,6 +60,10 @@ public class ProfileResponse implements Serializable {
     private String giftEarnings;
     @SerializedName("feed_count")
     private String feedCount;
+    @SerializedName("feed_image_count")
+    private String feedImageCount;
+    @SerializedName("feed_video_count")
+    private String feedVideoCount;
     @SerializedName("report_user")
     private boolean reportUser;
 
@@ -437,6 +441,22 @@ public class ProfileResponse implements Serializable {
 
     public void setFeedCount(String feedCount) {
         this.feedCount = feedCount;
+    }
+
+    public String getFeedImageCount() {
+        return feedImageCount;
+    }
+
+    public void setFeedImageCount(String feedImageCount) {
+        this.feedImageCount = feedImageCount;
+    }
+
+    public String getFeedVideoCount() {
+        return feedVideoCount;
+    }
+
+    public void setFeedVideoCount(String feedVideoCount) {
+        this.feedVideoCount = feedVideoCount;
     }
 
     public String getBankAccNo() {

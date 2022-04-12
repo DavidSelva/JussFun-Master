@@ -349,6 +349,7 @@ public class FilterActivity extends BaseActivity implements ThumbnailsAdapter.Th
         Map<String, String> requestMap = new HashMap<>();
         requestMap.put(Constants.TAG_USER_ID, GetSet.getUserId());
         requestMap.put(Constants.TAG_FEED_IMAGE, fileUrl);
+        requestMap.put(Constants.TAG_FEED_TYPE, Constants.TAG_IMAGE);
         requestMap.put(Constants.TAG_TITLE, "");
         requestMap.put(Constants.TAG_COMMENT_STATUS, btnComment.isChecked() ? "" + 1 : "" + 0);
         requestMap.put(Constants.TAG_DESCRIPTION, !TextUtils.isEmpty(edtDescription.getText()) ? edtDescription.getText().toString() : "");

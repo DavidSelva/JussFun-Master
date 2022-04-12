@@ -248,7 +248,8 @@ public class OthersProfileFragment extends Fragment {
         reportAdapter = new ReportAdapter(context, AdminData.reportList, new OnReportListener() {
             @Override
             public void onReportSend(Object o) {
-                App.makeToast(getString(R.string.reported_successfully));
+                reportDialog.dismiss();
+                App.makeToast(getActivity(), getString(R.string.reported_successfully));
 //                sendReport((String) o);
             }
         });
@@ -323,7 +324,10 @@ public class OthersProfileFragment extends Fragment {
 
             txtFollowingsCount.setText("" + profile.getFriends());
             txtFollowersCount.setText("" + profile.getInterests());
-            txtFeedsCount.setText(profile.getFeedCount());
+            txtFeedsCount.setText(profile.getFeedImageCount());
+            txtVideoCount.setText(profile.getFeedVideoCount());
+
+            btnReport.setVisibility(View.VISIBLE);
             if (profile.isReportUser()) {
                 btnReport.setText(context.getString(R.string.undo_report));
             } else {

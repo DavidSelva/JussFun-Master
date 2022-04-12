@@ -83,6 +83,7 @@ import com.app.jussfun.utils.DeviceTokenPref;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -407,18 +408,18 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             }
         });
 
-        bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuHome:
-                        viewPager.setCurrentItem(2);
+                        viewPager.setCurrentItem(0);
                         break;
                     case R.id.menuUsers:
                         viewPager.setCurrentItem(1);
                         break;
                     case R.id.menuFeeds:
-                        viewPager.setCurrentItem(0);
+                        viewPager.setCurrentItem(2);
                         break;
                     case R.id.menuChat:
                         viewPager.setCurrentItem(3);
@@ -462,7 +463,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     }
 
     public void onLiveClicked() {
-        viewPager.setCurrentItem(2);
+        viewPager.setCurrentItem(0);
     }
 
     public class MainPagerAdapter extends FragmentPagerAdapter {
@@ -479,14 +480,14 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             switch (position) {
                 case 0:
                 default:
-                    feedsFragment = new FeedsFragment();
-                    return feedsFragment;
+                    randomFragment = new HomeFragment();
+                    return randomFragment;
                 case 1:
                     usersFragment = new UsersFragment();
                     return usersFragment;
                 case 2:
-                    randomFragment = new HomeFragment();
-                    return randomFragment;
+                    feedsFragment = new FeedsFragment();
+                    return feedsFragment;
                 case 3:
                     chatFragment = new ChatFragment();
                     Bundle chat = new Bundle();
@@ -1154,7 +1155,6 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                             GetSet.setFollowNotification(profile.getFollowNotification());
                             GetSet.setChatNotification(profile.getChatNotification());
                             GetSet.setGiftEarnings(profile.getGiftEarnings());
-                            Log.d(TAG, "onResponseGiftEarning: " + profile.getGiftEarnings());
                             GetSet.setReferalLink(profile.getReferalLink());
                             GetSet.setCreatedAt(profile.getCreatedAt());
                             GetSet.setInterestsCount(profile.getInterests());

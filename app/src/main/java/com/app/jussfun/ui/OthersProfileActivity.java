@@ -337,7 +337,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
 
         txtFollowingsCount.setText("" + profile.getFriends());
         txtFollowersCount.setText("" + profile.getInterests());
-        txtFeedsCount.setText(profile.getFeedCount());
+        txtFeedsCount.setText(profile.getFeedImageCount());
+        txtVideoCount.setText(profile.getFeedVideoCount());
 
         premiumImage.setVisibility(profile.getPremiumMember().equals(Constants.TAG_TRUE) ? View.VISIBLE : View.GONE);
         txtLocation.setText(AppUtils.formatWord(profile.getLocation()));
@@ -350,6 +351,12 @@ public class OthersProfileActivity extends BaseFragmentActivity {
         genderImage.setImageDrawable(profile.getGender().equals(Constants.TAG_MALE) ?
                 getDrawable(R.drawable.men) : getDrawable(R.drawable.women));
 
+        btnReport.setVisibility(View.VISIBLE);
+        if (othersProfile.isReportUser()) {
+            btnReport.setText(getString(R.string.undo_report));
+        } else {
+            btnReport.setText(getString(R.string.report_user));
+        }
     }
 
     private void setFollowData(ProfileResponse profile) {
@@ -714,7 +721,8 @@ public class OthersProfileActivity extends BaseFragmentActivity {
         reportAdapter = new ReportAdapter(this, AdminData.reportList, new OnReportListener() {
             @Override
             public void onReportSend(Object o) {
-                App.makeToast(getString(R.string.reported_successfully));
+                reportDialog.dismiss();
+                App.makeToast(OthersProfileActivity.this, getString(R.string.reported_successfully));
 //                sendReport((String) o);
             }
         });

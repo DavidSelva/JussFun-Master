@@ -322,7 +322,8 @@ public class MyProfileActivity extends BaseFragmentActivity {
 
         txtFollowingsCount.setText("" + profile.getFriends());
         txtFollowersCount.setText("" + profile.getInterests());
-        txtFeedsCount.setText(profile.getFeedCount());
+        txtFeedsCount.setText(profile.getFeedImageCount());
+        txtVideoCount.setText(profile.getFeedVideoCount());
         Glide.with(getApplicationContext())
                 .load(Constants.IMAGE_URL + profile.getUserImage())
                 .apply(App.getProfileImageRequest())
