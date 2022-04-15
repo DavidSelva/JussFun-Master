@@ -769,5 +769,7 @@
     <string name="upload_photo_from">Upload a photo from</string>
     <string name="upload_video_from">Upload a video from</string>
     <string name="undo_report">Undo Report</string>
+    <string name="app_update">App Update</string>
+    <string name="app_update_description">recommends that you update to the latest version. Are you sure want to update\"</string>
 
 </resources>

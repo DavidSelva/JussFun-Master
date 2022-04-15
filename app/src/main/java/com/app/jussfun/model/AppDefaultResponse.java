@@ -57,6 +57,10 @@ public class AppDefaultResponse {
     private String feedTitle;
     @SerializedName("feed_description")
     private String feedDescription;
+    @SerializedName("android_version_code")
+    private Double androidVersionCode;
+    @SerializedName("android_force_update")
+    private boolean androidForceUpdate;
 
     public Long getFreeGems() {
         return freeGems;
@@ -248,5 +252,29 @@ public class AppDefaultResponse {
 
     public String getFeedDescription() {
         return feedDescription;
+    }
+
+    public void setFeedTitle(String feedTitle) {
+        this.feedTitle = feedTitle;
+    }
+
+    public void setFeedDescription(String feedDescription) {
+        this.feedDescription = feedDescription;
+    }
+
+    public Double getAndroidVersionCode() {
+        return androidVersionCode;
+    }
+
+    public void setAndroidVersionCode(Double androidVersionCode) {
+        this.androidVersionCode = androidVersionCode;
+    }
+
+    public boolean isAndroidForceUpdate() {
+        return androidForceUpdate;
+    }
+
+    public void setAndroidForceUpdate(boolean androidForceUpdate) {
+        this.androidForceUpdate = androidForceUpdate;
     }
 }
