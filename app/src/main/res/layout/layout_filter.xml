@@ -135,9 +135,8 @@
                     android:adjustViewBounds="true"
                     android:id="@+id/ivFemale"
                     android:background="@drawable/selector_gender"
-                    android:padding="@dimen/size_20"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/female"
+                    android:src="@drawable/ic_female"
                     app:riv_oval="false" />
 
                 <TextView
@@ -169,10 +168,10 @@
                     android:layout_height="100dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/selector_gender"
-                    android:padding="@dimen/size_20"
                     android:scaleType="centerCrop"
                     android:id="@+id/ivBoth"
-                    android:src="@drawable/equality"
+                    android:padding="@dimen/size_10"
+                    android:src="@drawable/ic_gender_both"
                     app:riv_oval="false" />
 
                 <TextView
@@ -201,10 +200,9 @@
                     android:layout_height="100dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/selector_gender"
-                    android:padding="@dimen/size_20"
                     android:id="@+id/ivMale"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/male"
+                    android:src="@drawable/ic_male"
                     app:riv_oval="false" />
 
                 <TextView

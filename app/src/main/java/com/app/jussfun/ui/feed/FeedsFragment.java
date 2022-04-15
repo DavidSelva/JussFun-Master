@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -139,6 +140,14 @@ public class FeedsFragment extends Fragment implements HomeMenuListener {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
             MyViewHolder holder = (MyViewHolder) viewHolder;
             holder.binding.txtTitle.setText(menuList.get(viewHolder.getAdapterPosition()));
+            if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.photos))) {
+                holder.binding.ivMenu.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_photos));
+            } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.videos))) {
+                holder.binding.ivMenu.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_videos));
+            } else if (menuList.get(holder.getAdapterPosition()).equalsIgnoreCase(mContext.getString(R.string.go_live))) {
+                holder.binding.ivMenu.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_go_live));
+            }
+
             holder.binding.itemLay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

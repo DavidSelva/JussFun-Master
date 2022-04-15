@@ -21,14 +21,13 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_logo_white" />
+            android:src="@drawable/ic_header_logo" />
 
         <Button
             android:id="@+id/btnMobile"
             style="@style/ButtonWhiteLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/rounded_corner_primary"
             android:padding="10dp"

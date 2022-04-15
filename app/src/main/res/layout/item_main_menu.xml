@@ -7,10 +7,19 @@
     app:cardCornerRadius="@dimen/size_10"
     app:cardBackgroundColor="@null">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:background="@drawable/gradient_bg">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/ivMenu"/>
 
         <TextView
             android:id="@+id/txtTitle"
@@ -22,7 +31,7 @@
             android:text="@string/photos"
             android:textSize="@dimen/text_header" />
 
-    </FrameLayout>
+    </LinearLayout>
 
 
 </com.google.android.material.card.MaterialCardView>

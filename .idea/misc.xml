@@ -39,10 +39,12 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_gems_store.xml" value="0.13804457953394123" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_image_view.xml" value="0.18675213675213675" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_liked_users.xml" value="0.296875" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_main.xml" value="0.32592592592592595" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_others_profile.xml" value="0.33" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_player.xml" value="0.3546875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_settings.xml" value="0.2223731884057971" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_splash.xml" value="0.1893162393162393" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_tool_bar_swipe.xml" value="0.2223731884057971" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_toolbar_black.xml" value="0.2223731884057971" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/activity_toolbar_chat.xml" value="0.16485507246376813" />
@@ -57,18 +59,21 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_filter_random.xml" value="0.2246376811594203" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_free_gems.xml" value="0.2246376811594203" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/dialog_paypal.xml" value="0.26268115942028986" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_chat.xml" value="0.1893162393162393" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_feeds.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_feeds_main.xml" value="0.2230769230769231" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_followers.xml" value="0.25226449275362317" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_liked_users.xml" value="0.296875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_online_users.xml" value="0.3546875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_random_call.xml" value="0.1" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_random_home.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/fragment_users.xml" value="0.17083333333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/holder_exoplayer_item.xml" value="0.2223731884057971" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/home_imageholder.xml" value="0.17249240121580547" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/home_post_container.xml" value="0.2" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/home_post_list_new.xml" value="0.2210144927536232" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_admin_message.xml" value="0.1893162393162393" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_chat.xml" value="0.16489361702127658" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_followers.xml" value="0.203125" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/item_image_filter.xml" value="0.2203125" />
@@ -87,11 +92,12 @@
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/null_lay.xml" value="0.2210144927536232" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/progress_lay.xml" value="0.16354166666666667" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/tab_liked_users.xml" value="0.3265625" />
-        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/toolbar_feeds.xml" value="0.3390625" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/toolbar_feeds.xml" value="0.67" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/layout/view_time_line.xml" value="0.16145833333333334" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/chat_menu.xml" value="0.2046875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/feed_menu.xml" value="0.2046875" />
         <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/menu/random_home_menu.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Workspace/JussFun-master/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.237" />
       </map>
     </option>
   </component>

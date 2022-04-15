@@ -279,7 +279,7 @@ public class QRCodeGenerateActivity extends BaseFragmentActivity {
                     out.flush();
                     out.close();
                     //getting the logo
-                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo_white);
+                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.ic_app_logo_white);
                     overlay = Bitmap.createScaledBitmap(overlay, AppUtils.dpToPx(QRCodeGenerateActivity.this, 60),
                             AppUtils.dpToPx(QRCodeGenerateActivity.this, 60), false);
                     qrBitMap = mergeQRWithLogo(overlay, bitmap);

@@ -668,7 +668,7 @@ public class OthersProfileFragment extends Fragment {
                     out.flush();
                     out.close();
                     //getting the logo
-                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.ic_app_logo_transparent);
+                    Bitmap overlay = BitmapFactory.decodeResource(getResources(), R.drawable.ic_app_logo_white);
                     overlay = Bitmap.createScaledBitmap(overlay, AppUtils.dpToPx(getActivity(), 60),
                             AppUtils.dpToPx(getActivity(), 60), false);
                     qrBitMap = mergeQRWithLogo(overlay, bitmap);
