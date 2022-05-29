@@ -71,35 +71,38 @@
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="q">
         <activity
+            android:name=".ui.notifications.NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.feed.PlayerActivity"
-            android:theme="@style/PlayerTheme"
-            android:screenOrientation="sensor"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="sensor"
+            android:theme="@style/PlayerTheme" />
         <activity
             android:name=".ui.ContactUsActivity"
-            android:theme="@style/SliderThemeWhite"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.BankDetailsActivity"
-            android:theme="@style/SliderThemeWhite"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.feed.likes.LikedUsersActivity"
-            android:theme="@style/SliderThemeWhite"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.feed.CommentsActivity"
             android:exported="false"
             android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.feed.AddFeedActivity"
-            android:theme="@style/SliderThemeWhite"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SliderThemeWhite" />
         <activity
             android:name=".ui.FullScreenImageViewActivity"
-            android:theme="@style/SliderThemeBlack"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SliderThemeBlack" />
         <activity
             android:name=".ui.NearByActivity"
             android:exported="false"
