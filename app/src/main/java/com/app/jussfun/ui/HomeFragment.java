@@ -152,7 +152,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
 
         tempLocations = (ArrayList<String>) AdminData.locationList;
         updateGemsCount();
-        initFilterOverLay();
+//        initFilterOverLay();
         initClickListeners();
 
         binding.previewView.setOnTouchListener(new View.OnTouchListener() {

@@ -44,7 +44,19 @@ android {
     dexOptions {
         javaMaxHeapSize "2g"
     }
-
+    sourceSets {
+        main {
+            java {
+                filter.excludes = [
+                        "**/ui.notifications/NotificationFollowViewHolder.java",
+                        "**/ui.notifications/NotificationLikeHolder.java",
+                        "**/ui.notifications/NotificationPostHolder.java",
+                        "**/ui.notifications/NotificationReplyHolder.java",
+                        "**/ui.notifications/NotificationTagHolder.java"
+                ]
+            }
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

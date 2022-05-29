@@ -1,3 +1,4 @@
+/*
 package com.app.jussfun.ui.notifications;
 
 import android.content.Context;
@@ -70,16 +71,20 @@ public class NotificationLikeHolder extends BaseViewHolder {
         description.setIsLinkable(true);
         if (notificationList.get(position).getNotificationType().equalsIgnoreCase("comment")) {
             description.setText(Utils.stripHtml("@" + notificationList.get(position).getLikedUserName() + " " +
-                    mContext.getString(R.string.likes_your_comment)) /*+ " " +
-                    Utils.stripHtml(notificationList.get(position).getLogTime())*/);
+                    mContext.getString(R.string.likes_your_comment)) */
+/*+ " " +
+                    Utils.stripHtml(notificationList.get(position).getLogTime())*//*
+);
         }else if (notificationList.get(position).getNotificationType().equalsIgnoreCase("post")){
             description.setText(Utils.stripHtml("@" + notificationList.get(position).getLikedUserName()) + " " +
-                    mContext.getString(R.string.liked_your_message) /*+ " " +
+                    mContext.getString(R.string.liked_your_message) */
+/*+ " " +
         }
         else {
             description.setText(Utils.stripHtml("@" + notificationList.get(position).getLikedUserName()) + " " +
                     mContext.getString(R.string.liked_your_message) /*+ " " +
-                    Utils.stripHtml(notificationList.get(position).getLogTime())*/);
+                    Utils.stripHtml(notificationList.get(position).getLogTime())*//*
+);
         }
         time.setVisibility(View.VISIBLE);
         time.setText(notificationList.get(position).getLogTime());
@@ -122,8 +127,10 @@ public class NotificationLikeHolder extends BaseViewHolder {
                     .into(post_image);
         }
 
-        /*adapter = new LikePostListAdapter(context.getApplicationContext(), list.get(position), listener);
-        recyclerView.setAdapter(adapter);*/
+        */
+/*adapter = new LikePostListAdapter(context.getApplicationContext(), list.get(position), listener);
+        recyclerView.setAdapter(adapter);*//*
+
 
     }
 
@@ -175,9 +182,11 @@ public class NotificationLikeHolder extends BaseViewHolder {
 
                 viewHolder.countTxt.setVisibility(View.GONE);
 
-             /*   if (homelist.get(i).getList().get(0).getPath().contains("video"))
+             */
+/*   if (homelist.get(i).getList().get(0).getPath().contains("video"))
                     viewHolder.playButton.setVisibility(View.VISIBLE);
-                else*/
+                else*//*
+
                 viewHolder.playButton.setVisibility(View.GONE);
 
 
@@ -237,3 +246,4 @@ public class NotificationLikeHolder extends BaseViewHolder {
 }
 
 
+*/

@@ -1,13 +1,9 @@
 package com.app.jussfun.ui.notifications;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 
-import com.app.jussfun.R;
 import com.app.jussfun.databinding.ActivityNotificationBinding;
-import com.app.jussfun.databinding.ActivityPlayerBinding;
 import com.app.jussfun.ui.BaseFragmentActivity;
 import com.app.jussfun.ui.feed.PlayerActivity;
 import com.app.jussfun.utils.AppUtils;

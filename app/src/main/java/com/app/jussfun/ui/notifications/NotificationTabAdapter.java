@@ -1,3 +1,4 @@
+/*
 package com.app.jussfun.ui.notifications;
 
 import android.content.Context;
@@ -135,7 +136,9 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             holder.description.setIsLinkable(true);
             holder.description.setText(Utils.stripHtml("@" + notificationList.get(position).getCommentedUserName() + " " + mContext.getString(R.string.commented) + ": " +
-                    notificationList.get(position).getRecentComment() /*+ " " + notificationList.get(position).getLogTime()*/));
+                    notificationList.get(position).getRecentComment() */
+/*+ " " + notificationList.get(position).getLogTime()*//*
+));
             holder.time.setVisibility(View.VISIBLE);
             holder.time.setText(notificationList.get(position).getLogTime());
 
@@ -238,7 +241,9 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             holder.description.setIsLinkable(true);
             holder.description.setText(Utils.stripHtml("@" + notificationList.get(position).getUsername() + " " + mContext.getString(R.string.started_following_you)
-                    /*+ " " + notificationList.get(position).getLogTime()*/));
+                    */
+/*+ " " + notificationList.get(position).getLogTime()*//*
+));
             holder.time.setVisibility(View.VISIBLE);
             holder.time.setText(notificationList.get(position).getLogTime());
 
@@ -273,7 +278,9 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             holder.description.setIsLinkable(true);
             holder.description.setText(Utils.stripHtml("@" + notificationList.get(position).getReplyUserName() + " " + mContext.getString(R.string.replied_your_comment) + ": " +
-                    notificationList.get(position).getReplyComment() /*+ " " + notificationList.get(position).getLogTime()*/));
+                    notificationList.get(position).getReplyComment() */
+/*+ " " + notificationList.get(position).getLogTime()*//*
+));
             holder.time.setVisibility(View.VISIBLE);
             holder.time.setText(notificationList.get(position).getLogTime());
 
@@ -283,12 +290,14 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     .load(notificationList.get(position).getUserImage())
                     .centerCrop().placeholder(R.drawable.user_default)
                     .into(holder.userImg);
+*/
 /*
             Glide.with(mContext)
                     .load(notificationList.get(position).getProfilePicture())
                     .centerCrop().placeholder(R.drawable.user_default)
                     .into(holder.userImg);
-*/
+*//*
+
 
             holder.recyclerView.setVisibility(View.GONE);
 
@@ -355,7 +364,9 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             holder.description.setIsLinkable(true);
             holder.description.setText(Utils.stripHtml("@" + notificationList.get(position).getCommentedUserName() + " " + mContext.getString(R.string.commented) + ": " +
-                    notificationList.get(position).getRecentComment() /*+ " " + notificationList.get(position).getLogTime()*/));
+                    notificationList.get(position).getRecentComment() */
+/*+ " " + notificationList.get(position).getLogTime()*//*
+));
             holder.time.setVisibility(View.VISIBLE);
             holder.time.setText(notificationList.get(position).getLogTime());
 
@@ -429,7 +440,9 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             holder.description.setIsLinkable(true);
             holder.description.setText(Utils.stripHtml("@" + notificationList.get(position).getUserName() + " " + mContext.getString(R.string.mentioned_post) + ": " +
-                    notificationList.get(position).getPostDescription() /*+ " " + notificationList.get(position).getLogTime()*/));
+                    notificationList.get(position).getPostDescription() */
+/*+ " " + notificationList.get(position).getLogTime()*//*
+));
             holder.time.setVisibility(View.VISIBLE);
             holder.time.setText(notificationList.get(position).getLogTime());
 
@@ -628,3 +641,4 @@ public class NotificationTabAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 }
 
 
+*/

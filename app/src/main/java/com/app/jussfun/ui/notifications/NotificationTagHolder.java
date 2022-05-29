@@ -1,3 +1,4 @@
+/*
 package com.app.jussfun.ui.notifications;
 
 import android.content.Context;
@@ -32,3 +33,4 @@ public class NotificationTagHolder extends RecyclerView.ViewHolder {
 }
 
 
+*/

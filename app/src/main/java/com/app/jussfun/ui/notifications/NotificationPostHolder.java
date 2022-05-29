@@ -1,3 +1,4 @@
+/*
 package com.app.jussfun.ui.notifications;
 
 import android.content.Context;
@@ -29,4 +30,4 @@ public class NotificationPostHolder  extends RecyclerView.ViewHolder {
         recyclerView = (RecyclerView) itemView.findViewById(R.id.card_recycler_view);
 
     }
-}
+}*/
