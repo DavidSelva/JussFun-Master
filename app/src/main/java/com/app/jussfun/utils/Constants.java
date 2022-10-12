@@ -4,13 +4,14 @@ public class Constants {
 
     public static final String BASE_URL = "jussfun.com"; // site main url
     public static final String SITE_URL = "https://" + BASE_URL; // site main url
-    public static final String API_URL = SITE_URL + ":9123/";
+    public static final String API_URL = SITE_URL + ":9223/";
     // For Random stream
-    public static final String RANDOM_CALL_SOCKET_URL = "wss://" + BASE_URL + ":9124/";
+    public static final String RANDOM_CALL_SOCKET_URL = "wss://" + BASE_URL + ":9224/";
     /*For Text chat*/
-    public static final String CHAT_SOCKET_URL = "wss://" + BASE_URL + ":9125/";
+    public static final String CHAT_SOCKET_URL = "wss://" + BASE_URL + ":9225/";
     /*Turn URL*/
-    public static final String APPRTC_URL = "http://turn.jussfun.com:8080";
+//    public static final String APPRTC_URL = "http://turn.jussfun.com:8080";
+    public static final String APPRTC_URL = "http://turn.hitasoft.in:8080";
     /*Invite Friends*/
     public static final String APP_SHARE_URL = SITE_URL;
 
@@ -319,7 +320,7 @@ public class Constants {
     public static final String TAG_STICKER = "sticker";
     public static final String TAG_AUDIO = "audio";
     public static final String TAG_VIDEO = "video";
-    public static final String TAG_PHOTO = "photo";
+    public static final String TAG_PHOTO = "image";
     public static final String TAG_PHOTOS = "photos";
     public static final String TAG_VIDEOS = "videos";
     public static final String TAG_PARTNER_NAME = "partner_name";

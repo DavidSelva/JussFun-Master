@@ -29,8 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,6 +50,7 @@ import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
+import com.app.jussfun.databinding.ActivityMainBinding;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.CustomViewPager;
 import com.app.jussfun.helper.AppWebSocket;
@@ -82,7 +81,6 @@ import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.DeviceTokenPref;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
@@ -113,8 +111,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -125,15 +121,7 @@ import retrofit2.Response;
 public class MainActivity extends BaseFragmentActivity implements PurchasesUpdatedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.viewPager)
-    CustomViewPager viewPager;
-    @BindView(R.id.bottom_navigation)
-    public
-    BottomNavigationView bottomNavigation;
-    @BindView(R.id.parentLay)
-    FrameLayout parentLay;
-    @BindView(R.id.splashLay)
-    RelativeLayout splashLay;
+    public ActivityMainBinding binding;
     Boolean isSettingsIn = false;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -201,13 +189,13 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         overridePendingTransition(0, 0);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         appUtils = new AppUtils(this);
         executor = Executors.newSingleThreadExecutor();
         checkUserIsActive();
-        setupViewPager(viewPager);
+        setupViewPager(binding.viewPager);
         initPermissionDialog();
 
         preferences = getSharedPreferences("SavedPref", MODE_PRIVATE);
@@ -230,8 +218,8 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                     checkFromNotification();
                 } else {
                     if (SharedPref.getBoolean(SharedPref.IS_FINGERPRINT_LOCKED, false) && appUtils.checkIsDeviceEnabled(this)) {
-                        splashLay.setVisibility(View.VISIBLE);
-                        bottomNavigation.setVisibility(View.INVISIBLE);
+                        binding.overLay.splashLay.setVisibility(View.VISIBLE);
+                        binding.bottomNavigation.setVisibility(View.INVISIBLE);
                         checkFingerPrintEnabled();
                     } else {
                         SharedPref.putBoolean(SharedPref.IS_FINGERPRINT_LOCKED, false);
@@ -275,8 +263,8 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
 
     private void checkFromNotification() {
         SharedPref.putBoolean(SharedPref.IS_APP_OPENED, true);
-        splashLay.setVisibility(View.GONE);
-        bottomNavigation.setVisibility(View.VISIBLE);
+        binding.overLay.splashLay.setVisibility(View.GONE);
+        binding.bottomNavigation.setVisibility(View.VISIBLE);
         switch (from) {
             case Constants.TAG_FOLLOW: {
                 Intent profileIntent = new Intent(getApplicationContext(), OthersProfileActivity.class);
@@ -358,13 +346,13 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     }
 
     private void setupViewPager(CustomViewPager viewPager) {
-        bottomNavigation.setItemIconTintList(null);
+        binding.bottomNavigation.setItemIconTintList(null);
         viewPager.setOffscreenPageLimit(4);
         viewPager.setPagingEnabled(false);
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-        setBottomNavigation(bottomNavigation.getMenu().getItem(0));
+        setBottomNavigation(binding.bottomNavigation.getMenu().getItem(0));
 //        viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -394,12 +382,12 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                 if (prevMenuItem != null)
                     prevMenuItem.setChecked(false);
                 else {
-                    bottomNavigation.getMenu().getItem(0).setChecked(false);
+                    binding.bottomNavigation.getMenu().getItem(0).setChecked(false);
                 }
 
-                bottomNavigation.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigation.getMenu().getItem(position);
-                setBottomNavigation(bottomNavigation.getMenu().getItem(position));
+                binding.bottomNavigation.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = binding.bottomNavigation.getMenu().getItem(position);
+                setBottomNavigation(binding.bottomNavigation.getMenu().getItem(position));
             }
 
             @Override
@@ -408,7 +396,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             }
         });
 
-        bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
@@ -463,7 +451,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     }
 
     public void onLiveClicked() {
-        viewPager.setCurrentItem(0);
+        binding.viewPager.setCurrentItem(0);
     }
 
     public class MainPagerAdapter extends FragmentPagerAdapter {
@@ -509,44 +497,44 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     private void setBottomNavigation(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menuFeeds:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_active));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_active));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                binding.bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case R.id.menuUsers:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover_p));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover_p));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                binding.bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case R.id.menuHome:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_act));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_act));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                binding.bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case R.id.menuChat:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_p));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_p));
+                binding.bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
             case R.id.menuProfile:
-                bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
-                bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
-                bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
-                bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
-                bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuFeeds).setIcon(getDrawable(R.drawable.ic_feed_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuUsers).setIcon(getDrawable(R.drawable.main_discover));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuHome).setIcon(getDrawable(R.drawable.connect_inactive));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuChat).setIcon(getDrawable(R.drawable.main_chat_plan));
+                binding.bottomNavigation.getMenu().findItem(R.id.menuProfile).setIcon(getDrawable(R.drawable.main_me_plan));
+                binding.bottomNavigation.setBackgroundColor(getResources().getColor(R.color.colorBottomNavigation));
                 break;
         }
     }
@@ -1230,8 +1218,8 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             return;
         }
 
-        if (viewPager != null && viewPager.getCurrentItem() != 0) {
-            viewPager.setCurrentItem(0);
+        if (binding.viewPager != null && binding.viewPager.getCurrentItem() != 0) {
+            binding.viewPager.setCurrentItem(0);
         } else {
             this.doubleBackToExit = true;
             App.makeToast(getString(R.string.back_button_exit_description));

@@ -159,11 +159,13 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (NetworkReceiver.isConnected()) {
-                    if (isPermissionsGranted(AppRTCUtils.MANDATORY_PERMISSIONS)) {
-                        App.preventMultipleClick(binding.previewView);
-                        startCallActivity(binding.previewView);
+                    if (isPermissionsGranted(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ?
+                            AppRTCUtils.MANDATORY_PERMISSIONS_V12 : AppRTCUtils.MANDATORY_PERMISSIONS)) {
+                        App.preventMultipleClick(binding.parentLay);
+                        startCallActivity(binding.parentLay);
                     } else {
-                        requestMandatoryPermissions(AppRTCUtils.MANDATORY_PERMISSIONS);
+                        requestMandatoryPermissions(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ?
+                                AppRTCUtils.MANDATORY_PERMISSIONS_V12 : AppRTCUtils.MANDATORY_PERMISSIONS);
                     }
                 } else {
                     App.makeToast(getString(R.string.no_internet_connection));
@@ -633,7 +635,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 if (getActivity() != null)
-                    ((MainActivity) getActivity()).bottomNavigation.setVisibility(View.VISIBLE);
+                    ((MainActivity) getActivity()).binding.bottomNavigation.setVisibility(View.VISIBLE);
                 if (filterApplied) {
                     GetSet.setFilterApplied(true);
                     GetSet.setFilterMinAge("" + minimumAge);
@@ -691,7 +693,7 @@ public class HomeFragment extends Fragment implements RandomWebSocket.WebSocketC
         }
 
         if (getActivity() != null)
-            ((MainActivity) getActivity()).bottomNavigation.setVisibility(View.GONE);
+            ((MainActivity) getActivity()).binding.bottomNavigation.setVisibility(View.GONE);
         filterDialog.show();
     }
 

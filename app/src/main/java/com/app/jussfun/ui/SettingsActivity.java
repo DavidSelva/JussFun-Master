@@ -9,16 +9,14 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
+import com.app.jussfun.databinding.ActivitySettingsBinding;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
 import com.app.jussfun.helper.BannerAdUtils;
@@ -33,60 +31,27 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.SharedPref;
-import com.google.android.gms.ads.AdView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.HashMap;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SettingsActivity extends BaseFragmentActivity {
+public class SettingsActivity extends BaseFragmentActivity implements View.OnClickListener {
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
-    @BindView(R.id.btnBack)
-    ImageView btnBack;
-    @BindView(R.id.txtTitle)
-    TextView txtTitle;
-    @BindView(R.id.txtSubTitle)
-    TextView txtSubTitle;
-    @BindView(R.id.btnSettings)
-    ImageView btnSettings;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.settingsLay)
-    LinearLayout settingsLay;
-    @BindView(R.id.privacyLay)
-    LinearLayout privacyLay;
-    @BindView(R.id.inviteLay)
-    LinearLayout inviteLay;
-    @BindView(R.id.helpLay)
-    LinearLayout helpLay;
-    @BindView(R.id.qrGenLay)
-    LinearLayout qrGenLay;
-    @BindView(R.id.blockLay)
-    LinearLayout blockLay;
-    @BindView(R.id.languageLay)
-    LinearLayout languageLay;
-    @BindView(R.id.logoutLay)
-    LinearLayout logoutLay;
-    @BindView(R.id.adView)
-    AdView adView;
-    @BindView(R.id.ratingLay)
-    LinearLayout ratingLay;
+    private ActivitySettingsBinding binding;
     private ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        ButterKnife.bind(this);
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         initView();
 
@@ -106,19 +71,29 @@ public class SettingsActivity extends BaseFragmentActivity {
                 .build();
         Slidr.attach(this, config);
 
-        txtTitle.setText(getString(R.string.settings));
-        loadAd();
+        binding.toolBarLay.txtTitle.setText(getString(R.string.settings));
 
         if (LocaleManager.isRTL()) {
-            btnBack.setRotation(180);
+            binding.toolBarLay.btnBack.setRotation(180);
         } else {
-            btnBack.setRotation(0);
+            binding.toolBarLay.btnBack.setRotation(0);
         }
-
+        binding.privacyLay.setVisibility(View.GONE);
+        loadAd();
+        binding.toolBarLay.btnBack.setOnClickListener(this);
+        binding.settingsLay.setOnClickListener(this);
+        binding.privacyLay.setOnClickListener(this);
+        binding.inviteLay.setOnClickListener(this);
+        binding.helpLay.setOnClickListener(this);
+        binding.logoutLay.setOnClickListener(this);
+        binding.languageLay.setOnClickListener(this);
+        binding.qrGenLay.setOnClickListener(this);
+        binding.blockLay.setOnClickListener(this);
+        binding.ratingLay.setOnClickListener(this);
     }
 
     private void loadAd() {
-        BannerAdUtils.getInstance(this).loadAd(TAG, adView);
+        BannerAdUtils.getInstance(this).loadAd(TAG, binding.adView);
     }
 
 
@@ -138,9 +113,9 @@ public class SettingsActivity extends BaseFragmentActivity {
         AppUtils.showSnack(getApplicationContext(), findViewById(R.id.parentLay), isConnected);
     }
 
-    @OnClick({R.id.btnBack, R.id.settingsLay, R.id.privacyLay, R.id.inviteLay, R.id.helpLay,
-            R.id.logoutLay, R.id.languageLay, R.id.qrGenLay, R.id.blockLay, R.id.ratingLay})
-    public void onViewClicked(View view) {
+
+    @Override
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
                 onBackPressed();
@@ -152,7 +127,7 @@ public class SettingsActivity extends BaseFragmentActivity {
                 break;
             case R.id.privacyLay:
                 Intent privacy = new Intent(getApplicationContext(), TermsActivity.class);
-                privacy.putExtra(Constants.TAG_FROM, "terms");
+                privacy.putExtra(Constants.TAG_FROM, "privacy");
                 privacy.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(privacy);
                 break;
@@ -187,7 +162,7 @@ public class SettingsActivity extends BaseFragmentActivity {
                 openLogoutDialog();
                 break;
             case R.id.ratingLay:
-                App.preventMultipleClick(ratingLay);
+                App.preventMultipleClick(binding.ratingLay);
                 AppRate.with(SettingsActivity.this)
                         .setStoreType(StoreType.GOOGLEPLAY) //default is Google, other option is Amazon
                         .setInstallDays(3) // default 10, 0 means install day.

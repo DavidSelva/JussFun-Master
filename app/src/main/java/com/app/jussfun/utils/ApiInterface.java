@@ -183,7 +183,7 @@ public interface ApiInterface {
     Call<HashMap<String, String>> chargeSwipeFilters(@Path("user_id") String userId);
 
     @FormUrlEncoded
-    @POST("activities/getfeeds/")
+    @POST("activities/getfeeds")
     Call<FeedsModel> getHomeFeeds(@FieldMap Map<String, String> requestMap);
 
     @Multipart

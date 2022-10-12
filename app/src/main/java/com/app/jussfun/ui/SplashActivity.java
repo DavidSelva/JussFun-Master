@@ -265,7 +265,7 @@ public class SplashActivity extends BaseFragmentActivity {
                             try {
                                 PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
                                 Double versionCode = (double) pInfo.versionCode;
-                                if (defaultData.getAndroidVersionCode() > versionCode) {
+                                if (defaultData.getAndroidVersionCode() != null && defaultData.getAndroidVersionCode() > versionCode) {
                                     openUpdateDialog(defaultData.isAndroidForceUpdate());
                                 } else {
                                     checkUser();

@@ -18,6 +18,7 @@ package com.app.jussfun.ui.feed;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +30,7 @@ import com.app.jussfun.external.ProgressWheel;
 import com.app.jussfun.model.Feeds;
 import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
+import com.app.jussfun.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
@@ -71,11 +73,11 @@ public class ImageViewHolder extends BaseViewHolder {
         this.listener = listener;
     }
 
-
     @SuppressLint("SetTextI18n")
     @Override
     public void bind(int position, final Object object, String postId) {
         List<Feeds> result = (List<Feeds>) object;
+        Log.d(TAG, "bind: "+ result.get(position).getImageUrl());
         Glide.with(context)
                 .load(result.get(position).getImageUrl())
                 .thumbnail(0.5f)

@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.jussfun.R;
+import com.app.jussfun.databinding.DialogFreeGemsBinding;
+import com.app.jussfun.databinding.DialogFundsAlertBinding;
 import com.app.jussfun.helper.callback.OnOkCancelClickListener;
 
 import androidx.annotation.NonNull;
@@ -28,16 +30,7 @@ import butterknife.OnClick;
 public class DialogBuyGems extends DialogFragment {
 
     private static final String TAG = DialogBuyGems.class.getSimpleName();
-    @BindView(R.id.txtTitle)
-    TextView txtTitle;
-    @BindView(R.id.dimenImage)
-    ImageView dimenImage;
-    @BindView(R.id.txtDescription)
-    TextView txtDescription;
-    @BindView(R.id.btnOkay)
-    Button btnOkay;
-    @BindView(R.id.btnNo)
-    Button btnNo;
+    private DialogFundsAlertBinding binding;
     private Context context;
     private OnOkCancelClickListener callBack;
 
@@ -70,19 +63,30 @@ public class DialogBuyGems extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup
             container, @Nullable Bundle savedInstanceState) {
-        View itemView = inflater.inflate(R.layout.dialog_funds_alert, container, false);
-        ButterKnife.bind(this, itemView);
-        initView();
-
+        binding = DialogFundsAlertBinding.inflate(inflater, container, false);
+        View itemView = binding.getRoot();
         return itemView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
+    }
+
     private void initView() {
-        btnNo.setText(context.getString(R.string.not_now));
-        btnOkay.setText(context.getString(R.string.buy_gems));
-        txtDescription.setVisibility(View.GONE);
-        txtTitle.setTextSize(24);
-        txtTitle.setText(R.string.insufficient_funds);
+        binding.btnNo.setText(context.getString(R.string.not_now));
+        binding.btnOkay.setText(context.getString(R.string.buy_gems));
+        binding.txtDescription.setVisibility(View.GONE);
+        binding.txtTitle.setTextSize(24);
+        binding.txtTitle.setText(R.string.insufficient_funds);
+
+        binding.btnOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     public void setContext(Context context) {
@@ -103,5 +107,11 @@ public class DialogBuyGems extends DialogFragment {
                 callBack.onCancelClicked(null);
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

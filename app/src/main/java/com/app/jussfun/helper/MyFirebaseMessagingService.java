@@ -276,8 +276,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         long when = System.currentTimeMillis();
         String CHANNEL_ID = getString(R.string.notification_channel_id);
         CharSequence channelName = getString(R.string.app_name);
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(this, uniqueInt, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            resultPendingIntent = PendingIntent.getActivity(this,
+                    uniqueInt, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        }else {
+            resultPendingIntent = PendingIntent.getActivity(this,
+                    uniqueInt, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        }
 
         NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

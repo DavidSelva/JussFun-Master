@@ -11,14 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.jussfun.R;
+import com.app.jussfun.databinding.ActivityHelpBinding;
 import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
-import com.google.android.gms.ads.AdView;
-import com.app.jussfun.R;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.model.HelpResponse;
 import com.app.jussfun.utils.AdminData;
@@ -33,9 +32,6 @@ import com.r0adkll.slidr.model.SlidrPosition;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,29 +39,16 @@ import retrofit2.Response;
 public class HelpActivity extends BaseFragmentActivity {
 
     private static final String TAG = HelpActivity.class.getSimpleName();
+    private ActivityHelpBinding binding;
     ApiInterface apiInterface;
-    @BindView(R.id.btnBack)
-    ImageView btnBack;
-    @BindView(R.id.txtTitle)
-    TextView txtTitle;
-    @BindView(R.id.txtSubTitle)
-    TextView txtSubTitle;
-    @BindView(R.id.btnSettings)
-    ImageView btnSettings;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.adView)
-    AdView adView;
     HelpAdapter adapter;
     private List<HelpResponse.HelpList> helpList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
-        ButterKnife.bind(this);
+        binding = ActivityHelpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         initView();
     }
@@ -80,18 +63,24 @@ public class HelpActivity extends BaseFragmentActivity {
 
         Slidr.attach(this, config);
 
-        txtTitle.setText(R.string.help);
+        binding.toolBarLay.txtTitle.setText(R.string.help);
         adapter = new HelpAdapter(getApplicationContext(), helpList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        binding.recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         loadAd();
 
-        if(LocaleManager.isRTL()){
-            btnBack.setRotation(180);
-        }else{
-            btnBack.setRotation(0);
+        if (LocaleManager.isRTL()) {
+            binding.toolBarLay.btnBack.setRotation(180);
+        } else {
+            binding.toolBarLay.btnBack.setRotation(0);
         }
+        binding.toolBarLay.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         helpList.clear();
         HelpResponse.HelpList help = new HelpResponse().new HelpList();
@@ -106,7 +95,8 @@ public class HelpActivity extends BaseFragmentActivity {
 
     private void loadAd() {
         if (AdminData.isAdEnabled()) {
-            BannerAdUtils.getInstance(this).loadAd(TAG, adView);}
+            BannerAdUtils.getInstance(this).loadAd(TAG, binding.adView);
+        }
     }
 
 
@@ -136,11 +126,6 @@ public class HelpActivity extends BaseFragmentActivity {
         AppUtils.showSnack(getApplicationContext(), findViewById(R.id.parentLay), isConnected);
     }
 
-    @OnClick(R.id.btnBack)
-    public void onViewClicked() {
-        onBackPressed();
-    }
-
     public class HelpAdapter extends RecyclerView.Adapter {
         private final Context context;
         private List<HelpResponse.HelpList> helpList = new ArrayList<>();
@@ -165,7 +150,7 @@ public class HelpActivity extends BaseFragmentActivity {
             final HelpResponse.HelpList help = helpList.get(position);
             ((MyViewHolder) holder).txtHelpTitle.setText(help.getHelpTitle());
             ((MyViewHolder) holder).txtHelpTitle.setTextColor(getResources().getColor(R.color.colorPrimaryText));
-            ((MyViewHolder) holder).view.setBackgroundColor(getResources().getColor(R.color.colorDivider));
+            ((MyViewHolder) holder).divider.setBackgroundColor(getResources().getColor(R.color.colorDivider));
         }
 
         @Override
@@ -175,31 +160,32 @@ public class HelpActivity extends BaseFragmentActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            @BindView(R.id.iconHelp)
             ImageView iconHelp;
-            @BindView(R.id.txtHelpTitle)
             TextView txtHelpTitle;
-            @BindView(R.id.itemLay)
             RelativeLayout itemLay;
-            @BindView(R.id.view)
-            View view;
+            View divider;
 
             public MyViewHolder(View view) {
                 super(view);
-                ButterKnife.bind(this, view);
-            }
+                iconHelp = view.findViewById(R.id.iconHelp);
+                txtHelpTitle = view.findViewById(R.id.txtHelpTitle);
+                itemLay = view.findViewById(R.id.itemLay);
+                divider = view.findViewById(R.id.view);
 
-            @OnClick(R.id.itemLay)
-            public void onViewClicked() {
-                Intent intent = new Intent(context, TermsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                if (helpList.get(getAdapterPosition()).getHelpTitle().equals(context.getString(R.string.terms_and_conditions))) {
-                    intent.putExtra(Constants.TAG_FROM, "terms");
-                } else {
-                    intent.putExtra(Constants.TAG_FROM, "privacy");
+                itemLay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, TermsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        if (helpList.get(getAdapterPosition()).getHelpTitle().equals(context.getString(R.string.terms_and_conditions))) {
+                            intent.putExtra(Constants.TAG_FROM, "terms");
+                        } else {
+                            intent.putExtra(Constants.TAG_FROM, "privacy");
 
-                }
-                startActivity(intent);
+                        }
+                        startActivity(intent);
+                    }
+                });
             }
         }
     }

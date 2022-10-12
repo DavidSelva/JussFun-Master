@@ -11,34 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.app.jussfun.R;
+import com.app.jussfun.databinding.DialogFreeGemsBinding;
 import com.app.jussfun.helper.callback.OnOkClickListener;
 import com.app.jussfun.utils.AdminData;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class DialogFreeGems extends DialogFragment {
 
-    @BindView(R.id.txtTitle)
-    TextView txtTitle;
-    @BindView(R.id.txtDescription)
-    TextView txtDescription;
-    @BindView(R.id.btnOkay)
-    Button btnOkay;
-    @BindView(R.id.contentLay)
-    FrameLayout contentLay;
     private Context context;
     private OnOkClickListener callBack;
+    private DialogFreeGemsBinding binding;
 
     @NonNull
     @Override
@@ -75,8 +62,14 @@ public class DialogFreeGems extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup
             container, @Nullable Bundle savedInstanceState) {
-        View itemView = inflater.inflate(R.layout.dialog_free_gems, container, false);
-        ButterKnife.bind(this, itemView);
+        binding = DialogFreeGemsBinding.inflate(inflater, container, false);
+        View itemView = binding.getRoot();
+        return itemView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         String firstString = String.format(context.getString(R.string.congratulations_you_got), "" + AdminData.freeGems);
         StringBuilder builder = new StringBuilder();
         builder.append(firstString);
@@ -88,17 +81,15 @@ public class DialogFreeGems extends DialogFragment {
         builder.append("3. Invite Friends");
 //        SpannableStringBuilder str = new SpannableStringBuilder(firstString + noOfGems + lastString);
 //        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), firstString.length(), firstString.length() + noOfGems.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        txtDescription.setText(builder);
-
-        return itemView;
-
-    }
-
-    @OnClick(R.id.btnOkay)
-    public void onViewClicked() {
-        if (callBack != null) {
-            callBack.onOkClicked("");
-        }
+        binding.txtDescription.setText(builder);
+        binding.btnOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (callBack != null) {
+                    callBack.onOkClicked("");
+                }
+            }
+        });
     }
 
     public void setContext(Context context) {
@@ -109,5 +100,11 @@ public class DialogFreeGems extends DialogFragment {
 
     public void setCallBack(OnOkClickListener callBack) {
         this.callBack = callBack;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

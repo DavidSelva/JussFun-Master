@@ -269,7 +269,8 @@ public class EarnGemsActivity extends BaseFragmentActivity {
                 }
             });
         } else {
-            Log.d(TAG, "The rewarded ad wasn't ready yet.");
+            Log.e(TAG, "The rewarded ad wasn't ready yet.");
+            btnWatchVideo.setEnabled(true);
         }
     }
 

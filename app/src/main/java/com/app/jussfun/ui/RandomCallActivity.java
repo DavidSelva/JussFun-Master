@@ -186,7 +186,9 @@ public class RandomCallActivity extends BaseFragmentActivity implements RandomWe
 
     private boolean checkPermissions() {
         boolean isPermissionGranted = true;
-        for (String permission : AppRTCUtils.MANDATORY_PERMISSIONS) {
+        String[] mandatoryPermissions = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ?
+                AppRTCUtils.MANDATORY_PERMISSIONS_V12 : AppRTCUtils.MANDATORY_PERMISSIONS;
+        for (String permission : mandatoryPermissions) {
             if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 isPermissionGranted = false;
                 break;

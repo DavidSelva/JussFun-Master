@@ -7,12 +7,13 @@
     android:background="@color/colorBg"
     tools:context="com.app.jussfun.ui.HelpActivity">
 
-    <include layout="@layout/activity_toolbar_white" />
+    <include layout="@layout/activity_toolbar_white"
+        android:id="@+id/toolBarLay"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolBarLay"
         android:background="@color/colorDivider" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/adView"
         android:overScrollMode="never"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolBarLay"
         android:layout_marginTop="10dp" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"

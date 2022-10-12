@@ -20,7 +20,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
-    <include layout="@layout/toolbar_feeds" />
+    <include layout="@layout/toolbar_feeds"
+        android:id="@+id/toolBarLay"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refreshlayout"
@@ -29,7 +30,7 @@
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar">
+        app:layout_constraintTop_toBottomOf="@+id/toolBarLay">
 
         <com.app.jussfun.external.toro.core.widget.Container
             android:id="@+id/containerFeed"
@@ -39,12 +40,13 @@
             android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             android:overScrollMode="never"
-            android:paddingBottom="?attr/actionBarSize"
+            android:paddingBottom="48dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/null_lay" />
+    <include layout="@layout/null_lay"
+        android:id="@+id/nullLay"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnPost"

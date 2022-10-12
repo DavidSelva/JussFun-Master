@@ -27,9 +27,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
@@ -37,9 +34,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -53,10 +48,10 @@ import com.app.jussfun.BuildConfig;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.databinding.DialogFeedDescriptionBinding;
+import com.app.jussfun.databinding.FragmentFeedsBinding;
 import com.app.jussfun.external.CustomTypefaceSpan;
 import com.app.jussfun.external.EndlessRecyclerOnScrollListener;
 import com.app.jussfun.external.toro.core.PlayerSelector;
-import com.app.jussfun.external.toro.core.widget.Container;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.helper.PermissionsUtils;
 import com.app.jussfun.helper.StorageUtils;
@@ -78,7 +73,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
@@ -94,8 +88,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,25 +96,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     private static final String TAG = FeedsActivity.class.getSimpleName();
 
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.progressLay)
-    ConstraintLayout progressLay;
-    @BindView(R.id.containerFeed)
-    Container containerFeed;
-    @BindView(R.id.swipe_refreshlayout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.btnBack)
-    ImageView btnBack;
-    @BindView(R.id.nullImage)
-    ImageView nullImage;
-    @BindView(R.id.nullText)
-    AppCompatTextView nullText;
-    @BindView(R.id.nullLay)
-    RelativeLayout nullLay;
-    @BindView(R.id.btnPost)
-    FloatingActionButton btnPost;
-
+    private FragmentFeedsBinding binding;
     private Context mContext;
     private ApiInterface apiInterface;
     private AppUtils appUtils;
@@ -155,8 +129,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_feeds);
-        ButterKnife.bind(this);
+        binding = FragmentFeedsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         appUtils = new AppUtils(this);
         mContext = this;
@@ -186,18 +160,18 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 .build();
         Slidr.attach(this, config);
         feedsList = new ArrayList<>();
-        containerFeed.setVisibility(View.GONE);
+        binding.containerFeed.setVisibility(View.GONE);
 
         layoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
-        containerFeed.setLayoutManager(layoutManager);
-        ViewCompat.setNestedScrollingEnabled(containerFeed, false);
+        binding.containerFeed.setLayoutManager(layoutManager);
+        ViewCompat.setNestedScrollingEnabled(binding.containerFeed, false);
 
         feedsAdapter = new FeedsAdapter(feedsList, this, this);
-        containerFeed.setAdapter(feedsAdapter);
-        containerFeed.setCacheManager(feedsAdapter);
+        binding.containerFeed.setAdapter(feedsAdapter);
+        binding.containerFeed.setCacheManager(feedsAdapter);
 
         selector = PlayerSelector.DEFAULT;
-        containerFeed.setPlayerSelector(selector);
+        binding.containerFeed.setPlayerSelector(selector);
         // get home post data from service
         pullDownRefresh();
 
@@ -208,17 +182,17 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         pullToRefreshListener();
 
         if (feedId != null) {
-            btnPost.setVisibility(View.GONE);
+            binding.btnPost.setVisibility(View.GONE);
         }
-        btnBack.setVisibility(View.VISIBLE);
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        binding.toolBarLay.btnBack.setVisibility(View.VISIBLE);
+        binding.toolBarLay.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        btnPost.setOnClickListener(new View.OnClickListener() {
+        binding.btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openImageDialog();
@@ -227,7 +201,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     }
 
     private void initFloatingButton() {
-        containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -236,9 +210,9 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    btnPost.show();
+                    binding.btnPost.show();
                 } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    btnPost.hide();
+                    binding.btnPost.hide();
                 }
 
                 super.onScrollStateChanged(recyclerView, newState);
@@ -491,7 +465,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         Drawable horizontalDivider = ContextCompat.getDrawable(mContext, R.drawable.divider);
         horizontalDecoration.setDrawable(horizontalDivider);
         containerFeed.addItemDecoration(horizontalDecoration);*/
-        containerFeed.addItemDecoration(new RecyclerView.ItemDecoration() {
+        binding.containerFeed.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
@@ -517,8 +491,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
 
     public void ScrollMethod() {
 
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) containerFeed.getLayoutManager();
-        containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) binding.containerFeed.getLayoutManager();
+        binding.containerFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -550,14 +524,14 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
     }
 
     public void pullToRefreshListener() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 pullDownRefresh();
             }
         });
 
-        swipeRefreshLayout.setColorSchemeColors(
+        binding.swipeRefreshlayout.setColorSchemeColors(
                 getResources().getColor(R.color.colorPrimary)
         );
 
@@ -569,7 +543,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         offset = 0;
         isLoading = true;
         isLoadedAllItems = false;
-        nullLay.setVisibility(View.GONE);
+        binding.nullLay.nullLay.setVisibility(View.GONE);
         feedsList.clear();
         feedsAdapter.notifyDataSetChanged();
         // get home post data from service
@@ -604,8 +578,8 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 public void onResponse(Call<FeedsModel> call, Response<FeedsModel> response) {
                     hideLoading();
                     if (offset > 0) feedsAdapter.removeLoadingView();
-                    containerFeed.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setRefreshing(false);
+                    binding.containerFeed.setVisibility(View.VISIBLE);
+                    binding.swipeRefreshlayout.setRefreshing(false);
                     if (offsetCnt == 0)
                         feedsList.clear();
                     if (response.isSuccessful()) {
@@ -625,13 +599,13 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                             }
                         }
                         if (feedsList.size() > 0) {
-                            nullLay.setVisibility(View.GONE);
+                            binding.nullLay.nullLay.setVisibility(View.GONE);
                         } else {
                             if (offsetCnt == 0) {
-                                nullLay.setVisibility(View.VISIBLE);
-                                nullText.setText(mContext.getString(R.string.no_feeds_description));
+                                binding.nullLay.nullLay.setVisibility(View.VISIBLE);
+                                binding.nullLay.nullText.setText(mContext.getString(R.string.no_feeds_description));
                             } else
-                                nullLay.setVisibility(View.GONE);
+                                binding.nullLay.nullLay.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -640,7 +614,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
                 public void onFailure(Call<FeedsModel> call, Throwable t) {
                     Log.e(TAG, "loadHomeFeeds: " + t.getMessage());
                     hideLoading();
-                    swipeRefreshLayout.setRefreshing(false);
+                    binding.swipeRefreshlayout.setRefreshing(false);
                 }
             });
         }
@@ -651,7 +625,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         offset = 0;
         isLoading = true;
         isLoadedAllItems = false;
-        nullLay.setVisibility(View.GONE);
+        binding.nullLay.nullLay.setVisibility(View.GONE);
 //        storyList.clear();
 //        storyAdapter.notifyDataSetChanged();
         feedsList.clear();
@@ -683,14 +657,14 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         /*Disable touch options*/
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        progressLay.setVisibility(View.VISIBLE);
-        progressBar.setIndeterminate(true);
+        binding.progressLay.setVisibility(View.VISIBLE);
+        binding.progressBar.setIndeterminate(true);
     }
 
     public void hideLoading() {
         /*Enable touch options*/
-        progressLay.setVisibility(View.GONE);
-        progressBar.setIndeterminate(false);
+        binding.progressLay.setVisibility(View.GONE);
+        binding.progressBar.setIndeterminate(false);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 

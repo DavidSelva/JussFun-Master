@@ -26,6 +26,7 @@ import com.app.jussfun.R;
 import com.app.jussfun.ui.VideoCallActivity;
 import com.app.jussfun.utils.Constants;
 
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.MODIFY_AUDIO_SETTINGS;
@@ -101,6 +102,8 @@ public final class AppRTCUtils {
     public static final int CALL_PERMISSIONS_REQUEST_CODE = 100;
     // List of mandatory application permissions.
     public static final String[] MANDATORY_PERMISSIONS = {MODIFY_AUDIO_SETTINGS,
+            RECORD_AUDIO, INTERNET, CAMERA, WAKE_LOCK};
+    public static final String[] MANDATORY_PERMISSIONS_V12 = {BLUETOOTH_CONNECT, MODIFY_AUDIO_SETTINGS,
             RECORD_AUDIO, INTERNET, CAMERA, WAKE_LOCK};
 
     // Peer connection statistics callback period in ms.

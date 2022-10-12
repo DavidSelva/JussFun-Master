@@ -39,6 +39,7 @@
             android:id="@+id/btnFacebook"
             style="@style/ButtonWhiteLight"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
