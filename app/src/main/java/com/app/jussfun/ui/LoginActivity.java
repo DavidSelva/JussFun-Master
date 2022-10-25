@@ -117,6 +117,7 @@ public class LoginActivity extends BaseFragmentActivity {
                     App.preventMultipleClick(btnMobile);
                     verifyMobileNumber();
 //                    signIn("+919360810959", Constants.TAG_PHONENUMBER, "","","");
+//                    signIn("9360810959", Constants.TAG_PHONENUMBER, "","","");
 //                    signIn("+917200348126", Constants.TAG_PHONENUMBER, "","","");
                 } else {
                     App.makeToast(getString(R.string.accept_our_policy));

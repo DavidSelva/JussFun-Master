@@ -11,7 +11,6 @@ public class Constants {
     public static final String CHAT_SOCKET_URL = "wss://" + BASE_URL + ":9225/";
     /*Turn URL*/
     public static final String APPRTC_URL = "http://turn.jussfun.com:8080";
-//    public static final String APPRTC_URL = "http://turn.hitasoft.in:8080";
     /*Invite Friends*/
     public static final String APP_SHARE_URL = SITE_URL;
 
