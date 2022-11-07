@@ -30,17 +30,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.app.jussfun.helper.BannerAdUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.google.android.gms.ads.AdView;
 import com.app.jussfun.R;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.helper.AppWebSocket;
+import com.app.jussfun.helper.BannerAdUtils;
 import com.app.jussfun.helper.LocaleManager;
 import com.app.jussfun.helper.NetworkReceiver;
 import com.app.jussfun.livedata.MessageLiveModel;
@@ -53,6 +46,13 @@ import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.Logging;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.ads.AdView;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONArray;
@@ -259,21 +259,11 @@ public class ChatFragment extends Fragment implements AppWebSocket.WebSocketChan
         }
         if (liveModel != null)
             liveModel.getRecentChats(limit, offset * 20).observe(getViewLifecycleOwner(), observer);
-        if (offset == 0) {
-            getOnlineStatus();
-        }
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefresh(false);
             isLoading = true;
         }
         adapter.showLoading(false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getAdminMessages();
-        AppWebSocket.setCallEvents(ChatFragment.this);
     }
 
     public void getOnlineStatus() {
@@ -314,6 +304,19 @@ public class ChatFragment extends Fragment implements AppWebSocket.WebSocketChan
                 getMessageList(currentPage = 0);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null && getActivity() instanceof MainActivity) {
+            MainActivity activity = (MainActivity) getActivity();
+            if (activity.binding != null && activity.binding.viewPager.getCurrentItem() == 3) {
+                getOnlineStatus();
+            }
+        }
+        getAdminMessages();
+        AppWebSocket.setCallEvents(ChatFragment.this);
     }
 
     @Override

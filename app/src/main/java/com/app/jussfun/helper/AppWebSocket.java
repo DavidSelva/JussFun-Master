@@ -10,11 +10,11 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.app.jussfun.apprtc.util.AppRTCUtils;
+import com.app.jussfun.base.App;
 import com.app.jussfun.db.DBHelper;
 import com.app.jussfun.external.RandomString;
 import com.app.jussfun.model.ChatResponse;
 import com.app.jussfun.model.GetSet;
-import com.app.jussfun.base.App;
 import com.app.jussfun.ui.ChatActivity;
 import com.app.jussfun.ui.VideoCallActivity;
 import com.app.jussfun.utils.AppUtils;
@@ -248,8 +248,13 @@ public class AppWebSocket {
     }
 
     public void send(String message) {
-        if (webSocketClient != null && webSocketClient.isOpen())
+        if (webSocketClient != null && webSocketClient.isOpen()) {
+            Log.i(TAG, "send: " + message);
             webSocketClient.send(message);
+        } else {
+            mInstance = null;
+            webSocketClient = null;
+        }
     }
 
     public void disconnect() {

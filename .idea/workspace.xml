@@ -6,18 +6,24 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20bef4a5-bdab-4416-aa0a-a0f77a8c8e0e" name="Changes" comment="Feeds added">
+    <list default="true" id="20bef4a5-bdab-4416-aa0a-a0f77a8c8e0e" name="Changes" comment="V35">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/utils/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/base/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/base/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/AppWebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/helper/AppWebSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/BankDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/BankDetailsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/ChatFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/ChatFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/OthersProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/OthersProfileFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/CommentViewHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/CommentViewHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/app/jussfun/ui/feed/FeedsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,11 +67,17 @@
   </component>
   <component name="PropertiesComponent">
     <property name="BundleExportedModule" value="JussFun-master.app" />
+    <property name="DEBUGGABLE_DEVICE" value="emulator-5554" />
+    <property name="DEBUGGABLE_PROCESS" value="com.app.jussfun" />
+    <property name="DEBUGGER_ID" value="Auto" />
     <property name="ExportApk.ApkPath" value="D:\Android\Projects\Workspace\JussFun-master\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="android-custom-viewC:/Users/selva/.gradle/wrapper/dists/caches/modules-2/files-2.1/com.google.android.material/material/1.5.0/8d3b87c7463f55053836b805e014cb238f64757a/material-1.5.0-sources.jar!/com/google/android/material/bottomnavigation/BottomNavigationView.java_SELECTED" value="BottomNavigationView" />
+    <property name="android-custom-viewD:/Android/Projects/Workspace/JussFun-master/app/src/main/java/com/app/jussfun/external/toro/core/widget/Container.java_SELECTED" value="Container" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/jussfun.jks" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
@@ -161,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666115067185</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="V35">
+      <created>1666682231628</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666682231628</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,6 +196,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Feeds added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feeds added" />
+    <MESSAGE value="V35" />
+    <option name="LAST_COMMIT_MESSAGE" value="V35" />
   </component>
 </project>

@@ -115,10 +115,10 @@ public class BankDetailsActivity extends BaseFragmentActivity {
                 public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                     ProfileResponse profile = response.body();
                     if (profile.getStatus().equals(Constants.TAG_TRUE)) {
-                        binding.edtAccountNo.setText("" + profile.getBankAccNo());
-                        binding.edtConfirmAccountNo.setText("" + profile.getBankAccNo());
-                        binding.edtIfsc.setText("" + profile.getBankIfscCode());
-                        binding.edtAccountName.setText("" + profile.getBankAccName());
+                        binding.edtAccountNo.setText(!TextUtils.isEmpty(profile.getBankAccNo()) ? profile.getBankAccNo() : "");
+                        binding.edtConfirmAccountNo.setText(!TextUtils.isEmpty(profile.getBankAccNo()) ? profile.getBankAccNo() : "");
+                        binding.edtIfsc.setText(!TextUtils.isEmpty(profile.getBankIfscCode()) ? profile.getBankIfscCode() : "");
+                        binding.edtAccountName.setText(!TextUtils.isEmpty(profile.getBankAccName()) ? profile.getBankAccName() : "");
                         if (!TextUtils.isEmpty(binding.edtAccountNo.getText())) {
                             binding.toolBarLay.btnSettings.setVisibility(View.VISIBLE);
                             binding.toolBarLay.btnSettings.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_delete_black));

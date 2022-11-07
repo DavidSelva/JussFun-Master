@@ -249,7 +249,7 @@ public class OthersProfileFragment extends Fragment {
             @Override
             public void onReportSend(Object o) {
                 reportDialog.dismiss();
-                App.makeToast(getActivity(), getString(R.string.reported_successfully));
+                App.makeToast(context, context.getString(R.string.reported_successfully));
 //                sendReport((String) o);
             }
         });

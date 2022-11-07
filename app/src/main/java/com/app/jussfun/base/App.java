@@ -164,19 +164,20 @@ public class App extends android.app.Application implements LifecycleObserver, C
         Toast.makeText(instance.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void makeToast(Context mContext, String message) {
+    public static void makeToast(final Context mContext, String message) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 Toast toast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
                 View view = toast.getView();
 
-//Gets the actual oval background of the Toast then sets the colour filter
-                view.getBackground().setColorFilter(ContextCompat.getColor(mContext, R.color.colorTransparent), PorterDuff.Mode.SRC_IN);
-
-//Gets the TextView from the Toast so it can be editted
-                TextView text = view.findViewById(android.R.id.message);
-                text.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                if (view != null) {
+                    //Gets the actual oval background of the Toast then sets the colour filter
+                    view.getBackground().setColorFilter(ContextCompat.getColor(mContext, R.color.colorTransparent), PorterDuff.Mode.SRC_IN);
+                    //Gets the TextView from the Toast so it can be editted
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                }
                 // Code here will run in UI thread
                 toast.show();
             }

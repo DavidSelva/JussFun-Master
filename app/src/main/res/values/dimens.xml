@@ -38,6 +38,7 @@
     <dimen name="iv_large">60dp</dimen>
     <dimen name="profile_medium">70dp</dimen>
 
+    <dimen name="size_0">0dp</dimen>
     <dimen name="size_2">2dp</dimen>
     <dimen name="size_5">5dp</dimen>
     <dimen name="size_10">10dp</dimen>
@@ -48,7 +49,6 @@
     <dimen name="size_40">40dp</dimen>
     <dimen name="size_60">60dp</dimen>
     <dimen name="size_80">80dp</dimen>
-    <dimen name="size_0">0dp</dimen>
 
     <!-- VIDEO TRIMMER-->
     <dimen name="progress_video_line_height">2dp</dimen>

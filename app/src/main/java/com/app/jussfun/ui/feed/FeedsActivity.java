@@ -133,6 +133,7 @@ public class FeedsActivity extends BaseFragmentActivity implements OnMenuClickLi
         setContentView(binding.getRoot());
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         appUtils = new AppUtils(this);
+        storageUtils = new StorageUtils(this);
         mContext = this;
         if (getIntent().hasExtra(Constants.TAG_USER_ID)) {
             followerId = getIntent().getStringExtra(Constants.TAG_USER_ID);

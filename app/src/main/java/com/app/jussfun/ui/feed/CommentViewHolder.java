@@ -107,16 +107,18 @@ public class CommentViewHolder extends BaseViewHolder {
         else
             likeClick.setSelected(false);
 
-        if (list.get(position).getLikeCount() == 0)
-            like_cnt.setVisibility(View.GONE);
-        else {
+        if (list.get(position).getLikeCount() != null) {
+            if (list.get(position).getLikeCount() == 0)
+                like_cnt.setVisibility(View.GONE);
+            else {
 
-            like_cnt.setVisibility(View.VISIBLE);
+                like_cnt.setVisibility(View.VISIBLE);
 
-            if (list.get(position).getLikeCount() == 1)
-                like_cnt.setText(list.get(position).getLikeCount() + " " + context.getString(R.string.like));
-            else
-                like_cnt.setText("" + list.get(position).getLikeCount() + " " + context.getString(R.string.likes));
+                if (list.get(position).getLikeCount() == 1)
+                    like_cnt.setText(list.get(position).getLikeCount() + " " + context.getString(R.string.like));
+                else
+                    like_cnt.setText("" + list.get(position).getLikeCount() + " " + context.getString(R.string.likes));
+            }
         }
 
         Glide.with(context)

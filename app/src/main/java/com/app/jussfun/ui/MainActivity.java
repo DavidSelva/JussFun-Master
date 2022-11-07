@@ -81,6 +81,7 @@ import com.app.jussfun.utils.Constants;
 import com.app.jussfun.utils.DeviceTokenPref;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
@@ -171,7 +172,6 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                     jsonObject.put(Constants.TAG_TIMESTAMP, AppUtils.getCurrentUTCTime(getApplicationContext()));
                     jsonObject.put(Constants.TAG_TYPE, Constants.TAG_UPDATE_LIVE);
                     jsonObject.put(Constants.TAG_LIVE_STATUS, AppUtils.getCurrentStatus());
-                    Log.i(TAG, "_updateLive: " + jsonObject.toString());
                     AppWebSocket.getInstance(MainActivity.this).send(jsonObject.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -396,7 +396,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             }
         });
 
-        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
