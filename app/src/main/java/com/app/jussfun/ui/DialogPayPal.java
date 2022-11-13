@@ -22,7 +22,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.DialogFragment;
 
-
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.helper.callback.OnOkCancelClickListener;
@@ -78,8 +77,8 @@ public class DialogPayPal extends DialogFragment {
             window.setAttributes(wlp);
         }
 
-        ProfileResponse response=new ProfileResponse();
-        if(response.getPaypalId()!=null){
+        ProfileResponse response = new ProfileResponse();
+        if (response.getPaypalId() != null) {
             edtPayPal.setText(response.getPaypalId());
         }
 
@@ -102,18 +101,12 @@ public class DialogPayPal extends DialogFragment {
 
     private void initView() {
         ProfileResponse request = new ProfileResponse();
-        Log.v("Text","message"+request.getPaypalId());
+        Log.v("Text", "message" + request.getPaypalId());
         progressBar.setIndeterminate(true);
 
         if (SharedPref.getString(SharedPref.PAYPAL_ID, null) != null) {
             edtPayPal.setText(SharedPref.getString(SharedPref.PAYPAL_ID, null));
         }
-
-
-
-
-
-
     }
 
     public void setContext(Context context) {
@@ -134,15 +127,12 @@ public class DialogPayPal extends DialogFragment {
 
                 if (SharedPref.getString(SharedPref.PAYPAL_ID, null) != null) {
                     edtPayPal.setText(SharedPref.getString(SharedPref.PAYPAL_ID, null));
-                }
-                else if(edtPayPal.getText().toString().trim().length()==0){
+                } else if (edtPayPal.getText().toString().trim().length() == 0) {
                     App.makeToast("Enter a paypal id");
-                }
-
-                else {
+                } else {
                     callBack.onOkClicked("" + edtPayPal.getText());
                 }
-                Log.i(TAG, "onViewClickeddia: "+callBack);
+                Log.i(TAG, "onViewClickeddia: " + callBack);
                 break;
             case R.id.btnCancel:
                 callBack.onCancelClicked(null);

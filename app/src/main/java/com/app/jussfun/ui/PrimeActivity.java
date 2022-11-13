@@ -31,11 +31,12 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsParams;
-import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.external.LoopViewPager;
@@ -64,6 +65,7 @@ import com.r0adkll.slidr.model.SlidrInterface;
 import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import butterknife.BindView;
@@ -243,7 +245,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                 break;
             case R.id.btnSubscribe:
                 if (packageAdapter.getItemCount() > 0) {
-                    purchaseSku = packageAdapter.getPackageList().get(selectedPosition).getSku();
+                    purchaseSku = packageAdapter.getPackageList().get(selectedPosition).getProductId();
                 }
                 initBilling(true);
                 break;
@@ -265,39 +267,55 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
 
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The billing client is ready. You can query purchases here.
-//                    Log.i(TAG, "onBillingSetupFinished: "+AdminData.membershipList.size());
-                    SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-                    params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS);
-                    billingClient.querySkuDetailsAsync(params.build(),
-                            new SkuDetailsResponseListener() {
+                    ArrayList<QueryProductDetailsParams.Product> tempList = new ArrayList<>();
+                    for (String id : skuList) {
+                        QueryProductDetailsParams.Product temp = QueryProductDetailsParams.Product.newBuilder()
+                                .setProductId(id)
+                                .setProductType(BillingClient.ProductType.SUBS)
+                                .build();
+                        tempList.add(temp);
+                    }
+                    QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                            .setProductList(tempList)
+                            .build();
+                    billingClient.queryProductDetailsAsync(params,
+                            new ProductDetailsResponseListener() {
                                 @Override
-                                public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-                                    Log.d(TAG, "onSkuDetailsResponse: " + skuDetailsList);
+                                public void onProductDetailsResponse(BillingResult billingResult, List<ProductDetails> productDetailsList) {
+//                                    Log.d(TAG, "onSkuDetailsResponse: " + productDetailsList);
 
                                     // Process the result.
-                                    // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
                                     if (openDialog) {
-                                        for (SkuDetails skuDetails : skuDetailsList) {
-                                            String sku = skuDetails.getSku();
-                                            String price = skuDetails.getPrice();
-                                            String currency = skuDetails.getPriceCurrencyCode();
-                                            Log.d(TAG, "onSkuDetailsResponse: " + sku);
+                                        for (ProductDetails productDetails : productDetailsList) {
+                                            String sku = productDetails.getProductId();
                                             if (purchaseSku.equals(sku)) {
-                                                purchasePrice = price;
-                                                purchaseCurrency = currency;
-                                                // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
-                                                BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                                                        .setSkuDetails(skuDetails)
-                                                        .build();
-                                                billingClient.launchBillingFlow(PrimeActivity.this, flowParams);
+//                                                Log.d(TAG, "onSkuDetailsResponse: " + new Gson().toJson(skuDetails));
+                                                if (productDetails.getSubscriptionOfferDetails() != null && !productDetails.getSubscriptionOfferDetails().isEmpty()) {
+                                                    String price = productDetails.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getFormattedPrice();
+                                                    String currency = Currency.getInstance(productDetails.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getPriceCurrencyCode()).getCurrencyCode();
+
+                                                    purchasePrice = price;
+                                                    purchaseCurrency = currency;
+                                                    BillingFlowParams.ProductDetailsParams productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+                                                            // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
+                                                            .setProductDetails(productDetails)
+                                                            .build();
+                                                    ArrayList<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = new ArrayList<BillingFlowParams.ProductDetailsParams>() {
+                                                        {
+                                                            add(productDetailsParams);
+                                                        }
+                                                    };
+                                                    BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                                                            .setProductDetailsParamsList(productDetailsParamsList)
+                                                            .build();
+                                                    billingClient.launchBillingFlow(PrimeActivity.this, flowParams);
+                                                }
                                             }
                                         }
                                     } else {
-                                        Log.d(TAG, "onSkuDetailsResponse Else: " + skuDetailsList.toString());
-                                        initPackageAdapter(skuDetailsList);
+                                        Log.d(TAG, "onSkuDetailsResponse Else: " + productDetailsList.toString());
+                                        initPackageAdapter(productDetailsList);
                                     }
-
-
                                 }
 
                             });
@@ -314,7 +332,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
         });
     }
 
-    private void initPackageAdapter(List<SkuDetails> skuDetailsList) {
+    private void initPackageAdapter(List<ProductDetails> skuDetailsList) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -352,7 +370,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                 && purchases != null) {
             if (getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")) {
                 for (Purchase purchase : purchases) {
-                    if (purchaseSku.equals(purchase.getSkus().get(0))) {
+                    if (purchaseSku.equals(purchase.getProducts().get(0))) {
                         acknowledgePurchase(purchase);
                         payInApp(purchase);
                         break;
@@ -505,10 +523,10 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
 
     public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.MyViewHolder> {
         private final Context context;
-        private List<SkuDetails> packageList = new ArrayList<>();
+        private List<ProductDetails> packageList = new ArrayList<>();
         private boolean showLoading = false;
 
-        public PackageAdapter(Context context, List<SkuDetails> packageList) {
+        public PackageAdapter(Context context, List<ProductDetails> packageList) {
             this.context = context;
             this.packageList = packageList;
         }
@@ -521,15 +539,21 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            SkuDetails pack = packageList.get(position);
+        public void onBindViewHolder(MyViewHolder holder, int pos) {
+            int position = holder.getAdapterPosition();
+            ProductDetails pack = packageList.get(position);
+//            Log.d(TAG, "onBindViewHolder: "+ new Gson().toJson(pack));
             if (position == selectedPosition) {
                 holder.contentLay.setBackground(getDrawable(R.drawable.square_transparent_primary));
             } else {
                 holder.contentLay.setBackground(getDrawable(R.drawable.rounded_transparent_white));
             }
-            holder.txtPrimeTitle.setText(AppUtils.getPackageTitle(pack.getSubscriptionPeriod(), context));
-            holder.txtPrimePrice.setText(pack.getPrice());
+            holder.txtPrimeTitle.setText(AppUtils.getPackageTitle(pack.getTitle(), context));
+            if (pack.getSubscriptionOfferDetails() != null && pack.getSubscriptionOfferDetails().size() > 0) {
+                holder.txtPrimePrice.setText(pack.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getFormattedPrice());
+            } else {
+                holder.txtPrimePrice.setText("");
+            }
         }
 
         @Override
@@ -537,7 +561,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
             return packageList.size();
         }
 
-        public List<SkuDetails> getPackageList() {
+        public List<ProductDetails> getPackageList() {
             return packageList;
         }
 

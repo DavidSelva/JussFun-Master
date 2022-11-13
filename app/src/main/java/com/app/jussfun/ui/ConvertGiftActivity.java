@@ -86,8 +86,6 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
     DialogCreditGems alertDialog;
     private AppUtils appUtils;
 
-    DialogPayPal dialogPayPal;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,14 +225,14 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
                 showConfirmDialog();
             } else {
                 if (btnCash.isChecked()) {
-                    if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
+                    if (!TextUtils.isEmpty(SharedPref.getString(SharedPref.TAG_ACCOUNT_NUMBER, ""))) {
                         if (!TextUtils.isEmpty(GetSet.getGiftConversionValue()) && Float.parseFloat(GetSet.getGiftConversionValue()) > 0) {
                             showConvertDialog(getString(R.string.convert_gifts_to_money_desc), Constants.TAG_GIFT);
                         } else {
                             App.makeToast(getString(R.string.gift_to_cash_not_enough));
                         }
                     } else {
-                        App.makeToast(getString(R.string.update_paypal_id));
+                        App.makeToast(getString(R.string.update_bank_details));
                     }
                 }
                 //                        App.makeToast(getString(R.string.convert_money_error_desc));
@@ -245,10 +243,10 @@ public class ConvertGiftActivity extends BaseFragmentActivity {
     private void convertGems() {
         if (GetSet.getGems() != null && GetSet.getGems() > 0) {
             App.preventMultipleClick(btnGemsToMoney);
-            if (SharedPref.getString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id()) != null) {
+            if (!TextUtils.isEmpty(SharedPref.getString(SharedPref.TAG_ACCOUNT_NUMBER, ""))) {
                 showConvertDialog(getString(R.string.convert_gems_to_money_desc), Constants.TAG_GEMS);
             } else {
-                App.makeToast(getString(R.string.update_paypal_id));
+                App.makeToast(getString(R.string.update_bank_details));
             }
         } else {
             App.preventMultipleClick(btnGemsToMoney);

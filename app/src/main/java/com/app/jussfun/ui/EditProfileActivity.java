@@ -319,6 +319,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
                         SharedPref.putString(SharedPref.GIFT_CONVERSION_EARNINGS, GetSet.getGiftCoversionEarnings());
                         SharedPref.putString(SharedPref.GIFT_CONVERSION_VALUE, GetSet.getGiftConversionValue());
                         SharedPref.putString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
+                        SharedPref.putString(Constants.TAG_ACCOUNT_NUMBER, profile.getBankAccNo());
 
                         Intent intent = new Intent();
                         intent.putExtra(Constants.TAG_PROFILE_DATA, profile);

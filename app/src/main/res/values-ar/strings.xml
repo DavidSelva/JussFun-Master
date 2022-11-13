@@ -532,5 +532,6 @@
     <string name="undo_report">Undo Report</string>
     <string name="app_update">App Update</string>
     <string name="app_update_description">\" recommends that you update to the latest version. Are you sure want to update\"</string>
+    <string name="update_bank_details">Update your Bank details</string>
 
 </resources>

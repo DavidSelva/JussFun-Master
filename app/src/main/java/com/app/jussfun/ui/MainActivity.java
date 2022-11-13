@@ -43,11 +43,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsParams;
-import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
 import com.app.jussfun.R;
 import com.app.jussfun.base.App;
 import com.app.jussfun.databinding.ActivityMainBinding;
@@ -82,7 +84,7 @@ import com.app.jussfun.utils.DeviceTokenPref;
 import com.app.jussfun.utils.Logging;
 import com.app.jussfun.utils.SharedPref;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1181,6 +1183,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                             SharedPref.putString(SharedPref.GIFT_CONVERSION_EARNINGS, GetSet.getGiftCoversionEarnings());
                             SharedPref.putString(SharedPref.GIFT_CONVERSION_VALUE, GetSet.getGiftConversionValue());
                             SharedPref.putString(SharedPref.PAYPAL_ID, GetSet.getPaypal_id());
+                            SharedPref.putString(Constants.TAG_ACCOUNT_NUMBER, profile.getBankAccNo());
 
                             if (!GetSet.getPremiumMember().equals(Constants.TAG_TRUE)) {
                                 AppUtils.filterLocation = new ArrayList<>();
@@ -1248,21 +1251,29 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
             public void onBillingSetupFinished(BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The billing client is ready. You can query purchases here.
-
-
-                    SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-                    params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS);
-                    billingClient.querySkuDetailsAsync(params.build(),
-                            new SkuDetailsResponseListener() {
+                    ArrayList<QueryProductDetailsParams.Product> tempList = new ArrayList<>();
+                    for (String id : skuList) {
+                        QueryProductDetailsParams.Product temp = QueryProductDetailsParams.Product.newBuilder()
+                                .setProductId(id)
+                                .setProductType(BillingClient.ProductType.SUBS)
+                                .build();
+                        tempList.add(temp);
+                    }
+                    QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                            .setProductList(tempList)
+                            .build();
+                    billingClient.queryProductDetailsAsync(params,
+                            new ProductDetailsResponseListener() {
                                 @Override
-                                public void onSkuDetailsResponse(BillingResult billingResult1, List<SkuDetails> skuDetailsList) {
+                                public void onProductDetailsResponse(BillingResult billingResult1, List<ProductDetails> productDetailsList) {
                                     // Process the result.
                                     // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
-                                    for (SkuDetails skuDetails : skuDetailsList) {
-                                        String sku = skuDetails.getSku();
-                                        String price = skuDetails.getPrice();
-                                        Log.i(TAG, "onSkuDetailsResponse: " + skuDetails);
-                                        String validity = skuDetails.getSubscriptionPeriod();
+                                    for (ProductDetails productDetails : productDetailsList) {
+                                        String sku = productDetails.getProductId();
+                                        String price = productDetails.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getFormattedPrice();
+                                        Log.i(TAG, "onSkuDetailsResponse: " + new Gson().toJson(productDetails));
+                                        String validity = productDetails.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getBillingPeriod();
+                                        Log.i(TAG, "onSkuDetailsResponse: " + validity);
                                         if (SharedPref.getString(SharedPref.DEFAULT_SUBS_SKU, Constants.DEFAULT_SUBS_SKU).equals(sku)) {
                                             SharedPref.putString(SharedPref.IN_APP_PRICE, price);
                                             SharedPref.putString(SharedPref.IN_APP_VALIDITY, validity);
@@ -1271,7 +1282,7 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
                                     }
                                     //  if(getIntent().getStringExtra("OnCLick") != null && getIntent().getStringExtra("OnCLick").equals("ClickHere")) {
                                     if (GetSet.getUserId() != null) {
-                                        querySubscriptions(billingResult1);
+                                        querySubscriptions();
                                     }
                                     //   }
                                 }
@@ -1291,12 +1302,12 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
         if (purchases != null && purchases.size() > 0) {
             Log.i(TAG, "onPurchasesUpdated: " + purchases.size());
-            Log.i(TAG, "onPurchasesUpdated: " + purchases.get(purchases.size() - 1).getSkus());
+            Log.i(TAG, "onPurchasesUpdated: " + purchases.get(purchases.size() - 1).getProducts());
             /* Purchases size should be 1. */
             billingClient.endConnection();
             RenewalRequest request = new RenewalRequest();
             request.setUserId(GetSet.getUserId());
-            request.setPackageId(purchases.get(purchases.size() - 1).getSkus().get(0));
+            request.setPackageId(purchases.get(purchases.size() - 1).getProducts().get(0));
             request.setRenewalTime(GetSet.getPremiumExpiry());
             Call<HashMap<String, String>> call = apiInterface.verifyPayment(request);
             call.enqueue(new Callback<HashMap<String, String>>() {
@@ -1360,14 +1371,18 @@ public class MainActivity extends BaseFragmentActivity implements PurchasesUpdat
         }
     }
 
-    public void querySubscriptions(BillingResult billingResult) {
-
-        Purchase.PurchasesResult purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.SUBS);
-        if (billingClient == null ||
-                purchasesResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
-            return;
-        }
-        onPurchasesUpdated(billingResult, purchasesResult.getPurchasesList());
+    public void querySubscriptions() {
+        billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder()
+                .setProductType(BillingClient.ProductType.SUBS)
+                .build(), new PurchasesResponseListener() {
+            @Override
+            public void onQueryPurchasesResponse(@NonNull BillingResult billingResult, @NonNull List<Purchase> list) {
+                if (billingClient == null || billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+                } else {
+                    onPurchasesUpdated(billingResult, list);
+                }
+            }
+        });
     }
 
     private void initPermissionDialog() {

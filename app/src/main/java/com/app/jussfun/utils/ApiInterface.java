@@ -229,7 +229,7 @@ public interface ApiInterface {
     Call<Map<String, String>> deleteComment(@Field("user_id") String userid, @Field("feed_id") String feedId, @Field("comment_id") String commentId);
 
     @FormUrlEncoded
-    @POST("activities/reportfeeds")
+    @POST("activities/reportfeed")
     Call<Map<String, String>> reportFeed(@Field("user_id") String userid, @Field("feed_id") String feedId, @Field("rept_detail") String detail);
 
     @FormUrlEncoded

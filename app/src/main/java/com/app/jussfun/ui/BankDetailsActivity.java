@@ -21,6 +21,7 @@ import com.app.jussfun.utils.ApiClient;
 import com.app.jussfun.utils.ApiInterface;
 import com.app.jussfun.utils.AppUtils;
 import com.app.jussfun.utils.Constants;
+import com.app.jussfun.utils.SharedPref;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
@@ -149,6 +150,7 @@ public class BankDetailsActivity extends BaseFragmentActivity {
 //                    hideLoading();
                     ProfileResponse profile = response.body();
                     if (profile.getStatus().equals(Constants.TAG_TRUE)) {
+                        SharedPref.putString(Constants.TAG_ACCOUNT_NUMBER, binding.edtAccountNo.getText().toString().trim());
                         App.makeToast(getString(R.string.bank_details_updated));
                         AppUtils.showAlertSnack(mContext, binding.parentLay, mContext.getString(R.string.bank_details_updated));
                         finish();

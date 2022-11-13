@@ -282,6 +282,7 @@ public class ProfileFragment extends Fragment {
 
                         SharedPref.putString(SharedPref.GIFT_CONVERSION_EARNINGS, GetSet.getGiftCoversionEarnings());
                         SharedPref.putString(SharedPref.GIFT_CONVERSION_VALUE, GetSet.getGiftConversionValue());
+                        SharedPref.putString(Constants.TAG_ACCOUNT_NUMBER, profile.getBankAccNo());
 
 
                         setProfile(profile);

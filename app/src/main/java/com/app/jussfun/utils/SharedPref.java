@@ -62,6 +62,7 @@ public class SharedPref {
     public static final String CHAT_LANGUAGE = "chat_language";
     public static final String DEFAULT_CHAT_LANGUAGE = "";
     public static final String PAYPAL_ID = "paypal_id";
+    public static final String TAG_ACCOUNT_NUMBER = "account_number";
 
     public static final String GIFT_CONVERSION_EARNINGS = "gift_earnings";
     public static final String GIFT_CONVERSION_VALUE = "gift_earnings";

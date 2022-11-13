@@ -37,8 +37,6 @@ import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchaseHistoryRecord;
-import com.android.billingclient.api.PurchaseHistoryResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
@@ -156,20 +154,10 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
                         && purchases != null) {
                     for (int i = 0; i < purchases.size(); i++) {
-                        if (purchaseSku.equals(purchases.get(i).getSkus().get(i))) {
+                        if (purchaseSku.equals(purchases.get(i).getProducts().get(i))) {
                             payInApp(purchases.get(i));
                             //Consume Item to purchase again.
-                            if (purchases.get(i).getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                ConsumeParams params = ConsumeParams.newBuilder()
-                                        .setPurchaseToken(purchases.get(i).getPurchaseToken())
-                                        .build();
-                                billingClient.consumeAsync(params, new ConsumeResponseListener() {
-                                    @Override
-                                    public void onConsumeResponse(BillingResult billingResult, String s) {
-
-                                    }
-                                });
-                            }
+                            handlePurchase(purchases.get(i));
                             break;
                         }
                         //     }
@@ -179,30 +167,13 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                     App.makeToast(getString(R.string.purchase_cancelled));
                 } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
                     // Handle an error caused by if item already owned.
-                    billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, new PurchaseHistoryResponseListener() {
-                        @Override
-                        public void onPurchaseHistoryResponse(BillingResult billingResult, List<PurchaseHistoryRecord> purchasesList) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                for (PurchaseHistoryRecord purchase : purchasesList) {
-                                    if (purchaseSku.equals(purchase.getSkus().get(0))) {
-                                        ConsumeParams params = ConsumeParams.newBuilder()
-                                                .setPurchaseToken(purchase.getPurchaseToken())
-                                                .build();
-                                        billingClient.consumeAsync(params, new ConsumeResponseListener() {
-                                            @Override
-                                            public void onConsumeResponse(BillingResult billingResult, String s) {
-                                                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                                    initBilling(true);
-                                                }
-                                            }
-                                        });
-                                        break;
-                                    }
-                                }
+                    for (Purchase purchase : purchases) {
+                        for (String product : purchase.getProducts()) {
+                            if (purchaseSku.equals(product)) {
+                                handlePurchase(purchase);
                             }
-
                         }
-                    });
+                    }
                 } else {
                     // Handle any other error codes.
 //            App.makeToast("" + responseCode);
@@ -458,7 +429,7 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                 convertGems.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(convertGems);
             }
-                break;
+            break;
         }
     }
 
@@ -563,6 +534,22 @@ public class GemsStoreActivity extends BaseFragmentActivity implements SwipeRefr
                 // Google Play by calling the startConnection() method.
             }
         });
+    }
+
+    private void handlePurchase(Purchase purchase) {
+        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            ConsumeParams params = ConsumeParams.newBuilder()
+                    .setPurchaseToken(purchase.getPurchaseToken())
+                    .build();
+            billingClient.consumeAsync(params, new ConsumeResponseListener() {
+                @Override
+                public void onConsumeResponse(BillingResult billingResult, String s) {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        initBilling(true);
+                    }
+                }
+            });
+        }
     }
 
     private void payInApp(Purchase purchase) {
