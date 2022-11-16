@@ -299,6 +299,7 @@ public class PrimeActivity extends BaseFragmentActivity implements PurchasesUpda
                                                     BillingFlowParams.ProductDetailsParams productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
                                                             // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
                                                             .setProductDetails(productDetails)
+                                                            .setOfferToken(productDetails.getSubscriptionOfferDetails().get(0).getOfferToken())
                                                             .build();
                                                     ArrayList<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = new ArrayList<BillingFlowParams.ProductDetailsParams>() {
                                                         {
